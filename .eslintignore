@@ -1,5 +1,4 @@
 .git
-examples
-lib
-node_modules
-test
+build/
+coverage/
+node_modules/
