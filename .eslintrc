@@ -12,7 +12,7 @@
     "mocha": true,
   },
   "rules": {
-    "camelcase": 0,
+    "camelcase": 1,
     "comma-spacing": [2, { "before": false, "after": true }],
     "comma-style": [2, "last"],
     "complexity": [1, 10],
@@ -23,7 +23,7 @@
     "eol-last": 2,
     "eqeqeq": 2,
     "guard-for-in": 1,
-    "indent": [0, 2],
+    "indent": [1, 2],
     "new-cap": 0,
     "new-parens": 2,
     "no-caller": 2,
