@@ -2,7 +2,7 @@ import {db} from '../../../lib/db';
 
 describe('/db/cloudant/', function() {
   this.timeout(5000);
-  
+
   it('should create a user account', (done) => {
 
     const user = {
