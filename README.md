@@ -29,7 +29,7 @@ in your yard.
 
 ### 0.0.1 MVP
 
-* User can create an account using OAuth from their Google.
+* User can create an account using OAuth from their Google account.
 * User can add/delete/update each plant in their yard.
 * User can add entries to each plant. Each entry will have a date and
 details.
@@ -40,11 +40,12 @@ details.
   * Add Facebook as OAuth option.
   * Allow user to add their GPS location to their account.
 * Add features to a plant post.
-  * Allow photos to be uploaded/added.
+  * Allow photos to be added.
   * Add markdown for details to allow for formatting.
 * Add structured fields for each plant.
   * Dates for planting, germination.
   * Multi-bud - treat each scion as its own tree but group on this.
+  * Perennial/annual (other?)
 * Add structured fields for data entry posts.
   * E.g. height, width etc. to calculate growth rates.
   * Applications of fertilizer, mulch etc for reporting on growth effectiveness.
@@ -57,7 +58,7 @@ week.
 entry to current date.
 * Keep user's weather data up-to-date.
 * Use user's GPS location to allow them to compare their plants to the same
-plants in different locations.
+plants in nearby locations.
 * Allow users to add parentage/genealogy to their plants.
   * i.e. if another user gave them a plant or they planted another plant from
   one that they're already documenting on the system then they can link a parent
