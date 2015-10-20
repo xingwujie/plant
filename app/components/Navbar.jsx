@@ -13,7 +13,7 @@ export default class Navbar extends React.Component {
               <a href='#'>Home</a>
             </li>
             <li>
-              <a href='#'>An item #1</a>
+              <a href='/auth/facebook'>Login with Facebook</a>
             </li>
             <li>
               <a href='#help'>Help</a>

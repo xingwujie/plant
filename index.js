@@ -1,1 +1,5 @@
-import db from './lib/db';
+require('babel/register');
+
+var app = require('./lib/server');
+
+app();
