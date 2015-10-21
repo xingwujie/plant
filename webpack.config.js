@@ -7,10 +7,10 @@ var TARGET = process.env.TARGET;
 var ROOT_PATH = path.resolve(__dirname);
 
 var common = {
-  addVendor: function (name, location) {
-    location = path.join(__dirname, location);
-    this.resolve.alias[name] = location;
-    // this.module.noParse.push(new RegExp(location));
+  addVendor: function (vendorName, moduleLocation) {
+    moduleLocation = path.join(__dirname, moduleLocation);
+    this.resolve.alias[vendorName] = moduleLocation;
+    // this.module.noParse.push(new RegExp(moduleLocation));
   },
   entry: [
     // 'bootstrap-webpack!./bootstrap.config.js',
