@@ -11,7 +11,7 @@ describe('/db/cloudant/', function() {
       last: 'last'
     };
 
-    db.createUser(user, (err, body) => {
+    db.findOrCreateUser(user, (err, body) => {
       // TODO: Add some asserts here.
       console.log(body);
       done();
