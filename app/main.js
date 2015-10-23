@@ -5,6 +5,7 @@ import './stylesheets/main.css';
 
 import alt from './libs/alt';
 import App from './components/App';
+import Auth from './components/Auth';
 import Help from './components/Help';
 import Home from './components/Home';
 import persist from './libs/persist';
@@ -18,12 +19,13 @@ var {Route, DefaultRoute} = Router;
 var routes = (
   <Route handler={App}>
     <DefaultRoute handler={Home}/>
+    <Route path='/auth/token' handler={Auth}/>
     <Route path='help' handler={Help}/>
   </Route>
 );
 
 function render() {
-  Router.run(routes, Router.HashLocation, (Root) => {
+  Router.run(routes, Router.HistoryLocation, (Root) => {
     React.render(<Root/>, document.body);
   });
 }
