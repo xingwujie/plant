@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
+import LoginActions from '../actions/LoginActions';
 import LoginStore from '../stores/LoginStore';
 
 export default class Navbar extends React.Component {
@@ -7,6 +8,7 @@ export default class Navbar extends React.Component {
     super();
     this.state = LoginStore.getState();
     this.onChange = this.onChange.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   componentDidMount() {
@@ -19,6 +21,10 @@ export default class Navbar extends React.Component {
 
   onChange(user){
     this.setState(user);
+  }
+
+  logout() {
+    LoginActions.logout();
   }
 
   render() {
@@ -43,7 +49,7 @@ export default class Navbar extends React.Component {
             }
             {displayName &&
               <li>
-                <a href='/logout'>Logout</a>
+                <a href='' onClick={this.logout}>Logout</a>
               </li>
             }
             {!displayName &&
