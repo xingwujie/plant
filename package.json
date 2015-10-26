@@ -55,7 +55,7 @@
     "check-coverage": "node_modules/.bin/istanbul check-coverage --statements 10 --branches 10 --functions 10 --lines 10 ./coverage/coverage.json",
     "coverage": "node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- test/**/*.js --recursive --require babel/register",
     "mocha": "node_modules/mocha/bin/_mocha test/**/*.js --recursive --require babel/register",
-    "test": "npm run coverage",
+    "test": "DEBUG=plant:* npm run coverage",
     "build": "TARGET=build webpack",
     "start": "TARGET=dev webpack-dev-server --devtool eval-source --progress --colors --hot --inline --history-api-fallback",
     "prepublish": "npm run build",
