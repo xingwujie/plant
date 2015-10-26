@@ -10,6 +10,7 @@ import Help from './components/Help';
 import Home from './components/Home';
 import ManagePlant from './components/plant/ManagePlant';
 import persist from './libs/persist';
+import Profile from './components/Profile';
 import React from 'react';
 import Router from 'react-router';
 import storage from './libs/storage';
@@ -23,6 +24,7 @@ var routes = (
     <Route path='/add-plant' handler={ManagePlant}/>
     <Route path='/auth/token' handler={Auth}/>
     <Route path='/help' handler={Help}/>
+    <Route path='/profile' handler={Profile}/>
   </Route>
 );
 

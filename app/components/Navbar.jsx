@@ -40,28 +40,30 @@ export default class Navbar extends React.Component {
           <h1>Plant</h1>
         </div>
         <div id='menucontainer'>
-          <ul id='menu'>
-            <li>
-              <a href='/'>Home</a>
+          <ul className='nav navbar-nav navbar-right' id='menu'>
+            <li className='btn header-btn'>
+              <Link to='/' title='home'>Home</Link>
             </li>
             {displayName &&
-              <li>
+              <li className='btn header-btn'>
                 <Link to='/add-plant' title='add plant'>Add</Link>
               </li>
             }
-            <li>
+            <li className='btn header-btn'>
               <Link to='/help' title='help'>Help</Link>
             </li>
             {displayName &&
-              <li>{displayName}</li>
+              <li className='btn header-btn'>
+                <Link to='/profile' title='help'>{displayName}</Link>
+              </li>
             }
             {displayName &&
-              <li>
+              <li className='btn header-btn'>
                 <a href='' onClick={this.logout}>Logout</a>
               </li>
             }
             {!displayName &&
-              <li>
+              <li className='btn header-btn'>
                 <a href='/auth/facebook'>Login with Facebook</a>
               </li>
             }
