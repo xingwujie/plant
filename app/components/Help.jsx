@@ -8,7 +8,7 @@ export default class Help extends React.Component {
 
     return (
       <Base>
-        <h2>Plant Help</h2>
+        <h2>Help Page</h2>
       </Base>
     );
   }

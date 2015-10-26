@@ -8,6 +8,7 @@ import App from './components/App';
 import Auth from './components/Auth';
 import Help from './components/Help';
 import Home from './components/Home';
+import ManagePlant from './components/plant/ManagePlant';
 import persist from './libs/persist';
 import React from 'react';
 import Router from 'react-router';
@@ -18,9 +19,10 @@ var {Route, DefaultRoute} = Router;
 // declare our routes and their hierarchy
 var routes = (
   <Route handler={App}>
-    <DefaultRoute handler={Home}/>
+    <DefaultRoute name='home' handler={Home}/>
+    <Route path='/add-plant' handler={ManagePlant}/>
     <Route path='/auth/token' handler={Auth}/>
-    <Route path='help' handler={Help}/>
+    <Route path='/help' handler={Help}/>
   </Route>
 );
 

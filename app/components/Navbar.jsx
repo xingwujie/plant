@@ -1,7 +1,10 @@
 import _ from 'lodash';
-import React from 'react';
 import LoginActions from '../actions/LoginActions';
 import LoginStore from '../stores/LoginStore';
+import React from 'react';
+import Router from 'react-router';
+
+var {Link} = Router;
 
 export default class Navbar extends React.Component {
   constructor() {
@@ -39,10 +42,15 @@ export default class Navbar extends React.Component {
         <div id='menucontainer'>
           <ul id='menu'>
             <li>
-              <a href='#'>Home</a>
+              <a href='/'>Home</a>
             </li>
+            {displayName &&
+              <li>
+                <Link to='/add-plant' title='add plant'>Add</Link>
+              </li>
+            }
             <li>
-              <a href='#help'>Help</a>
+              <Link to='/help' title='help'>Help</Link>
             </li>
             {displayName &&
               <li>{displayName}</li>
