@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import Base from '../Base';
+import DatePicker from 'react-day-picker';
 import PlantActions from '../../actions/PlantActions';
 import React from 'react';
 
@@ -44,7 +45,7 @@ export default class ManagePlant extends React.Component {
       purchasedDate,
       plantedDate,
       price
-    } = this.state;
+    } = this.state || {};
 
     return (
       <Base>
