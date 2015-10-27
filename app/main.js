@@ -8,7 +8,8 @@ import App from './components/App';
 import Auth from './components/Auth';
 import Help from './components/Help';
 import Home from './components/Home';
-import ManagePlant from './components/plant/ManagePlant';
+// import ManagePlant from './components/plant/ManagePlant';
+import AddPlant from './components/plant/AddPlant';
 import persist from './libs/persist';
 import Profile from './components/Profile';
 import React from 'react';
@@ -21,7 +22,7 @@ var {Route, DefaultRoute} = Router;
 var routes = (
   <Route handler={App}>
     <DefaultRoute name='home' handler={Home}/>
-    <Route path='/add-plant' handler={ManagePlant}/>
+    <Route path='/add-plant' handler={AddPlant}/>
     <Route path='/auth/token' handler={Auth}/>
     <Route path='/help' handler={Help}/>
     <Route path='/profile' handler={Profile}/>

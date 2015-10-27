@@ -3,14 +3,21 @@ import PlantActions from '../actions/PlantActions';
 
 class PlantStore {
   constructor() {
-    this.bindActions(PlantActions);
+    this.plants = [];
 
+    this.bindListeners({
+      create: PlantActions.CREATE
+    });
+
+    this.exportPublicMethods({
+      create: this.create
+    });
   }
-  update(input) {
-    const inputs = this.inputs;
-    inputs[input.key] = input.value;
-    this.setState({inputs});
+
+  create(plant) {
+    this.plants.push[plant];
   }
+
 }
 
 export default alt.createStore(PlantStore, 'PlantStore');
