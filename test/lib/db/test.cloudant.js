@@ -1,8 +1,9 @@
+// import _ from 'lodash';
 import {User, Plant} from '../../../lib/db';
 import assert from 'assert';
-// import d from 'debug';
+import d from 'debug';
 
-// const debug = d('plant:test.cloudant');
+const debug = d('plant:test.cloudant');
 
 describe('/db/cloudant/', function() {
   this.timeout(5000);
@@ -67,6 +68,70 @@ describe('/db/cloudant/', function() {
         assert.equal(plantedOn.getTime(), plant.plantedOn.getTime());
 
         done();
+      });
+    });
+
+    it('should update an existing plant with "Set"', (done) => {
+
+      const plantUpdate = {
+        name: 'New Name',
+        other: 'Other Text'
+      };
+
+      plantDB.updateSet(plantUpdate, plant.id, (err, result) => {
+
+        assert(!err);
+        assert(result.ok);
+        assert.equal(result.id, plant.id);
+
+        plantDB.getById(plant.id, (err2, result2) => {
+
+          debug('update result:', result2);
+
+          // Has name changed?
+          assert.equal(result2.name, plantUpdate.name);
+
+          // Did plantedOn date remain the same?
+          const plantedOn = new Date(result2.plantedOn);
+          assert.equal(plantedOn.getTime(), plant.plantedOn.getTime());
+
+          // Was other added?
+          assert.equal(result2.other, plantUpdate.other);
+
+          done();
+        });
+      });
+    });
+
+    it('should update an existing plant with Wholesale replacement', (done) => {
+
+      const plantUpdate = {
+        name: 'New Name',
+        other2: 'Other Text'
+      };
+
+      plantDB.update(plantUpdate, plant.id, (err, result) => {
+
+        assert(!err);
+        assert(result.ok);
+        assert.equal(result.id, plant.id);
+
+        plantDB.getById(plant.id, (err2, result2) => {
+
+          debug('update result:', result2);
+
+          // Has name changed?
+          assert.equal(result2.name, plantUpdate.name);
+
+          // Were plantedOn and other removed?
+          assert(!result2.plantedOn);
+          assert(!result2.other);
+
+          // Was other2 added?
+          assert.equal(result2.other2, plantUpdate.other2);
+
+          done();
+        });
       });
     });
 
