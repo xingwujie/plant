@@ -1,58 +1,75 @@
 import {User, Plant} from '../../../lib/db';
 import assert from 'assert';
+// import d from 'debug';
+
+// const debug = d('plant:test.cloudant');
 
 describe('/db/cloudant/', function() {
   this.timeout(5000);
 
   var userId;
-  var plantId;
 
-  it('should create a user account', (done) => {
-    const userDB = new User();
+  describe('/user/', function() {
+    it('should create a user account', (done) => {
+      const userDB = new User();
 
-    const user = {
-      email: 'test@test.com',
-      first: 'first',
-      last: 'last'
-    };
+      const user = {
+        email: 'test@test.com',
+        first: 'first',
+        last: 'last'
+      };
 
-    userDB.findOrCreateUser(user, (err, body) => {
+      userDB.findOrCreateUser(user, (err, body) => {
 
-      assert(!err);
-      assert(body);
-      assert(body._id);
-      assert.equal(body.type, 'user');
-      assert.equal(body.email, user.email);
-      assert.equal(body.first, user.first);
+        assert(!err);
+        assert(body);
+        assert(body._id);
+        assert.equal(body.type, 'user');
+        assert.equal(body.email, user.email);
+        assert.equal(body.first, user.first);
 
-      userId = body._id;
+        userId = body._id;
 
-      done();
+        done();
+      });
     });
   });
 
-  it('should create a plant', (done) => {
+  describe.only('/plant/', function() {
     const plantDB = new Plant();
-
     const plant = {
       name: 'Plant Name',
       plantedOn: new Date(2015, 7, 1)
     };
 
-    plantDB.create(userId, plant, (err, body) => {
+    it('should create a plant', (done) => {
 
-      assert(!err);
-      assert(body);
-      // console.log('body:', body);
-      assert(body.id);
-      // assert.equal(body.type, 'plant');
-      // assert.equal(body.name, plant.name);
-      // assert.equal(body.plantedOn, plant.plantedOn);
+      plantDB.create(userId, plant, (err, body) => {
 
-      plantId = body.id;
+        assert(!err);
+        assert(body);
+        assert(body.id);
 
-      done();
+        plant.id = body.id;
+
+        done();
+      });
     });
+
+    it('should get an existing plant', (done) => {
+
+      plantDB.getById(plant.id, (err, result) => {
+
+        assert(!err);
+        assert(result);
+        assert.equal(result.name, plant.name);
+        const plantedOn = new Date(result.plantedOn);
+        assert.equal(plantedOn.getTime(), plant.plantedOn.getTime());
+
+        done();
+      });
+    });
+
   });
 
 });
