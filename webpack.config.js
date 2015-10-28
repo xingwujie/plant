@@ -121,6 +121,20 @@ if(TARGET === 'dev') {
           include: path.resolve(ROOT_PATH, 'app')
         }
       ]
-    }
+    },
+    devServer: {
+      proxy: {
+        '/auth/*': {
+          target: 'http://localhost:3000/',
+          secure: false,
+          autoRewrite: true,
+        },
+        '/api/*': {
+          target: 'http://localhost:3000/',
+          secure: false,
+          autoRewrite: true,
+        },
+      },
+    },
   });
 }
