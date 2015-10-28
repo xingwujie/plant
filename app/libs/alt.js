@@ -1,7 +1,11 @@
 import Alt from 'alt';
-//import chromeDebug from 'alt/utils/chromeDebug';
+
+// TODO: Comment out when done debugging
+import chromeDebug from 'alt/utils/chromeDebug';
 
 const alt = new Alt();
-//chromeDebug(alt);
+
+// TODO: Comment out when done debugging
+chromeDebug(alt);
 
 export default alt;

@@ -10,6 +10,7 @@ import Help from './components/Help';
 import Home from './components/Home';
 // import ManagePlant from './components/plant/ManagePlant';
 import AddPlant from './components/plant/AddPlant';
+import AddPlantNote from './components/plant/AddPlantNote';
 import persist from './libs/persist';
 import Profile from './components/Profile';
 import React from 'react';
@@ -23,6 +24,7 @@ var routes = (
   <Route handler={App}>
     <DefaultRoute name='home' handler={Home}/>
     <Route path='/add-plant' handler={AddPlant}/>
+    <Route path='/add-plant-note/:id' handler={AddPlantNote}/>
     <Route path='/auth/token' handler={Auth}/>
     <Route path='/help' handler={Help}/>
     <Route path='/profile' handler={Profile}/>

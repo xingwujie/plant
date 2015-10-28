@@ -14,7 +14,14 @@ export default class AddPlant extends React.Component {
       var plant = _.pick(this.state,
         ['title', 'cultivar', 'description', 'purchasedDate', 'plantedDate', 'price']
       );
-      PlantActions.create(plant);
+      PlantActions.create(plant, (err, savedPlant) => {
+        console.log('PlantActions.create cb:', err, savedPlant);
+        if(!err) {
+          return this.context.router.transitionTo(`/add-plant-note/${savedPlant.id}`);
+        } else {
+          alert('Error: ' + err.message);
+        }
+      });
     } else {
       alert('Must have Title');
       // NotifierActions.error({
@@ -69,8 +76,8 @@ export default class AddPlant extends React.Component {
 
             <div className='form-group'>
               <label>Description:</label>
-              <input className='form-control'
-                type='textarea' value={description}
+              <textarea className='form-control'
+                rows='2' value={description}
                 placeholder='Describe this plant and/or the location in your yard'
                 onChange={this.handleChange.bind(this, 'description')} />
             </div>
@@ -78,16 +85,16 @@ export default class AddPlant extends React.Component {
             <div className='form-group'>
               <label>Purchase Date:</label>
               <input className='form-control'
-                type='textarea' value={purchasedDate}
-                placeholder={new Date()}
+                type='text' value={purchasedDate}
+                placeholder='MM/DD/YYYY'
                 onChange={this.handleChange.bind(this, 'purchasedDate')} />
             </div>
 
             <div className='form-group'>
               <label>Planted Date:</label>
               <input className='form-control'
-                type='textarea' value={plantedDate}
-                placeholder={new Date()}
+                type='text' value={plantedDate}
+                placeholder='MM/DD/YYYY'
                 onChange={this.handleChange.bind(this, 'plantedDate')} />
             </div>
 
@@ -106,3 +113,7 @@ export default class AddPlant extends React.Component {
     );
   }
 }
+
+AddPlant.contextTypes = {
+  router: React.PropTypes.func
+};
