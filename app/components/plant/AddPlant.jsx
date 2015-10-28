@@ -1,13 +1,12 @@
 import _ from 'lodash';
 import Base from '../Base';
-import DatePicker from 'react-day-picker';
 import PlantActions from '../../actions/PlantActions';
 import React from 'react';
 
-export default class ManagePlant extends React.Component {
+export default class AddPlant extends React.Component {
 
   componentDidMount() {
-    this.save = this.save.bind(this);
+    this.state = {};
   }
 
   save(e) {
@@ -100,7 +99,7 @@ export default class ManagePlant extends React.Component {
                 onChange={this.handleChange.bind(this, 'price')} />
             </div>
 
-            <button type='button' onClick={this.save}>Save</button>
+            <button type='button' onClick={this.save.bind(this)}>Save</button>
 
           </form>
       </Base>

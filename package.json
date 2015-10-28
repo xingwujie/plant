@@ -25,7 +25,6 @@
     "passport-facebook": "^2.0.0",
     "react": "~0.13.3",
     "react-bootstrap": "~0.26.1",
-    "react-day-picker": "^1.0.10",
     "react-router": "^0.13.4",
     "request": "^2.60.0",
     "serve-favicon": "^2.3.0",

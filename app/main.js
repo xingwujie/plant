@@ -2,7 +2,6 @@ import 'jquery';
 import 'bootstrap';
 import 'bootstrap.css';
 import './stylesheets/main.css';
-import 'react-date-picker/index.css';
 
 import alt from './libs/alt';
 import App from './components/App';
