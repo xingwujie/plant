@@ -16,26 +16,28 @@ import Profile from './components/Profile';
 import React from 'react';
 import Router from 'react-router';
 import storage from './libs/storage';
+import ReactDOM from 'react-dom';
+
+import createBrowserHistory from 'history/lib/createBrowserHistory';
 
 var {Route, DefaultRoute} = Router;
 
 // declare our routes and their hierarchy
 var routes = (
   <Route handler={App}>
-    <DefaultRoute name='home' handler={Home}/>
-    <Route path='/add-plant' handler={AddPlant}/>
-    <Route path='/add-plant-note/:id' handler={AddPlantNote}/>
-    <Route path='/auth/token' handler={Auth}/>
-    <Route path='/login' handler={Login}/>
-    <Route path='/help' handler={Help}/>
-    <Route path='/profile' handler={Profile}/>
+    <DefaultRoute path='home' component={Home}/>
+    <Route path='/add-plant' component={AddPlant}/>
+    <Route path='/add-plant-note/:id' component={AddPlantNote}/>
+    <Route path='/auth/token' component={Auth}/>
+    <Route path='/login' component={Login}/>
+    <Route path='/help' component={Help}/>
+    <Route path='/profile' component={Profile}/>
   </Route>
 );
 
+let createHistory = createBrowserHistory();
 function render() {
-  Router.run(routes, Router.HistoryLocation, (Root) => {
-    React.render(<Root/>, document.body);
-  });
+  ReactDOM.render(<Router history={createHistory}>{routes}</Router>, document.body);
 }
 
 function main() {

@@ -2,9 +2,10 @@ import _ from 'lodash';
 import Base from '../Base';
 import PlantActions from '../../actions/PlantActions';
 import React from 'react';
-import AuthRequired from '../auth/AuthRequired';
+// import AuthRequired from '../auth/AuthRequired';
 
-export default AuthRequired(class AddPlant extends React.Component {
+// export default AuthRequired(class AddPlant extends React.Component {
+export default class AddPlant extends React.Component {
 
   constructor(props, conText) {
     super(props, conText);
@@ -118,4 +119,4 @@ export default AuthRequired(class AddPlant extends React.Component {
       </Base>
     );
   }
-});
+}
