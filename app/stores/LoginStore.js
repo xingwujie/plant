@@ -16,13 +16,16 @@ class LoginStore {
 
     this.exportPublicMethods({
       login: this.login,
-      logout: this.logout
+      logout: this.logout,
+      isLoggedIn: this.isLoggedIn
     });
   }
 
   login(user) {
+    console.log('login():', user);
     if(user.jwt) {
-      this.user = user;
+      // this.user = user;
+      this.setState({user});
       localStorage.setItem('user', user);
     }
   }
@@ -30,6 +33,11 @@ class LoginStore {
   logout() {
     localStorage.removeItem('user');
     this.user = {};
+    this.setState({user: ''});
+  }
+
+  isLoggedIn() {
+    return this.state && this.state.user && this.state.user.jwt;
   }
 }
 

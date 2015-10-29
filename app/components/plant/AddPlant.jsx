@@ -2,8 +2,14 @@ import _ from 'lodash';
 import Base from '../Base';
 import PlantActions from '../../actions/PlantActions';
 import React from 'react';
+import AuthRequired from '../auth/AuthRequired';
 
-export default class AddPlant extends React.Component {
+export default AuthRequired(class AddPlant extends React.Component {
+
+  constructor(props, conText) {
+    super(props, conText);
+    this.context = conText;
+  }
 
   componentDidMount() {
     this.state = {};
@@ -112,8 +118,4 @@ export default class AddPlant extends React.Component {
       </Base>
     );
   }
-}
-
-AddPlant.contextTypes = {
-  router: React.PropTypes.func
-};
+});
