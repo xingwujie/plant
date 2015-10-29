@@ -1,6 +1,6 @@
 # Developer Setup
 
-Copy the [secrets-example.js](lib/config/secrets-example) file to `secrets.js` in the same directory.
+Copy the [secrets-example.js](lib/config/secrets-example.js) file to `secrets.js` in the same directory.
 
 Edit the `secrets.js` file and fill in the missing data. You will need to setup an application with Facebook and an account with IBM's Cloudant. At the time of writing this both were free and IBM allowed up to $50/month of Cloudant usage without charge.
 
