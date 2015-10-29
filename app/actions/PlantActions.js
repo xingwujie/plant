@@ -6,7 +6,7 @@ class PlantActions {
     console.log('PlantAction.create:', plant);
     $.ajax({
       type: 'POST',
-      url: '/api/plant/create',
+      url: '/api/plant',
       data: plant,
       success: (createdPlant) => {
         this.dispatch(createdPlant);
