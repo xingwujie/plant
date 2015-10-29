@@ -64,7 +64,7 @@ export default class Navbar extends React.Component {
             }
             {!displayName &&
               <li className='btn header-btn'>
-                <a href='/auth/facebook'>Login with Facebook</a>
+                <Link to='/login'>Login</Link>
               </li>
             }
           </ul>

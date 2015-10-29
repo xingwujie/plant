@@ -3,14 +3,14 @@ import 'bootstrap';
 import 'bootstrap.css';
 import './stylesheets/main.css';
 
+import AddPlant from './components/plant/AddPlant';
+import AddPlantNote from './components/plant/AddPlantNote';
 import alt from './libs/alt';
 import App from './components/App';
 import Auth from './components/Auth';
 import Help from './components/Help';
 import Home from './components/Home';
-// import ManagePlant from './components/plant/ManagePlant';
-import AddPlant from './components/plant/AddPlant';
-import AddPlantNote from './components/plant/AddPlantNote';
+import Login from './components/auth/Login';
 import persist from './libs/persist';
 import Profile from './components/Profile';
 import React from 'react';
@@ -26,6 +26,7 @@ var routes = (
     <Route path='/add-plant' handler={AddPlant}/>
     <Route path='/add-plant-note/:id' handler={AddPlantNote}/>
     <Route path='/auth/token' handler={Auth}/>
+    <Route path='/login' handler={Login}/>
     <Route path='/help' handler={Help}/>
     <Route path='/profile' handler={Profile}/>
   </Route>

@@ -1,5 +1,4 @@
-import Base from './Base';
-import Footer from './Footer';
+import Base from '../Base';
 import React from 'react';
 
 export default class App extends React.Component {
@@ -8,10 +7,10 @@ export default class App extends React.Component {
   render() {
     return (
       <Base>
+        <h1>Login</h1>
         <div>
-          The Home
+          <a href='/auth/facebook'>{'Login with Facebook'}</a>
         </div>
-        <Footer />
       </Base>
     );
   }
