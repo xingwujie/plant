@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "alt": "~0.17.1",
+    "alt-container": "^1.0.0",
     "async": "^1.4.2",
     "babel": "^5.8.23",
     "body-parser": "^1.14.1",

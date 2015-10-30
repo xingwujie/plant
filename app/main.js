@@ -20,12 +20,13 @@ import ReactDOM from 'react-dom';
 
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 
-var {Route, DefaultRoute} = Router;
+// var {Route, IndexRoute} = Router;
+var {Route, IndexRoute} = Router;
 
 // declare our routes and their hierarchy
 var routes = (
-  <Route handler={App}>
-    <DefaultRoute path='home' component={Home}/>
+  <Route path='/' component={App}>
+    <IndexRoute component={Home}/>
     <Route path='/add-plant' component={AddPlant}/>
     <Route path='/add-plant-note/:id' component={AddPlantNote}/>
     <Route path='/auth/token' component={Auth}/>
