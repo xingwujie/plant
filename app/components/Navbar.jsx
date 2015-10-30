@@ -2,9 +2,9 @@ import _ from 'lodash';
 import LoginActions from '../actions/LoginActions';
 import LoginStore from '../stores/LoginStore';
 import React from 'react';
-// import Router from 'react-router';
+import Router from 'react-router';
 
-// var {Link} = Router;
+var {Link} = Router;
 
 export default class Navbar extends React.Component {
   constructor() {
@@ -42,19 +42,19 @@ export default class Navbar extends React.Component {
         <div id='menucontainer'>
           <ul className='nav navbar-nav navbar-right' id='menu'>
             <li className='btn header-btn'>
-              <a to={`/`} title='home'>Home</a>
+              <Link to={`/`} title='home'>Home</Link>
             </li>
             {displayName &&
               <li className='btn header-btn'>
-                <a to={`/add-plant`} title='add plant'>Add</a>
+                <Link to={`/add-plant`} title='add plant'>Add</Link>
               </li>
             }
             <li className='btn header-btn'>
-              <a to={`/help`} title='help'>Help</a>
+              <Link to={`/help`} title='help'>Help</Link>
             </li>
             {displayName &&
               <li className='btn header-btn'>
-                <a to={`/profile`} title='help'>{displayName}</a>
+                <Link to={`/profile`} title='help'>{displayName}</Link>
               </li>
             }
             {displayName &&
@@ -64,7 +64,7 @@ export default class Navbar extends React.Component {
             }
             {!displayName &&
               <li className='btn header-btn'>
-                <a to={`/login`}>Login</a>
+                <Link to={`/login`}>Login</Link>
               </li>
             }
           </ul>
