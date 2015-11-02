@@ -29,7 +29,11 @@ export default class Auth extends React.Component {
   componentDidUpdate() {
     const jwt = _.get(this, 'state.user.jwt', '');
     if(jwt) {
-      return this.context.router.transitionTo('/');
+      // TODO: Store in localStorage the original URL that the user wanted
+      // to go to and do a redirect to that here.
+      window.location = '/';
+    } else {
+      window.location = '/login';
     }
   }
 
@@ -41,7 +45,3 @@ export default class Auth extends React.Component {
     );
   }
 }
-
-Auth.contextTypes = {
-  router: React.PropTypes.func
-};

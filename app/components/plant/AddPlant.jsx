@@ -24,7 +24,7 @@ export default class AddPlant extends React.Component {
       PlantActions.create(plant, (err, savedPlant) => {
         console.log('PlantActions.create cb:', err, savedPlant);
         if(!err) {
-          return this.context.router.transitionTo(`/add-plant-note/${savedPlant.id}`);
+          window.location = `/add-plant-note/${savedPlant.id}`;
         } else {
           alert('Error: ' + err.message);
         }

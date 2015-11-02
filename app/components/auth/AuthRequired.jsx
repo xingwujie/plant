@@ -4,12 +4,6 @@ import React from 'react';
 export default (ComposedComponent) => {
   return class AuthenticatedComponent extends React.Component {
 
-    static willTransitionTo(transition) {
-      if (!LoginStore.isLoggedIn()) {
-        transition.redirect(`/login`);
-      }
-    }
-
     constructor() {
       super();
       this.state = this.getLoginState();
