@@ -20,10 +20,8 @@ import ReactDOM from 'react-dom';
 
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 
-// var {Route, IndexRoute} = Router;
 var {Route, IndexRoute} = Router;
 
-// declare our routes and their hierarchy
 var routes = (
   <Route path='/' component={App}>
     <IndexRoute component={Home}/>
@@ -33,6 +31,8 @@ var routes = (
     <Route path='/login' component={Login}/>
     <Route path='/help' component={Help}/>
     <Route path='/profile' component={Profile}/>
+    // TODO: Put a Not Found / No Match component in here.
+    <Route path='*' component={Help}/>
   </Route>
 );
 
@@ -42,7 +42,7 @@ function render() {
   var content = document.createElement('div');
   content.setAttribute('id', 'content');
   document.body.appendChild(content);
-  ReactDOM.render(<Router history={createHistory}>{routes}</Router>, document.getElementById('content'));
+  ReactDOM.render((<Router history={createHistory}>{routes}</Router>), document.getElementById('content'));
   // ReactDOM.render(<div>{'Hello world.'}</div>, document.getElementById('content'));
 }
 
