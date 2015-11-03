@@ -1,8 +1,5 @@
 import alt from '../libs/alt';
 import LoginActions from '../actions/LoginActions';
-import d from 'debug';
-
-const debug = d('plant:LoginStore');
 
 class LoginStore {
   constructor() {
@@ -25,7 +22,7 @@ class LoginStore {
   }
 
   login(user) {
-    debug('login():', user);
+    console.log('login():', user);
     if(user.jwt) {
       // this.user = user;
       this.setState({user});

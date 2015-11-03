@@ -1,16 +1,26 @@
+import _ from 'lodash';
 import $ from 'jquery';
 import alt from '../libs/alt';
-import d from 'debug';
+import LoginStore from '../stores/LoginStore';
 
-const debug = d('plant:PlantActions');
+function setJwtHeader(request) {
+  const jwt = _.get(LoginStore, 'state.user.jwt', '');
+  if(jwt) {
+    request.setRequestHeader('Authorization', 'Bearer ' + jwt);
+  }
+}
 
 class PlantActions {
+
   create(plant, cb) {
-    debug('PlantAction.create:', plant);
+    console.log('PlantAction.create:', plant);
+    // console.log('PlantAction.create: this:', Object.keys(this));
+    // const _this = this;
     $.ajax({
       type: 'POST',
       url: '/api/plant',
       data: plant,
+      beforeSend: setJwtHeader,
       success: (createdPlant) => {
         this.dispatch(createdPlant);
         // TODO: Remove this and replace with a PlantStore listener in the AddPlant.jsx file
@@ -21,7 +31,7 @@ class PlantActions {
 
   // Get all the plants this user has created
   retrieve() {
-    debug('PlantAction.retrieve');
+    console.log('PlantAction.retrieve');
     $.ajax({
       type: 'GET',
       url: '/api/plant',
@@ -32,11 +42,12 @@ class PlantActions {
   }
 
   addNote(note) {
-    debug('PlantAction.addNote:', note);
+    console.log('PlantAction.addNote:', note);
     $.ajax({
       type: 'POST',
       url: '/api/plant-note',
       data: note,
+      beforeSend: this.setJwtHeader,
       success: (createdNote) => {
         this.dispatch(createdNote);
       }

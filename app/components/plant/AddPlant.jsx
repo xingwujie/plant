@@ -1,11 +1,8 @@
 import _ from 'lodash';
 import AuthRequired from '../auth/AuthRequired';
 import Base from '../Base';
-import d from 'debug';
 import PlantActions from '../../actions/PlantActions';
 import React from 'react';
-
-const debug = d('plant:AddPlant');
 
 export default AuthRequired(class AddPlant extends React.Component {
 
@@ -24,7 +21,7 @@ export default AuthRequired(class AddPlant extends React.Component {
         ['title', 'cultivar', 'description', 'purchasedDate', 'plantedDate', 'price']
       );
       PlantActions.create(plant, (err, savedPlant) => {
-        debug('PlantActions.create cb:', err, savedPlant);
+        console.log('PlantActions.create cb:', err, savedPlant);
         if(!err) {
           window.location = `/add-plant-note/${savedPlant.id}`;
         } else {
