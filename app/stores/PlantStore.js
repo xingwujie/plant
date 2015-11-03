@@ -8,6 +8,7 @@ class PlantStore {
 
     this.bindListeners({
       create: PlantActions.CREATE,
+      retrieve: PlantActions.RETRIEVE,
       addNote: PlantActions.ADD_NOTE
     });
 
@@ -19,6 +20,10 @@ class PlantStore {
 
   create(plant) {
     this.plants.push[plant];
+  }
+
+  retrieve(plants) {
+    this.plants = plants;
   }
 
   addNote(note) {

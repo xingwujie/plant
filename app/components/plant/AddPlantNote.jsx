@@ -44,9 +44,7 @@ export default class AddPlantNote extends React.Component {
   }
 
   render() {
-    // console.log('AddPlantNote.render:', this.props, this.state);
-
-    const plantId = _.get(this, 'props.params.id', '');
+    // const plantId = _.get(this, 'props.params.id', '');
 
     const {
       date,

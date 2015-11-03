@@ -1,5 +1,8 @@
 import Base from '../Base';
 import React from 'react';
+import d from 'debug';
+
+const debug = d('plant:ManagePlant');
 
 export default class ManagePlant extends React.Component {
 
@@ -7,8 +10,8 @@ export default class ManagePlant extends React.Component {
   }
 
   render() {
-    console.log('props:', this.props);
-    console.log('state:', this.state);
+    debug('props:', this.props);
+    debug('state:', this.state);
 
     return (
       <Base>

@@ -1,9 +1,12 @@
 import $ from 'jquery';
 import alt from '../libs/alt';
+import d from 'debug';
+
+const debug = d('plant:PlantActions');
 
 class PlantActions {
   create(plant, cb) {
-    console.log('PlantAction.create:', plant);
+    debug('PlantAction.create:', plant);
     $.ajax({
       type: 'POST',
       url: '/api/plant',
@@ -16,8 +19,20 @@ class PlantActions {
     });
   }
 
+  // Get all the plants this user has created
+  retrieve() {
+    debug('PlantAction.retrieve');
+    $.ajax({
+      type: 'GET',
+      url: '/api/plant',
+      success: (plants) => {
+        this.dispatch(plants);
+      }
+    });
+  }
+
   addNote(note) {
-    console.log('PlantAction.addNote:', note);
+    debug('PlantAction.addNote:', note);
     $.ajax({
       type: 'POST',
       url: '/api/plant-note',
