@@ -36,7 +36,7 @@ describe('/db/cloudant/', function() {
     });
   });
 
-  describe.only('/plant/', function() {
+  describe('/plant/', function() {
     const plantDB = new Plant();
     const plant = {
       name: 'Plant Name',

@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "Plant Tracker",
   "main": "index.js",
+  "engines": {
+    "node": "5.0.0"
+  },
   "dependencies": {
     "alt": "~0.17.1",
     "alt-container": "^1.0.0",
@@ -38,6 +41,7 @@
     "babel-loader": "^5.3.1",
     "css-loader": "0.x",
     "eslint": "*",
+    "eslint-config-guyellis": "0.0.1",
     "eslint-plugin-react": "^3.5.1",
     "file-loader": "0.8.4",
     "html-webpack-plugin": "^1.6.0",
