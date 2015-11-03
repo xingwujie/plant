@@ -1,10 +1,10 @@
-import AltContainer from 'alt/AltContainer';
+// import AltContainer from 'alt/AltContainer';
 import Base from './Base';
 import Footer from './Footer';
-import PlantStore from '../stores/PlantStore';
+// import PlantStore from '../stores/PlantStore';
 import React from 'react';
 
-export default class App extends React.Component {
+export default class Profile extends React.Component {
   componentDidMount() {
   }
   render() {

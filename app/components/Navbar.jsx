@@ -1,14 +1,12 @@
 import _ from 'lodash';
-import LoginActions from '../actions/LoginActions';
-import LoginStore from '../stores/LoginStore';
-import React from 'react';
 import AddPlant from './plant/AddPlant';
-// import AddPlantNote from './plant/AddPlantNote';
-// import Auth from './Auth';
 import Help from './Help';
 import Home from './Home';
 import Login from './auth/Login';
+import LoginActions from '../actions/LoginActions';
+import LoginStore from '../stores/LoginStore';
 import Profile from './Profile';
+import React from 'react';
 import ReactDOM from 'react-dom';
 
 export default class Navbar extends React.Component {

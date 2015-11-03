@@ -8,7 +8,10 @@ export default class Help extends React.Component {
 
     return (
       <Base>
-        <h2>Help Page</h2>
+        <div className='well'>
+          <h3 className='well'>Add Plant</h3>
+          <p>Login and click the Add menu to add a plant.</p>
+        </div>
       </Base>
     );
   }
