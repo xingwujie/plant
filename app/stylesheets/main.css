@@ -1,3 +1,37 @@
+#hero {
+  background:linear-gradient(rgba(0, 0, 0, 0.9),rgba(0, 0, 0, 0.8)),url('/img/apple-tree.jpg');
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100vh;
+  background-size: cover;
+  margin-top: -20px;
+  /*display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;*/
+}
+
+.home-header, .home-subheader {
+  color: white;
+  text-align: center;
+  line-height: 3em;
+}
+
+.home-header {
+  margin-top: 50px;
+  font-size: xx-large;
+}
+
+.home-subheader {
+  font-size: x-large;
+}
+
+.home-subheader a{
+  color: white;
+  /*text-transform: uppercase;*/
+  font-size: xx-large;
+  
+}
 
 .home-plant {
   width: 100px;
