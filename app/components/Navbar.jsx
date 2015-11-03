@@ -58,41 +58,54 @@ export default class Navbar extends React.Component {
     const displayName = _.get(this, 'state.user.name');
 
     return (
-      <div id='header'>
-        <div id='title'>
-          <h1>Plant</h1>
+      <nav className='navbar navbar-default'>
+        <div className='container-fluid'>
+          <div className='navbar-header'>
+            <button type='button' className='navbar-toggle collapsed' data-toggle='collapse' data-target='#plant-navbar-collapse' aria-expanded='false'>
+              <span className='sr-only'>Toggle navigation</span>
+              <span className='icon-bar'></span>
+              <span className='icon-bar'></span>
+              <span className='icon-bar'></span>
+            </button>
+            <a href='#' className='navbar-brand' onClick={this.routeClick.bind(this, 'home')} title='Plant'>Plant</a>
+          </div>
+
+          <div className='collapse navbar-collapse' id='plant-navbar-collapse'>
+            <ul className='nav navbar-nav navbar-right'>
+              {displayName &&
+                <li>
+                  <a href='#' onClick={this.routeClick.bind(this, 'add-plant')} title='Add Plant'>Add</a>
+                </li>
+              }
+              {displayName &&
+                <li className='dropdown'>
+                  <a href='#' className='dropdown-toggle'
+                    data-toggle='dropdown' role='button'
+                    aria-haspopup='true' aria-expanded='false'
+                    title={displayName}>{displayName} <span className='caret'></span>
+                  </a>
+                  <ul className='dropdown-menu'>
+                    <li>
+                      <a href='#' onClick={this.routeClick.bind(this, 'profile')} title='Profile'>Profile</a>
+                    </li>
+                    <li>
+                      <a href='#' onClick={this.logout} title='Logout'>Logout</a>
+                    </li>
+                  </ul>
+                </li>
+              }
+              {!displayName &&
+                <li>
+                  <a href='#' onClick={this.routeClick.bind(this, 'login')} title='Login'>Login</a>
+                </li>
+              }
+              <li>
+                <a href='#' onClick={this.routeClick.bind(this, 'help')} title='Help'>Help</a>
+              </li>
+            </ul>
+          </div>
         </div>
-        <div id='menucontainer'>
-          <ul className='nav navbar-nav navbar-right' id='menu'>
-            <li className='btn header-btn'>
-              <a onClick={this.routeClick.bind(this, 'home')} title='Home'>Home</a>
-            </li>
-            {displayName &&
-              <li className='btn header-btn'>
-                <a onClick={this.routeClick.bind(this, 'add-plant')} title='Add Plant'>Add</a>
-              </li>
-            }
-            <li className='btn header-btn'>
-              <a onClick={this.routeClick.bind(this, 'help')} title='Help'>Help</a>
-            </li>
-            {displayName &&
-              <li className='btn header-btn'>
-                <a onClick={this.routeClick.bind(this, 'profile')} title={displayName}>{displayName}</a>
-              </li>
-            }
-            {displayName &&
-              <li className='btn header-btn'>
-                <a onClick={this.logout} title='Logout'>Logout</a>
-              </li>
-            }
-            {!displayName &&
-              <li className='btn header-btn'>
-                <a onClick={this.routeClick.bind(this, 'login')} title='Login'>Login</a>
-              </li>
-            }
-          </ul>
-        </div>
-      </div>
+      </nav>
     );
   }
 }
