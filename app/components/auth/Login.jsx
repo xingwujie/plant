@@ -7,9 +7,12 @@ export default class App extends React.Component {
   render() {
     return (
       <Base>
-        <h1>Login</h1>
-        <div>
-          <a href='/auth/facebook'>{'Login with Facebook'}</a>
+        <div id='hero'>
+          <div className='home-subheader'>
+            <a href='/auth/facebook'>
+              <img src='/img/facebook-login.png' />
+            </a>
+          </div>
         </div>
       </Base>
     );

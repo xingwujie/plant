@@ -7,6 +7,10 @@ export default (ComposedComponent) => {
     constructor() {
       super();
       this.state = this.getLoginState();
+      if(!this.state.userLoggedIn) {
+        localStorage.setItem('returnurl', window.location);
+        window.location = '/login';
+      }
       this.onChange = this.onChange.bind(this);
     }
 

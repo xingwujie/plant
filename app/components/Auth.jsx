@@ -29,9 +29,13 @@ export default class Auth extends React.Component {
   componentDidUpdate() {
     const jwt = _.get(this, 'state.user.jwt', '');
     if(jwt) {
-      // TODO: Store in localStorage the original URL that the user wanted
-      // to go to and do a redirect to that here.
-      window.location = '/';
+      const returnurl = localStorage.getItem('returnurl');
+      if(returnurl) {
+        localStorage.removeItem('returnurl');
+        window.location = returnurl;
+      } else {
+        window.location = '/';
+      }
     } else {
       window.location = '/login';
     }
