@@ -1,13 +1,9 @@
 import _ from 'lodash';
-import AddPlant from './plant/AddPlant';
-import Help from './Help';
-import Home from './Home';
-import Login from './auth/Login';
 import LoginActions from '../actions/LoginActions';
 import LoginStore from '../stores/LoginStore';
-import Profile from './Profile';
 import React from 'react';
-import ReactDOM from 'react-dom';
+
+import {Link} from 'react-router';
 
 export default class Navbar extends React.Component {
   constructor() {
@@ -33,24 +29,6 @@ export default class Navbar extends React.Component {
     LoginActions.logout();
   }
 
-  routeClick(route) {
-    const content = document.getElementById('content');
-    switch(route) {
-    case 'home':
-      return ReactDOM.render(<Home />, content);
-    case 'profile':
-      return ReactDOM.render(<Profile />, content);
-    case 'login':
-      return ReactDOM.render(<Login />, content);
-    case 'help':
-      return ReactDOM.render(<Help />, content);
-    case 'add-plant':
-      return ReactDOM.render(<AddPlant />, content);
-    default:
-      return ReactDOM.render(<Home />, content);
-    }
-  }
-
   render() {
 
     const displayName = _.get(this, 'state.user.name');
@@ -65,14 +43,14 @@ export default class Navbar extends React.Component {
               <span className='icon-bar'></span>
               <span className='icon-bar'></span>
             </button>
-            <a href='#' className='navbar-brand' onClick={this.routeClick.bind(this, 'home')} title='Plant'>Plant</a>
+            <Link to={'/'} className='navbar-brand'>Plant</Link>
           </div>
 
           <div className='collapse navbar-collapse' id='plant-navbar-collapse'>
             <ul className='nav navbar-nav navbar-right'>
               {displayName &&
                 <li>
-                  <a href='#' onClick={this.routeClick.bind(this, 'add-plant')} title='Add Plant'>Add</a>
+                  <Link to={'/add-plant'} title='add plant'>Add</Link>
                 </li>
               }
               {displayName &&
@@ -84,7 +62,7 @@ export default class Navbar extends React.Component {
                   </a>
                   <ul className='dropdown-menu'>
                     <li>
-                      <a href='#' onClick={this.routeClick.bind(this, 'profile')} title='Profile'>Profile</a>
+                      <Link to={'/profile'}>Profile</Link>
                     </li>
                     <li>
                       <a href='#' onClick={this.logout} title='Logout'>Logout</a>
@@ -94,11 +72,11 @@ export default class Navbar extends React.Component {
               }
               {!displayName &&
                 <li>
-                  <a href='#' onClick={this.routeClick.bind(this, 'login')} title='Login'>Login</a>
+                  <Link to='/login'>Login</Link>
                 </li>
               }
               <li>
-                <a href='#' onClick={this.routeClick.bind(this, 'help')} title='Help'>Help</a>
+                <Link to={'/help'} title='help'>Help</Link>
               </li>
             </ul>
           </div>
