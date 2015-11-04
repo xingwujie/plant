@@ -14,7 +14,8 @@ class PlantStore {
 
     this.exportPublicMethods({
       create: this.create,
-      addNote: this.addNote
+      addNote: this.addNote,
+      retrieve: this.retrieve
     });
   }
 

@@ -34,7 +34,7 @@ class PlantActions {
     console.log('PlantAction.retrieve');
     $.ajax({
       type: 'GET',
-      url: '/api/plant',
+      url: '/api/plants',
       success: (plants) => {
         this.dispatch(plants);
       }

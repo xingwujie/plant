@@ -2,33 +2,45 @@ import _ from 'lodash';
 import Base from './Base';
 import Footer from './Footer';
 import LoginStore from '../stores/LoginStore';
+import PlantStore from '../stores/PlantStore';
 import React from 'react';
 
 export default class Home extends React.Component {
   constructor() {
     super();
-    this.state = LoginStore.getState();
-    this.onChange = this.onChange.bind(this);
+    this.state = {
+      user: LoginStore.getState(),
+      plants: PlantStore.getState()
+    };
+    this.onLoginChange = this.onLoginChange.bind(this);
+    this.onPlantChange = this.onPlantChange.bind(this);
   }
 
   componentDidMount() {
-    LoginStore.listen(this.onChange);
+    LoginStore.listen(this.onLoginChange);
+    PlantStore.listen(this.onPlantChange);
   }
 
   componentWillUnmount() {
-    LoginStore.unlisten(this.onChange);
+    LoginStore.unlisten(this.onLoginChange);
+    PlantStore.unlisten(this.onPlantChange);
   }
 
-  onChange(user){
-    this.setState(user);
+  onLoginChange(user){
+    this.setState({user});
+  }
+
+  onPlantChange(plants){
+    this.setState({plants});
   }
 
   userPlants() {
     // Fake a list of 10 plants
-    return _.range(10).map((item) => {
+    const plants = _.get(this, 'state.plants');
+    return plants.map((item) => {
       return (
-        <div key={item} className='home-plant'>
-          <a href={`/plant/${item}`}>{item}</a>
+        <div key={item._id} className='home-plant'>
+          <a href={`/plant/${item.name}`}>{item.name}</a>
         </div>
       );
     });
@@ -47,14 +59,27 @@ export default class Home extends React.Component {
     </div>);
   }
 
+  firstPlant() {
+    return (<div id='hero'>
+      <div className='home-header'>Read to add your first Plant or Tree?</div>
+      <div className='home-subheader'>
+        <a href='/add-plant'>
+          Add My First Plant or Tree
+        </a>
+        </div>
+    </div>);
+  }
+
   render() {
 
     const displayName = _.get(this, 'state.user.name');
+    const plants = _.get(this, 'state.plants');
 
     return (
       <Base>
         <div className='home-content'>
-          {displayName && this.userPlants()}
+          {plants && plants.length && this.userPlants()}
+          {displayName && (!plants || !plants.length) && this.firstPlant()}
           {!displayName && this.anonHome()}
         </div>
         <Footer />
