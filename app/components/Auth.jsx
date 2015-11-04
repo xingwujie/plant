@@ -5,6 +5,7 @@ import LoginStore from '../stores/LoginStore';
 import React from 'react';
 
 export default class Auth extends React.Component {
+
   constructor() {
     super();
     this.onChange = this.onChange.bind(this);
@@ -12,8 +13,10 @@ export default class Auth extends React.Component {
 
   componentDidMount() {
     LoginStore.listen(this.onChange);
+    console.log('this.props:', this.props);
 
-    var code = _.get(this.props, 'query.jwt', '');
+    let { query } = this.props.location;
+    var code = query && query.jwt;
 
     LoginActions.login(code);
   }
@@ -32,10 +35,10 @@ export default class Auth extends React.Component {
       const returnurl = localStorage.getItem('returnurl');
       if(returnurl) {
         localStorage.removeItem('returnurl');
-        window.location = returnurl;
-      } else {
-        window.location = '/';
       }
+      let destination = returnurl || '/';
+      let { history: historyContext } = this.props;
+      historyContext.pushState(null, destination);
     } else {
       window.location = '/login';
     }
