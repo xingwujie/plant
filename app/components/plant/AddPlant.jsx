@@ -23,12 +23,17 @@ export default AuthRequired(class AddPlant extends React.Component {
       PlantActions.create(plant, (err, savedPlant) => {
         console.log('PlantActions.create cb:', err, savedPlant);
         if(!err) {
-          window.location = `/add-plant-note/${savedPlant.id}`;
+          let { history: historyContext } = this.props;
+          // TODO: Stick a real slug in here
+          const slug = 'slug';
+          historyContext.pushState(null, `/plant/${slug}/${savedPlant.id}`);
         } else {
+          // TODO: Handle error with notifier
           alert('Error: ' + err.message);
         }
       });
     } else {
+      // TODO: Handle error with notifier
       alert('Must have Title');
       // NotifierActions.error({
       //   title: 'Missing Title',

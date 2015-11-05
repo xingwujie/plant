@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import Base from '../Base';
 import PlantActions from '../../actions/PlantActions';
 import React from 'react';
 
@@ -56,7 +55,7 @@ export default class AddPlantNote extends React.Component {
     const plant = _.get(this, 'props.plant', {});
 
     return (
-      <Base>
+      <div>
         <h2>Add Notes</h2>
         <div>Plant: {plant.title}</div>
         {plant.description && <div>Description: {plant.description}</div>}
@@ -97,7 +96,7 @@ export default class AddPlantNote extends React.Component {
             <button type='button' onClick={this.save.bind(this)}>Save</button>
 
           </form>
-      </Base>
+      </div>
     );
   }
 }

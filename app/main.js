@@ -3,36 +3,32 @@ import 'bootstrap';
 import 'bootstrap.css';
 import './stylesheets/main.css';
 
-// import _ from 'lodash';
+import {Router, Route, IndexRoute} from 'react-router';
 import AddPlant from './components/plant/AddPlant';
-import AddPlantNote from './components/plant/AddPlantNote';
 import alt from './libs/alt';
 import App from './components/App';
 import Auth from './components/Auth';
+import createBrowserHistory from 'history/lib/createBrowserHistory';
 import Help from './components/Help';
 import Home from './components/Home';
 import Login from './components/auth/Login';
 import persist from './libs/persist';
+import Plant from './components/plant/Plant';
 import Profile from './components/Profile';
-// import queryString from 'query-string';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import storage from './libs/storage';
 
-import createBrowserHistory from 'history/lib/createBrowserHistory';
-
-import {Router, Route, IndexRoute} from 'react-router';
-
+// TODO: Put a Not Found / No Match component in here.
 var routes = (
   <Route path='/' component={App}>
     <IndexRoute component={Home}/>
-    <Route path='/add-plant-note/:id' component={AddPlantNote}/>
     <Route path='/add-plant' component={AddPlant}/>
     <Route path='/auth/token' component={Auth}/>
     <Route path='/help' component={Help}/>
     <Route path='/login' component={Login}/>
+    <Route path='/plant/:slug/:id' component={Plant}/>
     <Route path='/profile' component={Profile}/>
-    // TODO: Put a Not Found / No Match component in here.
     <Route path='*' component={Help}/>
   </Route>
 );
