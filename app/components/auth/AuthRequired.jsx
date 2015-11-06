@@ -7,10 +7,6 @@ export default (ComposedComponent) => {
     constructor() {
       super();
       this.state = this.getLoginState();
-      if(!this.state.userLoggedIn) {
-        localStorage.setItem('returnurl', window.location);
-        window.location = '/login';
-      }
       this.onChange = this.onChange.bind(this);
     }
 
@@ -23,6 +19,11 @@ export default (ComposedComponent) => {
     }
 
     componentDidMount() {
+      if(!this.state.userLoggedIn) {
+        localStorage.setItem('returnurl', window.location);
+        let { history: historyContext } = this.props;
+        historyContext.pushState(null, `/login`);
+      }
       LoginStore.listen(this.onChange);
     }
 
