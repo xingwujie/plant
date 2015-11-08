@@ -54,6 +54,7 @@
     "npm-update-outdated": "^0.1.6",
     "pre-commit": "^1.1.2",
     "react-hot-loader": "^1.2.7",
+    "react-log-lifecycle": "0.0.2",
     "react-tools": "^0.13.3",
     "style-loader": "0.x",
     "url-loader": "0.5.6",
@@ -70,7 +71,8 @@
     "start": "TARGET=dev webpack-dev-server --devtool eval-source --progress --colors --hot --inline --history-api-fallback",
     "prepublish": "npm run build",
     "lint": "eslint -c .eslintrc --ext .js --ext .jsx .",
-    "dependency-update": "node_modules/.bin/npm-update-outdated"
+    "dependency-update": "node_modules/.bin/npm-update-outdated",
+    "linkdeps": "npm link ../react-log-lifecycle; npm link react-log-lifecycle"
   },
   "pre-commit": {
     "silent": false,

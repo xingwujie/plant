@@ -1,10 +1,19 @@
 import Base from './Base';
 import React from 'react';
+import LogLifecyle from 'react-log-lifecycle';
 
-export default class Help extends React.Component {
-  componentDidMount() {
+const flags = {
+  logType: '',
+  names: ['props', 'nextProps', 'nextState', 'prevProps', 'prevState']
+};
+
+export default class Help extends LogLifecyle {
+  constructor(props) {
+    super(props, flags);
   }
   render() {
+
+    console.log('Help render');
 
     return (
       <Base>
