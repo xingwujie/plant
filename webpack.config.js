@@ -85,7 +85,7 @@ if(TARGET === 'build') {
           test: /\.jsx?$/,
 
           // use babel loader with Stage 1 features
-          loader: 'babel?stage=1',
+          loader: 'babel?presets[]=stage-1',
 
           // operate only on our app directory
           include: path.resolve(ROOT_PATH, 'app')
@@ -117,7 +117,7 @@ if(TARGET === 'dev') {
       loaders: [
         {
           test: /\.jsx?$/,
-          loaders: ['react-hot', 'babel?stage=1'],
+          loaders: ['react-hot', 'babel?presets[]=stage-1'],
           include: path.resolve(ROOT_PATH, 'app')
         }
       ]
