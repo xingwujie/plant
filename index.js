@@ -2,4 +2,7 @@ require('babel-core/register');
 
 var app = require('./lib/server');
 
-app();
+console.log('typeof app:', typeof app);
+console.log('app:', app);
+
+app.appServer();

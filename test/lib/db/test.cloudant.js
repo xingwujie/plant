@@ -1,5 +1,5 @@
-// import _ from 'lodash';
-import {User, Plant} from '../../../lib/db';
+import * as User from '../../../lib/db/user-db';
+import * as Plant from '../../../lib/db/plant-db';
 import assert from 'assert';
 import d from 'debug';
 
@@ -12,7 +12,7 @@ describe('/db/cloudant/', function() {
 
   describe('/user/', function() {
     it('should create a user account', (done) => {
-      const userDB = new User();
+      const userDB = new User.User();
 
       const user = {
         email: 'test@test.com',
@@ -37,7 +37,7 @@ describe('/db/cloudant/', function() {
   });
 
   describe('/plant/', function() {
-    const plantDB = new Plant();
+    const plantDB = new Plant.Plant();
     const plant = {
       name: 'Plant Name',
       plantedOn: new Date(2015, 7, 1)
