@@ -4,18 +4,24 @@ import PlantActions from '../actions/PlantActions';
 
 class PlantStore {
   constructor() {
+    // PlantStore keeps an array of Plant objects
+    // that belong to the user.
     this.plants = [];
 
     this.bindListeners({
       create: PlantActions.CREATE,
-      retrieve: PlantActions.RETRIEVE,
+      createSuccess: PlantActions.CREATE_SUCCESS,
+      createError: PlantActions.CREATE_ERROR,
+      load: PlantActions.LOAD,
+      loadSuccess: PlantActions.LOAD_SUCCESS,
+      loadError: PlantActions.LOAD_ERROR,
       addNote: PlantActions.ADD_NOTE
     });
 
     this.exportPublicMethods({
       create: this.create,
       addNote: this.addNote,
-      retrieve: this.retrieve
+      load: this.load
     });
   }
 
@@ -23,8 +29,32 @@ class PlantStore {
     this.plants.push[plant];
   }
 
-  retrieve(plants) {
-    this.plants = plants;
+  createSuccess(plant) {
+    this.plants.push[plant];
+  }
+
+  createError(plant) {
+    this.plants.push[plant];
+  }
+
+  load() {
+    this.loading = true;
+  }
+
+  loadSuccess(payload) {
+    this.loading = false;
+    this.error = null;
+    this.plants = payload.plants.reduce(function(acc, plant) {
+      var clientId = _.uniqueId();
+      acc[clientId] = {id: clientId, plant: plant, status: 'OK'};
+      return acc;
+    }, {});
+  }
+
+  loadError(error) {
+    this.loading = false;
+    this.error = error;
+    this.plants = [];
   }
 
   addNote(note) {

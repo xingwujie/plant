@@ -14,6 +14,7 @@ import Home from './components/Home';
 import Login from './components/auth/Login';
 import persist from './libs/persist';
 import Plant from './components/plant/Plant';
+import Plants from './components/plant/Plants';
 import Profile from './components/Profile';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -28,6 +29,7 @@ var routes = (
     <Route path='/help' component={Help}/>
     <Route path='/login' component={Login}/>
     <Route path='/plant/:slug/:id' component={Plant}/>
+    <Route path='/plants' component={Plants}/>
     <Route path='/profile' component={Profile}/>
     <Route path='*' component={Help}/>
   </Route>

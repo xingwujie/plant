@@ -4,7 +4,7 @@
   "description": "Plant Tracker",
   "main": "index.js",
   "engines": {
-    "node": "5.0.0"
+    "node": "5.1.0"
   },
   "dependencies": {
     "alt": "^0.17.1",

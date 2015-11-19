@@ -12,33 +12,52 @@ function setJwtHeader(request) {
 
 class PlantActions {
 
-  create(plant, cb) {
+  // Success: Function( Anything data, String textStatus, jqXHR jqXHR )
+  createSuccess(createdPlant) {
+    console.log('PlantAction.createSuccess _id:', createdPlant._id);
+    this.dispatch(createdPlant);
+  }
+
+  // Error: Function( jqXHR jqXHR, String textStatus, String errorThrown )
+  createError(jqXHR, textStatus, errorThrown) {
+    console.log('PlantAction.createError:', errorThrown);
+    this.dispatch(errorThrown);
+  }
+
+  create(plant) {
     console.log('PlantAction.create:', plant);
-    // console.log('PlantAction.create: this:', Object.keys(this));
-    // const _this = this;
     $.ajax({
       type: 'POST',
       url: '/api/plant',
       data: plant,
       beforeSend: setJwtHeader,
-      success: (createdPlant) => {
-        this.dispatch(createdPlant);
-        // TODO: Remove this and replace with a PlantStore listener in the AddPlant.jsx file
-        cb(null, createdPlant);
-      }
+      success: this.createSuccess,
+      error: this.createError
     });
   }
 
-  // Get all the plants this user has created
-  retrieve() {
-    console.log('PlantAction.retrieve');
+  // Get all the plants a user has created
+  load(userId) {
+    console.log('PlantAction.load');
+    this.dispatch();
     $.ajax({
       type: 'GET',
-      url: '/api/plants',
-      success: (plants) => {
-        this.dispatch(plants);
-      }
+      url: `/api/plants/${userId}`,
+      success: this.loadSuccess,
+      error: this.loadError
     });
+  }
+
+  // Success: Function( Anything data, String textStatus, jqXHR jqXHR )
+  loadSuccess(payload) {
+    console.log('PlantAction.loadSuccess:', payload);
+    this.dispatch(payload);
+  }
+
+  // Error: Function( jqXHR jqXHR, String textStatus, String errorThrown )
+  loadError(jqXHR, textStatus, errorThrown) {
+    console.log('PlantAction.loadError:', errorThrown);
+    this.dispatch(errorThrown);
   }
 
   addNote(note) {
