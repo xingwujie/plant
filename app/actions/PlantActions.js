@@ -4,7 +4,8 @@ import alt from '../libs/alt';
 import LoginStore from '../stores/LoginStore';
 
 function setJwtHeader(request) {
-  const jwt = _.get(LoginStore, 'state.user.jwt', '');
+  const loginState = LoginStore.getState() || {};
+  const jwt = _.get(loginState, 'user.jwt', '');
   if(jwt) {
     request.setRequestHeader('Authorization', 'Bearer ' + jwt);
   }
@@ -43,6 +44,7 @@ class PlantActions {
     $.ajax({
       type: 'GET',
       url: `/api/plants/${userId}`,
+      beforeSend: setJwtHeader,
       success: this.loadSuccess,
       error: this.loadError
     });

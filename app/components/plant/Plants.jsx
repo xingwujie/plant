@@ -2,13 +2,14 @@ import _ from 'lodash';
 import {Link} from 'react-router';
 import Base from '../Base';
 import LoginStore from '../../stores/LoginStore';
-import LogLifecycle from 'react-log-lifecycle';
+// import LogLifecycle from 'react-log-lifecycle';
 import PlantActions from '../../actions/PlantActions';
 import PlantItem from './PlantItem';
 import PlantStore from '../../stores/PlantStore';
 import React from 'react';
 
-export default class Plant extends LogLifecycle {
+export default class Plant extends React.Component {
+// export default class Plant extends LogLifecycle {
 
   constructor() {
     super();
