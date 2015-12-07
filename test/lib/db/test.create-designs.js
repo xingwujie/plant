@@ -4,14 +4,27 @@ import d from 'debug';
 
 const debug = d('plant:test.create-designs');
 
-describe.only('/db/create-designs/', function() {
+describe('/db/create-designs/', function() {
   this.timeout(5000);
 
   it('should create the designs', (done) => {
-    debug('Creating new Design class');
+    debug('Creating new Design class 1st time');
     const designDB = new DesignDB.DesignDB();
 
-    designDB.createAllDesigns((err) => {
+    designDB.updateAllDesigns((err) => {
+      if(err) {
+        debug('err:', err);
+      }
+      assert(!err);
+      done();
+    });
+  });
+
+  it('should create the designs a second time (tests upsert)', (done) => {
+    debug('Creating new Design class 2nd time');
+    const designDB = new DesignDB.DesignDB();
+
+    designDB.updateAllDesigns((err) => {
       if(err) {
         debug('err:', err);
       }
