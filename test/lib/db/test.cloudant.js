@@ -23,6 +23,7 @@ describe('/db/cloudant/', function() {
       userDB.findOrCreateUser(user, (err, body) => {
 
         assert(!err);
+        debug('body:', body);
         assert(body);
         assert(body._id);
         assert.equal(body.type, 'user');
