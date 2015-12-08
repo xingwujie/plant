@@ -1,12 +1,17 @@
-import * as User from '../../../lib/db/user-db';
+import { createDesigns } from '../../helper';
 import * as Plant from '../../../lib/db/plant-db';
+import * as User from '../../../lib/db/user-db';
 import assert from 'assert';
 import d from 'debug';
 
 const debug = d('plant:test.cloudant');
 
 describe('/db/cloudant/', function() {
-  this.timeout(5000);
+  this.timeout(10000);
+
+  before((done) => {
+    createDesigns(done);
+  });
 
   var userId;
 
