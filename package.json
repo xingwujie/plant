@@ -37,7 +37,7 @@
     "react": "^0.14.0",
     "react-bootstrap": "^0.28.0",
     "react-dom": "^0.14.0",
-    "react-router": "^1.0.0-rc4",
+    "react-router": "1.0.0",
     "request": "^2.60.0",
     "serve-favicon": "^2.3.0",
     "uuid": "^2.0.1",
@@ -77,8 +77,7 @@
     "start": "TARGET=dev webpack-dev-server --devtool eval-source --progress --colors --hot --inline --history-api-fallback",
     "prepublish": "npm run build",
     "lint": "eslint -c .eslintrc --ext .js --ext .jsx .",
-    "dependency-update": "node_modules/.bin/npm-update-outdated",
-    "linkdeps": "npm link ../react-log-lifecycle; npm link react-log-lifecycle"
+    "dependency-update": "node_modules/.bin/npm-update-outdated"
   },
   "pre-commit": {
     "silent": false,
