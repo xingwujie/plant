@@ -49,3 +49,15 @@
   align-items: center;
   justify-content: center;
 }
+
+.title-input-combo {
+  padding: 10px 20px 10px 20px;
+}
+
+.title-input-combo > label {
+  font-size: large;
+}
+
+.title-input-combo > input {
+  font-size: large;
+}

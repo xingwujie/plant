@@ -66,10 +66,10 @@ export default AuthRequired(class AddPlant extends React.Component {
 
     return (
       <Base>
-        <h2>Add Plant</h2>
+        <h2 style={{textAlign: 'center'}}>Add Plant</h2>
           <form className='editor'>
 
-            <div className='form-group'>
+            <div className='form-group title-input-combo col-xs-12 col-sm-6'>
               <label>Title:</label>
               <input autoFocus className='form-control'
                 type='text' value={title}
@@ -77,7 +77,7 @@ export default AuthRequired(class AddPlant extends React.Component {
                 onChange={this.handleChange.bind(this, 'title')} />
             </div>
 
-            <div className='form-group'>
+            <div className='form-group title-input-combo col-xs-12 col-sm-6'>
               <label>Cultivar:</label>
               <input className='form-control'
                 type='text' value={cultivar}
@@ -85,7 +85,7 @@ export default AuthRequired(class AddPlant extends React.Component {
                 onChange={this.handleChange.bind(this, 'cultivar')} />
             </div>
 
-            <div className='form-group'>
+            <div className='form-group title-input-combo'>
               <label>Description:</label>
               <textarea className='form-control'
                 rows='2' value={description}
@@ -93,7 +93,7 @@ export default AuthRequired(class AddPlant extends React.Component {
                 onChange={this.handleChange.bind(this, 'description')} />
             </div>
 
-            <div className='form-group'>
+            <div className='form-group title-input-combo col-xs-12 col-sm-4'>
               <label>Purchase Date:</label>
               <input className='form-control'
                 type='text' value={purchasedDate}
@@ -101,7 +101,7 @@ export default AuthRequired(class AddPlant extends React.Component {
                 onChange={this.handleChange.bind(this, 'purchasedDate')} />
             </div>
 
-            <div className='form-group'>
+            <div className='form-group title-input-combo col-xs-12 col-sm-4'>
               <label>Planted Date:</label>
               <input className='form-control'
                 type='text' value={plantedDate}
@@ -109,7 +109,7 @@ export default AuthRequired(class AddPlant extends React.Component {
                 onChange={this.handleChange.bind(this, 'plantedDate')} />
             </div>
 
-            <div className='form-group'>
+            <div className='form-group title-input-combo col-xs-12 col-sm-4'>
               <label>Price:</label>
               <input className='form-control'
                 type='text' value={price}
@@ -117,7 +117,9 @@ export default AuthRequired(class AddPlant extends React.Component {
                 onChange={this.handleChange.bind(this, 'price')} />
             </div>
 
-            <button type='button' onClick={this.save.bind(this)}>Save</button>
+            <div style={{textAlign: 'center'}}>
+              <button style={{fontSize: 'xx-large'}} className='btn btn-primary' type='button' onClick={this.save.bind(this)}>Save</button>
+            </div>
 
           </form>
       </Base>
