@@ -59,18 +59,20 @@ export default class Plant extends React.Component {
     plants = plants || [];
     const style = {
       display: 'flex',
-      flexDirection: 'row'
+      flexDirection: 'row',
     };
 
     console.log('Plants.render() this.state:', this.state);
 
     return (
       <Base>
-        <h2>{user.name}</h2>
+        <h2 style={{textAlign: 'center'}}>{user.name} Plant List</h2>
         <div style={style}>
           {this.renderPlants(plants)}
           {plants.length === 0 &&
-            <Link to='/add-plant'>Add your first plant</Link>
+            <div className='addFirstClassBtn'>
+              <Link className='btn btn-primary' to='/add-plant'>Add your first plant</Link>
+            </div>
           }
         </div>
       </Base>

@@ -48,7 +48,7 @@ export default class Home extends React.Component {
 
   anonHome() {
     return (<div id='hero'>
-      <div className='home-header'>Fruit Trees and Plants</div>
+      <div className='home-header'>Trees and Plants</div>
       <div className='home-subheader'>Increase your success through tracking</div>
       <div className='home-subheader'>
         <div>Login to get started</div>
@@ -61,7 +61,7 @@ export default class Home extends React.Component {
 
   firstPlant() {
     return (<div id='hero'>
-      <div className='home-header'>Read to add your first Plant or Tree?</div>
+      <div className='home-header'>Ready to add your first Plant or Tree?</div>
       <div className='home-subheader'>
         <a href='/add-plant'>
           Add My First Plant or Tree
