@@ -33,7 +33,12 @@
   
 }
 
-.home-plant {
+.plant-list {
+  display: 'flex';
+  flexDirection: 'row';
+};
+
+.plant-item {
   width: 100px;
   height: 100px;
   background-color: darkgrey;
@@ -41,6 +46,11 @@
   color: white;
   font-size: xx-large;
   text-align: center;
+}
+
+.plant-item img {
+  max-width: 100px;
+  max-height: 100px;
 }
 
 .home-content {

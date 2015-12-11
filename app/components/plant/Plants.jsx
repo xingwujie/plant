@@ -2,14 +2,14 @@ import _ from 'lodash';
 import {Link} from 'react-router';
 import Base from '../Base';
 import LoginStore from '../../stores/LoginStore';
-// import LogLifecycle from 'react-log-lifecycle';
+import LogLifecycle from 'react-log-lifecycle';
 import PlantActions from '../../actions/PlantActions';
 import PlantItem from './PlantItem';
 import PlantStore from '../../stores/PlantStore';
 import React from 'react';
 
-export default class Plant extends React.Component {
-// export default class Plant extends LogLifecycle {
+// export default class Plant extends React.Component {
+export default class Plant extends LogLifecycle {
 
   constructor() {
     super();
@@ -40,10 +40,13 @@ export default class Plant extends React.Component {
       return null;
     }
 
+    // TODO: Temporary plant image to remove
+    const tempImg = 'http://www.maerskline.com/~/media/maersk-line/Countries/int/Images/Customer%20Cases/fruit_2_u_case.jpg';
+
     return plants.map((plant) => {
       return (<PlantItem
-        name={plant.name}
-        imageUrl={plant.imageUrl}
+        name={plant.title}
+        imageUrl={plant.imageUrl || tempImg}
         id={plant.id}
         />);
     });
@@ -57,17 +60,13 @@ export default class Plant extends React.Component {
 
     user = user || {};
     plants = plants || [];
-    const style = {
-      display: 'flex',
-      flexDirection: 'row',
-    };
 
     console.log('Plants.render() this.state:', this.state);
 
     return (
       <Base>
         <h2 style={{textAlign: 'center'}}>{user.name} Plant List</h2>
-        <div style={style}>
+        <div className='plant-list'>
           {this.renderPlants(plants)}
           {plants.length === 0 &&
             <div className='addFirstClassBtn'>

@@ -10,11 +10,7 @@ class PlantStore {
 
     this.bindListeners({
       create: PlantActions.CREATE,
-      createSuccess: PlantActions.CREATE_SUCCESS,
-      createError: PlantActions.CREATE_ERROR,
       load: PlantActions.LOAD,
-      loadSuccess: PlantActions.LOAD_SUCCESS,
-      loadError: PlantActions.LOAD_ERROR,
       addNote: PlantActions.ADD_NOTE
     });
 
@@ -26,35 +22,23 @@ class PlantStore {
   }
 
   create(plant) {
-    this.plants.push[plant];
+    this.plants.push[plant.plant];
   }
 
-  createSuccess(plant) {
-    this.plants.push[plant];
-  }
-
-  createError(plant) {
-    this.plants.push[plant];
-  }
-
-  load() {
-    this.loading = true;
-  }
-
-  loadSuccess(payload) {
-    this.loading = false;
-    this.error = null;
-    this.plants = payload.plants.reduce(function(acc, plant) {
-      var clientId = _.uniqueId();
-      acc[clientId] = {id: clientId, plant: plant, status: 'OK'};
-      return acc;
-    }, {});
-  }
-
-  loadError(error) {
-    this.loading = false;
-    this.error = error;
-    this.plants = [];
+  load(result) {
+    if(result.error) {
+      this.loading = false;
+      this.error = result.error;
+      this.plants = [];
+    } else {
+      if(result.payload) {
+        this.loading = false;
+        this.error = null;
+        this.plants = result.payload;
+      } else {
+        this.loading = true;
+      }
+    }
   }
 
   addNote(note) {
