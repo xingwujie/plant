@@ -4,7 +4,7 @@
   "description": "Plant Tracker",
   "main": "index.js",
   "engines": {
-    "node": "5.1.1"
+    "node": "^5.1.1"
   },
   "dependencies": {
     "alt": "^0.18.1",
@@ -30,8 +30,8 @@
     "method-override": "^2.3.5",
     "moment": "^2.10.6",
     "morgan": "^1.6.1",
+    "node-version-checker": "^1.0.6",
     "nodemon": "^1.8.1",
-    "nodeversioncheck": "^1.0.0",
     "passport": "^0.3.0",
     "passport-facebook": "^2.0.0",
     "react": "^0.14.0",
