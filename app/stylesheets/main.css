@@ -1,10 +1,10 @@
 #hero {
-  background:linear-gradient(rgba(0, 0, 0, 0.9),rgba(0, 0, 0, 0.8)),url('/img/apple-tree.jpg');
   background-repeat: no-repeat;
-  width: 100%;
-  height: 100vh;
   background-size: cover;
+  background:linear-gradient(rgba(0, 0, 0, 0.9),rgba(0, 0, 0, 0.8)),url('/img/apple-tree.jpg');
+  height: 100vh;
   margin-top: -20px;
+  width: 100%;
   /*display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -13,13 +13,13 @@
 
 .home-header, .home-subheader {
   color: white;
-  text-align: center;
   line-height: 3em;
+  text-align: center;
 }
 
 .home-header {
-  margin-top: 50px;
   font-size: xx-large;
+  margin-top: 50px;
 }
 
 .home-subheader {
@@ -27,36 +27,60 @@
 }
 
 .home-subheader a{
-  color: white;
   /*text-transform: uppercase;*/
+  color: white;
   font-size: xx-large;
   
 }
 
 .plant-list {
-  display: 'flex';
-  flexDirection: 'row';
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
 };
 
+/* Seems redundant but won't work unless there are 2 declared */
 .plant-item {
-  width: 100px;
+}
+
+.plant-item {
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  display: table; /* Allow display: table-cell on inner anchor to allow anchor to fill area*/
   height: 100px;
-  background-color: darkgrey;
-  margin: 10px;
-  color: white;
-  font-size: xx-large;
+  margin: 15px 0px 0px 15px ;
+  width: 100px;
+}
+
+.plant-item:hover {
+  border: 2px solid lightgrey;
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);;
+}
+
+.plant-item a {
+  border-radius: 5px;
+  box-sizing: content-box;
+  display: table-cell;
+  height: 100%;
+  text-decoration: none;
+  width: 100%;
+}
+
+.plant-item a img {
+  height: auto;
+  max-width: 100px;
+  width: 100%;
+}
+
+.plant-item a div {
+  font-size: large;
   text-align: center;
 }
 
-.plant-item img {
-  max-width: 100px;
-  max-height: 100px;
-}
-
 .home-content {
+  align-items: center;
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
   justify-content: center;
 }
 

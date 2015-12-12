@@ -1,7 +1,7 @@
 import {Link} from 'react-router';
 import React from 'react';
 
-export default class Plant extends React.Component {
+export default class PlantItem extends React.Component {
 
   constructor() {
     super();
@@ -16,18 +16,16 @@ export default class Plant extends React.Component {
 
     const link = `/plant/${id}`;
 
-    const style = {
-      display: 'flex',
-      flexDirection: 'row'
-    };
-
     return (
-      <Link
-        className='plant-item'
-        to={link} style={style}>
-        <img src={imageUrl} />
-        <div>{name}</div>
-      </Link>
+      <div className='plant-item'>
+        <Link
+          to={link}>
+          {imageUrl &&
+            <img src={imageUrl} />
+          }
+          <div>{name}</div>
+        </Link>
+      </div>
     );
   }
 }

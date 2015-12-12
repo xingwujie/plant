@@ -41,13 +41,14 @@ export default class Plant extends LogLifecycle {
     }
 
     // TODO: Temporary plant image to remove
-    const tempImg = 'http://www.maerskline.com/~/media/maersk-line/Countries/int/Images/Customer%20Cases/fruit_2_u_case.jpg';
+    // const tempImg = 'http://www.maerskline.com/~/media/maersk-line/Countries/int/Images/Customer%20Cases/fruit_2_u_case.jpg';
 
     return plants.map((plant) => {
       return (<PlantItem
         name={plant.title}
-        imageUrl={plant.imageUrl || tempImg}
-        id={plant.id}
+        imageUrl={plant.imageUrl}
+        id={plant._id}
+        key={plant._id}
         />);
     });
   }
