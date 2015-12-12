@@ -1,3 +1,6 @@
+// Used to show a list of plants for a user.
+// Url: /plants/<optional-user-id>
+
 import _ from 'lodash';
 import {Link} from 'react-router';
 import Base from '../Base';

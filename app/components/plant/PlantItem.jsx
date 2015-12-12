@@ -1,3 +1,5 @@
+// Used to show each plant on a user's plant list page.
+// Url: /plants/<optional-user-id>
 import {Link} from 'react-router';
 import React from 'react';
 
@@ -14,7 +16,10 @@ export default class PlantItem extends React.Component {
       imageUrl
     } = this.props || {};
 
-    const link = `/plant/${id}`;
+    // TODO: Create a slug from the name
+    const slug = 'slug';
+
+    const link = `/plant/${slug}/${id}`;
 
     return (
       <div className='plant-item'>

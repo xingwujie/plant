@@ -1,3 +1,5 @@
+// Used to add a note to a plant
+// Url: /
 import _ from 'lodash';
 import PlantActions from '../../actions/PlantActions';
 import React from 'react';

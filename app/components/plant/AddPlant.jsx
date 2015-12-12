@@ -1,3 +1,6 @@
+// Used to add a plant to the user's collection
+// Url: /add-plant
+
 import _ from 'lodash';
 import AuthRequired from '../auth/AuthRequired';
 import Base from '../Base';
