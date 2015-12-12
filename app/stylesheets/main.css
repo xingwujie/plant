@@ -33,7 +33,7 @@
   
 }
 
-.plant-list {
+.plant-item-list {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -104,4 +104,8 @@
 
 .addFirstClassBtn > a {
   font-size: xx-large;
+}
+
+.plant {
+  margin-left: 10px;
 }

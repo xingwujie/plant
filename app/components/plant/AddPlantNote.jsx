@@ -57,8 +57,8 @@ export default class AddPlantNote extends React.Component {
     const plant = _.get(this, 'props.plant', {});
 
     return (
-      <div>
-        <h2>Add Notes</h2>
+      <div className='well'>
+        <h2>Add Note</h2>
         <div>Plant: {plant.title}</div>
         {plant.description && <div>Description: {plant.description}</div>}
           <form className='editor'>

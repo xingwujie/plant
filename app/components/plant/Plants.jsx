@@ -5,14 +5,14 @@ import _ from 'lodash';
 import {Link} from 'react-router';
 import Base from '../Base';
 import LoginStore from '../../stores/LoginStore';
-import LogLifecycle from 'react-log-lifecycle';
+// import LogLifecycle from 'react-log-lifecycle';
 import PlantActions from '../../actions/PlantActions';
 import PlantItem from './PlantItem';
 import PlantStore from '../../stores/PlantStore';
 import React from 'react';
 
 // export default class Plant extends React.Component {
-export default class Plant extends LogLifecycle {
+export default class Plants extends React.Component {
 
   constructor() {
     super();
@@ -70,7 +70,7 @@ export default class Plant extends LogLifecycle {
     return (
       <Base>
         <h2 style={{textAlign: 'center'}}>{user.name} Plant List</h2>
-        <div className='plant-list'>
+        <div className='plant-item-list'>
           {this.renderPlants(plants)}
           {plants.length === 0 &&
             <div className='addFirstClassBtn'>
