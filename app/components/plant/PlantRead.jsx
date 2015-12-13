@@ -1,27 +1,45 @@
 
-// import LogLifecycle from 'react-log-lifecycle';
+import _ from 'lodash';
 import React from 'react';
+import RemoveConfirm from '../RemoveConfirm';
 
 export default class PlantRead extends React.Component {
 
   constructor(props) {
     super(props);
-    // this.edit = this.props.edit;
-    this.delete = this.delete.bind(this);
+    this.edit = this.edit.bind(this);
+    this.checkDelete = this.checkDelete.bind(this);
+    this.confirmDelete = this.confirmDelete.bind(this);
   }
 
-  delete() {
-    // TODO: Pop up a warning and then call delete
-    console.log('delete props:', this.props);
+  edit() {
+    console.log('edit:', this.props);
+    this.props.setMode('edit');
+  }
+
+  checkDelete() {
+    console.log('checkDelete');
+    this.setState({confirmRemove: true});
+  }
+
+  confirmDelete(yes) {
+    console.log('confirmDelete:', yes);
+    if(yes) {
+      // TODO: Delete this record
+    } else {
+      this.setState({confirmRemove: false});
+    }
   }
 
   render() {
     console.log('PlantRead.render props/state:', this.props, this.state);
     let {
       isOwner,
-      plant,
-      edit
+      plant
     } = this.props || {};
+
+    const confirmRemove = _.get(this, 'state.confirmRemove');
+    console.log('PlantRead confirmRemove:', confirmRemove);
 
     return (
       <div>
@@ -36,19 +54,22 @@ export default class PlantRead extends React.Component {
                 <div className='pull-right'>
                   <div
                     className='btn btn-default btn-lg'
-                    onClick={edit}>
+                    onClick={this.edit}>
                     <span className='glyphicon glyphicon-pencil' aria-hidden='true'></span>
                     Edit
                   </div>
                   <div
                     className='btn btn-default btn-lg'
-                    onClick={this.delete}>
+                    onClick={this.checkDelete}>
                     <span className='glyphicon glyphicon-remove' aria-hidden='true'></span>
                     Delete
                   </div>
                 </div>
               }
             </h2>
+            {confirmRemove &&
+              <RemoveConfirm title={plant.title} confirmFn={this.confirmDelete} />
+            }
             {plant.description &&
               <p>{plant.description}</p>
             }

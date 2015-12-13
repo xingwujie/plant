@@ -30,7 +30,7 @@ export default class Plant extends LogLifecycle {
   constructor(props) {
     super(props, options);
     this.onChange = this.onChange.bind(this);
-    this.editPlant = this.editPlant.bind(this);
+    this.setMode = this.setMode.bind(this);
   }
 
   componentWillMount() {
@@ -59,8 +59,8 @@ export default class Plant extends LogLifecycle {
     this.setState({plant});
   }
 
-  editPlant() {
-    this.setState({mode: 'edit'});
+  setMode(mode) {
+    this.setState({mode});
   }
 
   render() {
@@ -77,13 +77,14 @@ export default class Plant extends LogLifecycle {
           <PlantRead
             plant={plant}
             isOwner={isOwner}
-            edit={this.editPlant}
+            setMode={this.setMode}
             />
         }
         {(mode === 'edit' || mode === 'create') &&
           <PlantCreateUpdate
             plant={plant}
             mode={mode}
+            setMode={this.setMode}
             />
         }
       </Base>

@@ -124,3 +124,10 @@
 .plant h2 a {
   /*vertical-align: middle;*/
 }
+
+.delete {
+  margin-right: 10px;
+}
+.delete button {
+  margin-left: 10px;
+}

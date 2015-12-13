@@ -2,6 +2,7 @@
 // Url: /add-plant/<optional-id-if-editing>
 
 import _ from 'lodash';
+import Errors from '../Errors';
 import LogLifecycle from 'react-log-lifecycle';
 import PlantActions from '../../actions/PlantActions';
 import React from 'react';
@@ -44,13 +45,10 @@ export default class PlantCreateUpdate extends LogLifecycle {
       PlantActions.create(plant, (err, savedPlant) => {
         console.log('PlantActions.create cb:', err, savedPlant);
         if(!err) {
-          let { history: historyContext } = this.props;
-          // TODO: Stick a real slug in here
-          const slug = 'slug';
-          historyContext.pushState(null, `/plant/${slug}/${savedPlant.id}`);
+          this.props.setMode('read');
         } else {
-          // TODO: Handle error with notifier
-          alert('Error: ' + err.message);
+          const errors = [err.message];
+          this.setState({errors});
         }
       });
     } else {
@@ -149,13 +147,7 @@ export default class PlantCreateUpdate extends LogLifecycle {
                 onChange={this.handleChange.bind(this, 'price')} />
             </div>
 
-            {errors && errors.length > 0 &&
-              <div>
-              errors.forEach((error) => {
-                <div>{error}</div>
-              });
-              </div>
-            }
+            <Errors errors={errors} />
 
             <div className='form-group col-xs-12' style={{textAlign: 'center'}}>
               <button style={{fontSize: 'xx-large'}} className='btn btn-primary' type='button' onClick={this.save.bind(this)}>Save</button>
