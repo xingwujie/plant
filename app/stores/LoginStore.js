@@ -42,9 +42,14 @@ class LoginStore {
   }
 
   isOwner(object) {
-    return this.state && this.state.user &&
+    const owner = this.state && this.state.user &&
       this.state.user.jwt && this.state.user._id &&
       object && object.userId === this.state.user._id;
+    if(!owner) {
+      console.log('LoginStore.isOwner object:', object);
+      console.log('LoginStore.isOwner this.state:', this.state);
+    }
+    return owner;
   }
 }
 

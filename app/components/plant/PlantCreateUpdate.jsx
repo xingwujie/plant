@@ -2,59 +2,44 @@
 // Url: /add-plant/<optional-id-if-editing>
 
 import _ from 'lodash';
-import AuthRequired from '../auth/AuthRequired';
-import Base from '../Base';
 import LogLifecycle from 'react-log-lifecycle';
 import PlantActions from '../../actions/PlantActions';
 import React from 'react';
-import PlantStore from '../../stores/PlantStore';
 
 // Optional flags:
 const options = {
   // If logType is set to keys then the props of the object being logged
   // will be written out instead of the whole object. Remove logType or
   // set it to anything except keys to have the full object logged.
-  logType: 'keys',
+  logType: 'x',
   // A list of the param "types" to be logged.
   // The example below has all the types.
   names: ['props', 'nextProps', 'nextState', 'prevProps', 'prevState']
 };
 
+const plantProps = ['title', 'botanicalName', 'commonName', 'description', 'purchasedDate', 'plantedDate', 'price'];
+
 // export default AuthRequired(class PlantCreateUpdate extends React.Component {
-export default AuthRequired(class PlantCreateUpdate extends LogLifecycle {
+export default class PlantCreateUpdate extends LogLifecycle {
 
   constructor(props) {
     super(props, options);
   }
 
   componentWillMount() {
-    console.log('componentWillMount props', this.props);
-    const plantId = this.params.id;
-    this.setState({
-      edit: !!plantId,
-      plant: {}
-    });
-    if(this.state.edit) {
-      const plant = PlantStore.getPlant(plantId);
-      if(!plant) {
-        PlantStore.listen(this.onChange);
-        PlantActions.loadOne(plantId);
-      } else {
-        this.setState({
-          plant: plant
-        });
-      }
+    console.log('PlantCreateUpdate.componentWillMount props', this.props);
+    if(!_.isEmpty(this.props.plant)){
+      const pageTitle = this.props.mode === 'edit'
+        ? `Edit ${this.props.plant.title}`
+        : `Add New Plant`;
+      this.setState(_.assign({}, this.props.plant, {pageTitle}));
     }
-  }
-
-  componentDidMount() {
-    this.state = {};
   }
 
   save(e) {
     if(this.state.title) {
       var plant = _.pick(this.state,
-        ['title', 'botanicalName', 'commonName', 'description', 'purchasedDate', 'plantedDate', 'price']
+        plantProps
       );
       PlantActions.create(plant, (err, savedPlant) => {
         console.log('PlantActions.create cb:', err, savedPlant);
@@ -69,12 +54,7 @@ export default AuthRequired(class PlantCreateUpdate extends LogLifecycle {
         }
       });
     } else {
-      // TODO: Handle error with notifier
-      alert('Must have Title');
-      // NotifierActions.error({
-      //   title: 'Missing Title',
-      //   message: 'You must have a value for the Title at a minimum.'
-      // });
+      this.setState({errors: ['Must have Title']});
     }
     e.preventDefault();
     e.stopPropagation();
@@ -91,7 +71,7 @@ export default AuthRequired(class PlantCreateUpdate extends LogLifecycle {
   }
 
   render() {
-    console.log('AddPlat props', this.props);
+    console.log('PlantCreateUpdate.render props', this.props);
     var {
       title,
       botanicalName,
@@ -99,12 +79,14 @@ export default AuthRequired(class PlantCreateUpdate extends LogLifecycle {
       description,
       purchasedDate,
       plantedDate,
-      price
+      price,
+      errors,
+      pageTitle
     } = this.state || {};
 
     return (
-      <Base>
-        <h2 style={{textAlign: 'center'}}>Add Plant</h2>
+      <div>
+        <h2 style={{textAlign: 'center'}}>{pageTitle}</h2>
           <form className='editor'>
 
             <div className='form-group title-input-combo col-xs-12'>
@@ -167,12 +149,20 @@ export default AuthRequired(class PlantCreateUpdate extends LogLifecycle {
                 onChange={this.handleChange.bind(this, 'price')} />
             </div>
 
+            {errors && errors.length > 0 &&
+              <div>
+              errors.forEach((error) => {
+                <div>{error}</div>
+              });
+              </div>
+            }
+
             <div className='form-group col-xs-12' style={{textAlign: 'center'}}>
               <button style={{fontSize: 'xx-large'}} className='btn btn-primary' type='button' onClick={this.save.bind(this)}>Save</button>
             </div>
 
           </form>
-      </Base>
+      </div>
     );
   }
-});
+};

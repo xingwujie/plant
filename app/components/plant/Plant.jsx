@@ -4,13 +4,12 @@
 // Unless Create then Url: /plant
 
 import _ from 'lodash';
-// import {Link} from 'react-router';
-// import NoteCreateUpdate from './NoteCreateUpdate';
-import PlantRead from './PlantRead';
 import Base from '../Base';
 import LoginStore from '../../stores/LoginStore';
 import LogLifecycle from 'react-log-lifecycle';
 import PlantActions from '../../actions/PlantActions';
+import PlantCreateUpdate from './PlantCreateUpdate';
+import PlantRead from './PlantRead';
 import PlantStore from '../../stores/PlantStore';
 import React from 'react';
 
@@ -39,7 +38,7 @@ export default class Plant extends LogLifecycle {
     const plant = PlantStore.getPlant(plantId);
     this.setState({
       plantId: plantId,
-      isOwner: LoginStore.isOwner(plantId),
+      isOwner: LoginStore.isOwner(plant),
       plant: plant,
       mode: 'read'
     });
@@ -65,6 +64,7 @@ export default class Plant extends LogLifecycle {
   }
 
   render() {
+    console.log('Plant.render', this.state);
     let {
       isOwner,
       plant,
@@ -77,12 +77,13 @@ export default class Plant extends LogLifecycle {
           <PlantRead
             plant={plant}
             isOwner={isOwner}
+            edit={this.editPlant}
             />
         }
-        {mode === 'edit' &&
-          <PlantRead
+        {(mode === 'edit' || mode === 'create') &&
+          <PlantCreateUpdate
             plant={plant}
-            isOwner={isOwner}
+            mode={mode}
             />
         }
       </Base>
