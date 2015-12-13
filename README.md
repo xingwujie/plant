@@ -5,3 +5,4 @@ in your yard.
 
 * [Project Objectives](OBJECTIVES.md)
 * [Developer Setup](SETUP.md)
+* [Architecture Notes](ARCHITECTURE.md)

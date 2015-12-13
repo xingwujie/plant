@@ -4,7 +4,6 @@ import 'bootstrap.css';
 import './stylesheets/main.css';
 
 import {Router, Route, IndexRoute} from 'react-router';
-import AddPlant from './components/plant/AddPlant';
 import alt from './libs/alt';
 import App from './components/App';
 import Auth from './components/Auth';
@@ -14,7 +13,7 @@ import Home from './components/Home';
 import Login from './components/auth/Login';
 import persist from './libs/persist';
 import Plant from './components/plant/Plant';
-import Plants from './components/plant/Plants';
+import Plants from './components/plants/Plants';
 import Profile from './components/Profile';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -24,12 +23,10 @@ import storage from './libs/storage';
 var routes = (
   <Route path='/' component={App}>
     <IndexRoute component={Home}/>
-    <Route path='/add-plant' component={AddPlant}/>
     <Route path='/auth/token' component={Auth}/>
     <Route path='/help' component={Help}/>
     <Route path='/login' component={Login}/>
     <Route path='/plant/:slug/:id' component={Plant}/>
-    <Route path='/edit-plant/:id' component={AddPlant}/>
     <Route path='/plants' component={Plants}/>
     <Route path='/profile' component={Profile}/>
     <Route path='*' component={Help}/>

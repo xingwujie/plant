@@ -41,7 +41,7 @@ class PlantActions {
       // Success: Function( Anything data, String textStatus, jqXHR jqXHR )
       success: (retrievedPlant) => {
         console.log(`GET /api/plant/${plantId} success:`, retrievedPlant);
-        this.dispatch({plant: retrievedPlant});
+        this.dispatch(retrievedPlant);
       },
       // Error: Function( jqXHR jqXHR, String textStatus, String errorThrown )
       error: (jqXHR, textStatus, errorThrown) => {

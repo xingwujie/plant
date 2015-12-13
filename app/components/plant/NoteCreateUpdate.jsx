@@ -4,7 +4,7 @@ import _ from 'lodash';
 import PlantActions from '../../actions/PlantActions';
 import React from 'react';
 
-export default class AddPlantNote extends React.Component {
+export default class NoteCreateUpdate extends React.Component {
 
   componentDidMount() {
     this.state = {};
