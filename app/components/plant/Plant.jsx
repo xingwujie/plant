@@ -44,8 +44,6 @@ export default class Plant extends LogLifecycle {
       mode: 'read'
     });
 
-    console.log('Plant.componentWillMount state:', this.state);
-
     if(!plant || plant.summary) {
       PlantStore.listen(this.onChange);
       PlantActions.loadOne(plantId);
@@ -58,10 +56,7 @@ export default class Plant extends LogLifecycle {
 
   onChange() {
     // We get the whole plant store. We only want one plant.
-    console.log('Plant.onChange props:', this.props);
-    console.log('Plant.onChange this.props.params.id:', this.props.params.id);
     const plant = PlantStore.getPlant(this.props.params.id);
-    console.log('Plant.onChange plant:', plant);
     this.setState({plant});
   }
 
@@ -70,7 +65,6 @@ export default class Plant extends LogLifecycle {
   }
 
   render() {
-    console.log('Plant.render props/state:', this.props, this.state);
     let {
       isOwner,
       plant,
