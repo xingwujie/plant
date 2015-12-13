@@ -29,6 +29,7 @@ var routes = (
     <Route path='/help' component={Help}/>
     <Route path='/login' component={Login}/>
     <Route path='/plant/:slug/:id' component={Plant}/>
+    <Route path='/edit-plant/:id' component={AddPlant}/>
     <Route path='/plants' component={Plants}/>
     <Route path='/profile' component={Profile}/>
     <Route path='*' component={Help}/>

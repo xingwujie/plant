@@ -33,6 +33,24 @@ class PlantActions {
     });
   }
 
+  loadOne(plantId) {
+    $.ajax({
+      type: 'GET',
+      url: `/api/plant/${plantId}`,
+      beforeSend: setJwtHeader,
+      // Success: Function( Anything data, String textStatus, jqXHR jqXHR )
+      success: (retrievedPlant) => {
+        console.log(`GET /api/plant/${plantId} success:`, retrievedPlant);
+        this.dispatch({plant: retrievedPlant});
+      },
+      // Error: Function( jqXHR jqXHR, String textStatus, String errorThrown )
+      error: (jqXHR, textStatus, errorThrown) => {
+        console.log(`GET /api/plant/${plantId} failure:`, errorThrown);
+        this.dispatch({error: errorThrown});
+      }
+    });
+  }
+
   // Get all the plants a user has created
   load(userId) {
     console.log('PlantAction.load');

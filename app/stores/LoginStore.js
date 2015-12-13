@@ -17,7 +17,8 @@ class LoginStore {
     this.exportPublicMethods({
       login: this.login,
       logout: this.logout,
-      isLoggedIn: this.isLoggedIn
+      isLoggedIn: this.isLoggedIn,
+      isOwner: this.isOwner
     });
   }
 
@@ -38,6 +39,12 @@ class LoginStore {
 
   isLoggedIn() {
     return this.state && this.state.user && this.state.user.jwt;
+  }
+
+  isOwner(object) {
+    return this.state && this.state.user &&
+      this.state.user.jwt && this.state.user._id &&
+      object && object.userId === this.state.user._id;
   }
 }
 
