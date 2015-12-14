@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import {Link} from 'react-router';
 import Base from './Base';
 import Footer from './Footer';
 import LoginStore from '../stores/LoginStore';
@@ -6,6 +7,10 @@ import PlantStore from '../stores/PlantStore';
 import React from 'react';
 
 export default class Home extends React.Component {
+  static contextTypes = {
+    history: React.PropTypes.object
+  }
+
   constructor() {
     super();
     this.state = {
@@ -16,9 +21,13 @@ export default class Home extends React.Component {
     this.onPlantChange = this.onPlantChange.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     LoginStore.listen(this.onLoginChange);
     PlantStore.listen(this.onPlantChange);
+
+    const {user} = LoginStore.getState();
+    const {plants} = PlantStore.getState();
+    this.setState({user, plants});
   }
 
   componentWillUnmount() {
@@ -35,15 +44,39 @@ export default class Home extends React.Component {
   }
 
   userPlants() {
-    // Fake a list of 10 plants
-    const plants = _.get(this, 'state.plants');
-    return plants.map((item) => {
+    if(!LoginStore.isLoggedIn()) {
+      return null;
+    }
+
+    const plants = _.get(this, 'state.plants', []);
+
+    if(!plants || plants.length === 0) {
+
       return (
-        <div key={item._id} className='home-plant'>
-          <a href={`/plant/${item.name}`}>{item.name}</a>
+        <div id='hero'>
+          <div className='home-header'>
+            {`Ready to add your first Plant or Tree?`}
+          </div>
+          <div className='home-subheader'>
+            <a href='/plant'>{`Let's Do It`}</a>
+          </div>
+        </div>
+    );
+
+    } else {
+
+      return (
+        <div id='hero'>
+          <div className='home-header'>
+            {`You have ${plants.length} plant${plants.length > 1 ? 's' : ''} in your collection. `}
+          </div>
+          <div className='home-subheader'>
+            <Link to={`/plants`}>Go to plant collection...</Link>
+          </div>
         </div>
       );
-    });
+    }
+
   }
 
   anonHome() {
@@ -59,28 +92,15 @@ export default class Home extends React.Component {
     </div>);
   }
 
-  firstPlant() {
-    return (<div id='hero'>
-      <div className='home-header'>Ready to add your first Plant or Tree?</div>
-      <div className='home-subheader'>
-        <a href='/plant'>
-          Add My First Plant or Tree
-        </a>
-        </div>
-    </div>);
-  }
-
   render() {
 
-    const displayName = _.get(this, 'state.user.name');
-    const plants = _.get(this, 'state.plants');
+    const isLoggedIn = LoginStore.isLoggedIn();
 
     return (
       <Base>
         <div className='home-content'>
-          {plants && plants.length && this.userPlants()}
-          {displayName && (!plants || !plants.length) && this.firstPlant()}
-          {!displayName && this.anonHome()}
+          {this.userPlants()}
+          {!isLoggedIn && this.anonHome()}
         </div>
         <Footer />
       </Base>
