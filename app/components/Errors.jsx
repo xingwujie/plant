@@ -14,10 +14,10 @@ export default class Errors extends React.Component {
     }
 
     return (
-      <div className='errors'>
+      <div className='errors bg-danger col-xs-12 col-sm-8 col-md-6'>
         {
-          errors.map((error) => {
-            return (<div>{error}</div>);
+          errors.map((error, index) => {
+            return (<div key={index}>{error}</div>);
           })
         }
       </div>

@@ -12,11 +12,15 @@ class PlantStore {
       create: PlantActions.CREATE,
       load: PlantActions.LOAD,
       loadOne: PlantActions.LOAD_ONE,
+      update: PlantActions.UPDATE,
+      delete: PlantActions.DELETE,
       addNote: PlantActions.ADD_NOTE
     });
 
     this.exportPublicMethods({
       create: this.create,
+      update: this.update,
+      delete: this.delete,
       addNote: this.addNote,
       load: this.load,
       getPlant: this.getPlant
@@ -25,6 +29,19 @@ class PlantStore {
 
   create(plant) {
     this.plants.push[plant.plant];
+  }
+
+  update(updatedPlant) {
+    _.remove(this.plants, (plant) => {
+      return plant._id === updatedPlant._id;
+    });
+    this.plants.push[updatedPlant];
+  }
+
+  delete(id) {
+    _.remove(this.plants, (plant) => {
+      return plant._id === id;
+    });
   }
 
   // Accessor - use this.state.plants to reference plants

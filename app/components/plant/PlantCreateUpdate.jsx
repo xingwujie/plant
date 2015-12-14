@@ -1,5 +1,6 @@
 // Used to add/edit a plant to/in the user's collection
-// Url: /add-plant/<optional-id-if-editing>
+// Url Create: /plant
+// Url Update: /plant/<slug>/<plant-id>
 
 import _ from 'lodash';
 import Errors from '../Errors';
@@ -18,13 +19,16 @@ const options = {
   names: ['props', 'nextProps', 'nextState', 'prevProps', 'prevState']
 };
 
-const plantProps = ['title', 'botanicalName', 'commonName', 'description', 'purchasedDate', 'plantedDate', 'price'];
+const plantProps = ['title', 'botanicalName', 'commonName', 'description',
+  'purchasedDate', 'plantedDate', 'price'];
 
 // export default AuthRequired(class PlantCreateUpdate extends React.Component {
 export default class PlantCreateUpdate extends LogLifecycle {
 
   constructor(props) {
     super(props, options);
+    this.save = this.save.bind(this);
+    this.cancel = this.cancel.bind(this);
   }
 
   componentWillMount() {
@@ -34,6 +38,18 @@ export default class PlantCreateUpdate extends LogLifecycle {
         ? `Edit ${this.props.plant.title}`
         : `Add New Plant`;
       this.setState(_.assign({}, this.props.plant, {pageTitle}));
+    } else {
+      this.setState({});
+    }
+  }
+
+  cancel() {
+    if(this.props.mode === 'edit') {
+      console.log('PlantCreateUpdate.cancel edit');
+      this.props.setMode('read');
+    } else {
+      console.log('PlantCreateUpdate.cancel create');
+      // TODO: Transition to /plants
     }
   }
 
@@ -147,10 +163,13 @@ export default class PlantCreateUpdate extends LogLifecycle {
                 onChange={this.handleChange.bind(this, 'price')} />
             </div>
 
-            <Errors errors={errors} />
+            <div className='center-div'>
+              <Errors errors={errors} />
 
-            <div className='form-group col-xs-12' style={{textAlign: 'center'}}>
-              <button style={{fontSize: 'xx-large'}} className='btn btn-primary' type='button' onClick={this.save.bind(this)}>Save</button>
+              <div className='form-group col-xs-12 btn-group' style={{textAlign: 'center'}}>
+                <button className='btn btn-success btn-lg' type='button' onClick={this.save.bind(this)}>Save</button>
+                <button className='btn btn-info btn-lg' type='button' onClick={this.cancel.bind(this)}>Cancel</button>
+              </div>
             </div>
 
           </form>

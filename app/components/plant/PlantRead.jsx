@@ -19,15 +19,15 @@ export default class PlantRead extends React.Component {
 
   checkDelete() {
     console.log('checkDelete');
-    this.setState({confirmRemove: true});
+    this.setState({showDeleteConfirmation: true});
   }
 
   confirmDelete(yes) {
     console.log('confirmDelete:', yes);
     if(yes) {
-      // TODO: Delete this record
+      this.props.delete();
     } else {
-      this.setState({confirmRemove: false});
+      this.setState({showDeleteConfirmation: false});
     }
   }
 
@@ -38,8 +38,8 @@ export default class PlantRead extends React.Component {
       plant
     } = this.props || {};
 
-    const confirmRemove = _.get(this, 'state.confirmRemove');
-    console.log('PlantRead confirmRemove:', confirmRemove);
+    const showDeleteConfirmation = _.get(this, 'state.showDeleteConfirmation');
+    console.log('PlantRead showDeleteConfirmation:', showDeleteConfirmation);
 
     return (
       <div>
@@ -67,7 +67,7 @@ export default class PlantRead extends React.Component {
                 </div>
               }
             </h2>
-            {confirmRemove &&
+            {showDeleteConfirmation &&
               <RemoveConfirm title={plant.title} confirmFn={this.confirmDelete} />
             }
             {plant.description &&

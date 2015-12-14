@@ -31,16 +31,21 @@ export default class Plant extends LogLifecycle {
     super(props, options);
     this.onChange = this.onChange.bind(this);
     this.setMode = this.setMode.bind(this);
+    this.delete = this.delete.bind(this);
   }
 
   componentWillMount() {
     const plantId = _.get(this, 'props.params.id');
-    const plant = PlantStore.getPlant(plantId);
+    const plant = PlantStore.getPlant(plantId) || {};
+    // isOwner is true if no plantId (creating) and user is logging in
+    const isOwner = plantId
+      ? LoginStore.isOwner(plant)
+      : LoginStore.isLoggedIn;
     this.setState({
       plantId: plantId,
-      isOwner: LoginStore.isOwner(plant),
+      isOwner: isOwner,
       plant: plant,
-      mode: 'read'
+      mode: plantId ? 'read' : 'create'
     });
 
     if(!plant || plant.summary) {
@@ -63,6 +68,11 @@ export default class Plant extends LogLifecycle {
     this.setState({mode});
   }
 
+  delete() {
+    PlantActions.delete(this.state.plantId);
+    // TODO: Transfer to /plants
+  }
+
   render() {
     console.log('Plant.render', this.state);
     let {
@@ -78,6 +88,7 @@ export default class Plant extends LogLifecycle {
             plant={plant}
             isOwner={isOwner}
             setMode={this.setMode}
+            delete={this.delete}
             />
         }
         {(mode === 'edit' || mode === 'create') &&

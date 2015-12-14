@@ -26,6 +26,7 @@ var routes = (
     <Route path='/auth/token' component={Auth}/>
     <Route path='/help' component={Help}/>
     <Route path='/login' component={Login}/>
+    <Route path='/plant' component={Plant}/>
     <Route path='/plant/:slug/:id' component={Plant}/>
     <Route path='/plants' component={Plants}/>
     <Route path='/profile' component={Profile}/>

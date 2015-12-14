@@ -63,7 +63,7 @@ export default class Home extends React.Component {
     return (<div id='hero'>
       <div className='home-header'>Ready to add your first Plant or Tree?</div>
       <div className='home-subheader'>
-        <a href='/add-plant'>
+        <a href='/plant'>
           Add My First Plant or Tree
         </a>
         </div>

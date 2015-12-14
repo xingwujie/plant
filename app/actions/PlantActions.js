@@ -33,6 +33,43 @@ class PlantActions {
     });
   }
 
+  update(plant) {
+    $.ajax({
+      type: 'PUT',
+      url: '/api/plant',
+      data: plant,
+      beforeSend: setJwtHeader,
+      // Success: Function( Anything data, String textStatus, jqXHR jqXHR )
+      success: (updatedPlant) => {
+        console.log('PUT /api/plant success:', updatedPlant);
+        this.dispatch({plant: updatedPlant});
+      },
+      // Error: Function( jqXHR jqXHR, String textStatus, String errorThrown )
+      error: (jqXHR, textStatus, errorThrown) => {
+        console.log('PUT /api/plant failure:', errorThrown);
+        this.dispatch({error: errorThrown});
+      }
+    });
+  }
+
+  delete(id) {
+    $.ajax({
+      type: 'DELETE',
+      url: `/api/plant/${id}`,
+      beforeSend: setJwtHeader,
+      // Success: Function( Anything data, String textStatus, jqXHR jqXHR )
+      success: (deletedPlant) => {
+        console.log('DELETE /api/plant success:', deletedPlant);
+        this.dispatch(id);
+      },
+      // Error: Function( jqXHR jqXHR, String textStatus, String errorThrown )
+      error: (jqXHR, textStatus, errorThrown) => {
+        console.log('DELETE /api/plant failure:', errorThrown);
+        this.dispatch({error: errorThrown});
+      }
+    });
+  }
+
   loadOne(plantId) {
     $.ajax({
       type: 'GET',
