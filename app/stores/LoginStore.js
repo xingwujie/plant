@@ -23,7 +23,6 @@ class LoginStore {
   }
 
   login(user) {
-    console.log('login():', user);
     if(user.jwt) {
       // this.user = user;
       this.setState({user});
@@ -46,8 +45,8 @@ class LoginStore {
       this.state.user.jwt && this.state.user._id &&
       object && object.userId === this.state.user._id;
     if(!owner) {
-      console.log('LoginStore.isOwner object:', object);
-      console.log('LoginStore.isOwner this.state:', this.state);
+      // console.log('LoginStore.isOwner object:', object);
+      // console.log('LoginStore.isOwner this.state:', this.state);
     }
     return owner;
   }

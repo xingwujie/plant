@@ -5,13 +5,11 @@ import _ from 'lodash';
 import {Link} from 'react-router';
 import Base from '../Base';
 import LoginStore from '../../stores/LoginStore';
-// import LogLifecycle from 'react-log-lifecycle';
 import PlantActions from '../../actions/PlantActions';
 import PlantItem from './PlantItem';
 import PlantStore from '../../stores/PlantStore';
 import React from 'react';
 
-// export default class Plant extends React.Component {
 export default class Plants extends React.Component {
 
   constructor() {
@@ -65,11 +63,9 @@ export default class Plants extends React.Component {
     user = user || {};
     plants = plants || [];
 
-    console.log('Plants.render() this.state:', this.state);
-
     return (
       <Base>
-        <h2 style={{textAlign: 'center'}}>{user.name} Plant List</h2>
+        <h2 style={{textAlign: 'center'}}>{user.name} Plant List ({plants.length})</h2>
         <div className='plant-item-list'>
           {this.renderPlants(plants)}
           {plants.length === 0 &&

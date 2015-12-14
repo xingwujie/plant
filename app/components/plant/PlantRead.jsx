@@ -13,17 +13,14 @@ export default class PlantRead extends React.Component {
   }
 
   edit() {
-    console.log('edit:', this.props);
     this.props.setMode('edit');
   }
 
   checkDelete() {
-    console.log('checkDelete');
     this.setState({showDeleteConfirmation: true});
   }
 
   confirmDelete(yes) {
-    console.log('confirmDelete:', yes);
     if(yes) {
       this.props.delete();
     } else {
@@ -32,14 +29,12 @@ export default class PlantRead extends React.Component {
   }
 
   render() {
-    console.log('PlantRead.render props/state:', this.props, this.state);
     let {
       isOwner,
       plant
     } = this.props || {};
 
     const showDeleteConfirmation = _.get(this, 'state.showDeleteConfirmation');
-    console.log('PlantRead showDeleteConfirmation:', showDeleteConfirmation);
 
     return (
       <div>

@@ -11,17 +11,14 @@ export default class RemoveConfirm extends React.Component {
   }
 
   reallyDelete() {
-    console.log('reallyDelete props:', this.props);
     this.props.confirmFn(true);
   }
 
   cancelDelete() {
-    console.log('confirmDelete props:', this.props);
     this.props.confirmFn(false);
   }
 
   render() {
-    console.log('RemoveConfirm.render');
     const title = _.get(this.props, 'title', '');
 
     return (

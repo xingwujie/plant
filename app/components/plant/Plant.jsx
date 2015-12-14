@@ -6,29 +6,19 @@
 import _ from 'lodash';
 import Base from '../Base';
 import LoginStore from '../../stores/LoginStore';
-import LogLifecycle from 'react-log-lifecycle';
 import PlantActions from '../../actions/PlantActions';
 import PlantCreateUpdate from './PlantCreateUpdate';
 import PlantRead from './PlantRead';
 import PlantStore from '../../stores/PlantStore';
 import React from 'react';
 
-// Optional flags:
-const options = {
-  // If logType is set to keys then the props of the object being logged
-  // will be written out instead of the whole object. Remove logType or
-  // set it to anything except keys to have the full object logged.
-  logType: 'keys',
-  // A list of the param "types" to be logged.
-  // The example below has all the types.
-  names: ['props', 'nextProps', 'nextState', 'prevProps', 'prevState']
-};
-
-// export default AuthFeatures(class Plant extends React.Component {
-export default class Plant extends LogLifecycle {
+export default class Plant extends React.Component {
+  static contextTypes = {
+    history: React.PropTypes.object
+  }
 
   constructor(props) {
-    super(props, options);
+    super(props);
     this.onChange = this.onChange.bind(this);
     this.setMode = this.setMode.bind(this);
     this.delete = this.delete.bind(this);
@@ -70,11 +60,11 @@ export default class Plant extends LogLifecycle {
 
   delete() {
     PlantActions.delete(this.state.plantId);
-    // TODO: Transfer to /plants
+    // Transition to /plants
+    this.context.history.pushState(null, '/plants');
   }
 
   render() {
-    console.log('Plant.render', this.state);
     let {
       isOwner,
       plant,

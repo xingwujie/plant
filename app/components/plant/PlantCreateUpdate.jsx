@@ -4,35 +4,24 @@
 
 import _ from 'lodash';
 import Errors from '../Errors';
-import LogLifecycle from 'react-log-lifecycle';
 import PlantActions from '../../actions/PlantActions';
 import React from 'react';
-
-// Optional flags:
-const options = {
-  // If logType is set to keys then the props of the object being logged
-  // will be written out instead of the whole object. Remove logType or
-  // set it to anything except keys to have the full object logged.
-  logType: 'x',
-  // A list of the param "types" to be logged.
-  // The example below has all the types.
-  names: ['props', 'nextProps', 'nextState', 'prevProps', 'prevState']
-};
 
 const plantProps = ['title', 'botanicalName', 'commonName', 'description',
   'purchasedDate', 'plantedDate', 'price'];
 
-// export default AuthRequired(class PlantCreateUpdate extends React.Component {
-export default class PlantCreateUpdate extends LogLifecycle {
+export default class PlantCreateUpdate extends React.Component {
+  static contextTypes = {
+    history: React.PropTypes.object
+  }
 
   constructor(props) {
-    super(props, options);
+    super(props);
     this.save = this.save.bind(this);
     this.cancel = this.cancel.bind(this);
   }
 
   componentWillMount() {
-    console.log('PlantCreateUpdate.componentWillMount props', this.props);
     if(!_.isEmpty(this.props.plant)){
       const pageTitle = this.props.mode === 'edit'
         ? `Edit ${this.props.plant.title}`
@@ -45,11 +34,10 @@ export default class PlantCreateUpdate extends LogLifecycle {
 
   cancel() {
     if(this.props.mode === 'edit') {
-      console.log('PlantCreateUpdate.cancel edit');
       this.props.setMode('read');
     } else {
-      console.log('PlantCreateUpdate.cancel create');
-      // TODO: Transition to /plants
+      // Transition to /plants
+      this.context.history.pushState(null, '/plants');
     }
   }
 
@@ -58,15 +46,15 @@ export default class PlantCreateUpdate extends LogLifecycle {
       var plant = _.pick(this.state,
         plantProps
       );
-      PlantActions.create(plant, (err, savedPlant) => {
-        console.log('PlantActions.create cb:', err, savedPlant);
-        if(!err) {
-          this.props.setMode('read');
-        } else {
-          const errors = [err.message];
-          this.setState({errors});
-        }
-      });
+      PlantActions.create(plant);
+      // , (err, savedPlant) => {
+      //   if(!err) {
+      //     this.props.setMode('read');
+      //   } else {
+      //     const errors = [err.message];
+      //     this.setState({errors});
+      //   }
+      // });
     } else {
       this.setState({errors: ['Must have Title']});
     }
@@ -85,7 +73,6 @@ export default class PlantCreateUpdate extends LogLifecycle {
   }
 
   render() {
-    console.log('PlantCreateUpdate.render props', this.props);
     var {
       title,
       botanicalName,

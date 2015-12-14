@@ -13,7 +13,6 @@ export default class Auth extends React.Component {
 
   componentDidMount() {
     LoginStore.listen(this.onChange);
-    console.log('this.props:', this.props);
 
     let { query } = this.props.location;
     var code = query && query.jwt;
