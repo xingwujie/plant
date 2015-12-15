@@ -69,8 +69,6 @@ describe('/app/models/plant', function() {
     };
 
     plantValidator.validate(plant, (err /*, transformed*/) => {
-      // debug('err:', err);
-      // debug('transformed:', transformed);
       assert(err);
 
       const plantKeys = Object.keys(plant);
@@ -107,5 +105,28 @@ describe('/app/models/plant', function() {
       done();
     });
   });
+
+  it('should strip out props not in the schema', (done) => {
+    const plant = {
+      _id: '0e55d91cb33d420024432d67a3c7fb36',
+      title: 'Title is required',
+      fakeName1: 'Common Name',
+      fakeName2: 'Description',
+    };
+
+    plantValidator.validate(plant, (err, transformed) => {
+      // debug('err:', err);
+      // debug('transformed:', transformed);
+
+      assert(!err);
+      assert.equal(Object.keys(transformed).length, 2);
+      assert(transformed._id);
+      assert(transformed.title);
+      assert(!transformed.fakeName1);
+      assert(!transformed.fakeName2);
+      done();
+    });
+  });
+
 
 });
