@@ -46,15 +46,11 @@ export default class PlantCreateUpdate extends React.Component {
       var plant = _.pick(this.state,
         plantProps
       );
-      PlantActions.create(plant);
-      // , (err, savedPlant) => {
-      //   if(!err) {
-      //     this.props.setMode('read');
-      //   } else {
-      //     const errors = [err.message];
-      //     this.setState({errors});
-      //   }
-      // });
+      if(this.props.mode === 'edit') {
+        PlantActions.update(plant);
+      } else {
+        PlantActions.create(plant);
+      }
     } else {
       this.setState({errors: ['Must have Title']});
     }

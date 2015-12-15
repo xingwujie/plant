@@ -45,8 +45,8 @@ class LoginStore {
       this.state.user.jwt && this.state.user._id &&
       object && object.userId === this.state.user._id;
     if(!owner) {
-      // console.log('LoginStore.isOwner object:', object);
-      // console.log('LoginStore.isOwner this.state:', this.state);
+      console.log('!owner LoginStore.isOwner object:', object);
+      console.log('!owner LoginStore.isOwner this.state:', this.state);
     }
     return owner;
   }
