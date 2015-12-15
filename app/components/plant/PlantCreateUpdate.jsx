@@ -7,8 +7,8 @@ import Errors from '../Errors';
 import PlantActions from '../../actions/PlantActions';
 import React from 'react';
 
-const plantProps = ['title', 'botanicalName', 'commonName', 'description',
-  'purchasedDate', 'plantedDate', 'price'];
+const plantProps = ['_id', 'type', 'userId', 'title', 'botanicalName',
+  'commonName', 'description', 'purchasedDate', 'plantedDate', 'price'];
 
 export default class PlantCreateUpdate extends React.Component {
   static contextTypes = {

@@ -1,6 +1,6 @@
 // Responsible for showing a single Plant for CRUD operations (this.mode)
 // i.e. Create (C), Read (R), Update (U), or Delete (D)
-// Url: /plant/slug/<plantId>
+// Url: /plant/slug/<plant-id>
 // Unless Create then Url: /plant
 
 import _ from 'lodash';
@@ -25,22 +25,22 @@ export default class Plant extends React.Component {
   }
 
   componentWillMount() {
-    const plantId = _.get(this, 'props.params.id');
-    const plant = PlantStore.getPlant(plantId) || {};
-    // isOwner is true if no plantId (creating) and user is logging in
-    const isOwner = plantId
+    const _id = _.get(this, 'props.params.id');
+    const plant = PlantStore.getPlant(_id) || {};
+    // isOwner is true if no _id (creating) and user is logging in
+    const isOwner = _id
       ? LoginStore.isOwner(plant)
       : LoginStore.isLoggedIn;
     this.setState({
-      plantId: plantId,
+      _id: _id,
       isOwner: isOwner,
       plant: plant,
-      mode: plantId ? 'read' : 'create'
+      mode: _id ? 'read' : 'create'
     });
 
     if(!plant || plant.summary) {
       PlantStore.listen(this.onChange);
-      PlantActions.loadOne(plantId);
+      PlantActions.loadOne(_id);
     }
   }
 
@@ -59,7 +59,7 @@ export default class Plant extends React.Component {
   }
 
   delete() {
-    PlantActions.delete(this.state.plantId);
+    PlantActions.delete(this.state._id);
     // Transition to /plants
     this.context.history.pushState(null, '/plants');
   }

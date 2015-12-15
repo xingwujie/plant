@@ -14,10 +14,6 @@ export const schema = {
   tags: Joi.array.items(Joi.string().lowercase()).max(5).unique()
 };
 
-export function validate(obj, cb) {
-  Joi.validate(obj, schema, cb);
-};
-
 export const options = {
   // when true, stops validation on the first error, otherwise returns all the errors found. Defaults to true.
   abortEarly: false,
@@ -32,7 +28,7 @@ export const options = {
   // skipFunctions: false,
 
   // when true, unknown keys are deleted (only when value is an object or an array). Defaults to false.
-  // stripUnknown: false,
+  stripUnknown: true,
 
   // overrides individual error messages, when 'label' is set, it overrides the key name in the error message. Defaults to no override ({}).
   // language:
@@ -45,4 +41,8 @@ export const options = {
 
   // when true, do not apply default values. Defaults to false.
   // noDefaults: false
+};
+
+export function validate(obj, cb) {
+  Joi.validate(obj, schema, options, cb);
 };
