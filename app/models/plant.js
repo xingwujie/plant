@@ -10,7 +10,7 @@ export const schema = {
   purchasedDate: Joi.date(),
   tags: Joi.array().items(Joi.string().lowercase()).max(5).unique(),
   title: Joi.string().min(1).max(100).required(),
-  type: Joi.string().regex(/plant/),
+  type: Joi.string().regex(/^plant$/),
   userId: Joi.string().guid(),
 };
 
