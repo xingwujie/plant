@@ -1,20 +1,20 @@
 import Joi from 'joi';
 
-export const schema = {
+const schema = {
   _id: Joi.string().guid(),
-  type: Joi.string().regex(/plant/),
-  userId: Joi.string().guid(),
-  title: Joi.string().alphanum().min(1).max(100).required(),
-  botanicalName: Joi.string().alphanum().max(100),
-  commonName: Joi.string().alphanum().max(100),
-  description: Joi.string().alphanum().max(500),
-  purchasedDate: Joi.date(),
+  botanicalName: Joi.string().max(100),
+  commonName: Joi.string().max(100),
+  description: Joi.string().max(500),
   plantedDate: Joi.date(),
   price: Joi.number().positive().precision(2),
-  tags: Joi.array().items(Joi.string().lowercase()).max(5).unique()
+  purchasedDate: Joi.date(),
+  tags: Joi.array().items(Joi.string().lowercase()).max(5).unique(),
+  title: Joi.string().min(1).max(100).required(),
+  type: Joi.string().regex(/plant/),
+  userId: Joi.string().guid(),
 };
 
-export const options = {
+const options = {
   // when true, stops validation on the first error, otherwise returns all the errors found. Defaults to true.
   abortEarly: false,
 
