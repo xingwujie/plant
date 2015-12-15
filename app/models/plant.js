@@ -2,7 +2,7 @@ import Joi from 'joi';
 
 export const schema = {
   _id: Joi.string().guid(),
-  type: Joi.string().regex('plant'),
+  type: Joi.string().regex(/plant/),
   userId: Joi.string().guid(),
   title: Joi.string().alphanum().min(1).max(100).required(),
   botanicalName: Joi.string().alphanum().max(100),
@@ -11,7 +11,7 @@ export const schema = {
   purchasedDate: Joi.date(),
   plantedDate: Joi.date(),
   price: Joi.number().positive().precision(2),
-  tags: Joi.array.items(Joi.string().lowercase()).max(5).unique()
+  tags: Joi.array().items(Joi.string().lowercase()).max(5).unique()
 };
 
 export const options = {
