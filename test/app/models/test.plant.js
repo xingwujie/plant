@@ -2,6 +2,7 @@ import _ from 'lodash';
 import * as plantValidator from '../../../app/models/plant';
 import assert from 'assert';
 import d from 'debug';
+import moment from 'moment';
 
 const debug = d('plant:test.cloudant');
 
@@ -19,7 +20,40 @@ describe('/app/models/plant', function() {
     });
   });
 
-  it.only('should pass full validation', (done) => {
+  it('should pass full validation', (done) => {
+    const plant = {
+      _id: '0e55d91cb33d420024432d67a3c7fb36',
+      botanicalName: 'Botanical Name',
+      commonName: 'Common Name',
+      description: 'Description',
+      plantedDate: '12/15/12',
+      price: 25.99,
+      purchasedDate: '12/15/12',
+      tags: ['citrus', 'north-east'],
+      title: 'Title',
+      type: 'plant',
+      userId: '9ec5c8ffcf885bf372488977ae0d6476',
+    };
+
+    plantValidator.validate(plant, (err, transformed) => {
+      assert(!err);
+      assert.deepEqual(Object.keys(transformed), Object.keys(plant));
+      _.each(plant, (value, key) => {
+        if(plantValidator.schema[key]._type === 'date') {
+          assert(moment(new Date(value)).isSame(transformed[key]));
+          // debug('transformed:', transformed[key]);
+        } else if(plantValidator.schema[key]._type === 'array') {
+          assert.deepEqual(transformed[key], value);
+        } else {
+          assert.equal(transformed[key], value);
+        }
+      });
+      done();
+    });
+  });
+
+  it.skip('should fail validation', (done) => {
+    // All items in plant should be invalid
     const plant = {
       _id: '0e55d91cb33d420024432d67a3c7fb36',
       botanicalName: 'Botanical Name',
@@ -38,12 +72,16 @@ describe('/app/models/plant', function() {
       debug('err:', err);
       debug('transformed:', transformed);
       assert(!err);
+      assert.deepEqual(Object.keys(transformed), Object.keys(plant));
       _.each(plant, (value, key) => {
-        debug(key, value, typeof value, typeof transformed[key]);
-        if(typeof transformed[key] === 'object') {
-          debug('transformed[key]:', transformed[key].toString('YYYY-MM-DD'));
+        if(plantValidator.schema[key]._type === 'date') {
+          assert(moment(new Date(value)).isSame(transformed[key]));
+          // debug('transformed:', transformed[key]);
+        } else if(plantValidator.schema[key]._type === 'array') {
+          assert.deepEqual(transformed[key], value);
+        } else {
+          assert.equal(transformed[key], value);
         }
-        // assert.equal(transformed[key], plant[key]);
       });
       done();
     });

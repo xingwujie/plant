@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-const schema = {
+export const schema = {
   _id: Joi.string().guid(),
   botanicalName: Joi.string().max(100),
   commonName: Joi.string().max(100),
