@@ -48,7 +48,7 @@
     "babel-loader": "^6.0.0",
     "babel-preset-stage-1": "^6.1.2",
     "css-loader": "0.x",
-    "eslint": "*",
+    "eslint": "1.10.3",
     "eslint-config-guyellis": "*",
     "eslint-plugin-react": "^3.5.1",
     "file-loader": "^0.8.4",
