@@ -10,13 +10,16 @@ describe('/app/models/plant', function() {
 
   it('should pass minimum validation', (done) => {
     const plant = {
+      _id: '0e55d91cb33d420024432d67a3c7fb36',
       title: 'Title',
       userId: '9ec5c8ffcf885bf372488977ae0d6476'
     };
+    const plantCopy = _.clone(plant);
 
-    plantValidator.validate(plant, (err, transformed) => {
+    plantValidator.validate(plant, false, (err, transformed) => {
       assert(!err);
       assert.equal(transformed.title, plant.title);
+      assert.deepEqual(plantCopy, plant);
       done();
     });
   });
@@ -35,13 +38,15 @@ describe('/app/models/plant', function() {
       type: 'plant',
       userId: '9ec5c8ffcf885bf372488977ae0d6476',
     };
+    const plantCopy = _.clone(plant);
 
-    plantValidator.validate(plant, (err, transformed) => {
+    plantValidator.validate(plant, false, (err, transformed) => {
       // debug(err);
       assert(!err);
       assert.deepEqual(Object.keys(transformed), Object.keys(plant));
       // debug('transformed:', transformed);
       assert.deepEqual(transformed, plant);
+      assert.deepEqual(plantCopy, plant);
       done();
     });
   });
@@ -61,8 +66,9 @@ describe('/app/models/plant', function() {
       type: 'planter', // Not 'plant'
       userId: 123, // Not a UUID
     };
+    const plantCopy = _.clone(plant);
 
-    plantValidator.validate(plant, (err /*, transformed*/) => {
+    plantValidator.validate(plant, false, (err /*, transformed*/) => {
       assert(err);
       // debug(err);
 
@@ -84,6 +90,7 @@ describe('/app/models/plant', function() {
 
       assert.equal(err.userId, 'User id is invalid');
 
+      assert.deepEqual(plantCopy, plant);
       done();
     });
   });
@@ -96,8 +103,9 @@ describe('/app/models/plant', function() {
       fakeName1: 'Common Name',
       fakeName2: 'Description',
     };
+    const plantCopy = _.clone(plant);
 
-    plantValidator.validate(plant, (err, transformed) => {
+    plantValidator.validate(plant, false, (err, transformed) => {
       // debug('err:', err);
       // debug('transformed:', transformed);
 
@@ -109,6 +117,31 @@ describe('/app/models/plant', function() {
       assert.equal(transformed.userId, plant.userId);
       assert(!transformed.fakeName1);
       assert(!transformed.fakeName2);
+      assert.deepEqual(plantCopy, plant);
+      done();
+    });
+  });
+
+  it('should remove _id if it is a new record', (done) => {
+    const plant = {
+      _id: '0e55d91cb33d420024432d67a3c7fb36',
+      userId: '9ec5c8ffcf885bf372488977ae0d6476',
+      title: 'Title is required',
+      type: 'plant'
+    };
+    const plantCopy = _.clone(plant);
+
+    plantValidator.validate(plant, true, (err, transformed) => {
+      // debug('err:', err);
+      // debug('transformed:', transformed);
+
+      assert(!err);
+      assert.equal(Object.keys(transformed).length, 3);
+      assert(!transformed._id);
+      assert.equal(transformed.title, plant.title);
+      assert.equal(transformed.type, 'plant');
+      assert.equal(transformed.userId, plant.userId);
+      assert.deepEqual(plantCopy, plant);
       done();
     });
   });

@@ -3,12 +3,10 @@
 // Url Update: /plant/<slug>/<plant-id>
 
 import _ from 'lodash';
-import Errors from '../Errors';
+import {validate} from '../../models/plant';
+// import Errors from '../Errors';
 import PlantActions from '../../actions/PlantActions';
 import React from 'react';
-
-const plantProps = ['_id', 'type', 'userId', 'title', 'botanicalName',
-  'commonName', 'description', 'purchasedDate', 'plantedDate', 'price'];
 
 export default class PlantCreateUpdate extends React.Component {
   static contextTypes = {
@@ -42,18 +40,18 @@ export default class PlantCreateUpdate extends React.Component {
   }
 
   save(e) {
-    if(this.state.title) {
-      var plant = _.pick(this.state,
-        plantProps
-      );
-      if(this.props.mode === 'edit') {
-        PlantActions.update(plant);
+    const isNew = this.props.mode === 'create';
+    validate(this.state, isNew, (err, transformed) => {
+      if(err) {
+        this.setState({errors: err});
       } else {
-        PlantActions.create(plant);
+        if(isNew) {
+          PlantActions.create(transformed);
+        } else {
+          PlantActions.update(transformed);
+        }
       }
-    } else {
-      this.setState({errors: ['Must have Title']});
-    }
+    });
     e.preventDefault();
     e.stopPropagation();
     // TODO: Open Plant page and allow for adding of a note.
@@ -80,6 +78,7 @@ export default class PlantCreateUpdate extends React.Component {
       errors,
       pageTitle
     } = this.state || {};
+    errors = errors || {};
 
     return (
       <div>
@@ -88,6 +87,7 @@ export default class PlantCreateUpdate extends React.Component {
 
             <div className='form-group title-input-combo col-xs-12'>
               <label>Title:</label>
+              {errors.title && <p className='errors bg-danger col-xs-12 col-sm-8 col-md-6'>{errors.title}</p>}
               <input autoFocus className='form-control'
                 type='text' value={title}
                 placeholder='How do you refer to this plant? (e.g. Washington Navel)'
@@ -147,7 +147,6 @@ export default class PlantCreateUpdate extends React.Component {
             </div>
 
             <div className='center-div'>
-              <Errors errors={errors} />
 
               <div className='form-group col-xs-12 btn-group' style={{textAlign: 'center'}}>
                 <button className='btn btn-success btn-lg' type='button' onClick={this.save.bind(this)}>Save</button>

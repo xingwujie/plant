@@ -52,21 +52,7 @@ validatejs.validators.tagValidate = (value, options /*, key, attributes */) => {
 
 };
 
-export const constraints = {
-  _id: {format: uuid}, // true if update
-  botanicalName: {length: {maximum: 100}},
-  commonName:  {length: {maximum: 100}},
-  description: {length: {maximum: 500}},
-  plantedDate: {datetime: true},
-  price: {numericality: true},
-  purchasedDate: {datetime: true},
-  tags: {tagValidate: {length: {maximum: 5, innermax: 20}, unique: true, format: /[a-z-]/}},
-  title: {length: {minimum: 1, maximum: 100}, presence: true},
-  type: {inclusion: ['plant'], presence: true},
-  userId: {format: uuid, presence: true},
-};
-
-export const fieldNames = Object.keys(constraints);
+// export const fieldNames = Object.keys(constraints);
 
 // Intentionally mutates object
 // Transform:
@@ -99,9 +85,27 @@ validatejs.extend(validatejs.validators.datetime, {
   }
 });
 
-export function validate(attributes, cb) {
+export function validate(attributes, isNew, cb) {
+  const constraints = {
+    _id: {format: uuid, presence: !isNew}, // true if update
+    botanicalName: {length: {maximum: 100}},
+    commonName:  {length: {maximum: 100}},
+    description: {length: {maximum: 500}},
+    plantedDate: {datetime: true},
+    price: {numericality: true},
+    purchasedDate: {datetime: true},
+    tags: {tagValidate: {length: {maximum: 5, innermax: 20}, unique: true, format: /[a-z-]/}},
+    title: {length: {minimum: 1, maximum: 100}, presence: true},
+    type: {inclusion: ['plant'], presence: true},
+    userId: {format: uuid, presence: true},
+  };
+
+  if(isNew) {
+    delete constraints._id;
+  }
+
   // debug('attributes:', attributes);
-  const cleaned = validatejs.cleanAttributes(attributes, constraints);
+  const cleaned = validatejs.cleanAttributes(_.clone(attributes), constraints);
   // debug('cleaned:', cleaned);
   const transformed = transform(cleaned);
   // debug('transformed:', transformed);
