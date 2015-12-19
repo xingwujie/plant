@@ -92,7 +92,7 @@ export default class PlantCreateUpdate extends React.Component {
               error={errors.title}
               label='Title'
               value={title}
-              placeholder='How do you refer to this plant? (e.g. Washington Navel)'
+              placeholder={`How do you refer to this plant? (e.g. Washington Navel)`}
               changeHandler={this.handleChange.bind(this, 'title')}
             />
 
@@ -100,56 +100,62 @@ export default class PlantCreateUpdate extends React.Component {
               {'The rest of the fields are optional. You can come back and add them later if you want to start adding notes or other plants now.'}
             </div>
 
-            <div className='form-group title-input-combo col-xs-12 col-sm-6'>
-              <label>Botanical Name:</label>
-              <input className='form-control'
-                type='text' value={botanicalName}
-                placeholder={'e.g. Citrus sinensis \'Washington Navel\''}
-                onChange={this.handleChange.bind(this, 'botanicalName')} />
-            </div>
+            <InputCombo
+              error={errors.botanicalName}
+              label='Botanical Name'
+              value={botanicalName}
+              extraClasses='col-sm-6'
+              placeholder={`e.g. Citrus sinensis 'Washington Navel'`}
+              changeHandler={this.handleChange.bind(this, 'botanicalName')}
+            />
 
-            <div className='form-group title-input-combo col-xs-12 col-sm-6'>
-              <label>Common Name:</label>
-              <input className='form-control'
-                type='text' value={commonName}
-                placeholder='e.g. Washington Navel Orange'
-                onChange={this.handleChange.bind(this, 'commonName')} />
-            </div>
+            <InputCombo
+              error={errors.commonName}
+              label='Common Name'
+              extraClasses='col-sm-6'
+              value={commonName}
+              placeholder={`e.g. Washington Navel Orange`}
+              changeHandler={this.handleChange.bind(this, 'commonName')}
+            />
 
-            <div className='form-group title-input-combo col-xs-12'>
-              <label>Description:</label>
-              <textarea className='form-control'
-                rows='2' value={description}
-                placeholder='Describe this plant and/or the location in your yard'
-                onChange={this.handleChange.bind(this, 'description')} />
-            </div>
+            <InputCombo
+              error={errors.description}
+              label='Description'
+              value={description}
+              placeholder={`Describe this plant and/or the location in your yard`}
+              changeHandler={this.handleChange.bind(this, 'description')}
+            />
 
-            <div className='form-group title-input-combo col-xs-12 col-sm-4'>
-              <label>Purchase Date:</label>
-              <input className='form-control'
-                type='text' value={purchasedDate}
-                placeholder='MM/DD/YYYY'
-                onChange={this.handleChange.bind(this, 'purchasedDate')} />
-            </div>
+            <InputCombo
+              error={errors.purchasedDate}
+              extraClasses='col-sm-4'
+              label='Purchase Date'
+              value={purchasedDate}
+              placeholder={`MM/DD/YYYY`}
+              changeHandler={this.handleChange.bind(this, 'purchasedDate')}
+            />
 
-            <div className='form-group title-input-combo col-xs-12 col-sm-4'>
-              <label>Planted Date:</label>
-              <input className='form-control'
-                type='text' value={plantedDate}
-                placeholder='MM/DD/YYYY'
-                onChange={this.handleChange.bind(this, 'plantedDate')} />
-            </div>
+            <InputCombo
+              error={errors.plantedDate}
+              extraClasses='col-sm-4'
+              label='Planted Date'
+              value={plantedDate}
+              placeholder={`MM/DD/YYYY`}
+              changeHandler={this.handleChange.bind(this, 'plantedDate')}
+            />
 
-            <div className='form-group title-input-combo col-xs-12 col-sm-4'>
-              <label>Price:</label>
-              <input className='form-control'
-                type='text' value={price}
-                placeholder='$XX.xx'
-                onChange={this.handleChange.bind(this, 'price')} />
-            </div>
+            <InputCombo
+              error={errors.price}
+              extraClasses='col-sm-4'
+              label='Price'
+              value={price}
+              placeholder={`$XX.xx`}
+              changeHandler={this.handleChange.bind(this, 'price')}
+            />
+
+            {!_.isEmpty(errors) && <p className='text-danger col-xs-12'>There were errors. Please check your input.</p>}
 
             <div className='center-div'>
-              {!_.isEmpty(errors) && <p className='text-danger'>There were errors. Please check your input.</p>}
               <div className='form-group col-xs-12 btn-group' style={{textAlign: 'center'}}>
                 <button className='btn btn-success btn-lg' type='button' onClick={this.save.bind(this)}>Save</button>
                 <button className='btn btn-info btn-lg' type='button' onClick={this.cancel.bind(this)}>Cancel</button>
