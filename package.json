@@ -20,7 +20,7 @@
     "eslint-config-guyellis": "0.0.4",
     "express": "^4.13.3",
     "express-session": "^1.11.3",
-    "history": "1.13.1",
+    "history": "1.17.0",
     "jquery": "^2.1.4",
     "jwt-simple": "^0.4.0",
     "lodash": "^3.10.0",
