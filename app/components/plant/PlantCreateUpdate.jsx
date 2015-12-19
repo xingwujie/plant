@@ -7,6 +7,7 @@ import {validate} from '../../models/plant';
 // import Errors from '../Errors';
 import PlantActions from '../../actions/PlantActions';
 import React from 'react';
+import InputCombo from '../InputCombo';
 
 export default class PlantCreateUpdate extends React.Component {
   static contextTypes = {
@@ -80,19 +81,20 @@ export default class PlantCreateUpdate extends React.Component {
     } = this.state || {};
     errors = errors || {};
 
+    console.log('errors:', errors);
+
     return (
       <div>
         <h2 style={{textAlign: 'center'}}>{pageTitle}</h2>
           <form className='editor'>
 
-            <div className='form-group title-input-combo col-xs-12'>
-              <label>Title:</label>
-              {errors.title && <p className='errors bg-danger col-xs-12 col-sm-8 col-md-6'>{errors.title}</p>}
-              <input autoFocus className='form-control'
-                type='text' value={title}
-                placeholder='How do you refer to this plant? (e.g. Washington Navel)'
-                onChange={this.handleChange.bind(this, 'title')} />
-            </div>
+            <InputCombo
+              error={errors.title}
+              label='Title'
+              value={title}
+              placeholder='How do you refer to this plant? (e.g. Washington Navel)'
+              changeHandler={this.handleChange.bind(this, 'title')}
+            />
 
             <div className='col-xs-12'>
               {'The rest of the fields are optional. You can come back and add them later if you want to start adding notes or other plants now.'}
@@ -147,7 +149,7 @@ export default class PlantCreateUpdate extends React.Component {
             </div>
 
             <div className='center-div'>
-
+              {!_.isEmpty(errors) && <p className='text-danger'>There were errors. Please check your input.</p>}
               <div className='form-group col-xs-12 btn-group' style={{textAlign: 'center'}}>
                 <button className='btn btn-success btn-lg' type='button' onClick={this.save.bind(this)}>Save</button>
                 <button className='btn btn-info btn-lg' type='button' onClick={this.cancel.bind(this)}>Cancel</button>
