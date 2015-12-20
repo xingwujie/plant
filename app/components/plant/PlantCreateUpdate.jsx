@@ -82,7 +82,9 @@ export default class PlantCreateUpdate extends React.Component {
     } = this.state || {};
     errors = errors || {};
 
-    console.log('errors:', errors);
+    if(!_.isEmpty(errors)) {
+      console.log('errors:', errors);
+    }
 
     return (
       <div>

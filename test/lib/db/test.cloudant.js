@@ -46,12 +46,13 @@ describe('/db/cloudant/', function() {
     const plantDB = new Plant.Plant();
     const plant = {
       name: 'Plant Name',
-      plantedOn: new Date(2015, 7, 1)
+      plantedOn: new Date(2015, 7, 1),
+      userId: userId
     };
 
     it('should create a plant', (done) => {
 
-      plantDB.create(userId, plant, (err, body) => {
+      plantDB.create(plant, (err, body) => {
 
         assert(!err);
         assert(body);
@@ -72,7 +73,7 @@ describe('/db/cloudant/', function() {
         assert.equal(result.name, plant.name);
         const plantedOn = new Date(result.plantedOn);
         assert.equal(plantedOn.getTime(), plant.plantedOn.getTime());
-
+        assert.equal(result.userid, plant.userId);
         done();
       });
     });
