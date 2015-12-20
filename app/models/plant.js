@@ -85,7 +85,11 @@ validatejs.extend(validatejs.validators.datetime, {
   }
 });
 
-export function validate(attributes, isNew, cb) {
+// Don't need an _id if we're creating a document, db will do this.
+// Don't need a userId if we're in the client, this will get added on the server
+// to prevent tampering with the logged in user.
+export function validate(attributes, {isNew, isClient}, cb) {
+
   const constraints = {
     _id: {format: uuid, presence: !isNew}, // true if update
     botanicalName: {length: {maximum: 100}},
@@ -97,11 +101,15 @@ export function validate(attributes, isNew, cb) {
     tags: {tagValidate: {length: {maximum: 5, innermax: 20}, unique: true, format: /[a-z-]/}},
     title: {length: {minimum: 1, maximum: 100}, presence: true},
     type: {inclusion: ['plant'], presence: true},
-    userId: {format: uuid, presence: true},
+    userId: {format: uuid, presence: !isClient},
   };
 
   if(isNew) {
     delete constraints._id;
+  }
+
+  if(isClient) {
+    delete constraints.userId;
   }
 
   // debug('attributes:', attributes);

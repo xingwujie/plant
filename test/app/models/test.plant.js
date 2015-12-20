@@ -1,10 +1,10 @@
 import _ from 'lodash';
 import * as plantValidator from '../../../app/models/plant';
 import assert from 'assert';
-// import d from 'debug';
 // import moment from 'moment';
 
-// const debug = d('plant:test.cloudant');
+import d from 'debug';
+const debug = d('plant:test.cloudant');
 
 describe('/app/models/plant', function() {
 
@@ -16,7 +16,9 @@ describe('/app/models/plant', function() {
     };
     const plantCopy = _.clone(plant);
 
-    plantValidator.validate(plant, false, (err, transformed) => {
+    const isNew = false;
+    const isClient = false;
+    plantValidator.validate(plant, {isNew, isClient}, (err, transformed) => {
       assert(!err);
       assert.equal(transformed.title, plant.title);
       assert.deepEqual(plantCopy, plant);
@@ -40,7 +42,9 @@ describe('/app/models/plant', function() {
     };
     const plantCopy = _.clone(plant);
 
-    plantValidator.validate(plant, false, (err, transformed) => {
+    const isNew = false;
+    const isClient = false;
+    plantValidator.validate(plant, {isNew, isClient}, (err, transformed) => {
       // debug(err);
       assert(!err);
       assert.deepEqual(Object.keys(transformed), Object.keys(plant));
@@ -68,7 +72,9 @@ describe('/app/models/plant', function() {
     };
     const plantCopy = _.clone(plant);
 
-    plantValidator.validate(plant, false, (err /*, transformed*/) => {
+    const isNew = false;
+    const isClient = false;
+    plantValidator.validate(plant, {isNew, isClient}, (err /*, transformed*/) => {
       assert(err);
       // debug(err);
 
@@ -105,7 +111,9 @@ describe('/app/models/plant', function() {
     };
     const plantCopy = _.clone(plant);
 
-    plantValidator.validate(plant, false, (err, transformed) => {
+    const isNew = false;
+    const isClient = false;
+    plantValidator.validate(plant, {isNew, isClient}, (err, transformed) => {
       // debug('err:', err);
       // debug('transformed:', transformed);
 
@@ -131,9 +139,9 @@ describe('/app/models/plant', function() {
     };
     const plantCopy = _.clone(plant);
 
-    plantValidator.validate(plant, true, (err, transformed) => {
-      // debug('err:', err);
-      // debug('transformed:', transformed);
+    const isNew = true;
+    const isClient = false;
+    plantValidator.validate(plant, {isNew, isClient}, (err, transformed) => {
 
       assert(!err);
       assert.equal(Object.keys(transformed).length, 3);
@@ -141,6 +149,58 @@ describe('/app/models/plant', function() {
       assert.equal(transformed.title, plant.title);
       assert.equal(transformed.type, 'plant');
       assert.equal(transformed.userId, plant.userId);
+      assert.deepEqual(plantCopy, plant);
+      done();
+    });
+  });
+
+  it('should not fail if isClient is true and userId is missing', (done) => {
+    const plant = {
+      _id: '0e55d91cb33d420024432d67a3c7fb36',
+      title: 'Title is required',
+      type: 'plant'
+    };
+    const plantCopy = _.clone(plant);
+
+    const isNew = false;
+    const isClient = true;
+    plantValidator.validate(plant, {isNew, isClient}, (err, transformed) => {
+      if(err) {
+        debug('err:', err);
+      }
+
+      assert(!err);
+      assert.equal(Object.keys(transformed).length, 3);
+      assert.equal(transformed._id, plant._id);
+      assert.equal(transformed.title, plant.title);
+      assert.equal(transformed.type, 'plant');
+      assert(!transformed.userId);
+      assert.deepEqual(plantCopy, plant);
+      done();
+    });
+  });
+
+  it('should fail if isClient is false and userId is missing', (done) => {
+    const plant = {
+      _id: '0e55d91cb33d420024432d67a3c7fb36',
+      title: 'Title is required',
+      type: 'plant'
+    };
+    const plantCopy = _.clone(plant);
+
+    const isNew = false;
+    const isClient = false;
+    plantValidator.validate(plant, {isNew, isClient}, (err, transformed) => {
+      // debug('err:', err);
+      // debug('transformed:', transformed);
+
+      assert(err);
+      assert.equal(err.userId, `User id can't be blank`);
+      assert.equal(Object.keys(transformed).length, 3);
+      assert.equal(transformed._id, plant._id);
+      assert.equal(transformed.title, plant.title);
+      assert.equal(transformed.type, 'plant');
+      assert(!transformed.userId);
       assert.deepEqual(plantCopy, plant);
       done();
     });
