@@ -50,7 +50,7 @@
     "css-loader": "0.x",
     "eslint": "1.10.3",
     "eslint-config-guyellis": "*",
-    "eslint-plugin-react": "^3.5.1",
+    "eslint-plugin-react": "^3.12.0",
     "file-loader": "^0.8.4",
     "html-webpack-plugin": "^1.6.0",
     "istanbul": "^1.0.0-alpha",
