@@ -35,7 +35,7 @@
     "react-bootstrap": "^0.28.0",
     "react-dom": "^0.14.0",
     "react-redux": "^4.0.4",
-    "react-router": "1.0.2",
+    "react-router": "1.0.3",
     "redux": "^3.0.5",
     "request": "^2.60.0",
     "serve-favicon": "^2.3.0",
