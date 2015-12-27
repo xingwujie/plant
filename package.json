@@ -63,7 +63,7 @@
     "react-hot-loader": "^1.2.7",
     "react-log-lifecycle": "0.x",
     "react-tools": "^0.13.3",
-    "redux-devtools": "^3.0.0",
+    "redux-devtools": "^3.0.1",
     "style-loader": "0.x",
     "url-loader": "0.x",
     "webpack": "^1.12.9",
