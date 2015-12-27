@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import Base from './Base';
-import LoginActions from '../actions/LoginActions';
-import LoginStore from '../stores/LoginStore';
 import React from 'react';
+import {store} from '../store';
+import {actions} from '../actions';
 
 export default class Auth extends React.Component {
 
@@ -12,20 +12,20 @@ export default class Auth extends React.Component {
   }
 
   componentDidMount() {
-    LoginStore.listen(this.onChange);
+    this.unsubscribe = store.subscribe(this.onChange);
 
     let { query } = this.props.location;
     var code = query && query.jwt;
 
-    LoginActions.login(code);
+    store.dispatch(actions.loginRequest(code));
   }
 
   componentWillUnmount() {
-    LoginStore.unlisten(this.onChange);
+    this.unsubscribe();
   }
 
-  onChange(user){
-    this.setState(user);
+  onChange(){
+    this.setState(store.getState().user);
   }
 
   componentDidUpdate() {

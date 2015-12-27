@@ -19,6 +19,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import storage from './libs/storage';
 
+// Setup listener for changes to user object to keep localStorage insync
+import './listeners';
+
 // TODO: Put a Not Found / No Match component in here.
 var routes = (
   <Route path='/' component={App}>

@@ -2,9 +2,10 @@ import _ from 'lodash';
 import {Link} from 'react-router';
 import Base from './Base';
 import Footer from './Footer';
-import LoginStore from '../stores/LoginStore';
 import PlantStore from '../stores/PlantStore';
 import React from 'react';
+import store from '../store';
+import {isLoggedIn} from '../libs/authHelper';
 
 export default class Home extends React.Component {
   static contextTypes = {
@@ -14,7 +15,7 @@ export default class Home extends React.Component {
   constructor() {
     super();
     this.state = {
-      user: LoginStore.getState(),
+      user: store.getState().user,
       plants: PlantStore.getState()
     };
     this.onLoginChange = this.onLoginChange.bind(this);
@@ -22,16 +23,16 @@ export default class Home extends React.Component {
   }
 
   componentWillMount() {
-    LoginStore.listen(this.onLoginChange);
+    this.unsubscribe = store.subscribe(this.onLoginChange);
     PlantStore.listen(this.onPlantChange);
 
-    const {user} = LoginStore.getState();
+    const user = store.getState().user;
     const {plants} = PlantStore.getState();
     this.setState({user, plants});
   }
 
   componentWillUnmount() {
-    LoginStore.unlisten(this.onLoginChange);
+    this.unsubscribe();
     PlantStore.unlisten(this.onPlantChange);
   }
 
@@ -44,7 +45,9 @@ export default class Home extends React.Component {
   }
 
   userPlants() {
-    if(!LoginStore.isLoggedIn()) {
+
+    if(!isLoggedIn()) {
+      console.log('user not logged in:', this.state.user);
       return null;
     }
 
@@ -94,13 +97,11 @@ export default class Home extends React.Component {
 
   render() {
 
-    const isLoggedIn = LoginStore.isLoggedIn();
-
     return (
       <Base>
         <div className='home-content'>
           {this.userPlants()}
-          {!isLoggedIn && this.anonHome()}
+          {!isLoggedIn() && this.anonHome()}
         </div>
         <Footer />
       </Base>

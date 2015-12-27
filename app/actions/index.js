@@ -1,5 +1,38 @@
 // Redux Actions
 
+export const LOGIN_REQUEST = 'LOGIN_REQUEST';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_FAILURE = 'LOGIN_FAILURE';
+export const LOGOUT = 'LOGOUT';
+
+export function logout() {
+  return {
+    type: LOGOUT
+  };
+}
+
+export function loginRequest(code) {
+  return {
+    type: LOGIN_REQUEST,
+    payload: code
+  };
+}
+
+export function loginSuccess(user) {
+  return {
+    type: LOGIN_SUCCESS,
+    payload: user
+  };
+}
+
+export function loginFailure(error) {
+  return {
+    type: LOGIN_FAILURE,
+    payload: error,
+    error: true
+  };
+}
+
 export const CREATE_PLANT_REQUEST = 'CREATE_PLANT_REQUEST';
 export const CREATE_PLANT_SUCCESS = 'CREATE_PLANT_SUCCESS';
 export const CREATE_PLANT_FAILURE = 'CREATE_PLANT_FAILURE';
@@ -15,6 +48,8 @@ export const LOAD_PLANT_FAILURE = 'LOAD_PLANT_FAILURE';
 export const LOAD_PLANTS_REQUEST = 'LOAD_PLANTS_REQUEST';
 export const LOAD_PLANTS_SUCCESS = 'LOAD_PLANTS_SUCCESS';
 export const LOAD_PLANTS_FAILURE = 'LOAD_PLANTS_FAILURE';
+
+
 
 export function addPlant(payload) {
   return {

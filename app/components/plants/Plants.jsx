@@ -1,14 +1,13 @@
 // Used to show a list of plants for a user.
 // Url: /plants/<optional-user-id>
 
-import _ from 'lodash';
 import {Link} from 'react-router';
 import Base from '../Base';
-import LoginStore from '../../stores/LoginStore';
 import PlantActions from '../../actions/PlantActions';
 import PlantItem from './PlantItem';
 import PlantStore from '../../stores/PlantStore';
 import React from 'react';
+import store from '../../store';
 
 export default class Plants extends React.Component {
 
@@ -18,13 +17,13 @@ export default class Plants extends React.Component {
   }
 
   componentWillMount() {
-    const login = LoginStore.getState() || {};
-    this.setState(login);
+    const user = store.getState().user || {};
+    this.setState({user});
     this.setState(PlantStore.getState());
     PlantStore.listen(this.onChange);
-    const userId = _.get(login, 'user._id');
-    if(userId) {
-      PlantActions.load(login.user._id);
+
+    if(user._id) {
+      PlantActions.load(user._id);
     }
   }
 

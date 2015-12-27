@@ -5,12 +5,13 @@
 
 import _ from 'lodash';
 import Base from '../Base';
-import LoginStore from '../../stores/LoginStore';
 import PlantActions from '../../actions/PlantActions';
 import PlantCreateUpdate from './PlantCreateUpdate';
 import PlantRead from './PlantRead';
 import PlantStore from '../../stores/PlantStore';
 import React from 'react';
+import {isOwner} from '../libs/authHelper';
+import {store} from '../../store';
 
 export default class Plant extends React.Component {
   static contextTypes = {
@@ -27,13 +28,12 @@ export default class Plant extends React.Component {
   componentWillMount() {
     const _id = _.get(this, 'props.params.id');
     const plant = PlantStore.getPlant(_id) || {};
-    // isOwner is true if no _id (creating) and user is logging in
-    const isOwner = _id
-      ? LoginStore.isOwner(plant)
-      : LoginStore.isLoggedIn;
+    // TODO: store to move higher to container .jsx and user should be passed in as a prop
+    const user = store.getState().user;
+
     this.setState({
       _id: _id,
-      isOwner: isOwner,
+      isOwner: isOwner(plant, user),
       plant: plant,
       mode: _id ? 'read' : 'create'
     });
@@ -66,7 +66,7 @@ export default class Plant extends React.Component {
 
   render() {
     let {
-      isOwner,
+      owner,
       plant,
       mode
     } = this.state || {};
@@ -76,7 +76,7 @@ export default class Plant extends React.Component {
         {mode === 'read' &&
           <PlantRead
             plant={plant}
-            isOwner={isOwner}
+            isOwner={owner}
             setMode={this.setMode}
             delete={this.delete}
             />

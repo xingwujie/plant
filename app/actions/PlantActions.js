@@ -1,10 +1,10 @@
 import _ from 'lodash';
 import $ from 'jquery';
 import alt from '../libs/alt';
-import LoginStore from '../stores/LoginStore';
+import store from '../store';
 
 function setJwtHeader(request) {
-  const loginState = LoginStore.getState() || {};
+  const loginState = store.getState() || {};
   const jwt = _.get(loginState, 'user.jwt', '');
   if(jwt) {
     request.setRequestHeader('Authorization', 'Bearer ' + jwt);

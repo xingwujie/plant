@@ -1,32 +1,32 @@
 import _ from 'lodash';
-import LoginActions from '../actions/LoginActions';
-import LoginStore from '../stores/LoginStore';
 import React from 'react';
+import store from '../store';
+import actions from '../actions';
 
 import {Link} from 'react-router';
 
 export default class Navbar extends React.Component {
   constructor() {
     super();
-    this.state = LoginStore.getState();
     this.onChange = this.onChange.bind(this);
     this.logout = this.logout.bind(this);
   }
 
   componentDidMount() {
-    LoginStore.listen(this.onChange);
+    this.unsubscribe = store.subscribe(this.onChange);
   }
 
   componentWillUnmount() {
-    LoginStore.unlisten(this.onChange);
+    this.unsubscribe();
   }
 
-  onChange(user){
+  onChange(){
+    let user = store.getState().user;
     this.setState(user);
   }
 
   logout() {
-    LoginActions.logout();
+    store.dispatch(actions.logout());
   }
 
   render() {
