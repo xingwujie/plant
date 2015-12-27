@@ -28,7 +28,7 @@ import {login} from './login';
 import {plant} from './plant';
 
 const rootReducer = combineReducers({
-  login,
+  user: login,
   plant
 });
 

@@ -10,8 +10,8 @@ import PlantCreateUpdate from './PlantCreateUpdate';
 import PlantRead from './PlantRead';
 import PlantStore from '../../stores/PlantStore';
 import React from 'react';
-import {isOwner} from '../libs/authHelper';
-import {store} from '../../store';
+import {isOwner} from '../../libs/auth-helper';
+import store from '../../store';
 
 export default class Plant extends React.Component {
   static contextTypes = {

@@ -16,7 +16,7 @@ export function setupSubscribe(store) {
 
     if (previousValue !== currentValue) {
       console.log('Changing user obj in localStorage to:', currentValue);
-      localStorage.setItem('user', currentValue);
+      localStorage.setItem('user', JSON.stringify(currentValue));
     }
   }
 
@@ -26,7 +26,12 @@ export function setupSubscribe(store) {
 }
 
 export function initialState() {
-  let user = localStorage.getItem('user') || {};
+  let user;
+  try {
+    user = JSON.parse(localStorage.getItem('user'));
+  } catch(e) {
+    user = {};
+  }
   console.log('Getting initial state for user obj from localStorage:', user);
   return user;
 }

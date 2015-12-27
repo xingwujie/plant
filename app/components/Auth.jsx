@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import Base from './Base';
 import React from 'react';
-import {store} from '../store';
-import {actions} from '../actions';
+import store from '../store';
+import * as actions from '../actions';
 
 export default class Auth extends React.Component {
 

@@ -21,6 +21,7 @@ export default class Navbar extends React.Component {
   }
 
   onChange(){
+    console.log('Navbar onChange:', store.getState());
     let user = store.getState().user;
     this.setState(user);
   }

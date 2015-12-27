@@ -5,7 +5,7 @@ import Footer from './Footer';
 import PlantStore from '../stores/PlantStore';
 import React from 'react';
 import store from '../store';
-import {isLoggedIn} from '../libs/authHelper';
+import {isLoggedIn} from '../libs/auth-helper';
 
 export default class Home extends React.Component {
   static contextTypes = {

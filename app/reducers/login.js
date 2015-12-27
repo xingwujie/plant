@@ -7,7 +7,8 @@ import {
   LOGOUT} from '../actions';
 
 // The login reducer
-export function login(state = initialState(), action) {
+export function login(state, action) {
+  console.log('login reducer:', state, action);
   switch(action.type) {
     case LOGIN_REQUEST:
       return {status:'fetching'};
@@ -19,6 +20,6 @@ export function login(state = initialState(), action) {
     case LOGOUT:
       return {};
     default:
-      return state;
+      return initialState();
   };
 }

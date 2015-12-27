@@ -8,17 +8,19 @@ export default store => next => action => {
 
   if(action.type === LOGIN_REQUEST) {
 
+    console.log('action:', action);
+
     $.ajax({
       type: 'GET',
-      url: `/auth/with?code=${action.code}`,
+      url: `/auth/with?code=${action.payload}`,
       // Success: Function( Anything data, String textStatus, jqXHR jqXHR )
       success: (user) => {
-        store.dispath(loginSuccess(user));
+        store.dispatch(loginSuccess(user));
       },
       // Error: Function( jqXHR jqXHR, String textStatus, String errorThrown )
       error: (jqXHR, textStatus, errorThrown) => {
         console.log('POST /api/plant failure:', errorThrown);
-        store.dispath(loginFailure(errorThrown));
+        store.dispatch(loginFailure(errorThrown));
       }
     });
   } else {
