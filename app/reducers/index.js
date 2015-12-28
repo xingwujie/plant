@@ -24,12 +24,12 @@
 
 import { combineReducers } from 'redux';
 
-import {login} from './login';
-import {plant} from './plant';
+import user from './login';
+import plants from './plants';
 
 const rootReducer = combineReducers({
-  user: login,
-  plant
+  user,
+  plants
 });
 
 export default rootReducer;

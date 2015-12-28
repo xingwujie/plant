@@ -7,7 +7,7 @@ import {
   LOGOUT} from '../actions';
 
 // The login reducer
-export function login(state, action) {
+export default (state, action) => {
 
   switch(action.type) {
     case LOGIN_REQUEST:
@@ -22,4 +22,4 @@ export function login(state, action) {
     default:
       return initialState();
   };
-}
+};
