@@ -8,7 +8,7 @@ import {
 
 // The login reducer
 export function login(state, action) {
-  console.log('login reducer:', state, action);
+
   switch(action.type) {
     case LOGIN_REQUEST:
       return {status:'fetching'};

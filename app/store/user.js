@@ -32,6 +32,6 @@ export function initialState() {
   } catch(e) {
     user = {};
   }
-  console.log('Getting initial state for user obj from localStorage:', user);
+
   return user;
 }
