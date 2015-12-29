@@ -1,7 +1,7 @@
 // Used to add a note to a plant
 // Url: /
 import _ from 'lodash';
-import PlantActions from '../../actions/PlantActions';
+// import PlantActions from '../../actions/PlantActions';
 import React from 'react';
 
 export default class NoteCreateUpdate extends React.Component {
@@ -17,13 +17,13 @@ export default class NoteCreateUpdate extends React.Component {
         ['date', 'description', 'height', 'width']
       );
 
-      PlantActions.addNote(note, (err) => {
-        if(!err) {
-          alert('Note saved');
-        } else {
-          alert('Error: ' + err.message);
-        }
-      });
+      // PlantActions.addNote(note, (err) => {
+      //   if(!err) {
+      //     alert('Note saved');
+      //   } else {
+      //     alert('Error: ' + err.message);
+      //   }
+      // });
     } else {
       alert('Must have Date and one of Note/Height/Width');
       // NotifierActions.error({

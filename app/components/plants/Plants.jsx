@@ -3,9 +3,9 @@
 
 import {Link} from 'react-router';
 import Base from '../Base';
-import PlantActions from '../../actions/PlantActions';
+// import PlantActions from '../../actions/PlantActions';
 import PlantItem from './PlantItem';
-import PlantStore from '../../stores/PlantStore';
+// import PlantStore from '../../stores/PlantStore';
 import React from 'react';
 import store from '../../store';
 
@@ -13,27 +13,27 @@ export default class Plants extends React.Component {
 
   constructor() {
     super();
-    this.onChange = this.onChange.bind(this);
+    // this.onChange = this.onChange.bind(this);
   }
 
   componentWillMount() {
-    const user = store.getState().user || {};
-    this.setState({user});
-    this.setState(PlantStore.getState());
-    PlantStore.listen(this.onChange);
+    const state = store.getState();
+    this.setState(state);
+    // this.setState(PlantStore.getState());
+    // PlantStore.listen(this.onChange);
 
-    if(user._id) {
-      PlantActions.load(user._id);
-    }
+    // if(user._id) {
+    //   // PlantActions.load(user._id);
+    // }
   }
 
   componentWillUnmount() {
-    PlantStore.unlisten(this.onChange);
+    // PlantStore.unlisten(this.onChange);
   }
 
-  onChange(plants) {
-    this.setState(plants);
-  }
+  // onChange(plants) {
+  //   this.setState(plants);
+  // }
 
   renderPlants(plants) {
     if(!plants || plants.length === 0) {

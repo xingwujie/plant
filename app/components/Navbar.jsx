@@ -61,7 +61,7 @@ export default class Navbar extends React.Component {
                       <Link to={'/plants'} title='My Plants'>My Plants</Link>
                     </li>
                     <li>
-                      <Link to={'/plant'} title='add plant'>Add</Link>
+                      <Link to={'/plant'} title='add plant'>Add Plant</Link>
                     </li>
                   </ul>
                 </li>

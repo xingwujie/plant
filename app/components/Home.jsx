@@ -2,7 +2,6 @@ import _ from 'lodash';
 import {Link} from 'react-router';
 import Base from './Base';
 import Footer from './Footer';
-import PlantStore from '../stores/PlantStore';
 import React from 'react';
 import store from '../store';
 import {isLoggedIn} from '../libs/auth-helper';
@@ -14,35 +13,34 @@ export default class Home extends React.Component {
 
   constructor() {
     super();
-    this.state = {
-      user: store.getState().user,
-      plants: PlantStore.getState()
-    };
-    this.onLoginChange = this.onLoginChange.bind(this);
-    this.onPlantChange = this.onPlantChange.bind(this);
+    this.state = store.getState();
+    this.onChange = this.onChange.bind(this);
   }
 
   componentWillMount() {
-    this.unsubscribe = store.subscribe(this.onLoginChange);
-    PlantStore.listen(this.onPlantChange);
+    this.unsubscribe = store.subscribe(this.onChange);
 
-    const user = store.getState().user;
-    const {plants} = PlantStore.getState();
+    const state = store.getState();
+    const {user} = state;
+    const plants = user.plants.map((plant) => {
+      return state.plants[plant];
+    });
     this.setState({user, plants});
   }
 
   componentWillUnmount() {
     this.unsubscribe();
-    PlantStore.unlisten(this.onPlantChange);
   }
 
-  onLoginChange(user){
-    this.setState({user});
+  onChange(){
+    const state = store.getState();
+    const {user} = state;
+    const plants = user.plants.map((plant) => {
+      return state.plants[plant];
+    });
+    this.setState({user, plants});
   }
 
-  onPlantChange(plants){
-    this.setState({plants});
-  }
 
   userPlants() {
 

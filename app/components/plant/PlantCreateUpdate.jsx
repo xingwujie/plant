@@ -5,7 +5,7 @@
 import _ from 'lodash';
 import {validate} from '../../models/plant';
 // import Errors from '../Errors';
-import PlantActions from '../../actions/PlantActions';
+// import PlantActions from '../../actions/PlantActions';
 import React from 'react';
 import InputCombo from '../InputCombo';
 
@@ -48,9 +48,9 @@ export default class PlantCreateUpdate extends React.Component {
         this.setState({errors: err});
       } else {
         if(isNew) {
-          PlantActions.create(transformed);
+          // PlantActions.create(transformed);
         } else {
-          PlantActions.update(transformed);
+          // PlantActions.update(transformed);
         }
       }
     });

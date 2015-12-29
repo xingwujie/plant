@@ -33,7 +33,6 @@ export function loginFailure(error) {
   };
 }
 
-export const CREATE_PLANT = 'CREATE_PLANT';
 export const CREATE_PLANT_REQUEST = 'CREATE_PLANT_REQUEST';
 export const CREATE_PLANT_SUCCESS = 'CREATE_PLANT_SUCCESS';
 export const CREATE_PLANT_FAILURE = 'CREATE_PLANT_FAILURE';

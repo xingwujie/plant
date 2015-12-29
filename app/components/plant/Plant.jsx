@@ -3,12 +3,13 @@
 // Url: /plant/slug/<plant-id>
 // Unless Create then Url: /plant
 
+import uuid from 'node-uuid';
 import _ from 'lodash';
 import Base from '../Base';
-import PlantActions from '../../actions/PlantActions';
+// import PlantActions from '../../actions/PlantActions';
 import PlantCreateUpdate from './PlantCreateUpdate';
 import PlantRead from './PlantRead';
-import PlantStore from '../../stores/PlantStore';
+// import PlantStore from '../../stores/PlantStore';
 import React from 'react';
 import {isOwner} from '../../libs/auth-helper';
 import store from '../../store';
@@ -20,46 +21,47 @@ export default class Plant extends React.Component {
 
   constructor(props) {
     super(props);
-    this.onChange = this.onChange.bind(this);
+    // this.onChange = this.onChange.bind(this);
     this.setMode = this.setMode.bind(this);
     this.delete = this.delete.bind(this);
   }
 
   componentWillMount() {
-    const _id = _.get(this, 'props.params.id');
-    const plant = PlantStore.getPlant(_id) || {};
     // TODO: store to move higher to container .jsx and user should be passed in as a prop
-    const user = store.getState().user;
-
+    const {user, plants} = store.getState();
+    let _id = _.get(this, 'props.params.id');
+    const plant = plants[_id] || {};
+    const mode = _id ? 'read' : 'create';
+    _id = _id || uuid.v4();
     this.setState({
-      _id: _id,
+      _id,
       isOwner: isOwner(plant, user),
-      plant: plant,
-      mode: _id ? 'read' : 'create'
+      plant,
+      mode
     });
 
-    if(!plant || plant.summary) {
-      PlantStore.listen(this.onChange);
-      PlantActions.loadOne(_id);
-    }
+    // if(!plant || plant.summary) {
+    //   PlantStore.listen(this.onChange);
+    //   // PlantActions.loadOne(_id);
+    // }
   }
 
   componentWillUnmount() {
-    PlantStore.unlisten(this.onChange);
+    // PlantStore.unlisten(this.onChange);
   }
 
-  onChange() {
-    // We get the whole plant store. We only want one plant.
-    const plant = PlantStore.getPlant(this.props.params.id);
-    this.setState({plant});
-  }
+  // onChange() {
+  //   // We get the whole plant store. We only want one plant.
+  //   const plant = PlantStore.getPlant(this.props.params.id);
+  //   this.setState({plant});
+  // }
 
   setMode(mode) {
     this.setState({mode});
   }
 
   delete() {
-    PlantActions.delete(this.state._id);
+    // PlantActions.delete(this.state._id);
     // Transition to /plants
     this.context.history.pushState(null, '/plants');
   }
