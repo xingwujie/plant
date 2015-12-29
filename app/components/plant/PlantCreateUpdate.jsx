@@ -47,6 +47,7 @@ export default class PlantCreateUpdate extends React.Component {
       if(err) {
         this.setState({errors: err});
       } else {
+        this.props.save(transformed);
         if(isNew) {
           // PlantActions.create(transformed);
         } else {

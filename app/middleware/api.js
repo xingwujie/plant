@@ -5,8 +5,9 @@ import * as actions from '../actions';
 import $ from 'jquery';
 
 function setJwtHeader(store, request) {
-  const user = (store.getState() || {}).user;
-  if(user.jwt) {
+  console.log('setJwtHeader:', store, request);
+  const {user} = store.getState();
+  if(user && user.jwt) {
     request.setRequestHeader('Authorization', 'Bearer ' + user.jwt);
   }
 }
@@ -34,7 +35,7 @@ function createPlant(store, action) {
     type: 'POST',
     url: '/api/plant',
     data: action.payload,
-    beforeSend: setJwtHeader.bind(store),
+    beforeSend: setJwtHeader.bind(null, store),
     // Success: Function( Anything data, String textStatus, jqXHR jqXHR )
     success: (createdPlant) => {
       store.dispatch(actions.plantCreateSuccess(createdPlant));
@@ -45,6 +46,7 @@ function createPlant(store, action) {
       store.dispatch(actions.plantCreateFailure(errorThrown));
     }
   });
+  store.dispatch(actions.userPlantAdd(action.payload.id));
 }
 
 function updatePlant(store, action) {
@@ -52,7 +54,7 @@ function updatePlant(store, action) {
     type: 'PUT',
     url: '/api/plant',
     data: action.payload,
-    beforeSend: setJwtHeader.bind(store),
+    beforeSend: setJwtHeader.bind(null, store),
     // Success: Function( Anything data, String textStatus, jqXHR jqXHR )
     success: (updatedPlant) => {
       store.dispatch(actions.plantUpdateSuccess(updatedPlant));
@@ -68,8 +70,8 @@ function updatePlant(store, action) {
 function deletePlant(store, action) {
   $.ajax({
     type: 'DELETE',
-    url: `/api/plant/${action.payload}`,
-    beforeSend: setJwtHeader.bind(store),
+    url: `/api/plant/${action.payload.id}`,
+    beforeSend: setJwtHeader.bind(null, store),
     // Success: Function( Anything data, String textStatus, jqXHR jqXHR )
     success: (deletedPlant) => {
       store.dispatch(actions.plantDeleteSuccess(deletedPlant));
@@ -80,6 +82,7 @@ function deletePlant(store, action) {
       store.dispatch(actions.plantDeleteFailure(errorThrown));
     }
   });
+  store.dispatch(actions.userPlantDelete(action.payload.id));
 }
 
 
@@ -87,10 +90,14 @@ function loadOne(store, action) {
   $.ajax({
     type: 'GET',
     url: `/api/plant/${action.payload}`,
-    beforeSend: setJwtHeader.bind(store),
+    beforeSend: setJwtHeader.bind(null, store),
     // Success: Function( Anything data, String textStatus, jqXHR jqXHR )
     success: (retrievedPlant) => {
       store.dispatch(actions.plantLoadSuccess(retrievedPlant));
+      const {user} = store.getState();
+      if(user && user.id === retrievedPlant.userId) {
+        store.dispatch(actions.userPlantAdd(action.payload.id));
+      }
     },
     // Error: Function( jqXHR jqXHR, String textStatus, String errorThrown )
     error: (jqXHR, textStatus, errorThrown) => {
@@ -106,10 +113,15 @@ function load(store, action) {
   $.ajax({
     type: 'GET',
     url: `/api/plants/${userId}`,
-    beforeSend: setJwtHeader.bind(store),
+    beforeSend: setJwtHeader.bind(null, store),
     // Success: Function( Anything data, String textStatus, jqXHR jqXHR )
     success: (plants) => {
       store.dispatch(actions.plantsLoadSuccess(plants));
+      // TODO: Implement below...
+      // const {user} = store.getState();
+      // if(user && user.id === retrievedPlant.userId) {
+      //   store.dispatch(actions.userPlantAdd(action.payload.id));
+      // }
     },
     // Error: Function( jqXHR jqXHR, String textStatus, String errorThrown )
     error: (jqXHR, textStatus, errorThrown) => {

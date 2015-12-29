@@ -3,16 +3,15 @@
 // Url: /plant/slug/<plant-id>
 // Unless Create then Url: /plant
 
-import uuid from 'node-uuid';
 import _ from 'lodash';
+import {isOwner} from '../../libs/auth-helper';
+import * as actions from '../../actions';
 import Base from '../Base';
-// import PlantActions from '../../actions/PlantActions';
 import PlantCreateUpdate from './PlantCreateUpdate';
 import PlantRead from './PlantRead';
-// import PlantStore from '../../stores/PlantStore';
 import React from 'react';
-import {isOwner} from '../../libs/auth-helper';
 import store from '../../store';
+import uuid from 'node-uuid';
 
 export default class Plant extends React.Component {
   static contextTypes = {
@@ -24,6 +23,8 @@ export default class Plant extends React.Component {
     // this.onChange = this.onChange.bind(this);
     this.setMode = this.setMode.bind(this);
     this.delete = this.delete.bind(this);
+    this.createPlant = this.createPlant.bind(this);
+    this.updatePlant = this.updatePlant.bind(this);
   }
 
   componentWillMount() {
@@ -60,7 +61,18 @@ export default class Plant extends React.Component {
     this.setState({mode});
   }
 
+  createPlant(plant) {
+    store.dispatch(actions.addPlant(plant));
+    this.context.history.pushState(null, `/plant/${plant.id}`);
+  }
+
+  updatePlant(plant) {
+    store.dispatch(actions.updatePlant(plant));
+    this.context.history.pushState(null, `/plant/${plant.id}`);
+  }
+
   delete() {
+    store.dispatch(actions.deletePlant(this.state._id));
     // PlantActions.delete(this.state._id);
     // Transition to /plants
     this.context.history.pushState(null, '/plants');
@@ -88,6 +100,7 @@ export default class Plant extends React.Component {
             plant={plant}
             mode={mode}
             setMode={this.setMode}
+            save={mode === 'create' ? this.createPlant : this.updatePlant}
             />
         }
       </Base>

@@ -36,6 +36,23 @@ export function loginFailure(error) {
 export const CREATE_PLANT_REQUEST = 'CREATE_PLANT_REQUEST';
 export const CREATE_PLANT_SUCCESS = 'CREATE_PLANT_SUCCESS';
 export const CREATE_PLANT_FAILURE = 'CREATE_PLANT_FAILURE';
+
+export function addPlant(payload) {
+  return {
+    type: CREATE_PLANT_REQUEST,
+    payload
+  };
+}
+
+export function plantCreateSuccess(payload) {
+  return {
+    type: CREATE_PLANT_SUCCESS,
+    payload
+  };
+}
+
+
+
 export const UPDATE_PLANT_REQUEST = 'UPDATE_PLANT_REQUEST';
 export const UPDATE_PLANT_SUCCESS = 'UPDATE_PLANT_SUCCESS';
 export const UPDATE_PLANT_FAILURE = 'UPDATE_PLANT_FAILURE';
@@ -49,14 +66,6 @@ export const LOAD_PLANTS_REQUEST = 'LOAD_PLANTS_REQUEST';
 export const LOAD_PLANTS_SUCCESS = 'LOAD_PLANTS_SUCCESS';
 export const LOAD_PLANTS_FAILURE = 'LOAD_PLANTS_FAILURE';
 
-
-
-export function addPlant(payload) {
-  return {
-    type: CREATE_PLANT_REQUEST,
-    payload
-  };
-}
 
 export function updatePlant(payload) {
   return {
@@ -83,5 +92,22 @@ export function loadPlants(payload) {
   return {
     type: LOAD_PLANTS_REQUEST,
     payload
+  };
+}
+
+export const USER_PLANT_ADD = 'USER_PLANT_ADD';
+export const USER_PLANT_DELETE = 'USER_PLANT_DELETE';
+
+export function userPlantAdd(id) {
+  return {
+    type: USER_PLANT_ADD,
+    payload: {id}
+  };
+}
+
+export function userPlantDelete(id) {
+  return {
+    type: USER_PLANT_DELETE,
+    payload: {id}
   };
 }

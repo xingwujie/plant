@@ -3,8 +3,9 @@
 // 1. Listen to state changes.
 // 2. If the user object has changed then write to localStorage
 
+let user;
 export function setupSubscribe(store) {
-  let currentValue;
+  let currentValue = user;
 
   function select(state) {
     return state.user;
@@ -26,11 +27,12 @@ export function setupSubscribe(store) {
 }
 
 export function initialState() {
-  let user;
-  try {
-    user = JSON.parse(localStorage.getItem('user'));
-  } catch(e) {
-    user = {};
+  if(!user) {
+    try {
+      user = JSON.parse(localStorage.getItem('user'));
+    } catch(e) {
+      user = {};
+    }
   }
 
   return user;

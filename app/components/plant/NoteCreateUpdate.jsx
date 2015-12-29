@@ -13,9 +13,9 @@ export default class NoteCreateUpdate extends React.Component {
   save(e) {
     // TODO: This validation needs to be isomorphic and called client and server:
     if(this.state.date && (this.state.description || this.state.height || this.state.width)) {
-      const note = _.pick(this.state,
-        ['date', 'description', 'height', 'width']
-      );
+      // const note = _.pick(this.state,
+      //   ['date', 'description', 'height', 'width']
+      // );
 
       // PlantActions.addNote(note, (err) => {
       //   if(!err) {
