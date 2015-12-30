@@ -41,7 +41,7 @@
     "serve-favicon": "^2.3.0",
     "uuid": "^2.0.1",
     "validate.js": "^0.9.0",
-    "webpack-merge": "~0.5.1",
+    "webpack-merge": "~0.6.0",
     "yql": "^1.0.2"
   },
   "description": "Plant Tracker",
