@@ -1,10 +1,9 @@
 import _ from 'lodash';
 import * as plantValidator from '../../../app/models/plant';
 import assert from 'assert';
-// import moment from 'moment';
 
 import d from 'debug';
-const debug = d('plant:test.cloudant');
+const debug = d('plant:test.plant');
 
 describe('/app/models/plant', function() {
 
