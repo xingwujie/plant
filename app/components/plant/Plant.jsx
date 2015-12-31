@@ -81,7 +81,7 @@ export default class Plant extends React.Component {
   }
 
   render() {
-    let {
+    const {
       owner,
       plant,
       mode

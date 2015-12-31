@@ -1,9 +1,10 @@
 import _ from 'lodash';
 import moment from 'moment';
 import validatejs from 'validate.js';
+import uuid from 'node-uuid';
 // import d from 'debug';
 // const debug = d('plant:test.plant');
-const uuid = /^[0-9a-f]{32}$/i;
+const uuidRE = /^[0-9a-f]{32}$/i;
 
 //  The validator receives the following arguments:
 //     value - The value exactly how it looks in the attribute object.
@@ -91,7 +92,7 @@ validatejs.extend(validatejs.validators.datetime, {
 export function validate(attributes, {isNew, isClient}, cb) {
 
   const constraints = {
-    _id: {format: uuid, presence: !isNew}, // true if update
+    _id: {format: uuidRE, presence: true},
     botanicalName: {length: {maximum: 100}},
     commonName:  {length: {maximum: 100}},
     description: {length: {maximum: 500}},
@@ -101,11 +102,12 @@ export function validate(attributes, {isNew, isClient}, cb) {
     tags: {tagValidate: {length: {maximum: 5, innermax: 20}, unique: true, format: /[a-z-]/}},
     title: {length: {minimum: 1, maximum: 100}, presence: true},
     type: {inclusion: ['plant'], presence: true},
-    userId: {format: uuid, presence: !isClient},
+    userId: {format: uuidRE, presence: !isClient},
   };
 
-  if(isNew) {
-    delete constraints._id;
+  if(isNew && !attributes._id) {
+    attributes = _.clone(attributes);
+    attributes._id = uuid.v4().replace(/-/g, '');
   }
 
   if(isClient) {

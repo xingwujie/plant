@@ -73,7 +73,7 @@ export default class PlantCreateUpdate extends React.Component {
   }
 
   render() {
-    var {
+    const {
       title,
       botanicalName,
       commonName,
@@ -81,10 +81,9 @@ export default class PlantCreateUpdate extends React.Component {
       purchasedDate,
       plantedDate,
       price,
-      errors,
+      errors = {},
       pageTitle
     } = this.state || {};
-    errors = errors || {};
 
     if(!_.isEmpty(errors)) {
       console.log('errors:', errors);

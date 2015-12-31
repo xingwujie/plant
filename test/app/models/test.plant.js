@@ -129,9 +129,8 @@ describe('/app/models/plant', function() {
     });
   });
 
-  it('should remove _id if it is a new record', (done) => {
+  it('should add _id if it is a new record', (done) => {
     const plant = {
-      _id: '0e55d91cb33d420024432d67a3c7fb36',
       userId: '9ec5c8ffcf885bf372488977ae0d6476',
       title: 'Title is required',
       type: 'plant'
@@ -143,8 +142,8 @@ describe('/app/models/plant', function() {
     plantValidator.validate(plant, {isNew, isClient}, (err, transformed) => {
 
       assert(!err);
-      assert.equal(Object.keys(transformed).length, 3);
-      assert(!transformed._id);
+      assert.equal(Object.keys(transformed).length, 4);
+      assert(transformed._id);
       assert.equal(transformed.title, plant.title);
       assert.equal(transformed.type, 'plant');
       assert.equal(transformed.userId, plant.userId);
