@@ -35,11 +35,5 @@ export default (state, action) => {
       break;
   };
 
-  if(!user.plants) {
-    // If we make sure that the user object always has a plants
-    // array then we don't need to check that it exists elsewhere.
-    user.plants = [];
-  }
-
   return user;
 };

@@ -62,11 +62,13 @@ export default class Plant extends React.Component {
   }
 
   createPlant(plant) {
+    console.log('Plant: createPlant:', plant);
     store.dispatch(actions.addPlant(plant));
     this.context.history.pushState(null, `/plant/${plant.id}`);
   }
 
   updatePlant(plant) {
+    console.log('Plant: updatePlant:', plant);
     store.dispatch(actions.updatePlant(plant));
     this.context.history.pushState(null, `/plant/${plant.id}`);
   }

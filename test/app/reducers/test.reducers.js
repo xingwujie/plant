@@ -7,9 +7,7 @@ describe('/app/reducers', function() {
   it('should reduce a logout action', (done) => {
     const expected = {
       plants: [],
-      user: {
-        plants: []
-      }
+      user: {}
     };
     const actual = rootReducer({}, actions.logout());
     assert.deepEqual(actual, expected);

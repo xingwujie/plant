@@ -9,8 +9,6 @@
 // status: 'create', 'create-saving', 'update', 'update-saving', 'delete-saving', 'error'
 // error: A string representing the reason why the status is 'error'
 
-import _ from 'lodash';
-
 import {
   CREATE_PLANT_REQUEST,
   CREATE_PLANT_FAILURE,
@@ -29,53 +27,26 @@ import {
 function createPlantRequest(state, action) {
   // payload is an object of new plant being POSTed to server
   // an id has already been assigned to this object
-  if(state[action.payload.id]) {
-    console.log('createPlantRequest error, prop already in state:', state, action);
-    return state;
-  }
-
-  return Object.assign({}, state, {
-    [action.payload.id]: action.payload
-  });
+  return [...state, action.payload];
 }
 
 // User clicks save after creating a new plant
 function ajaxPlantFailure(state, action) {
-  // payload is {id: <plantId>, error: <error-text>}
-  if(!state[action.payload.id]) {
-    console.log('ajaxPlantFailure error, prop not already in state:', state, action);
-    return state;
-  }
-
-  const newObj = {
-    [action.payload.id]: _.clone(state[action.payload.id], true)
-  };
-  newObj.error = action.payload.error;
-  return Object.assign({}, state, newObj);
+  const removed = state.filter(plant => plant.id !== action.payload.id);
+  return [...removed, action.payload];
 }
 
 // User clicks save after update a plant
 function updatePlantRequest(state, action) {
   // payload is an object of plant being PUTed to server
   // an id has already been assigned to this object
-  if(!state[action.payload.id]) {
-    console.log('updatePlantRequest error, prop not already in state:', state, action);
-    return state;
-  }
-
-  return Object.assign({}, state, {
-    [action.payload.id]: action.payload
-  });
+  const removed = state.filter(plant => plant.id !== action.payload.id);
+  return [...removed, action.payload];
 }
 
 function deletePlantRequest(state, action) {
   // payload is {id} of plant being DELETEd from server
-  if(!state[action.payload.id]) {
-    console.log('deletePlantRequest error, prop not already in state:', state, action);
-    return state;
-  }
-
-  return _.omit(state, action.payload);
+  return state.filter(plant => plant.id !== action.payload.id);
 }
 
 function loadPlantRequest(state, action) {
@@ -84,18 +55,19 @@ function loadPlantRequest(state, action) {
 }
 
 function loadPlantSuccess(state, action) {
-  return Object.assign({}, state, {
-    [action.payload.id]: action.payload
-  });
+  const removed = state.filter(plant => plant.id !== action.payload.id);
+  return [...removed, action.payload];
 }
 
 function loadPlantFailure(state, action) {
-  console.log('loadPlantFailure:', action);
-  return state;
+  const removed = state.filter(plant => plant.id !== action.payload.id);
+  return [...removed, action.payload];
 }
 
 function loadPlantsRequest(state, action) {
-  return Object.assign({}, state, action.payload);
+  const ids = action.payload.map(plant => plant.id);
+  const removed = state.filter(plant => ids.indexOf(plant.id >= 0));
+  return [...removed, ...action.payload];
 }
 
 function loadPlantsFailure(state, action) {

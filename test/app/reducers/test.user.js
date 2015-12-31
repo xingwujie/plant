@@ -5,9 +5,7 @@ import assert from 'assert';
 describe('/app/reducers/user', function() {
 
   it('should reduce a logout action', (done) => {
-    const expected = {
-      plants: []
-    };
+    const expected = {};
     const actual = user({}, actions.logout());
     assert.deepEqual(actual, expected);
     done();
@@ -16,7 +14,6 @@ describe('/app/reducers/user', function() {
   it('should reduce a login request', (done) => {
     const payload = {one: 1, two: 2};
     const expected = {
-      plants: [],
       status: 'fetching'
     };
     const actual = user({}, actions.loginRequest(payload));
@@ -27,7 +24,6 @@ describe('/app/reducers/user', function() {
   it('should reduce a login success', (done) => {
     const payload = {one: 1, two: 2};
     const expected = Object.assign({
-      plants: [],
       status: 'success',
       isLoggedIn: true
     }, payload);
@@ -39,7 +35,6 @@ describe('/app/reducers/user', function() {
   it('should reduce a login failure', (done) => {
     const payload = {one: 1, two: 2};
     const expected = Object.assign({
-      plants: [],
       status: 'failed',
       isLoggedIn: false
     }, payload);

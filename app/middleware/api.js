@@ -31,6 +31,7 @@ function loginRequest(store, action) {
 }
 
 function createPlant(store, action) {
+  console.log('api createPlant:', store, action);
   $.ajax({
     type: 'POST',
     url: '/api/plant',
@@ -38,6 +39,7 @@ function createPlant(store, action) {
     beforeSend: setJwtHeader.bind(null, store),
     // Success: Function( Anything data, String textStatus, jqXHR jqXHR )
     success: (createdPlant) => {
+      console.log('POST /api/plant success:', createdPlant);
       store.dispatch(actions.plantCreateSuccess(createdPlant));
     },
     // Error: Function( jqXHR jqXHR, String textStatus, String errorThrown )
