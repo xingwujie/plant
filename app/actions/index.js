@@ -94,20 +94,3 @@ export function loadPlants(payload) {
     payload
   };
 }
-
-export const USER_PLANT_ADD = 'USER_PLANT_ADD';
-export const USER_PLANT_DELETE = 'USER_PLANT_DELETE';
-
-export function userPlantAdd(id) {
-  return {
-    type: USER_PLANT_ADD,
-    payload: {id}
-  };
-}
-
-export function userPlantDelete(id) {
-  return {
-    type: USER_PLANT_DELETE,
-    payload: {id}
-  };
-}

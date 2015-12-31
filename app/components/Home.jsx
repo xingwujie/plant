@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import {Link} from 'react-router';
 import Base from './Base';
 import Footer from './Footer';
@@ -17,15 +16,21 @@ export default class Home extends React.Component {
     this.onChange = this.onChange.bind(this);
   }
 
+  updateState() {
+    const {
+      user = {},
+      plants = []
+    } = store.getState();
+    const userPlants = plants.filter((plant) => {
+      return plant.userId === user._id;
+    });
+    this.setState({user, userPlants});
+  }
+
   componentWillMount() {
     this.unsubscribe = store.subscribe(this.onChange);
 
-    const state = store.getState();
-    const {user} = state;
-    const plants = user.plants.map((plant) => {
-      return state.plants[plant];
-    });
-    this.setState({user, plants});
+    this.updateState();
   }
 
   componentWillUnmount() {
@@ -33,23 +38,19 @@ export default class Home extends React.Component {
   }
 
   onChange(){
-    const state = store.getState();
-    const {user} = state;
-    const plants = user.plants.map((plant) => {
-      return state.plants[plant];
-    });
-    this.setState({user, plants});
+    this.updateState();
   }
 
 
-  userPlants() {
-
-    if(!isLoggedIn()) {
-      console.log('user not logged in:', this.state.user);
+  renderUserPlants() {
+    const {
+      user = {},
+      userPlants: plants = {}
+    } = this.state;
+    if(!user.isLoggedIn) {
+      console.log('user not logged in:', user);
       return null;
     }
-
-    const plants = _.get(this, 'state.plants', []);
 
     if(!plants || plants.length === 0) {
 
@@ -98,7 +99,7 @@ export default class Home extends React.Component {
     return (
       <Base>
         <div className='home-content'>
-          {this.userPlants()}
+          {this.renderUserPlants()}
           {!isLoggedIn() && this.anonHome()}
         </div>
         <Footer />

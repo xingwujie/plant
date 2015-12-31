@@ -10,6 +10,7 @@ import Base from '../Base';
 import PlantCreateUpdate from './PlantCreateUpdate';
 import PlantRead from './PlantRead';
 import React from 'react';
+import slug from 'slug';
 import store from '../../store';
 import uuid from 'node-uuid';
 
@@ -29,9 +30,12 @@ export default class Plant extends React.Component {
 
   componentWillMount() {
     // TODO: store to move higher to container .jsx and user should be passed in as a prop
-    const {user, plants} = store.getState();
+    const {
+      user = {},
+      plants = []
+    } = store.getState();
     let _id = _.get(this, 'props.params.id');
-    const plant = plants[_id] || {};
+    const plant = _.find(plants, p => p._id === _id);
     const mode = _id ? 'read' : 'create';
     _id = _id || uuid.v4();
     this.setState({
@@ -45,6 +49,17 @@ export default class Plant extends React.Component {
     //   PlantStore.listen(this.onChange);
     //   // PlantActions.loadOne(_id);
     // }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log('Plant componentWillReceiveProps', this.props, nextProps);
+    if(nextProps.params.id && nextProps.params.slug) {
+      // Can not be in create mode - only read or edit mode at this point.
+      if(this.state.mode === 'create') {
+        console.log('Setting mode to read');
+        this.setState({mode: 'read'});
+      }
+    }
   }
 
   componentWillUnmount() {
@@ -64,13 +79,15 @@ export default class Plant extends React.Component {
   createPlant(plant) {
     console.log('Plant: createPlant:', plant);
     store.dispatch(actions.addPlant(plant));
-    this.context.history.pushState(null, `/plant/${plant.id}`);
+    this.setMode('read');
+    this.context.history.pushState(null, `/plant/${slug(plant.title)}/${plant._id}`);
   }
 
   updatePlant(plant) {
     console.log('Plant: updatePlant:', plant);
     store.dispatch(actions.updatePlant(plant));
-    this.context.history.pushState(null, `/plant/${plant.id}`);
+    this.setMode('read');
+    this.context.history.pushState(null, `/plant/${slug(plant.title)}/${plant._id}`);
   }
 
   delete() {

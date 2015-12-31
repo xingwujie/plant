@@ -48,7 +48,6 @@ function createPlant(store, action) {
       store.dispatch(actions.plantCreateFailure(errorThrown));
     }
   });
-  store.dispatch(actions.userPlantAdd(action.payload.id));
 }
 
 function updatePlant(store, action) {
@@ -84,7 +83,6 @@ function deletePlant(store, action) {
       store.dispatch(actions.plantDeleteFailure(errorThrown));
     }
   });
-  store.dispatch(actions.userPlantDelete(action.payload.id));
 }
 
 
@@ -134,12 +132,13 @@ function load(store, action) {
 }
 
 export default store => next => action => {
-
+  console.log('api:', action);
   switch(action.type) {
     case actions.LOGIN_REQUEST:
       return loginRequest(store, action);
     case actions.CREATE_PLANT_REQUEST:
-      return createPlant(store, action);
+      createPlant(store, action);
+      return next(action);
     case actions.UPDATE_PLANT_REQUEST:
       return updatePlant(store, action);
     case actions.DELETE_PLANT_REQUEST:

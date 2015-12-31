@@ -27,6 +27,7 @@ import {
 function createPlantRequest(state, action) {
   // payload is an object of new plant being POSTed to server
   // an id has already been assigned to this object
+  console.log('reducer createPlantRequest:', action);
   return [...state, action.payload];
 }
 
