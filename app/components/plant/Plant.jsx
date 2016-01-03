@@ -52,7 +52,7 @@ export default class Plant extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('Plant componentWillReceiveProps', this.props, nextProps);
+    console.log('#1 Plant componentWillReceiveProps', this.props, nextProps);
     if(nextProps.params.id && nextProps.params.slug) {
       // Can not be in create mode - only read or edit mode at this point.
       if(this.state.mode === 'create') {
@@ -60,6 +60,7 @@ export default class Plant extends React.Component {
         this.setState({mode: 'read'});
       }
     }
+    console.log('#2 Plant componentWillReceiveProps', this.state, store.getState());
   }
 
   componentWillUnmount() {
