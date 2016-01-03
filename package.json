@@ -42,7 +42,7 @@
     "slug": "^0.9.1",
     "uuid": "^2.0.1",
     "validate.js": "^0.9.0",
-    "webpack-merge": "~0.7.0",
+    "webpack-merge": "~0.7.1",
     "yql": "^1.0.2"
   },
   "description": "Plant Tracker",
