@@ -139,6 +139,11 @@ if(TARGET === 'dev') {
           secure: false,
           autoRewrite: true,
         },
+        '/plant/*': {
+          target: 'http://localhost:3000/',
+          secure: false,
+          autoRewrite: true,
+        },
         '/favicon.ico': {
           target: 'http://localhost:3000/',
           secure: false,

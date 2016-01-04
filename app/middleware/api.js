@@ -5,15 +5,17 @@ import * as actions from '../actions';
 import $ from 'jquery';
 
 function setJwtHeader(store, request) {
-  console.log('setJwtHeader:', store, request);
+  // console.log('setJwtHeader:', store, request);
   const {user} = store.getState();
   if(user && user.jwt) {
     request.setRequestHeader('Authorization', 'Bearer ' + user.jwt);
+  } else {
+    console.log('No user or user.jwt to add auth header:', user);
   }
 }
 
 function loginRequest(store, action) {
-  console.log('action:', action);
+  // console.log('action:', action);
 
   $.ajax({
     type: 'GET',
@@ -31,7 +33,7 @@ function loginRequest(store, action) {
 }
 
 function createPlant(store, action) {
-  console.log('api createPlant:', store, action);
+  // console.log('api createPlant:', store, action);
   $.ajax({
     type: 'POST',
     url: '/api/plant',
@@ -132,7 +134,7 @@ function load(store, action) {
 }
 
 export default store => next => action => {
-  console.log('api:', action);
+  // console.log('api:', action);
   switch(action.type) {
     case actions.LOGIN_REQUEST:
       return loginRequest(store, action);

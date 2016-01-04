@@ -78,7 +78,7 @@ function loadPlantsFailure(state, action) {
 
 
 export default (state = [], action) => {
-  console.log('plant reducer:', state, action);
+  // console.log('plant reducer:', state, action);
   switch(action.type) {
     case CREATE_PLANT_REQUEST:
       return createPlantRequest(state, action);

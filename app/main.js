@@ -33,7 +33,7 @@ var routes = (
 
 let createHistory = createBrowserHistory();
 function render() {
-  var content = document.createElement('div');
+  let content = document.createElement('div');
   content.setAttribute('id', 'content');
   document.body.appendChild(content);
   content = document.getElementById('content');

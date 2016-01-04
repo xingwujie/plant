@@ -12,9 +12,12 @@ import PlantRead from './PlantRead';
 import React from 'react';
 import slug from 'slug';
 import store from '../../store';
-import uuid from 'node-uuid';
+import {makeCouchId} from '../../libs/utils';
 
-export default class Plant extends React.Component {
+import ReactLogLifecycle from 'react-log-lifecycle';
+export default class Plant extends ReactLogLifecycle {
+
+  // export default class Plant extends React.Component {
   static contextTypes = {
     history: React.PropTypes.object
   }
@@ -35,9 +38,12 @@ export default class Plant extends React.Component {
       plants = []
     } = store.getState();
     let _id = _.get(this, 'props.params.id');
-    const plant = _.find(plants, p => p._id === _id);
     const mode = _id ? 'read' : 'create';
-    _id = _id || uuid.v4();
+    _id = _id || makeCouchId();
+    const plant = _.find(plants, p => p._id === _id) || {
+      _id,
+      userId: user._id
+    };
     this.setState({
       _id,
       isOwner: isOwner(plant, user),
@@ -52,7 +58,7 @@ export default class Plant extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('#1 Plant componentWillReceiveProps', this.props, nextProps);
+    // console.log('#1 Plant componentWillReceiveProps', this.props, nextProps);
     if(nextProps.params.id && nextProps.params.slug) {
       // Can not be in create mode - only read or edit mode at this point.
       if(this.state.mode === 'create') {
@@ -60,7 +66,7 @@ export default class Plant extends React.Component {
         this.setState({mode: 'read'});
       }
     }
-    console.log('#2 Plant componentWillReceiveProps', this.state, store.getState());
+    // console.log('#2 Plant componentWillReceiveProps', this.state, store.getState());
   }
 
   componentWillUnmount() {

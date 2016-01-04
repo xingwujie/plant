@@ -31,8 +31,8 @@ export function initialState() {
     try {
       user = JSON.parse(localStorage.getItem('user'));
     } catch(e) {
-      user = {};
     }
+    user = user || {};
   }
 
   return user;
