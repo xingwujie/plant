@@ -89,17 +89,14 @@ function deletePlant(store, action) {
 
 
 function loadOne(store, action) {
+  console.log('api loadOne:', action.payload);
   $.ajax({
     type: 'GET',
-    url: `/api/plant/${action.payload}`,
+    url: `/api/plant/${action.payload._id}`,
     beforeSend: setJwtHeader.bind(null, store),
     // Success: Function( Anything data, String textStatus, jqXHR jqXHR )
     success: (retrievedPlant) => {
-      store.dispatch(actions.plantLoadSuccess(retrievedPlant));
-      const {user} = store.getState();
-      if(user && user.id === retrievedPlant.userId) {
-        store.dispatch(actions.userPlantAdd(action.payload.id));
-      }
+      store.dispatch(actions.loadPlantSuccess(retrievedPlant));
     },
     // Error: Function( jqXHR jqXHR, String textStatus, String errorThrown )
     error: (jqXHR, textStatus, errorThrown) => {

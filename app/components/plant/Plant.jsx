@@ -24,7 +24,7 @@ export default class Plant extends ReactLogLifecycle {
 
   constructor(props) {
     super(props);
-    // this.onChange = this.onChange.bind(this);
+    this.onChange = this.onChange.bind(this);
     this.setMode = this.setMode.bind(this);
     this.delete = this.delete.bind(this);
     this.createPlant = this.createPlant.bind(this);
@@ -32,18 +32,30 @@ export default class Plant extends ReactLogLifecycle {
   }
 
   componentWillMount() {
+    this.unsubscribe = store.subscribe(this.onChange);
     // TODO: store to move higher to container .jsx and user should be passed in as a prop
+    console.log('Plant.componentWillMount start');
     const {
       user = {},
       plants = []
     } = store.getState();
     let _id = _.get(this, 'props.params.id');
     const mode = _id ? 'read' : 'create';
-    _id = _id || makeCouchId();
-    const plant = _.find(plants, p => p._id === _id) || {
-      _id,
-      userId: user._id
-    };
+    let plant;
+    if(mode === 'read') {
+      plant = _.find(plants, p => p._id === _id);
+      if(!plant) {
+        store.dispatch(actions.loadPlant({_id}));
+      }
+    } else {
+      // create
+      _id = _id || makeCouchId();
+      plant = {
+        _id,
+        userId: user._id
+      };
+    }
+    console.log('mode/plant:', mode, plant);
     this.setState({
       _id,
       isOwner: isOwner(plant, user),
@@ -55,6 +67,7 @@ export default class Plant extends ReactLogLifecycle {
     //   PlantStore.listen(this.onChange);
     //   // PlantActions.loadOne(_id);
     // }
+    console.log('Plant.componentWillMount end');
   }
 
   componentWillReceiveProps(nextProps) {
@@ -70,14 +83,29 @@ export default class Plant extends ReactLogLifecycle {
   }
 
   componentWillUnmount() {
-    // PlantStore.unlisten(this.onChange);
+    this.unsubscribe();
   }
 
-  // onChange() {
-  //   // We get the whole plant store. We only want one plant.
-  //   const plant = PlantStore.getPlant(this.props.params.id);
-  //   this.setState({plant});
-  // }
+  onChange() {
+    const {
+      user = {},
+      plants = []
+    } = store.getState();
+    const {mode = 'read'} = this.state;
+    if(mode === 'read') {
+      const _id = _.get(this, 'props.params.id');
+      const plant = _.find(plants, p => p._id === _id);
+      if(plant) {
+        this.setState({
+          _id,
+          isOwner: isOwner(plant, user),
+          plant,
+          mode
+        });
+      }
+    }
+
+  }
 
   setMode(mode) {
     this.setState({mode});

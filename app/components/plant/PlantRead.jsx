@@ -29,6 +29,7 @@ export default class PlantRead extends React.Component {
   }
 
   render() {
+    console.log('PlantRead.render:', this.props);
     let {
       isOwner,
       plant

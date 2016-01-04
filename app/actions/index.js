@@ -81,6 +81,13 @@ export function deletePlant(payload) {
   };
 }
 
+export function loadPlantSuccess(payload) {
+  return {
+    type: LOAD_PLANT_SUCCESS,
+    payload
+  };
+}
+
 export function loadPlant(payload) {
   return {
     type: LOAD_PLANT_REQUEST,
