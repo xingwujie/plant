@@ -9,6 +9,7 @@ export function isOwner(object) {
   if(!owner) {
     console.log('!owner isOwner object:', object);
     console.log('!owner isOwner user:', user);
+    console.log('Stack:', Error().stack);
   }
   return owner;
 }

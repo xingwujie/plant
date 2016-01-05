@@ -14,10 +14,10 @@ import slug from 'slug';
 import store from '../../store';
 import {makeCouchId} from '../../libs/utils';
 
-import ReactLogLifecycle from 'react-log-lifecycle';
-export default class Plant extends ReactLogLifecycle {
+// import ReactLogLifecycle from 'react-log-lifecycle';
+// export default class Plant extends ReactLogLifecycle {
 
-  // export default class Plant extends React.Component {
+export default class Plant extends React.Component {
   static contextTypes = {
     history: React.PropTypes.object
   }
@@ -34,7 +34,6 @@ export default class Plant extends ReactLogLifecycle {
   componentWillMount() {
     this.unsubscribe = store.subscribe(this.onChange);
     // TODO: store to move higher to container .jsx and user should be passed in as a prop
-    console.log('Plant.componentWillMount start');
     const {
       user = {},
       plants = []
@@ -55,10 +54,9 @@ export default class Plant extends ReactLogLifecycle {
         userId: user._id
       };
     }
-    console.log('mode/plant:', mode, plant);
     this.setState({
       _id,
-      isOwner: isOwner(plant, user),
+      isOwner: plant && isOwner(plant, user),
       plant,
       mode
     });
@@ -67,19 +65,15 @@ export default class Plant extends ReactLogLifecycle {
     //   PlantStore.listen(this.onChange);
     //   // PlantActions.loadOne(_id);
     // }
-    console.log('Plant.componentWillMount end');
   }
 
   componentWillReceiveProps(nextProps) {
-    // console.log('#1 Plant componentWillReceiveProps', this.props, nextProps);
     if(nextProps.params.id && nextProps.params.slug) {
       // Can not be in create mode - only read or edit mode at this point.
       if(this.state.mode === 'create') {
-        console.log('Setting mode to read');
         this.setState({mode: 'read'});
       }
     }
-    // console.log('#2 Plant componentWillReceiveProps', this.state, store.getState());
   }
 
   componentWillUnmount() {
@@ -98,7 +92,7 @@ export default class Plant extends ReactLogLifecycle {
       if(plant) {
         this.setState({
           _id,
-          isOwner: isOwner(plant, user),
+          isOwner: plant && isOwner(plant, user),
           plant,
           mode
         });
@@ -112,14 +106,12 @@ export default class Plant extends ReactLogLifecycle {
   }
 
   createPlant(plant) {
-    console.log('Plant: createPlant:', plant);
     store.dispatch(actions.addPlant(plant));
     this.setMode('read');
     this.context.history.pushState(null, `/plant/${slug(plant.title)}/${plant._id}`);
   }
 
   updatePlant(plant) {
-    console.log('Plant: updatePlant:', plant);
     store.dispatch(actions.updatePlant(plant));
     this.setMode('read');
     this.context.history.pushState(null, `/plant/${slug(plant.title)}/${plant._id}`);
@@ -134,7 +126,7 @@ export default class Plant extends ReactLogLifecycle {
 
   render() {
     const {
-      owner,
+      isOwner: owner,
       plant,
       mode
     } = this.state || {};
