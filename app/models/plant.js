@@ -1,9 +1,11 @@
 import _ from 'lodash';
+import {makeCouchId} from '../libs/utils';
 import moment from 'moment';
 import validatejs from 'validate.js';
-import uuid from 'node-uuid';
+
 // import d from 'debug';
 // const debug = d('plant:test.plant');
+
 const uuidRE = /^[0-9a-f]{32}$/i;
 
 //  The validator receives the following arguments:
@@ -89,7 +91,7 @@ validatejs.extend(validatejs.validators.datetime, {
 // Don't need an _id if we're creating a document, db will do this.
 // Don't need a userId if we're in the client, this will get added on the server
 // to prevent tampering with the logged in user.
-export function validate(attributes, {isNew, isClient}, cb) {
+export function validate(attributes, {isNew}, cb) {
 
   const constraints = {
     _id: {format: uuidRE, presence: true},
@@ -102,16 +104,11 @@ export function validate(attributes, {isNew, isClient}, cb) {
     tags: {tagValidate: {length: {maximum: 5, innermax: 20}, unique: true, format: /[a-z-]/}},
     title: {length: {minimum: 1, maximum: 100}, presence: true},
     type: {inclusion: ['plant'], presence: true},
-    userId: {format: uuidRE, presence: !isClient},
+    userId: {format: uuidRE, presence: true},
   };
 
   if(isNew && !attributes._id) {
-    attributes = _.clone(attributes);
-    attributes._id = uuid.v4().replace(/-/g, '');
-  }
-
-  if(isClient) {
-    delete constraints.userId;
+    attributes = {...attributes, _id: makeCouchId()};
   }
 
   // debug('attributes:', attributes);

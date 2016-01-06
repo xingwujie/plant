@@ -42,10 +42,9 @@ export default class PlantCreateUpdate extends React.Component {
 
   save(e) {
     const isNew = this.props.mode === 'create';
-    const isClient = true;
     console.log('save props: ', this.props);
     console.log('save state: ', this.state);
-    validate(this.state, {isNew, isClient}, (err, transformed) => {
+    validate(this.state, {isNew}, (err, transformed) => {
       console.log('save transformed: ', transformed);
       if(err) {
         this.setState({errors: err});
