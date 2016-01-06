@@ -25,7 +25,7 @@ export default class PlantCreateUpdate extends React.Component {
       const pageTitle = this.props.mode === 'edit'
         ? `Edit ${this.props.plant.title}`
         : `Add New Plant`;
-      this.setState(_.assign({}, this.props.plant, {pageTitle}));
+      this.setState({...this.props.plant, pageTitle });
     } else {
       this.setState({});
     }

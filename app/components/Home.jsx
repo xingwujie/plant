@@ -4,6 +4,7 @@ import Footer from './Footer';
 import React from 'react';
 import store from '../store';
 import {isLoggedIn} from '../libs/auth-helper';
+// import * as actions from '../actions';
 
 export default class Home extends React.Component {
   static contextTypes = {
@@ -29,6 +30,7 @@ export default class Home extends React.Component {
 
   componentWillMount() {
     this.unsubscribe = store.subscribe(this.onChange);
+    // store.dispatch(actions.loadPlants());
 
     this.updateState();
   }

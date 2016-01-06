@@ -23,10 +23,11 @@ describe('/app/reducers/user', function() {
 
   it('should reduce a login success', (done) => {
     const payload = {one: 1, two: 2};
-    const expected = Object.assign({
+    const expected = {
       status: 'success',
-      isLoggedIn: true
-    }, payload);
+      isLoggedIn: true,
+      ...payload
+    };
     const actual = user({}, actions.loginSuccess(payload));
     assert.deepEqual(actual, expected);
     done();
@@ -34,10 +35,11 @@ describe('/app/reducers/user', function() {
 
   it('should reduce a login failure', (done) => {
     const payload = {one: 1, two: 2};
-    const expected = Object.assign({
+    const expected = {
       status: 'failed',
-      isLoggedIn: false
-    }, payload);
+      isLoggedIn: false,
+      ...payload
+    };
     const actual = user({}, actions.loginFailure(payload));
     assert.deepEqual(actual, expected);
     done();

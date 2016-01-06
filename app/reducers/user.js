@@ -16,16 +16,18 @@ export default (state, action) => {
       };
       break;
     case LOGIN_SUCCESS:
-      user = Object.assign({
+      user = {
         status:'success',
-        isLoggedIn: true
-      }, action.payload);
+        isLoggedIn: true,
+        ...action.payload
+      };
       break;
     case LOGIN_FAILURE:
-      user = Object.assign({
+      user = {
         status:'failed',
-        isLoggedIn: false
-      }, action.payload);
+        isLoggedIn: false,
+        ...action.payload
+      };
       break;
     case LOGOUT:
       user = {};

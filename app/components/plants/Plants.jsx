@@ -13,14 +13,14 @@ export default class Plants extends React.Component {
 
   constructor() {
     super();
-    // this.onChange = this.onChange.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
   componentWillMount() {
     const state = store.getState();
     this.setState(state);
     // this.setState(PlantStore.getState());
-    // PlantStore.listen(this.onChange);
+    store.subscribe(this.onChange);
 
     // if(user._id) {
     //   // PlantActions.load(user._id);
@@ -28,12 +28,13 @@ export default class Plants extends React.Component {
   }
 
   componentWillUnmount() {
-    // PlantStore.unlisten(this.onChange);
+    this.unsubscribe(this.onChange);
   }
 
-  // onChange(plants) {
-  //   this.setState(plants);
-  // }
+  onChange() {
+    const state = store.getState();
+    this.setState(state);
+  }
 
   renderPlants(plants) {
     if(!plants || plants.length === 0) {
