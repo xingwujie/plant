@@ -32,7 +32,7 @@ function loginRequest(store, action) {
   });
 }
 
-function createPlant(store, action) {
+function createPlant(store, action, next) {
   // console.log('api createPlant:', store, action);
   $.ajax({
     type: 'POST',
@@ -50,6 +50,7 @@ function createPlant(store, action) {
       store.dispatch(actions.plantCreateFailure(errorThrown));
     }
   });
+  return next(action);
 }
 
 function updatePlant(store, action) {
@@ -130,23 +131,19 @@ function load(store, action) {
   });
 }
 
+const apis = {
+  [actions.LOGIN_REQUEST]: loginRequest,
+  [actions.CREATE_PLANT_REQUEST]: createPlant,
+  [actions.UPDATE_PLANT_REQUEST]: updatePlant,
+  [actions.DELETE_PLANT_REQUEST]: deletePlant,
+  [actions.LOAD_PLANT_REQUEST]: loadOne,
+  [actions.LOAD_PLANTS_REQUEST]: load,
+};
+
 export default store => next => action => {
-  // console.log('api:', action);
-  switch(action.type) {
-    case actions.LOGIN_REQUEST:
-      return loginRequest(store, action);
-    case actions.CREATE_PLANT_REQUEST:
-      createPlant(store, action);
-      return next(action);
-    case actions.UPDATE_PLANT_REQUEST:
-      return updatePlant(store, action);
-    case actions.DELETE_PLANT_REQUEST:
-      return deletePlant(store, action);
-    case actions.LOAD_PLANT_REQUEST:
-      return loadOne(store, action);
-    case actions.LOAD_PLANTS_REQUEST:
-      return load(store, action);
-    default:
-      return next(action);
+  if(apis[action.type]) {
+    return apis[action.type](store, action, next);
   }
+
+  return next(action);
 };

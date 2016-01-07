@@ -6,36 +6,44 @@ import {
   LOGIN_FAILURE,
   LOGOUT} from '../actions';
 
+function loginRequest() {
+  return {
+    status:'fetching'
+  };
+}
+
+function loginSuccess(state, action) {
+  return {
+    status:'success',
+    isLoggedIn: true,
+    ...action.payload
+  };
+}
+
+function loginFailure(state, action) {
+  return {
+    status:'failed',
+    isLoggedIn: false,
+    ...action.payload
+  };
+}
+
+function logout() {
+  return {};
+}
+
+const reducers = {
+  [LOGIN_REQUEST]: loginRequest,
+  [LOGIN_SUCCESS]: loginSuccess,
+  [LOGIN_FAILURE]: loginFailure,
+  [LOGOUT]: logout,
+};
+
 // The login reducer
 export default (state, action) => {
-  let user;
-  switch(action.type) {
-    case LOGIN_REQUEST:
-      user = {
-        status:'fetching'
-      };
-      break;
-    case LOGIN_SUCCESS:
-      user = {
-        status:'success',
-        isLoggedIn: true,
-        ...action.payload
-      };
-      break;
-    case LOGIN_FAILURE:
-      user = {
-        status:'failed',
-        isLoggedIn: false,
-        ...action.payload
-      };
-      break;
-    case LOGOUT:
-      user = {};
-      break;
-    default:
-      user = initialState();
-      break;
-  };
+  if(reducers[action.type]) {
+    return reducers[action.type](state, action);
+  }
 
-  return user;
+  return initialState();
 };

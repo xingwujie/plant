@@ -9,7 +9,7 @@ import {isLoggedIn} from '../libs/auth-helper';
 export default class Home extends React.Component {
   static contextTypes = {
     history: React.PropTypes.object
-  }
+  };
 
   constructor() {
     super();

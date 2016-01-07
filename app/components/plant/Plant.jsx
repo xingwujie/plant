@@ -20,7 +20,7 @@ import {makeCouchId} from '../../libs/utils';
 export default class Plant extends React.Component {
   static contextTypes = {
     history: React.PropTypes.object
-  }
+  };
 
   constructor(props) {
     super(props);

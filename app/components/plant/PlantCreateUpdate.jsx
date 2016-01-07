@@ -12,7 +12,7 @@ import InputCombo from '../InputCombo';
 export default class PlantCreateUpdate extends React.Component {
   static contextTypes = {
     history: React.PropTypes.object
-  }
+  };
 
   constructor(props) {
     super(props);

@@ -76,32 +76,24 @@ function loadPlantsFailure(state, action) {
   return state;
 }
 
+const reducers = {
+  [CREATE_PLANT_REQUEST]: createPlantRequest,
+  [CREATE_PLANT_FAILURE]: ajaxPlantFailure,
+  [UPDATE_PLANT_FAILURE]: ajaxPlantFailure,
+  [DELETE_PLANT_FAILURE]: ajaxPlantFailure,
+  [UPDATE_PLANT_REQUEST]: updatePlantRequest,
+  [DELETE_PLANT_REQUEST]: deletePlantRequest,
+  [LOAD_PLANT_REQUEST]: loadPlantRequest,
+  [LOAD_PLANT_SUCCESS]: loadPlantSuccess,
+  [LOAD_PLANT_FAILURE]: loadPlantFailure,
+  [LOAD_PLANTS_REQUEST]: loadPlantsRequest,
+  [LOAD_PLANTS_FAILURE]: loadPlantsFailure,
+};
 
 export default (state = [], action) => {
-  // console.log('plant reducer:', state, action);
-  switch(action.type) {
-    case CREATE_PLANT_REQUEST:
-      return createPlantRequest(state, action);
-    case CREATE_PLANT_FAILURE:
-    case UPDATE_PLANT_FAILURE:
-    case DELETE_PLANT_FAILURE:
-      return ajaxPlantFailure(state, action);
-    case UPDATE_PLANT_REQUEST:
-      return updatePlantRequest(state, action);
-    case DELETE_PLANT_REQUEST:
-      return deletePlantRequest(state, action);
-    case LOAD_PLANT_REQUEST:
-      return loadPlantRequest(state, action);
-    case LOAD_PLANT_SUCCESS:
-      return loadPlantSuccess(state, action);
-    case LOAD_PLANT_FAILURE:
-      return loadPlantFailure(state, action);
-    case LOAD_PLANTS_REQUEST:
-      return loadPlantsRequest(state, action);
-    case LOAD_PLANTS_FAILURE:
-      return loadPlantsFailure(state, action);
+  if(reducers[action.type]) {
+    return reducers[action.type](state, action);
+  }
 
-    default:
-      return state;
-  };
+  return state;
 };
