@@ -2,8 +2,8 @@ import _ from 'lodash';
 import * as plantValidator from '../../../app/models/plant';
 import assert from 'assert';
 
-import d from 'debug';
-const debug = d('plant:test.plant');
+// import d from 'debug';
+// const debug = d('plant:test.plant');
 
 describe('/app/models/plant', function() {
 
@@ -16,8 +16,8 @@ describe('/app/models/plant', function() {
     const plantCopy = _.clone(plant);
 
     const isNew = false;
-    const isClient = false;
-    plantValidator.validate(plant, {isNew, isClient}, (err, transformed) => {
+
+    plantValidator.validate(plant, {isNew}, (err, transformed) => {
       assert(!err);
       assert.equal(transformed.title, plant.title);
       assert.deepEqual(plantCopy, plant);
@@ -42,8 +42,8 @@ describe('/app/models/plant', function() {
     const plantCopy = _.clone(plant);
 
     const isNew = false;
-    const isClient = false;
-    plantValidator.validate(plant, {isNew, isClient}, (err, transformed) => {
+
+    plantValidator.validate(plant, {isNew}, (err, transformed) => {
       // debug(err);
       assert(!err);
       assert.deepEqual(Object.keys(transformed), Object.keys(plant));
@@ -72,8 +72,8 @@ describe('/app/models/plant', function() {
     const plantCopy = _.clone(plant);
 
     const isNew = false;
-    const isClient = false;
-    plantValidator.validate(plant, {isNew, isClient}, (err /*, transformed*/) => {
+
+    plantValidator.validate(plant, {isNew}, (err /*, transformed*/) => {
       assert(err);
       // debug(err);
 
@@ -111,8 +111,8 @@ describe('/app/models/plant', function() {
     const plantCopy = _.clone(plant);
 
     const isNew = false;
-    const isClient = false;
-    plantValidator.validate(plant, {isNew, isClient}, (err, transformed) => {
+
+    plantValidator.validate(plant, {isNew}, (err, transformed) => {
       // debug('err:', err);
       // debug('transformed:', transformed);
 
@@ -138,8 +138,7 @@ describe('/app/models/plant', function() {
     const plantCopy = _.clone(plant);
 
     const isNew = true;
-    const isClient = false;
-    plantValidator.validate(plant, {isNew, isClient}, (err, transformed) => {
+    plantValidator.validate(plant, {isNew}, (err, transformed) => {
 
       assert(!err);
       assert.equal(Object.keys(transformed).length, 4);
@@ -152,7 +151,7 @@ describe('/app/models/plant', function() {
     });
   });
 
-  it('should not fail if isClient is true and userId is missing', (done) => {
+  it('should fail if userId is missing', (done) => {
     const plant = {
       _id: '0e55d91cb33d420024432d67a3c7fb36',
       title: 'Title is required',
@@ -161,34 +160,8 @@ describe('/app/models/plant', function() {
     const plantCopy = _.clone(plant);
 
     const isNew = false;
-    const isClient = true;
-    plantValidator.validate(plant, {isNew, isClient}, (err, transformed) => {
-      if(err) {
-        debug('err:', err);
-      }
 
-      assert(!err);
-      assert.equal(Object.keys(transformed).length, 3);
-      assert.equal(transformed._id, plant._id);
-      assert.equal(transformed.title, plant.title);
-      assert.equal(transformed.type, 'plant');
-      assert(!transformed.userId);
-      assert.deepEqual(plantCopy, plant);
-      done();
-    });
-  });
-
-  it('should fail if isClient is false and userId is missing', (done) => {
-    const plant = {
-      _id: '0e55d91cb33d420024432d67a3c7fb36',
-      title: 'Title is required',
-      type: 'plant'
-    };
-    const plantCopy = _.clone(plant);
-
-    const isNew = false;
-    const isClient = false;
-    plantValidator.validate(plant, {isNew, isClient}, (err, transformed) => {
+    plantValidator.validate(plant, {isNew}, (err, transformed) => {
       // debug('err:', err);
       // debug('transformed:', transformed);
 
