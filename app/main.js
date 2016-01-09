@@ -7,6 +7,7 @@ import {Router, Route, IndexRoute} from 'react-router';
 import App from './components/App';
 import Auth from './components/Auth';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
+import DebugSettings from './components/DebugSettings';
 import Help from './components/Help';
 import Home from './components/Home';
 import Login from './components/auth/Login';
@@ -21,6 +22,7 @@ var routes = (
   <Route path='/' component={App}>
     <IndexRoute component={Home}/>
     <Route path='/auth/token' component={Auth}/>
+    <Route path='/debug-settings' component={DebugSettings}/>
     <Route path='/help' component={Help}/>
     <Route path='/login' component={Login}/>
     <Route path='/plant' component={Plant}/>
