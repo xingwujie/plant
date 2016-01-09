@@ -20,7 +20,7 @@ export default class Plants extends React.Component {
     const state = store.getState();
     this.setState(state);
     // this.setState(PlantStore.getState());
-    store.subscribe(this.onChange);
+    this.unsubscribe = store.subscribe(this.onChange);
 
     // if(user._id) {
     //   // PlantActions.load(user._id);
