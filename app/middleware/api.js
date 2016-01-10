@@ -1,6 +1,7 @@
 // This file is responsible for making the Ajax calls to
 // the server as part of the store's dispatch(action) call.
 
+import _ from 'lodash';
 import * as actions from '../actions';
 import $ from 'jquery';
 
@@ -14,121 +15,96 @@ function setJwtHeader(store, request) {
   }
 }
 
-function loginRequest(store, action) {
-  // console.log('action:', action);
+function ajax(store, action, options) {
 
-  $.ajax({
-    type: 'GET',
-    url: `/auth/with?code=${action.payload}`,
+  if(!options.url || !_.isFunction(options.success) || !_.isFunction(options.failure)) {
+    console.error('Invalid options for ajax:', options);
+  }
+
+  const ajaxOptions = {
+    type: options.type || 'GET',
+    beforeSend: options.beforeSend || setJwtHeader.bind(null, store),
+    url: options.url,
+    data: options.data || {},
     // Success: Function( Anything data, String textStatus, jqXHR jqXHR )
-    success: (user) => {
-      store.dispatch(actions.loginSuccess(user));
+    success: (result) => {
+      store.dispatch(options.success(result));
     },
     // Error: Function( jqXHR jqXHR, String textStatus, String errorThrown )
     error: (jqXHR, textStatus, errorThrown) => {
-      console.log('POST /api/plant failure:', errorThrown);
-      store.dispatch(actions.loginFailure(errorThrown));
+      console.log(`${ajaxOptions.type} error for ${options.url}`, errorThrown);
+      store.dispatch(options.failure(errorThrown));
     }
-  });
+  };
+
+  $.ajax(ajaxOptions);
+
+}
+
+function loginRequest(store, action) {
+  const options = {
+    url: `/auth/with?code=${action.payload}`,
+    success: actions.loginSuccess,
+    failure: actions.loginFailure,
+    beforeSend: () => {}
+  };
+  ajax(store, action, options);
 }
 
 function createPlant(store, action, next) {
-  // console.log('api createPlant:', store, action);
-  $.ajax({
+
+  const options = {
     type: 'POST',
     url: '/api/plant',
     data: action.payload,
-    beforeSend: setJwtHeader.bind(null, store),
-    // Success: Function( Anything data, String textStatus, jqXHR jqXHR )
-    success: (createdPlant) => {
-      console.log('POST /api/plant success:', createdPlant);
-      store.dispatch(actions.plantCreateSuccess(createdPlant));
-    },
-    // Error: Function( jqXHR jqXHR, String textStatus, String errorThrown )
-    error: (jqXHR, textStatus, errorThrown) => {
-      console.log('POST /api/plant failure:', errorThrown);
-      store.dispatch(actions.plantCreateFailure(errorThrown));
-    }
-  });
-  return next(action);
+    success: actions.plantCreateSuccess,
+    failure: actions.plantCreateFailure
+  };
+  ajax(store, action, options);
+  next(action);
 }
 
 function updatePlant(store, action) {
-  $.ajax({
+  const options = {
     type: 'PUT',
     url: '/api/plant',
     data: action.payload,
-    beforeSend: setJwtHeader.bind(null, store),
-    // Success: Function( Anything data, String textStatus, jqXHR jqXHR )
-    success: (updatedPlant) => {
-      store.dispatch(actions.plantUpdateSuccess(updatedPlant));
-    },
-    // Error: Function( jqXHR jqXHR, String textStatus, String errorThrown )
-    error: (jqXHR, textStatus, errorThrown) => {
-      console.log('PUT /api/plant failure:', errorThrown);
-      store.dispatch(actions.plantUpdateFailure(errorThrown));
-    }
-  });
+    success: actions.plantUpdateSuccess,
+    failure: actions.plantUpdateFailure,
+  };
+  ajax(store, action, options);
 }
 
 function deletePlant(store, action) {
-  $.ajax({
+  const options = {
     type: 'DELETE',
     url: `/api/plant/${action.payload.id}`,
-    beforeSend: setJwtHeader.bind(null, store),
-    // Success: Function( Anything data, String textStatus, jqXHR jqXHR )
-    success: (deletedPlant) => {
-      store.dispatch(actions.plantDeleteSuccess(deletedPlant));
-    },
-    // Error: Function( jqXHR jqXHR, String textStatus, String errorThrown )
-    error: (jqXHR, textStatus, errorThrown) => {
-      console.log('DELETE /api/plant failure:', errorThrown);
-      store.dispatch(actions.plantDeleteFailure(errorThrown));
-    }
-  });
+    success: actions.plantDeleteSuccess,
+    failure: actions.plantDeleteFailure
+  };
+  ajax(store, action, options);
 }
 
 
 function loadOne(store, action) {
-  console.log('api loadOne:', action.payload);
-  $.ajax({
-    type: 'GET',
+
+  const options = {
     url: `/api/plant/${action.payload._id}`,
-    beforeSend: setJwtHeader.bind(null, store),
-    // Success: Function( Anything data, String textStatus, jqXHR jqXHR )
-    success: (retrievedPlant) => {
-      store.dispatch(actions.loadPlantSuccess(retrievedPlant));
-    },
-    // Error: Function( jqXHR jqXHR, String textStatus, String errorThrown )
-    error: (jqXHR, textStatus, errorThrown) => {
-      console.log(`GET /api/plant/${action.payload} failure:`, errorThrown);
-      store.dispatch(actions.plantLoadFailure(errorThrown));
-    }
-  });
+    success: actions.loadPlantSuccess,
+    failure: actions.plantLoadFailure,
+  };
+  ajax(store, action, options);
 }
 
 // Get all the plants a user has created
 function load(store, action) {
   const userId = action.payload;
-  $.ajax({
-    type: 'GET',
+  const options = {
     url: `/api/plants/${userId}`,
-    beforeSend: setJwtHeader.bind(null, store),
-    // Success: Function( Anything data, String textStatus, jqXHR jqXHR )
-    success: (plants) => {
-      store.dispatch(actions.plantsLoadSuccess(plants));
-      // TODO: Implement below...
-      // const {user} = store.getState();
-      // if(user && user.id === retrievedPlant.userId) {
-      //   store.dispatch(actions.userPlantAdd(action.payload.id));
-      // }
-    },
-    // Error: Function( jqXHR jqXHR, String textStatus, String errorThrown )
-    error: (jqXHR, textStatus, errorThrown) => {
-      console.log('PlantAction.loadError:', errorThrown);
-      store.dispatch(actions.plantsLoadFailure(errorThrown));
-    }
-  });
+    success: actions.loadPlantsSuccess,
+    failure: actions.loadPlantsFailure
+  };
+  ajax(store, action, options);
 }
 
 const apis = {

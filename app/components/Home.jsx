@@ -4,7 +4,7 @@ import Footer from './Footer';
 import React from 'react';
 import store from '../store';
 import {isLoggedIn} from '../libs/auth-helper';
-// import * as actions from '../actions';
+import * as actions from '../actions';
 
 export default class Home extends React.Component {
   static contextTypes = {
@@ -13,8 +13,16 @@ export default class Home extends React.Component {
 
   constructor() {
     super();
-    this.state = store.getState();
     this.onChange = this.onChange.bind(this);
+    this.state = store.getState();
+
+    const {
+      user = {},
+      plants = []
+    } = this.state || {};
+    if(plants.length === 0 && isLoggedIn()) {
+      store.dispatch(actions.loadPlants(user._id));
+    }
   }
 
   updateState() {

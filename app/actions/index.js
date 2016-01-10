@@ -88,6 +88,20 @@ export function loadPlantSuccess(payload) {
   };
 }
 
+export function loadPlantsSuccess(payload) {
+  return {
+    type: LOAD_PLANTS_SUCCESS,
+    payload
+  };
+}
+
+export function loadPlantsFailure(payload) {
+  return {
+    type: LOAD_PLANTS_FAILURE,
+    payload
+  };
+}
+
 export function loadPlant(payload) {
   return {
     type: LOAD_PLANT_REQUEST,
