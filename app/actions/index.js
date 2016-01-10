@@ -44,7 +44,7 @@ export function addPlant(payload) {
   };
 }
 
-export function plantCreateSuccess(payload) {
+export function createPlantSuccess(payload) {
   return {
     type: CREATE_PLANT_SUCCESS,
     payload

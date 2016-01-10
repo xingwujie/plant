@@ -20,6 +20,7 @@ import {
   LOAD_PLANT_FAILURE,
   LOAD_PLANT_SUCCESS,
   LOAD_PLANTS_REQUEST,
+  LOAD_PLANTS_SUCCESS,
   LOAD_PLANTS_FAILURE
   } from '../actions';
 
@@ -65,7 +66,12 @@ function loadPlantFailure(state, action) {
   return [...removed, action.payload];
 }
 
-function loadPlantsRequest(state, action) {
+function loadPlantsRequest(state /*, action*/) {
+  // Placeholder. Can put a flag in the state in future indicating that a load is in progress
+  return state;
+}
+
+function loadPlantsSuccess(state, action) {
   const ids = action.payload.map(plant => plant.id);
   const removed = state.filter(plant => ids.indexOf(plant.id >= 0));
   return [...removed, ...action.payload];
@@ -87,6 +93,7 @@ const reducers = {
   [LOAD_PLANT_SUCCESS]: loadPlantSuccess,
   [LOAD_PLANT_FAILURE]: loadPlantFailure,
   [LOAD_PLANTS_REQUEST]: loadPlantsRequest,
+  [LOAD_PLANTS_SUCCESS]: loadPlantsSuccess,
   [LOAD_PLANTS_FAILURE]: loadPlantsFailure,
 };
 

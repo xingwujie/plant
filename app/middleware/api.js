@@ -57,8 +57,8 @@ function createPlant(store, action, next) {
     type: 'POST',
     url: '/api/plant',
     data: action.payload,
-    success: actions.plantCreateSuccess,
-    failure: actions.plantCreateFailure
+    success: actions.createPlantSuccess,
+    failure: actions.createPlantFailure
   };
   ajax(store, action, options);
   next(action);
@@ -69,8 +69,8 @@ function updatePlant(store, action) {
     type: 'PUT',
     url: '/api/plant',
     data: action.payload,
-    success: actions.plantUpdateSuccess,
-    failure: actions.plantUpdateFailure,
+    success: actions.updatePlantSuccess,
+    failure: actions.updatePlantFailure,
   };
   ajax(store, action, options);
 }
@@ -79,8 +79,8 @@ function deletePlant(store, action) {
   const options = {
     type: 'DELETE',
     url: `/api/plant/${action.payload.id}`,
-    success: actions.plantDeleteSuccess,
-    failure: actions.plantDeleteFailure
+    success: actions.deletePlantSuccess,
+    failure: actions.deletePlantFailure
   };
   ajax(store, action, options);
 }
@@ -91,7 +91,7 @@ function loadOne(store, action) {
   const options = {
     url: `/api/plant/${action.payload._id}`,
     success: actions.loadPlantSuccess,
-    failure: actions.plantLoadFailure,
+    failure: actions.loadPlantFailure,
   };
   ajax(store, action, options);
 }
