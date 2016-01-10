@@ -74,9 +74,23 @@ export function updatePlant(payload) {
   };
 }
 
-export function deletePlant(payload) {
+export function deletePlantRequest(payload) {
   return {
     type: DELETE_PLANT_REQUEST,
+    payload
+  };
+}
+
+export function deletePlantSuccess(payload) {
+  return {
+    type: DELETE_PLANT_SUCCESS,
+    payload
+  };
+}
+
+export function deletePlantFailure(payload) {
+  return {
+    type: DELETE_PLANT_FAILURE,
     payload
   };
 }

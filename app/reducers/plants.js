@@ -34,7 +34,7 @@ function createPlantRequest(state, action) {
 
 // User clicks save after creating a new plant
 function ajaxPlantFailure(state, action) {
-  const removed = state.filter(plant => plant.id !== action.payload.id);
+  const removed = state.filter(plant => plant._id !== action.payload.id);
   return [...removed, action.payload];
 }
 
@@ -42,13 +42,18 @@ function ajaxPlantFailure(state, action) {
 function updatePlantRequest(state, action) {
   // payload is an object of plant being PUTed to server
   // an id has already been assigned to this object
-  const removed = state.filter(plant => plant.id !== action.payload.id);
+  const removed = state.filter(plant => plant._id !== action.payload.id);
   return [...removed, action.payload];
 }
 
 function deletePlantRequest(state, action) {
   // payload is {id} of plant being DELETEd from server
-  return state.filter(plant => plant.id !== action.payload.id);
+  console.group('deletePlantRequest');
+  console.log(state, action);
+  const rVal = state.filter(plant => plant._id !== action.payload);
+  console.log(rVal);
+  console.groupEnd();
+  return rVal;
 }
 
 function loadPlantRequest(state, action) {
@@ -57,12 +62,12 @@ function loadPlantRequest(state, action) {
 }
 
 function loadPlantSuccess(state, action) {
-  const removed = state.filter(plant => plant.id !== action.payload.id);
+  const removed = state.filter(plant => plant._id !== action.payload.id);
   return [...removed, action.payload];
 }
 
 function loadPlantFailure(state, action) {
-  const removed = state.filter(plant => plant.id !== action.payload.id);
+  const removed = state.filter(plant => plant._id !== action.payload.id);
   return [...removed, action.payload];
 }
 
@@ -72,8 +77,8 @@ function loadPlantsRequest(state /*, action*/) {
 }
 
 function loadPlantsSuccess(state, action) {
-  const ids = action.payload.map(plant => plant.id);
-  const removed = state.filter(plant => ids.indexOf(plant.id >= 0));
+  const ids = action.payload.map(plant => plant._id);
+  const removed = state.filter(plant => ids.indexOf(plant._id >= 0));
   return [...removed, ...action.payload];
 }
 

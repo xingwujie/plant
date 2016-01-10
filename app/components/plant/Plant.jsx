@@ -118,7 +118,7 @@ export default class Plant extends React.Component {
   }
 
   delete() {
-    store.dispatch(actions.deletePlant(this.state._id));
+    store.dispatch(actions.deletePlantRequest(this.state._id));
     // PlantActions.delete(this.state._id);
     // Transition to /plants
     this.context.history.pushState(null, '/plants');

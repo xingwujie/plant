@@ -75,14 +75,15 @@ function updatePlant(store, action) {
   ajax(store, action, options);
 }
 
-function deletePlant(store, action) {
+function deletePlant(store, action, next) {
   const options = {
     type: 'DELETE',
-    url: `/api/plant/${action.payload.id}`,
+    url: `/api/plant/${action.payload}`,
     success: actions.deletePlantSuccess,
     failure: actions.deletePlantFailure
   };
   ajax(store, action, options);
+  next(action);
 }
 
 
