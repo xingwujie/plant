@@ -28,46 +28,40 @@ import {
 function createPlantRequest(state, action) {
   // payload is an object of new plant being POSTed to server
   // an id has already been assigned to this object
-  console.log('reducer createPlantRequest:', action);
   return [...state, action.payload];
 }
 
 // User clicks save after creating a new plant
 function ajaxPlantFailure(state, action) {
-  const removed = state.filter(plant => plant._id !== action.payload.id);
-  return [...removed, action.payload];
+  const keepers = state.filter(plant => plant._id !== action.payload._id);
+  return [...keepers, action.payload];
 }
 
 // User clicks save after update a plant
 function updatePlantRequest(state, action) {
-  // payload is an object of plant being PUTed to server
+  // payload is an object of plant being PUT to server
   // an id has already been assigned to this object
-  const removed = state.filter(plant => plant._id !== action.payload.id);
-  return [...removed, action.payload];
+  const keepers = state.filter(plant => plant._id !== action.payload._id);
+  return [...keepers, action.payload];
 }
 
 function deletePlantRequest(state, action) {
   // payload is {id} of plant being DELETEd from server
-  console.group('deletePlantRequest');
-  console.log(state, action);
   const rVal = state.filter(plant => plant._id !== action.payload);
-  console.log(rVal);
-  console.groupEnd();
   return rVal;
 }
 
-function loadPlantRequest(state, action) {
-  console.log('loadPlantRequest:', action);
+function loadPlantRequest(state /*, action*/) {
   return state;
 }
 
 function loadPlantSuccess(state, action) {
-  const removed = state.filter(plant => plant._id !== action.payload.id);
+  const removed = state.filter(plant => plant._id !== action.payload._id);
   return [...removed, action.payload];
 }
 
 function loadPlantFailure(state, action) {
-  const removed = state.filter(plant => plant._id !== action.payload.id);
+  const removed = state.filter(plant => plant._id !== action.payload._id);
   return [...removed, action.payload];
 }
 

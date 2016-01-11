@@ -28,15 +28,17 @@ function createPlant(store, action, next) {
   next(action);
 }
 
-function updatePlant(store, action) {
+function updatePlant(store, action, next) {
   const options = {
     type: 'PUT',
     url: '/api/plant',
     data: action.payload,
+    // success: () => {},
     success: actions.updatePlantSuccess,
     failure: actions.updatePlantFailure,
   };
   ajax(store, action, options);
+  next(action);
 }
 
 function deletePlant(store, action, next) {
