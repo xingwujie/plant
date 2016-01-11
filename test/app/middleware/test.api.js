@@ -13,16 +13,39 @@ describe('/app/middleware/api', function() {
     };
     const next = () => {};
 
-    sinon.stub(ajax, 'default', (s, a, options) => {
+    const stub = sinon.stub(ajax, 'default', (s, a, options) => {
       const message = JSON.stringify(options);
       assert(_.isString(options.url), `Missing url: ${message}`);
       assert(_.isFunction(options.success), `Missing success fn: ${message}`);
       assert(_.isFunction(options.failure), `Missing failure fn: ${message}`);
     });
 
-    _.each(api.apis, v => {
-      v(store, action, next);
+    _.each(api.apis, (v, k) => {
+      api.default(store)(next)({...action, type: k});
     });
+
+    assert.equal(stub.callCount, Object.keys(api.apis).length);
+
+    ajax.default.restore();
+    done();
+  });
+
+  it('should check that next gets called if no match', (done) => {
+    const store = {};
+    const action = {
+      payload: {_id: '123'}
+    };
+    let nextCalled = false;
+    const next = () => {
+      nextCalled = true;
+    };
+
+    const spy = sinon.spy(ajax, 'default');
+
+    api.default(store)(next)({...action, type: 'Does not exist'});
+
+    assert(nextCalled);
+    assert.equal(spy.callCount, 0);
 
     ajax.default.restore();
     done();
