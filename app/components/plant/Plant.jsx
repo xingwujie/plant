@@ -112,7 +112,7 @@ export default class Plant extends React.Component {
   }
 
   updatePlant(plant) {
-    store.dispatch(actions.updatePlant(plant));
+    store.dispatch(actions.updatePlantRequest(plant));
     this.setMode('read');
     this.context.history.pushState(null, `/plant/${slug(plant.title)}/${plant._id}`);
   }
