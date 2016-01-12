@@ -13,6 +13,10 @@ import PlantRead from './PlantRead';
 import React from 'react';
 import store from '../../store';
 
+
+// const lifecycleLogOptions = {
+//   names: ['props', 'nextProps', 'nextState', 'prevProps', 'prevState']
+// };
 // import ReactLogLifecycle from 'react-log-lifecycle';
 // export default class Plant extends ReactLogLifecycle {
 
@@ -22,17 +26,18 @@ export default class Plant extends React.Component {
   };
 
   constructor(props) {
+    // super(props, lifecycleLogOptions);
     super(props);
     this.onChange = this.onChange.bind(this);
     this.state = {};
   }
 
-  initState(first) {
+  initState(first, props = this.props || {}) {
     const {
       user = {},
       plants = []
     } = store.getState();
-    const _id = _.get(this, 'props.params.id');
+    const _id = _.get(props, 'params.id');
     let plant;
     if(_id) {
       plant = _.find(plants, p => p._id === _id);
@@ -47,7 +52,7 @@ export default class Plant extends React.Component {
         mode: 'create'
       };
     }
-    console.log('componentWillMount plant:', plant);
+    // console.log('initState plant:', plant, _id, props);
     this.setState({
       isOwner: plant && isOwner(plant, user),
       plant
@@ -56,8 +61,22 @@ export default class Plant extends React.Component {
   }
 
   componentWillMount() {
+    // console.log('componentWillMount');
     this.unsubscribe = store.subscribe(this.onChange);
     this.initState(true);
+  }
+
+/*
+- Start of cycle #2
+- invoked when component is receiving new props
+- not called in cycle #1
+- this.props is old props
+- parameter to this function is nextProps
+- can call this.setState() here (will not trigger addition render)
+*/
+  componentWillReceiveProps(nextProps) {
+    // console.log('componentWillReceiveProps');
+    this.initState(true, nextProps);
   }
 
   onChange() {

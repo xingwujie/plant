@@ -4,6 +4,9 @@ import React from 'react';
 import RemoveConfirm from '../RemoveConfirm';
 
 export default class PlantRead extends React.Component {
+  static contextTypes = {
+    history: React.PropTypes.object
+  };
 
   constructor(props) {
     super(props);
