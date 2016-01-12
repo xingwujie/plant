@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 import store from '../store';
-import actions from '../actions';
+import * as actions from '../actions';
 
 import {Link} from 'react-router';
 

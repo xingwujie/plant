@@ -70,7 +70,7 @@ export default class Plants extends React.Component {
           {this.renderPlants(plants)}
           {plants.length === 0 &&
             <div className='addFirstClassBtn'>
-              <Link className='btn btn-primary' to='/add-plant'>Add your first plant</Link>
+              <Link className='btn btn-primary' to='/plant'>Add your first plant</Link>
             </div>
           }
         </div>

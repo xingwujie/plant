@@ -37,7 +37,7 @@ export const CREATE_PLANT_REQUEST = 'CREATE_PLANT_REQUEST';
 export const CREATE_PLANT_SUCCESS = 'CREATE_PLANT_SUCCESS';
 export const CREATE_PLANT_FAILURE = 'CREATE_PLANT_FAILURE';
 
-export function addPlant(payload) {
+export function createPlantRequest(payload) {
   return {
     type: CREATE_PLANT_REQUEST,
     payload
@@ -157,6 +157,26 @@ export function loadPlantsSuccess(payload) {
 export function loadPlantsFailure(payload) {
   return {
     type: LOAD_PLANTS_FAILURE,
+    payload
+  };
+}
+
+export const SET_PLANT_MODE = 'SET_PLANT_MODE';
+export const CANCEL_PLANT_CREATE_MODE = 'CANCEL_PLANT_CREATE_MODE';
+
+// payload should be:
+// { _id: <plant-id>, mode: 'read/create/update'}
+export function setPlantMode(payload) {
+  return {
+    type: SET_PLANT_MODE,
+    payload
+  };
+}
+
+// payload: <plant-id>
+export function cancelPlantCreateMode(payload) {
+  return {
+    type: CANCEL_PLANT_CREATE_MODE,
     payload
   };
 }

@@ -21,7 +21,9 @@ import {
   LOAD_PLANT_SUCCESS,
   LOAD_PLANTS_REQUEST,
   LOAD_PLANTS_SUCCESS,
-  LOAD_PLANTS_FAILURE
+  LOAD_PLANTS_FAILURE,
+  SET_PLANT_MODE,
+  CANCEL_PLANT_CREATE_MODE,
   } from '../actions';
 
 // User clicks save after creating a new plant
@@ -45,10 +47,10 @@ function updatePlantRequest(state, action) {
   return [...keepers, action.payload];
 }
 
-function deletePlantRequest(state, action) {
+// action.payload: <plant-id>
+function deletePlant(state, action) {
   // payload is {id} of plant being DELETEd from server
-  const rVal = state.filter(plant => plant._id !== action.payload);
-  return rVal;
+  return state.filter(plant => plant._id !== action.payload);
 }
 
 function loadPlantRequest(state /*, action*/) {
@@ -56,13 +58,13 @@ function loadPlantRequest(state /*, action*/) {
 }
 
 function loadPlantSuccess(state, action) {
-  const removed = state.filter(plant => plant._id !== action.payload._id);
-  return [...removed, action.payload];
+  const keepers = state.filter(plant => plant._id !== action.payload._id);
+  return [...keepers, action.payload];
 }
 
 function loadPlantFailure(state, action) {
-  const removed = state.filter(plant => plant._id !== action.payload._id);
-  return [...removed, action.payload];
+  const keepers = state.filter(plant => plant._id !== action.payload._id);
+  return [...keepers, action.payload];
 }
 
 function loadPlantsRequest(state /*, action*/) {
@@ -72,8 +74,8 @@ function loadPlantsRequest(state /*, action*/) {
 
 function loadPlantsSuccess(state, action) {
   const ids = action.payload.map(plant => plant._id);
-  const removed = state.filter(plant => ids.indexOf(plant._id >= 0));
-  return [...removed, ...action.payload];
+  const keepers = state.filter(plant => ids.indexOf(plant._id >= 0));
+  return [...keepers, ...action.payload];
 }
 
 function loadPlantsFailure(state, action) {
@@ -81,13 +83,27 @@ function loadPlantsFailure(state, action) {
   return state;
 }
 
+// action.payload:
+// {_id <plant-id>, mode: 'create/update/read'}
+function setPlantMode(state, action) {
+  return state.map( plant => {
+    if (plant._id === action.payload._id) {
+      return {...plant, mode: action.payload.mode};
+    } else {
+      return plant;
+    }
+  });
+}
+
 const reducers = {
+  [SET_PLANT_MODE]: setPlantMode,
+  [CANCEL_PLANT_CREATE_MODE]: deletePlant,
   [CREATE_PLANT_REQUEST]: createPlantRequest,
   [CREATE_PLANT_FAILURE]: ajaxPlantFailure,
   [UPDATE_PLANT_FAILURE]: ajaxPlantFailure,
   [DELETE_PLANT_FAILURE]: ajaxPlantFailure,
   [UPDATE_PLANT_REQUEST]: updatePlantRequest,
-  [DELETE_PLANT_REQUEST]: deletePlantRequest,
+  [DELETE_PLANT_REQUEST]: deletePlant,
   [LOAD_PLANT_REQUEST]: loadPlantRequest,
   [LOAD_PLANT_SUCCESS]: loadPlantSuccess,
   [LOAD_PLANT_FAILURE]: loadPlantFailure,

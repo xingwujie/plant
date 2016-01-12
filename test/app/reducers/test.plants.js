@@ -14,7 +14,7 @@ describe('/app/reducers/plants', function() {
       name: 'two'
     };
     const expected = [...current, payload];
-    const actual = plants(current, actions.addPlant(payload));
+    const actual = plants(current, actions.createPlantRequest(payload));
 
     // Check
     assert.deepEqual(actual, expected);

@@ -28,12 +28,16 @@ export default (store, action, options) => {
     data: options.data || {},
     // Success: Function( Anything data, String textStatus, jqXHR jqXHR )
     success: (result) => {
-      store.dispatch(options.success(result));
+      if(options.success) {
+        store.dispatch(options.success(result));
+      }
     },
     // Error: Function( jqXHR jqXHR, String textStatus, String errorThrown )
     error: (jqXHR, textStatus, errorThrown) => {
       console.log(`${ajaxOptions.type} error for ${options.url}`, errorThrown);
-      store.dispatch(options.failure(errorThrown));
+      if(options.failure) {
+        store.dispatch(options.failure(errorThrown));
+      }
     }
   };
 

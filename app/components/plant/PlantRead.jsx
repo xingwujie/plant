@@ -1,5 +1,5 @@
 
-import _ from 'lodash';
+import * as actions from '../../actions';
 import React from 'react';
 import RemoveConfirm from '../RemoveConfirm';
 
@@ -13,7 +13,10 @@ export default class PlantRead extends React.Component {
   }
 
   edit() {
-    this.props.setMode('edit');
+    this.props.dispatch(actions.setPlantMode({
+      _id: this.props.plant._id,
+      mode: 'edit'
+    }));
   }
 
   checkDelete() {
@@ -22,7 +25,9 @@ export default class PlantRead extends React.Component {
 
   confirmDelete(yes) {
     if(yes) {
-      this.props.delete();
+      this.props.dispatch(actions.deletePlantRequest(this.props.plant._id));
+      // Transition to /plants
+      this.context.history.pushState(null, '/plants');
     } else {
       this.setState({showDeleteConfirmation: false});
     }
@@ -34,7 +39,9 @@ export default class PlantRead extends React.Component {
       plant
     } = this.props || {};
 
-    const showDeleteConfirmation = _.get(this, 'state.showDeleteConfirmation');
+    const {
+      showDeleteConfirmation = false
+    } = this.state || {};
 
     return (
       <div>
@@ -83,3 +90,9 @@ export default class PlantRead extends React.Component {
     );
   }
 }
+
+PlantRead.propTypes = {
+  dispatch: React.PropTypes.func.isRequired,
+  isOwner: React.PropTypes.bool.isRequired,
+  plant: React.PropTypes.object.isRequired,
+};

@@ -5,14 +5,13 @@
 
 import _ from 'lodash';
 import {isOwner} from '../../libs/auth-helper';
+import {makeCouchId} from '../../libs/utils';
 import * as actions from '../../actions';
 import Base from '../Base';
 import PlantCreateUpdate from './PlantCreateUpdate';
 import PlantRead from './PlantRead';
 import React from 'react';
-import slug from 'slug';
 import store from '../../store';
-import {makeCouchId} from '../../libs/utils';
 
 // import ReactLogLifecycle from 'react-log-lifecycle';
 // export default class Plant extends ReactLogLifecycle {
@@ -25,129 +24,73 @@ export default class Plant extends React.Component {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
-    this.setMode = this.setMode.bind(this);
-    this.delete = this.delete.bind(this);
-    this.createPlant = this.createPlant.bind(this);
-    this.updatePlant = this.updatePlant.bind(this);
+    this.state = {};
   }
 
-  componentWillMount() {
-    this.unsubscribe = store.subscribe(this.onChange);
-    // TODO: store to move higher to container .jsx and user should be passed in as a prop
+  initState(first) {
     const {
       user = {},
       plants = []
     } = store.getState();
-    let _id = _.get(this, 'props.params.id');
-    const mode = _id ? 'read' : 'create';
+    const _id = _.get(this, 'props.params.id');
     let plant;
-    if(mode === 'read') {
+    if(_id) {
       plant = _.find(plants, p => p._id === _id);
-      if(!plant) {
+      if(!plant && first) {
         store.dispatch(actions.loadPlant({_id}));
+        plant = {};
       }
     } else {
-      // create
-      _id = _id || makeCouchId();
       plant = {
-        _id,
-        userId: user._id
+        _id: makeCouchId(),
+        userId: user._id,
+        mode: 'create'
       };
     }
+    console.log('componentWillMount plant:', plant);
     this.setState({
-      _id,
       isOwner: plant && isOwner(plant, user),
-      plant,
-      mode
+      plant
     });
 
-    // if(!plant || plant.summary) {
-    //   PlantStore.listen(this.onChange);
-    //   // PlantActions.loadOne(_id);
-    // }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if(nextProps.params.id && nextProps.params.slug) {
-      // Can not be in create mode - only read or edit mode at this point.
-      if(this.state.mode === 'create') {
-        this.setState({mode: 'read'});
-      }
-    }
+  componentWillMount() {
+    this.unsubscribe = store.subscribe(this.onChange);
+    this.initState(true);
+  }
+
+  onChange() {
+    this.initState(false);
   }
 
   componentWillUnmount() {
     this.unsubscribe();
   }
 
-  onChange() {
-    const {
-      user = {},
-      plants = []
-    } = store.getState();
-    const {mode = 'read'} = this.state;
-    if(mode === 'read') {
-      const _id = _.get(this, 'props.params.id');
-      const plant = _.find(plants, p => p._id === _id);
-      if(plant) {
-        this.setState({
-          _id,
-          isOwner: plant && isOwner(plant, user),
-          plant,
-          mode
-        });
-      }
-    }
-
-  }
-
-  setMode(mode) {
-    this.setState({mode});
-  }
-
-  createPlant(plant) {
-    store.dispatch(actions.addPlant(plant));
-    this.setMode('read');
-    this.context.history.pushState(null, `/plant/${slug(plant.title)}/${plant._id}`);
-  }
-
-  updatePlant(plant) {
-    store.dispatch(actions.updatePlantRequest(plant));
-    this.setMode('read');
-    this.context.history.pushState(null, `/plant/${slug(plant.title)}/${plant._id}`);
-  }
-
-  delete() {
-    store.dispatch(actions.deletePlantRequest(this.state._id));
-    // PlantActions.delete(this.state._id);
-    // Transition to /plants
-    this.context.history.pushState(null, '/plants');
-  }
-
   render() {
     const {
       isOwner: owner,
-      plant,
-      mode
+      plant = {}
     } = this.state || {};
+
+    const mode = plant.mode || this.state.mode || 'read';
 
     return (
       <Base>
         {mode === 'read' &&
           <PlantRead
-            plant={plant}
+            dispatch={store.dispatch}
             isOwner={owner}
-            setMode={this.setMode}
-            delete={this.delete}
+            plant={plant}
             />
         }
         {(mode === 'edit' || mode === 'create') &&
           <PlantCreateUpdate
-            plant={plant}
+            dispatch={store.dispatch}
             mode={mode}
-            setMode={this.setMode}
-            save={mode === 'create' ? this.createPlant : this.updatePlant}
-            />
+            plant={plant}
+          />
         }
       </Base>
     );

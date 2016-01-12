@@ -38,7 +38,7 @@ function updatePlant(store, action, next) {
     failure: actions.updatePlantFailure,
   };
   ajax(store, action, options);
-  next(action);
+  return next(action);
 }
 
 function deletePlant(store, action, next) {

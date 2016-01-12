@@ -4,10 +4,10 @@
 
 import _ from 'lodash';
 import {validate} from '../../models/plant';
-// import Errors from '../Errors';
-// import PlantActions from '../../actions/PlantActions';
-import React from 'react';
+import * as actions from '../../actions';
 import InputCombo from '../InputCombo';
+import React from 'react';
+import slug from 'slug';
 
 export default class PlantCreateUpdate extends React.Component {
   static contextTypes = {
@@ -22,7 +22,7 @@ export default class PlantCreateUpdate extends React.Component {
 
   componentWillMount() {
     if(!_.isEmpty(this.props.plant)){
-      const pageTitle = this.props.mode === 'edit'
+      const pageTitle = this.props.plant.mode === 'edit'
         ? `Edit ${this.props.plant.title}`
         : `Add New Plant`;
       this.setState({...this.props.plant, pageTitle });
@@ -32,8 +32,11 @@ export default class PlantCreateUpdate extends React.Component {
   }
 
   cancel() {
-    if(this.props.mode === 'edit') {
-      this.props.setMode('read');
+    if(this.props.plant.mode === 'edit') {
+      this.props.dispatch(actions.setPlantMode({
+        _id: this.props.plant._id,
+        mode: 'read'
+      }));
     } else {
       // Transition to /plants
       this.context.history.pushState(null, '/plants');
@@ -41,20 +44,17 @@ export default class PlantCreateUpdate extends React.Component {
   }
 
   save(e) {
-    const isNew = this.props.mode === 'create';
-    console.log('save props: ', this.props);
-    console.log('save state: ', this.state);
+    const isNew = this.props.plant.mode === 'create';
     validate(this.state, {isNew}, (err, transformed) => {
-      console.log('save transformed: ', transformed);
       if(err) {
         this.setState({errors: err});
       } else {
-        this.props.save(transformed);
         if(isNew) {
-          // PlantActions.create(transformed);
+          this.props.dispatch(actions.createPlantRequest(transformed));
         } else {
-          // PlantActions.update(transformed);
+          this.props.dispatch(actions.updatePlantRequest(transformed));
         }
+        this.context.history.pushState(null, `/plant/${slug(transformed.title)}/${transformed._id}`);
       }
     });
     e.preventDefault();
@@ -171,4 +171,10 @@ export default class PlantCreateUpdate extends React.Component {
       </div>
     );
   }
+};
+
+PlantCreateUpdate.propTypes = {
+  plant: React.PropTypes.object.isRequired,
+  dispatch: React.PropTypes.func.isRequired,
+  mode: React.PropTypes.string.isRequired
 };
