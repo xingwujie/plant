@@ -36,6 +36,27 @@ export default class PlantRead extends React.Component {
     }
   }
 
+  renderDetails(plant) {
+    const titles = [
+      {name: 'description', text: ''},
+      {name: 'commonName', text: 'Common Name'},
+      {name: 'botanicalName', text: 'Botanical Name'},
+      {name: 'purchasedDate', text: 'Bought On'},
+    ];
+    if(!plant) {
+      return null;
+    }
+    return titles.map( title => {
+      if(!plant[title.name]) {
+        return null;
+      }
+      return (<h3 key={title.name}>
+        {`${title.text ? title.text + ': ' : ''}${plant[title.name]}`}
+      </h3>);
+    });
+
+  }
+
   render() {
     let {
       isOwner,
@@ -54,7 +75,6 @@ export default class PlantRead extends React.Component {
         {plant &&
           <div className='plant'>
             <h2 className='vcenter'>
-              {plant.title}
               {isOwner &&
                 <div className='pull-right'>
                   <div
@@ -75,18 +95,10 @@ export default class PlantRead extends React.Component {
             {showDeleteConfirmation &&
               <RemoveConfirm title={plant.title} confirmFn={this.confirmDelete} />
             }
-            {plant.description &&
-              <p>{plant.description}</p>
-            }
-            {plant.commonName &&
-              <p>Common Name: {plant.commonName}</p>
-            }
-            {plant.botanicalName &&
-              <p>Botanical Name: {plant.botanicalName}</p>
-            }
-            {plant.purchasedDate &&
-              <p>Bought On: {plant.purchasedDate}</p>
-            }
+            <h2 className='vcenter' style={{textAlign: 'center'}}>
+              {plant.title}
+            </h2>
+            {this.renderDetails(plant)}
           </div>
         }
       </div>
