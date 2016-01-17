@@ -39,7 +39,7 @@ export default class NoteCreateUpdate extends React.Component {
     // List check box names in here.
     const checkBoxes = [];
     var change = {
-      [propName]: _.contains(checkBoxes, propName) ? e.target.checked : e.target.value
+      [propName]: _.includes(checkBoxes, propName) ? e.target.checked : e.target.value
     };
     this.setState(change);
   }

@@ -49,7 +49,7 @@ validatejs.validators.tagValidate = (value, options /*, key, attributes */) => {
   }
 
   // Only a to z and '-'
-  if(!_.all(value, item => {return /^[a-z-]*$/.test(item); })) {
+  if(!_.every(value, item => {return /^[a-z-]*$/.test(item); })) {
     return `can only have alphabetic characters and a dash`;
   }
 
@@ -63,7 +63,7 @@ validatejs.validators.tagValidate = (value, options /*, key, attributes */) => {
 // 2. Apply unique to array which might reduce length of array
 function transform(attributes) {
   if(attributes.tags && _.isArray(attributes.tags)) {
-    attributes.tags = _.unique(attributes.tags.map(tag => { return tag.toLowerCase(); }));
+    attributes.tags = _.uniq(attributes.tags.map(tag => { return tag.toLowerCase(); }));
   }
   attributes.type = 'plant';
   return attributes;

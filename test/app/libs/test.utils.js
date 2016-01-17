@@ -11,7 +11,7 @@ describe('/app/libs/utils', function() {
     const couchId = utils.makeCouchId();
     debug('couchId:', couchId);
     assert.equal(couchId.length, 32);
-    assert(!_.contains(couchId, '-'));
+    assert(!_.includes(couchId, '-'));
     done();
   });
 

@@ -1,19 +1,19 @@
-// import AltContainer from 'alt/AltContainer';
 import Base from './Base';
-import Footer from './Footer';
-// import PlantStore from '../stores/PlantStore';
 import React from 'react';
 
+// Responsible for:
+// 1. Current user: /profile
+// 2. Other user: /profile/slug/<id>
+// Only implmenting #1 for now.
+
 export default class Profile extends React.Component {
-  componentDidMount() {
-  }
+
   render() {
     return (
       <Base>
-        <div>
+        <h2 style={{textAlign: 'center'}}>
           User Profile
-        </div>
-        <Footer />
+        </h2>
       </Base>
     );
   }
