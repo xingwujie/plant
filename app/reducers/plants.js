@@ -73,9 +73,12 @@ function loadPlantsRequest(state /*, action*/) {
 }
 
 function loadPlantsSuccess(state, action) {
-  const ids = action.payload.map(plant => plant._id);
-  const keepers = state.filter(plant => ids.indexOf(plant._id >= 0));
-  return [...keepers, ...action.payload];
+  if(action.payload && action.payload.length > 0) {
+    const ids = action.payload.map(plant => plant._id);
+    const keepers = state.filter(plant => ids.indexOf(plant._id >= 0));
+    return [...keepers, ...action.payload];
+  }
+  return state;
 }
 
 function loadPlantsFailure(state, action) {

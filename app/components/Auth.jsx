@@ -17,6 +17,8 @@ export default class Auth extends React.Component {
     let { query } = this.props.location;
     var code = query && query.jwt;
 
+    console.log('Auth.componentDidMount query:', query);
+
     store.dispatch(actions.loginRequest(code));
   }
 
@@ -25,11 +27,13 @@ export default class Auth extends React.Component {
   }
 
   onChange(){
+    console.log('Auth.onChange store.getState().user:', store.getState().user);
     this.setState(store.getState().user);
   }
 
   componentDidUpdate() {
-    const jwt = _.get(this, 'state.user.jwt', '');
+    console.log('Auth.componentDidUpdate this.state:', this.state);
+    const jwt = _.get(this, 'state.jwt', '');
     if(jwt) {
       const returnurl = localStorage.getItem('returnurl');
       if(returnurl) {
@@ -37,8 +41,10 @@ export default class Auth extends React.Component {
       }
       let destination = returnurl || '/';
       let { history: historyContext } = this.props;
+      console.log('Auth.componentDidUpdate destination:', destination);
       historyContext.pushState(null, destination);
     } else {
+      console.log('Auth.componentDidUpdate /login');
       window.location = '/login';
     }
   }

@@ -45,5 +45,9 @@ export default (state, action) => {
     return reducers[action.type](state, action);
   }
 
-  return initialState();
+  if(!state) {
+    return initialState();
+  }
+
+  return state;
 };

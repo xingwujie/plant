@@ -14,6 +14,7 @@ export function setupSubscribe(store) {
   function handleChange() {
     let previousValue = currentValue;
     currentValue = select(store.getState());
+    console.log('handleChange store.getState():', store.getState());
 
     if (previousValue !== currentValue) {
       console.log('Changing user obj in localStorage to:', currentValue);

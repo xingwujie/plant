@@ -20,12 +20,15 @@ describe('/db/cloudant/', function() {
       const userDB = new User.User();
 
       const user = {
-        email: 'test@test.com',
+        facebook: {
+          id: 'e2f80b715c65e35328305ac68ad32255'
+        },
+        email: '',
         first: 'first',
         last: 'last'
       };
 
-      userDB.findOrCreateUser(user, (err, body) => {
+      userDB.findOrCreateFacebookUser(user, (err, body) => {
 
         assert(!err);
         debug('body:', body);

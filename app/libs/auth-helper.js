@@ -16,5 +16,6 @@ export function isOwner(object) {
 
 export function isLoggedIn() {
   const {user} = store.getState();
+  console.log('auth-helper user:', user);
   return user && user.isLoggedIn;
 }
