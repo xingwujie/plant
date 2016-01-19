@@ -53,8 +53,17 @@ export default class Plant extends React.Component {
       };
     }
     // console.log('initState plant:', plant, _id, props);
+    const owner = plant && isOwner(plant, user);
+
+    if(!owner && plant.mode !== 'read') {
+      store.dispatch(actions.setPlantMode({
+        _id: plant._id,
+        mode: 'read'
+      }));
+    }
+
     this.setState({
-      isOwner: plant && isOwner(plant, user),
+      isOwner: owner,
       plant
     });
 
