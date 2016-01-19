@@ -89,7 +89,7 @@ export default class Plant extends React.Component {
 
   render() {
     const {
-      isOwner: owner,
+      isOwner: owner = false,
       plant = {}
     } = this.state || {};
 

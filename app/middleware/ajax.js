@@ -7,7 +7,7 @@ function setJwtHeader(store, request) {
   if(user && user.jwt) {
     request.setRequestHeader('Authorization', 'Bearer ' + user.jwt);
   } else {
-    console.log('No user or user.jwt to add auth header:', user);
+    // console.log('No user or user.jwt to add auth header:', user);
   }
 }
 
