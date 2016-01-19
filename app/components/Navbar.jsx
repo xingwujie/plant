@@ -14,7 +14,7 @@ export default class Navbar extends React.Component {
 
   componentWillMount() {
     this.unsubscribe = store.subscribe(this.onChange);
-    let user = store.getState().user;
+    const {user = {}} = store.getState();
     this.setState({user});
   }
 
@@ -23,8 +23,8 @@ export default class Navbar extends React.Component {
   }
 
   onChange(){
-    let user = store.getState().user;
-    this.setState(user);
+    const {user = {}} = store.getState();
+    this.setState({user});
   }
 
   logout() {

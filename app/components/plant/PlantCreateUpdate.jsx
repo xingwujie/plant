@@ -7,7 +7,7 @@ import {validate} from '../../models/plant';
 import * as actions from '../../actions';
 import InputCombo from '../InputCombo';
 import React from 'react';
-import slug from 'slug';
+import {makeSlug} from '../../libs/utils';
 
 export default class PlantCreateUpdate extends React.Component {
   static contextTypes = {
@@ -54,7 +54,7 @@ export default class PlantCreateUpdate extends React.Component {
         } else {
           this.props.dispatch(actions.updatePlantRequest(transformed));
         }
-        this.context.history.pushState(null, `/plant/${slug(transformed.title)}/${transformed._id}`);
+        this.context.history.pushState(null, `/plant/${makeSlug(transformed.title)}/${transformed._id}`);
       }
     });
     e.preventDefault();
