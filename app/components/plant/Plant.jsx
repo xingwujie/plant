@@ -10,6 +10,7 @@ import * as actions from '../../actions';
 import Base from '../Base';
 import PlantCreateUpdate from './PlantCreateUpdate';
 import PlantRead from './PlantRead';
+import CreateNote from './CreateNote';
 import React from 'react';
 import store from '../../store';
 
@@ -107,11 +108,18 @@ export default class Plant extends React.Component {
     return (
       <Base>
         {mode === 'read' &&
-          <PlantRead
-            dispatch={store.dispatch}
-            isOwner={owner}
-            plant={plant}
+          <div>
+            <PlantRead
+              dispatch={store.dispatch}
+              isOwner={owner}
+              plant={plant}
             />
+            <CreateNote
+              dispatch={store.dispatch}
+              isOwner={owner}
+              plant={plant}
+            />
+          </div>
         }
         {(mode === 'edit' || mode === 'create') &&
           <PlantCreateUpdate

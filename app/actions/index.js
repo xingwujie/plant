@@ -180,3 +180,13 @@ export function cancelPlantCreateMode(payload) {
     payload
   };
 }
+
+export const CREATE_NOTE = 'CREATE_NOTE';
+
+// payload: { _id: <plant-id>}
+export function createNote(payload) {
+  return {
+    type: CREATE_NOTE,
+    payload
+  };
+}

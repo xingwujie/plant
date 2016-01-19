@@ -10,20 +10,21 @@
 // error: A string representing the reason why the status is 'error'
 
 import {
-  CREATE_PLANT_REQUEST,
+  CANCEL_PLANT_CREATE_MODE,
+  CREATE_NOTE,
   CREATE_PLANT_FAILURE,
-  UPDATE_PLANT_REQUEST,
-  UPDATE_PLANT_FAILURE,
-  DELETE_PLANT_REQUEST,
+  CREATE_PLANT_REQUEST,
   DELETE_PLANT_FAILURE,
-  LOAD_PLANT_REQUEST,
+  DELETE_PLANT_REQUEST,
   LOAD_PLANT_FAILURE,
+  LOAD_PLANT_REQUEST,
   LOAD_PLANT_SUCCESS,
+  LOAD_PLANTS_FAILURE,
   LOAD_PLANTS_REQUEST,
   LOAD_PLANTS_SUCCESS,
-  LOAD_PLANTS_FAILURE,
   SET_PLANT_MODE,
-  CANCEL_PLANT_CREATE_MODE,
+  UPDATE_PLANT_FAILURE,
+  UPDATE_PLANT_REQUEST,
   } from '../actions';
 
 // User clicks save after creating a new plant
@@ -98,21 +99,33 @@ function setPlantMode(state, action) {
   });
 }
 
+// action.payload: {_id <plant-id>, enable: true/false}
+function createNote(state, action) {
+  return state.map( plant => {
+    if (plant._id === action.payload._id) {
+      return {...plant, createNote: action.payload.enable};
+    } else {
+      return plant;
+    }
+  });
+}
+
 const reducers = {
-  [SET_PLANT_MODE]: setPlantMode,
   [CANCEL_PLANT_CREATE_MODE]: deletePlant,
-  [CREATE_PLANT_REQUEST]: createPlantRequest,
+  [CREATE_NOTE]: createNote,
   [CREATE_PLANT_FAILURE]: ajaxPlantFailure,
-  [UPDATE_PLANT_FAILURE]: ajaxPlantFailure,
+  [CREATE_PLANT_REQUEST]: createPlantRequest,
   [DELETE_PLANT_FAILURE]: ajaxPlantFailure,
-  [UPDATE_PLANT_REQUEST]: updatePlantRequest,
   [DELETE_PLANT_REQUEST]: deletePlant,
+  [LOAD_PLANT_FAILURE]: loadPlantFailure,
   [LOAD_PLANT_REQUEST]: loadPlantRequest,
   [LOAD_PLANT_SUCCESS]: loadPlantSuccess,
-  [LOAD_PLANT_FAILURE]: loadPlantFailure,
+  [LOAD_PLANTS_FAILURE]: loadPlantsFailure,
   [LOAD_PLANTS_REQUEST]: loadPlantsRequest,
   [LOAD_PLANTS_SUCCESS]: loadPlantsSuccess,
-  [LOAD_PLANTS_FAILURE]: loadPlantsFailure,
+  [SET_PLANT_MODE]: setPlantMode,
+  [UPDATE_PLANT_FAILURE]: ajaxPlantFailure,
+  [UPDATE_PLANT_REQUEST]: updatePlantRequest,
 };
 
 export default (state = [], action) => {
