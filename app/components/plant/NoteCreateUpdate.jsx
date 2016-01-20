@@ -2,15 +2,29 @@
 
 import React from 'react';
 import * as actions from '../../actions';
+import moment from 'moment';
 
 export default class NoteCreateUpdate extends React.Component {
+
+  constructor() {
+    super();
+    this.state = {
+      date: moment().format('MM/DD/YY')
+    };
+  }
 
   componentDidMount() {
     this.state = {};
   }
 
   save(e) {
-    console.log('NoteCreateUpdate.save');
+    // TODO: Need to validate and clean note
+    const note = {
+      ...this.state,
+      plant: this.props.plant._id
+    };
+    console.log('NoteCreateUpdate.save:', note);
+    this.props.dispatch(actions.createNoteRequest(note));
     e.preventDefault();
     e.stopPropagation();
   }
@@ -24,6 +38,12 @@ export default class NoteCreateUpdate extends React.Component {
     e.stopPropagation();
   }
 
+  onChange(key, e) {
+    this.setState({
+      [key]: e.target.value
+    });
+  }
+
   render() {
     // const plantId = _.get(this, 'props.params.id', '');
 
@@ -31,10 +51,41 @@ export default class NoteCreateUpdate extends React.Component {
     //   plant,
     // } = this.props || {};
 
+    const {
+      noteText = '',
+      date = ''
+    } = this.state || {};
+
+    const textAreaStyle = {
+      width: '100%',
+      color: 'black'
+    };
+
     return (
       <div className='well'>
 
         <form className='editor'>
+
+          <div className='pull-right'>
+            <span style={{color: 'black'}}
+              >{'Date:'}</span>
+            <input
+              onChange={this.onChange.bind(this, 'date')}
+              style={{color: 'black'}}
+              type='text'
+              value={date}
+            />
+          </div>
+
+          <div>
+            <textarea
+              onChange={this.onChange.bind(this, 'noteText')}
+              placeholder='What has happened since your last note?'
+              rows={4}
+              style={textAreaStyle}
+              value={noteText}
+            />
+          </div>
 
           <div style={{textAlign: 'center'}}>
             <button

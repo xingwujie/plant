@@ -58,6 +58,31 @@ export function createPlantFailure(payload) {
   };
 }
 
+export const CREATE_NOTE_REQUEST = 'CREATE_NOTE_REQUEST';
+export const CREATE_NOTE_SUCCESS = 'CREATE_NOTE_SUCCESS';
+export const CREATE_NOTE_FAILURE = 'CREATE_NOTE_FAILURE';
+
+export function createNoteRequest(payload) {
+  return {
+    type: CREATE_NOTE_REQUEST,
+    payload
+  };
+}
+
+export function createNoteSuccess(payload) {
+  return {
+    type: CREATE_NOTE_SUCCESS,
+    payload
+  };
+}
+
+export function createNoteFailure(payload) {
+  return {
+    type: CREATE_NOTE_FAILURE,
+    payload
+  };
+}
+
 
 
 export const UPDATE_PLANT_REQUEST = 'UPDATE_PLANT_REQUEST';
