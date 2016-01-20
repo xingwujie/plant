@@ -3,6 +3,7 @@
 import React from 'react';
 import * as actions from '../../actions';
 import moment from 'moment';
+import RaisedButton from 'material-ui/lib/raised-button';
 
 export default class NoteCreateUpdate extends React.Component {
 
@@ -85,14 +86,15 @@ export default class NoteCreateUpdate extends React.Component {
           </div>
 
           <div style={{textAlign: 'center'}}>
-            <button
-              type='button'
-              className='btn btn-primary btn-lg'
-              onClick={this.save.bind(this)}>Save</button>
-            <button
-              type='button'
-              className='btn btn-danger btn-lg'
-              onClick={this.cancel.bind(this)}>Cancel</button>
+            <RaisedButton
+              label='Cancel'
+              onClick={this.cancel.bind(this)}
+            />
+            <RaisedButton
+              label='Save'
+              onClick={this.save.bind(this)}
+              style={{marginLeft: '10px'}}
+            />
           </div>
 
         </form>
