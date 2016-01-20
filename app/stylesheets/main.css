@@ -1,3 +1,12 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,300,500);
+
+body {
+  font-family: 'Roboto', sans-serif;
+  /*background-color: rgba(0, 0, 0, 0.0);
+  color: white;*/
+}
+
+
 #hero {
   height: 100vh;
   margin-top: -20px;
@@ -113,19 +122,6 @@ html {
   background-size: cover;
   height: 100%;
 }
-
-body {
-  /*background-color: rgba(0, 0, 0, 0.0);
-  color: white;*/
-}
-
-/*.page {
-  background-repeat: no-repeat;
-  background-size: cover;
-  height: 100vh;
-  margin-top: -20px;
-  width: 100%;
-}*/
 
 #main {
   /*background-color: rgba(0, 0, 0, 0.8);*/
