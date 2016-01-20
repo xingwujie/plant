@@ -114,11 +114,13 @@ export default class Plant extends React.Component {
               isOwner={owner}
               plant={plant}
             />
-            <CreateNote
-              dispatch={store.dispatch}
-              isOwner={owner}
-              plant={plant}
-            />
+            {plant && plant.title &&
+              <CreateNote
+                dispatch={store.dispatch}
+                isOwner={owner}
+                plant={plant}
+              />
+            }
           </div>
         }
         {(mode === 'edit' || mode === 'create') &&

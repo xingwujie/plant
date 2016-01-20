@@ -33,7 +33,7 @@ export default class CreateNote extends React.Component {
           />
         }
         {!plant.createNote &&
-          <div style={{textAlign: 'center'}}>
+          <div style={{textAlign: 'left'}}>
             <button
               type='button'
               className='btn btn-primary btn-lg'

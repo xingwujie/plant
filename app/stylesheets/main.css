@@ -5,7 +5,7 @@
 }
 
 .home-header, .home-subheader {
-  color: white;
+  /*color: white;*/
   line-height: 3em;
   text-align: center;
 }
@@ -21,7 +21,7 @@
 
 .home-subheader a{
   /*text-transform: uppercase;*/
-  color: white;
+  /*color: white;*/
   font-size: xx-large;
   
 }
@@ -46,7 +46,7 @@
 }
 
 .plant-item a {
-  color: white;
+  /*color: white;*/
   background-color: rgba(255, 255, 255, 0.3);
 }
 

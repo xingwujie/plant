@@ -57,8 +57,7 @@ export default class NoteCreateUpdate extends React.Component {
     } = this.state || {};
 
     const textAreaStyle = {
-      width: '100%',
-      color: 'black'
+      width: '100%'
     };
 
     return (
@@ -67,11 +66,9 @@ export default class NoteCreateUpdate extends React.Component {
         <form className='editor'>
 
           <div className='pull-right'>
-            <span style={{color: 'black'}}
-              >{'Date:'}</span>
+            <span style={{marginRight: '5px'}}>{'Date:'}</span>
             <input
               onChange={this.onChange.bind(this, 'date')}
-              style={{color: 'black'}}
               type='text'
               value={date}
             />

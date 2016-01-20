@@ -75,7 +75,7 @@ export default class PlantRead extends React.Component {
         {plant &&
           <div className='plant'>
             <h2 className='vcenter'>
-              {isOwner &&
+              {isOwner && !plant.createNote &&
                 <div className='pull-right'>
                   <div
                     className='btn btn-default btn-lg'
