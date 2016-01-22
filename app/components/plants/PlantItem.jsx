@@ -3,6 +3,9 @@
 import {Link} from 'react-router';
 import {makeSlug} from '../../libs/utils';
 import React from 'react';
+import GridTile from 'material-ui/lib/grid-list/grid-tile';
+import StarBorder from 'material-ui/lib/svg-icons/toggle/star-border';
+import IconButton from 'material-ui/lib/icon-button';
 
 export default class PlantItem extends React.Component {
 
@@ -12,23 +15,29 @@ export default class PlantItem extends React.Component {
 
   render() {
     var {
-      name, //eslint-disable-line no-shadow
-      id,
-      imageUrl
+      title,
+      _id,
+      imageUrl,
+      name // eslint-disable-line no-shadow
     } = this.props || {};
 
-    const link = `/plant/${makeSlug(name)}/${id}`;
+    // const phImage = 'http://www.maerskline.com/~/media/maersk-line/Countries/int/Images/Customer%20Cases/fruit_2_u_case.jpg';
+    const phImage = 'http://www.ascensioneating.com/wp-content/uploads/2012/12/aa-fruit-2.jpg';
+    const link = `/plant/${makeSlug(title)}/${_id}`;
 
     return (
-      <div className='plant-item'>
-        <Link
-          to={link}>
-          {imageUrl &&
-            <img src={imageUrl} />
-          }
-          <div>{name}</div>
-        </Link>
-      </div>
+      <Link
+        to={link}>
+        <GridTile
+          key={imageUrl || phImage}
+          title={title}
+          subtitle={<span>by <b>{name}</b></span>}
+          actionIcon={<IconButton><StarBorder color='white'/></IconButton>}
+          >
+            <img src={imageUrl || phImage}
+         />
+        </GridTile>
+      </Link>
     );
   }
 }
