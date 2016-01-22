@@ -1,5 +1,5 @@
-
 import * as actions from '../../actions';
+import RaisedButton from 'material-ui/lib/raised-button';
 import React from 'react';
 import RemoveConfirm from '../RemoveConfirm';
 
@@ -74,26 +74,25 @@ export default class PlantRead extends React.Component {
         }
         {plant &&
           <div className='plant'>
-            <h2 className='vcenter'>
-              {isOwner && !plant.createNote &&
-                <div className='pull-right'>
-                  <div
-                    className='btn btn-default btn-lg'
-                    onClick={this.edit}>
-                    <span className='glyphicon glyphicon-pencil' aria-hidden='true'></span>
-                    Edit
+            {isOwner && !plant.createNote &&
+              <h2 className='vcenter'>
+                {!showDeleteConfirmation &&
+                  <div style={{textAlign: 'right'}}>
+                    <RaisedButton
+                      label='Edit'
+                      onClick={this.edit}
+                    />
+                    <RaisedButton
+                      label='Delete'
+                      onClick={this.checkDelete}
+                      style={{marginLeft: '10px'}}
+                    />
                   </div>
-                  <div
-                    className='btn btn-default btn-lg'
-                    onClick={this.checkDelete}>
-                    <span className='glyphicon glyphicon-remove' aria-hidden='true'></span>
-                    Delete
-                  </div>
-                </div>
-              }
-            </h2>
-            {showDeleteConfirmation &&
-              <RemoveConfirm title={plant.title} confirmFn={this.confirmDelete} />
+                }
+                {showDeleteConfirmation &&
+                  <RemoveConfirm title={plant.title} confirmFn={this.confirmDelete} />
+                }
+              </h2>
             }
             <h2 className='vcenter' style={{textAlign: 'center'}}>
               {plant.title}

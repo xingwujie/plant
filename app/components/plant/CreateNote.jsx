@@ -1,5 +1,6 @@
 // Responsible for showing a button or create note form
 
+import RaisedButton from 'material-ui/lib/raised-button';
 import NoteCreateUpdate from './NoteCreateUpdate';
 import React from 'react';
 import * as actions from '../../actions';
@@ -33,11 +34,11 @@ export default class CreateNote extends React.Component {
           />
         }
         {!plant.createNote &&
-          <div style={{textAlign: 'left'}}>
-            <button
-              type='button'
-              className='btn btn-primary btn-lg'
-              onClick={this.createNoteClick.bind(this)}>Create Note</button>
+          <div style={{textAlign: 'right'}}>
+            <RaisedButton
+              label='Create Note'
+              onClick={this.createNoteClick.bind(this)}
+            />
           </div>
         }
       </div>

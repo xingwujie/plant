@@ -1,4 +1,4 @@
-
+import RaisedButton from 'material-ui/lib/raised-button';
 import _ from 'lodash';
 import React from 'react';
 
@@ -22,10 +22,18 @@ export default class RemoveConfirm extends React.Component {
     const title = _.get(this.props, 'title', '');
 
     return (
-      <div className='pull-right delete'>
+      <div style={{textAlign: 'right'}}>
         <strong className='lead'>{'This cannot be undone. Really delete?'}</strong>
-        <button onClick={this.reallyDelete} className='btn btn-danger'>{`Delete ${title}`}</button>
-        <button onClick={this.cancelDelete} className='btn btn-info'>{`Cancel`}</button>
+        <RaisedButton
+          label='Cancel'
+          onClick={this.cancelDelete}
+          style={{marginLeft: '10px'}}
+        />
+        <RaisedButton
+          label={`Delete ${title}`}
+          onClick={this.reallyDelete}
+          style={{marginLeft: '10px'}}
+        />
       </div>
     );
   }
