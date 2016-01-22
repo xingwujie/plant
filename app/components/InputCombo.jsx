@@ -1,4 +1,5 @@
 import React from 'react';
+import TextField from 'material-ui/lib/text-field';
 
 export default class InputCombo extends React.Component {
 
@@ -10,21 +11,30 @@ export default class InputCombo extends React.Component {
     let {
       error,
       label,
-      extraClasses,
       value,
       placeholder,
       changeHandler
     } = this.props || {};
 
-    return (
-      <div className={`form-group title-input-combo col-xs-12 ${extraClasses ? extraClasses : ''} ${error ? 'has-error' : ''}`}>
-        <label className='control-label'>{label}{error ? ` (${error})` : ''}:</label>
-        <input className={`form-control`}
-          type='text' value={value}
-          placeholder={placeholder}
-          onChange={changeHandler} />
-      </div>
+    const underlineStyle = {
+      display: 'none',
+    };
 
+    const style = {
+      marginLeft: 20,
+      width: '100%'
+    };
+
+    return (
+      <TextField
+        errorText={error}
+        floatingLabelText={label}
+        hintText={placeholder}
+        onChange={changeHandler}
+        style={style}
+        underlineStyle={underlineStyle}
+        value={value}
+      />
     );
   }
 }

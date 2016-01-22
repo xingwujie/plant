@@ -3,11 +3,13 @@
 // Url Update: /plant/<slug>/<plant-id>
 
 import _ from 'lodash';
+import {makeSlug} from '../../libs/utils';
 import {validate} from '../../models/plant';
 import * as actions from '../../actions';
+import Divider from 'material-ui/lib/divider';
 import InputCombo from '../InputCombo';
+import RaisedButton from 'material-ui/lib/raised-button';
 import React from 'react';
-import {makeSlug} from '../../libs/utils';
 
 export default class PlantCreateUpdate extends React.Component {
   static contextTypes = {
@@ -101,9 +103,7 @@ export default class PlantCreateUpdate extends React.Component {
               changeHandler={this.handleChange.bind(this, 'title')}
             />
 
-            <div className='col-xs-12'>
-              {'The rest of the fields are optional. You can come back and add them later if you want to start adding notes or other plants now.'}
-            </div>
+            <Divider />
 
             <InputCombo
               error={errors.botanicalName}
@@ -113,6 +113,7 @@ export default class PlantCreateUpdate extends React.Component {
               placeholder={`e.g. Citrus sinensis 'Washington Navel'`}
               changeHandler={this.handleChange.bind(this, 'botanicalName')}
             />
+            <Divider />
 
             <InputCombo
               error={errors.commonName}
@@ -122,6 +123,7 @@ export default class PlantCreateUpdate extends React.Component {
               placeholder={`e.g. Washington Navel Orange`}
               changeHandler={this.handleChange.bind(this, 'commonName')}
             />
+            <Divider />
 
             <InputCombo
               error={errors.description}
@@ -130,6 +132,7 @@ export default class PlantCreateUpdate extends React.Component {
               placeholder={`Describe this plant and/or the location in your yard`}
               changeHandler={this.handleChange.bind(this, 'description')}
             />
+            <Divider />
 
             <InputCombo
               error={errors.purchasedDate}
@@ -139,6 +142,7 @@ export default class PlantCreateUpdate extends React.Component {
               placeholder={`MM/DD/YYYY`}
               changeHandler={this.handleChange.bind(this, 'purchasedDate')}
             />
+            <Divider />
 
             <InputCombo
               error={errors.plantedDate}
@@ -148,6 +152,7 @@ export default class PlantCreateUpdate extends React.Component {
               placeholder={`MM/DD/YYYY`}
               changeHandler={this.handleChange.bind(this, 'plantedDate')}
             />
+            <Divider />
 
             <InputCombo
               error={errors.price}
@@ -157,14 +162,25 @@ export default class PlantCreateUpdate extends React.Component {
               placeholder={`$XX.xx`}
               changeHandler={this.handleChange.bind(this, 'price')}
             />
+            <Divider />
 
-            {!_.isEmpty(errors) && <p className='text-danger col-xs-12'>There were errors. Please check your input.</p>}
-
-            <div className='center-div'>
-              <div className='form-group col-xs-12 btn-group' style={{textAlign: 'center'}}>
-                <button className='btn btn-success btn-lg' type='button' onClick={this.save.bind(this)}>Save</button>
-                <button className='btn btn-info btn-lg' type='button' onClick={this.cancel.bind(this)}>Cancel</button>
+            {!_.isEmpty(errors) &&
+              <div>
+                <p className='text-danger col-xs-12'>There were errors. Please check your input.</p>
+                <Divider />
               </div>
+            }
+
+            <div style={{textAlign: 'right'}}>
+              <RaisedButton
+                label='Cancel'
+                onClick={this.cancel.bind(this)}
+              />
+              <RaisedButton
+                label='Save'
+                onClick={this.save.bind(this)}
+                style={{marginLeft: '10px'}}
+              />
             </div>
 
           </form>
