@@ -44,6 +44,6 @@ export default class PlantItem extends React.Component {
 
 PlantItem.propTypes = {
   name: React.PropTypes.string.isRequired,
-  id: React.PropTypes.string.isRequired,
+  _id: React.PropTypes.string.isRequired,
   imageUrl: React.PropTypes.string,
 };

@@ -9,13 +9,29 @@ import PlantItem from './PlantItem';
 import React from 'react';
 import store from '../../store';
 import GridList from 'material-ui/lib/grid-list/grid-list';
+import {isLoggedIn} from '../../libs/auth-helper';
+import * as actions from '../../actions';
 
 export default class Plants extends React.Component {
+
+  constructor() {
+    super();
+    this.onChange = this.onChange.bind(this);
+    this.state = store.getState();
+
+    const {
+      user = {},
+      plants = []
+    } = this.state || {};
+    if(plants.length === 0 && isLoggedIn()) {
+      store.dispatch(actions.loadPlants(user._id));
+    }
+  }
 
   componentWillMount() {
     const state = store.getState();
     this.setState(state);
-    this.unsubscribe = store.subscribe(this.onChange.bind(this));
+    this.unsubscribe = store.subscribe(this.onChange);
   }
 
   componentWillUnmount() {
@@ -35,6 +51,7 @@ export default class Plants extends React.Component {
 
 
     const tileElements = plants.map(plant => <PlantItem
+        key={plant._id}
         {...plant}
         name={user.name}
       />
