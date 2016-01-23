@@ -21,8 +21,7 @@ export default class InputCombo extends React.Component {
     };
 
     const style = {
-      marginLeft: 20,
-      width: '100%'
+      marginLeft: 20
     };
 
     return (
@@ -34,6 +33,7 @@ export default class InputCombo extends React.Component {
         style={style}
         underlineStyle={underlineStyle}
         value={value}
+        fullWidth={true}
       />
     );
   }

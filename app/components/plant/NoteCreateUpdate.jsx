@@ -5,7 +5,9 @@ import InputCombo from '../InputCombo';
 import moment from 'moment';
 import RaisedButton from 'material-ui/lib/raised-button';
 import React from 'react';
+import TextField from 'material-ui/lib/text-field';
 // import Divider from 'material-ui/lib/divider';
+import Paper from 'material-ui/lib/paper';
 
 export default class NoteCreateUpdate extends React.Component {
 
@@ -60,48 +62,67 @@ export default class NoteCreateUpdate extends React.Component {
     } = this.state || {};
 
     const textAreaStyle = {
-      width: '100%'
+      width: '100%',
+      textAlign: 'left'
     };
 
     const errors = {};
 
+    const paperStyle = {
+      // height: 100,
+      // width: 100,
+      padding: 20,
+      width: '100%',
+      margin: 20,
+      textAlign: 'center',
+      display: 'inline-block',
+    };
+
+    const underlineStyle = {
+      display: 'none',
+    };
+
+    const textFieldStyle = {
+      marginLeft: 20
+    };
+
     return (
-      <div className='well'>
+      <Paper style={paperStyle} zDepth={5}>
 
-        <form className='editor'>
+        <TextField
+          errorText={errors.date}
+          floatingLabelText='Note Date'
+          hintText={`MM/DD/YYYY`}
+          onChange={this.onChange.bind(this, 'date')}
+          style={textFieldStyle}
+          underlineStyle={underlineStyle}
+          value={date}
+          fullWidth={true}
+        />
 
-          <InputCombo
-            error={errors.purchasedDate}
-            label='Note Date'
-            value={date}
-            placeholder={`MM/DD/YYYY`}
-            changeHandler={this.onChange.bind(this, 'date')}
+        <TextField
+          onChange={this.onChange.bind(this, 'noteText')}
+          floatingLabelText='Note'
+          hintText='What has happened since your last note?'
+          multiLine={true}
+          style={textAreaStyle}
+          value={noteText}
+          errorText={errors.note}
+        />
+
+        <div style={{textAlign: 'right'}}>
+          <RaisedButton
+            label='Cancel'
+            onClick={this.cancel.bind(this)}
           />
+          <RaisedButton
+            label='Save'
+            onClick={this.save.bind(this)}
+            style={{marginLeft: '10px'}}
+          />
+        </div>
 
-          <div>
-            <textarea
-              onChange={this.onChange.bind(this, 'noteText')}
-              placeholder='What has happened since your last note?'
-              rows={4}
-              style={textAreaStyle}
-              value={noteText}
-            />
-          </div>
-
-          <div style={{textAlign: 'right'}}>
-            <RaisedButton
-              label='Cancel'
-              onClick={this.cancel.bind(this)}
-            />
-            <RaisedButton
-              label='Save'
-              onClick={this.save.bind(this)}
-              style={{marginLeft: '10px'}}
-            />
-          </div>
-
-        </form>
-      </div>
+      </Paper>
     );
   }
 }
