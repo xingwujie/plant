@@ -20,11 +20,6 @@ export default class NoteCreateUpdate extends React.Component {
     };
   }
 
-  // componentDidMount() {
-  //   this.state = {};
-  // }
-  //
-
   save(e) {
     const isNew = true; // TODO fix this
     const note = {
