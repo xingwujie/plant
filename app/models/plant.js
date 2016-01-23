@@ -1,12 +1,10 @@
 import _ from 'lodash';
 import {makeCouchId} from '../libs/utils';
-import moment from 'moment';
+import constants from '../libs/constants';
 import validatejs from 'validate.js';
 
 // import d from 'debug';
 // const debug = d('plant:test.plant');
-
-const uuidRE = /^[0-9a-f]{32}$/i;
 
 //  The validator receives the following arguments:
 //     value - The value exactly how it looks in the attribute object.
@@ -69,32 +67,13 @@ function transform(attributes) {
   return attributes;
 }
 
-// Before using it we must add the parse and format functions
-// Here is a sample implementation using moment.js
-validatejs.extend(validatejs.validators.datetime, {
-  // The value is guaranteed not to be null or undefined but otherwise it
-  // could be anything.
-  parse: function(value /*, options */ ) {
-    // debug('date parse:', value, options);
-    const unixTimeStamp = +moment.utc(new Date(value));
-    // debug('unixTimeStamp:', unixTimeStamp);
-    return unixTimeStamp;
-  },
-  // Input is a unix timestamp
-  format: function(value, options) {
-    // debug('date format:', value, options);
-    var format = options.dateOnly ? 'YYYY-MM-DD' : 'YYYY-MM-DD hh:mm:ss';
-    return moment.utc(value).format(format);
-  }
-});
-
 // Don't need an _id if we're creating a document, db will do this.
 // Don't need a userId if we're in the client, this will get added on the server
 // to prevent tampering with the logged in user.
-export function validate(attributes, {isNew}, cb) {
+export default (attributes, {isNew}, cb) => {
 
   const constraints = {
-    _id: {format: uuidRE, presence: true},
+    _id: {format: constants.uuidRE, presence: true},
     botanicalName: {length: {maximum: 100}},
     commonName:  {length: {maximum: 100}},
     description: {length: {maximum: 500}},
@@ -104,7 +83,7 @@ export function validate(attributes, {isNew}, cb) {
     tags: {tagValidate: {length: {maximum: 5, innermax: 20}, unique: true, format: /[a-z-]/}},
     title: {length: {minimum: 1, maximum: 100}, presence: true},
     type: {inclusion: ['plant'], presence: true},
-    userId: {format: uuidRE, presence: true},
+    userId: {format: constants.uuidRE, presence: true},
   };
 
   if(isNew && !attributes._id) {

@@ -6,6 +6,9 @@ import RaisedButton from 'material-ui/lib/raised-button';
 import React from 'react';
 import TextField from 'material-ui/lib/text-field';
 import Paper from 'material-ui/lib/paper';
+import validators from '../../models';
+
+const validate = validators.note;
 
 export default class NoteCreateUpdate extends React.Component {
 
@@ -21,13 +24,23 @@ export default class NoteCreateUpdate extends React.Component {
   }
 
   save(e) {
-    // TODO: Need to validate and clean note
+    const isNew = this.props.plant.mode === 'create';
     const note = {
       ...this.state,
       plant: this.props.plant._id
     };
-    console.log('NoteCreateUpdate.save:', note);
-    this.props.dispatch(actions.createNoteRequest(note));
+    validate(note, {isNew}, (err, transformed) => {
+      console.log('NoteCreateUpdate.save:', err, transformed);
+      if(err) {
+        this.setState({errors: err});
+      } else {
+        if(isNew) {
+          this.props.dispatch(actions.createNoteRequest(transformed));
+        } else {
+          this.props.dispatch(actions.updateNoteRequest(transformed));
+        }
+      }
+    });
     e.preventDefault();
     e.stopPropagation();
   }

@@ -4,7 +4,7 @@
 
 import _ from 'lodash';
 import {makeSlug} from '../../libs/utils';
-import {validate} from '../../models/plant';
+import validators from '../../models';
 import * as actions from '../../actions';
 import Divider from 'material-ui/lib/divider';
 import InputCombo from '../InputCombo';
@@ -12,6 +12,8 @@ import Paper from 'material-ui/lib/paper';
 import RaisedButton from 'material-ui/lib/raised-button';
 import React from 'react';
 import TextField from 'material-ui/lib/text-field';
+
+const validate = validators.plant;
 
 export default class PlantCreateUpdate extends React.Component {
   static contextTypes = {

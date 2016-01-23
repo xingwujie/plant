@@ -1,6 +1,8 @@
 import _ from 'lodash';
-import * as plantValidator from '../../../app/models/plant';
+import validators from '../../../app/models';
 import assert from 'assert';
+
+const plantValidator = validators.plant;
 
 // import d from 'debug';
 // const debug = d('plant:test.plant');
@@ -17,7 +19,7 @@ describe('/app/models/plant', function() {
 
     const isNew = false;
 
-    plantValidator.validate(plant, {isNew}, (err, transformed) => {
+    plantValidator(plant, {isNew}, (err, transformed) => {
       assert(!err);
       assert.equal(transformed.title, plant.title);
       assert.deepEqual(plantCopy, plant);
@@ -43,7 +45,7 @@ describe('/app/models/plant', function() {
 
     const isNew = false;
 
-    plantValidator.validate(plant, {isNew}, (err, transformed) => {
+    plantValidator(plant, {isNew}, (err, transformed) => {
       // debug(err);
       assert(!err);
       assert.deepEqual(Object.keys(transformed), Object.keys(plant));
@@ -73,7 +75,7 @@ describe('/app/models/plant', function() {
 
     const isNew = false;
 
-    plantValidator.validate(plant, {isNew}, (err /*, transformed*/) => {
+    plantValidator(plant, {isNew}, (err /*, transformed*/) => {
       assert(err);
       // debug(err);
 
@@ -112,7 +114,7 @@ describe('/app/models/plant', function() {
 
     const isNew = false;
 
-    plantValidator.validate(plant, {isNew}, (err, transformed) => {
+    plantValidator(plant, {isNew}, (err, transformed) => {
       // debug('err:', err);
       // debug('transformed:', transformed);
 
@@ -138,7 +140,7 @@ describe('/app/models/plant', function() {
     const plantCopy = _.clone(plant);
 
     const isNew = true;
-    plantValidator.validate(plant, {isNew}, (err, transformed) => {
+    plantValidator(plant, {isNew}, (err, transformed) => {
 
       assert(!err);
       assert.equal(Object.keys(transformed).length, 4);
@@ -161,7 +163,7 @@ describe('/app/models/plant', function() {
 
     const isNew = false;
 
-    plantValidator.validate(plant, {isNew}, (err, transformed) => {
+    plantValidator(plant, {isNew}, (err, transformed) => {
       // debug('err:', err);
       // debug('transformed:', transformed);
 

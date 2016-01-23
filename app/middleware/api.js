@@ -28,6 +28,19 @@ function createPlant(store, action, next) {
   next(action);
 }
 
+function createNote(store, action, next) {
+
+  const options = {
+    type: 'POST',
+    url: '/api/note',
+    data: action.payload,
+    success: actions.createNoteSuccess,
+    failure: actions.createNoteFailure
+  };
+  ajax(store, action, options);
+  next(action);
+}
+
 function updatePlant(store, action, next) {
   const options = {
     type: 'PUT',
@@ -77,6 +90,7 @@ function load(store, action) {
 export const apis = {
   [actions.LOGIN_REQUEST]: loginRequest,
   [actions.CREATE_PLANT_REQUEST]: createPlant,
+  [actions.CREATE_NOTE_REQUEST]: createNote,
   [actions.UPDATE_PLANT_REQUEST]: updatePlant,
   [actions.DELETE_PLANT_REQUEST]: deletePlant,
   [actions.LOAD_PLANT_REQUEST]: loadOne,
