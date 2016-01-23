@@ -21,9 +21,9 @@ export default (attributes, {isNew}, cb) => {
 
   const constraints = {
     _id: {format: constants.uuidRE, presence: true},
-    date: {datetime: true},
+    date: {datetime: true, presence: true},
     plantId: {format: constants.uuidRE, presence: true},
-    text: {length: {maximum: 1000}},
+    note: {length: {minimum: 1, maximum: 5000}, presence: true},
     type: {inclusion: ['note'], presence: true},
     userId: {format: constants.uuidRE, presence: true},
   };

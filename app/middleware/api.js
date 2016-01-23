@@ -29,7 +29,7 @@ function createPlant(store, action, next) {
 }
 
 function createNote(store, action, next) {
-
+  console.log('About to POST /api/note');
   const options = {
     type: 'POST',
     url: '/api/note',

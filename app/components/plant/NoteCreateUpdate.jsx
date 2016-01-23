@@ -1,11 +1,12 @@
 // Used to add a note to a plant
 
+import _ from 'lodash';
 import * as actions from '../../actions';
 import moment from 'moment';
+import Paper from 'material-ui/lib/paper';
 import RaisedButton from 'material-ui/lib/raised-button';
 import React from 'react';
 import TextField from 'material-ui/lib/text-field';
-import Paper from 'material-ui/lib/paper';
 import validators from '../../models';
 
 const validate = validators.note;
@@ -15,24 +16,26 @@ export default class NoteCreateUpdate extends React.Component {
   constructor() {
     super();
     this.state = {
-      date: moment().format('MM/DD/YY')
+      date: moment().format('MM/DD/YYYY')
     };
   }
 
-  componentDidMount() {
-    this.state = {};
-  }
+  // componentDidMount() {
+  //   this.state = {};
+  // }
+  //
 
   save(e) {
-    const isNew = this.props.plant.mode === 'create';
+    const isNew = true; // TODO fix this
     const note = {
       ...this.state,
       plant: this.props.plant._id
     };
-    validate(note, {isNew}, (err, transformed) => {
-      console.log('NoteCreateUpdate.save:', err, transformed);
-      if(err) {
-        this.setState({errors: err});
+    validate(note, {isNew}, (errors, transformed) => {
+      console.log('NoteCreateUpdate.save:', errors, transformed);
+      if(errors) {
+        console.log('Note validation errors:', errors);
+        this.setState({errors});
       } else {
         if(isNew) {
           this.props.dispatch(actions.createNoteRequest(transformed));
@@ -68,15 +71,14 @@ export default class NoteCreateUpdate extends React.Component {
     // } = this.props || {};
 
     const {
-      noteText = '',
-      date = moment().format('MM/DD/YYYY')
+      date = moment().format('MM/DD/YYYY'),
+      errors = {},
+      note = '',
     } = this.state || {};
 
     const textAreaStyle = {
       textAlign: 'left'
     };
-
-    const errors = {};
 
     const paperStyle = {
       padding: 20,
@@ -91,7 +93,8 @@ export default class NoteCreateUpdate extends React.Component {
     };
 
     const textFieldStyle = {
-      marginLeft: 20
+      marginLeft: 20,
+      textAlign: 'left'
     };
 
     return (
@@ -99,7 +102,7 @@ export default class NoteCreateUpdate extends React.Component {
 
         <TextField
           errorText={errors.date}
-          floatingLabelText='Note Date'
+          floatingLabelText='Date'
           fullWidth={true}
           hintText={`MM/DD/YYYY`}
           onChange={this.onChange.bind(this, 'date')}
@@ -114,10 +117,16 @@ export default class NoteCreateUpdate extends React.Component {
           fullWidth={true}
           hintText='What has happened since your last note?'
           multiLine={true}
-          onChange={this.onChange.bind(this, 'noteText')}
+          onChange={this.onChange.bind(this, 'note')}
           style={textAreaStyle}
-          value={noteText}
+          value={note}
         />
+
+        {!_.isEmpty(errors) &&
+          <div>
+            <p className='text-danger col-xs-12'>{'There were errors. Please check your input.'}</p>
+          </div>
+        }
 
         <div style={{textAlign: 'right'}}>
           <RaisedButton

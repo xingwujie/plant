@@ -194,7 +194,7 @@ export default class PlantCreateUpdate extends React.Component {
 
         {!_.isEmpty(errors) &&
           <div>
-            <p className='text-danger col-xs-12'>There were errors. Please check your input.</p>
+            <p className='text-danger col-xs-12'>{'There were errors. Please check your input.'}</p>
             <Divider />
           </div>
         }
