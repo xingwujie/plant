@@ -1,9 +1,11 @@
 // Used to add a note to a plant
 
-import React from 'react';
 import * as actions from '../../actions';
+import InputCombo from '../InputCombo';
 import moment from 'moment';
 import RaisedButton from 'material-ui/lib/raised-button';
+import React from 'react';
+// import Divider from 'material-ui/lib/divider';
 
 export default class NoteCreateUpdate extends React.Component {
 
@@ -54,26 +56,27 @@ export default class NoteCreateUpdate extends React.Component {
 
     const {
       noteText = '',
-      date = ''
+      date = moment().format('MM/DD/YYYY')
     } = this.state || {};
 
     const textAreaStyle = {
       width: '100%'
     };
 
+    const errors = {};
+
     return (
       <div className='well'>
 
         <form className='editor'>
 
-          <div className='pull-right'>
-            <span style={{marginRight: '5px'}}>{'Date:'}</span>
-            <input
-              onChange={this.onChange.bind(this, 'date')}
-              type='text'
-              value={date}
-            />
-          </div>
+          <InputCombo
+            error={errors.purchasedDate}
+            label='Note Date'
+            value={date}
+            placeholder={`MM/DD/YYYY`}
+            changeHandler={this.onChange.bind(this, 'date')}
+          />
 
           <div>
             <textarea
@@ -85,7 +88,7 @@ export default class NoteCreateUpdate extends React.Component {
             />
           </div>
 
-          <div style={{textAlign: 'center'}}>
+          <div style={{textAlign: 'right'}}>
             <RaisedButton
               label='Cancel'
               onClick={this.cancel.bind(this)}

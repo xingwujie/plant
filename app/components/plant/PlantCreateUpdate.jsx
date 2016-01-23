@@ -65,10 +65,8 @@ export default class PlantCreateUpdate extends React.Component {
   }
 
   handleChange(propName, e) {
-    // List check box names in here.
-    const checkBoxes = [];
     var change = {
-      [propName]: _.includes(checkBoxes, propName) ? e.target.checked : e.target.value
+      [propName]: e.target.value
     };
     this.setState(change);
   }
@@ -159,7 +157,7 @@ export default class PlantCreateUpdate extends React.Component {
               extraClasses='col-sm-4'
               label='Price'
               value={price}
-              placeholder={`$XX.xx`}
+              placeholder={`$9.99`}
               changeHandler={this.handleChange.bind(this, 'price')}
             />
             <Divider />
