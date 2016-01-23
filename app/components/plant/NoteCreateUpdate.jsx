@@ -1,12 +1,10 @@
 // Used to add a note to a plant
 
 import * as actions from '../../actions';
-import InputCombo from '../InputCombo';
 import moment from 'moment';
 import RaisedButton from 'material-ui/lib/raised-button';
 import React from 'react';
 import TextField from 'material-ui/lib/text-field';
-// import Divider from 'material-ui/lib/divider';
 import Paper from 'material-ui/lib/paper';
 
 export default class NoteCreateUpdate extends React.Component {
@@ -62,15 +60,12 @@ export default class NoteCreateUpdate extends React.Component {
     } = this.state || {};
 
     const textAreaStyle = {
-      width: '100%',
       textAlign: 'left'
     };
 
     const errors = {};
 
     const paperStyle = {
-      // height: 100,
-      // width: 100,
       padding: 20,
       width: '100%',
       margin: 20,
@@ -92,22 +87,23 @@ export default class NoteCreateUpdate extends React.Component {
         <TextField
           errorText={errors.date}
           floatingLabelText='Note Date'
+          fullWidth={true}
           hintText={`MM/DD/YYYY`}
           onChange={this.onChange.bind(this, 'date')}
           style={textFieldStyle}
           underlineStyle={underlineStyle}
           value={date}
-          fullWidth={true}
         />
 
         <TextField
-          onChange={this.onChange.bind(this, 'noteText')}
+          errorText={errors.note}
           floatingLabelText='Note'
+          fullWidth={true}
           hintText='What has happened since your last note?'
           multiLine={true}
+          onChange={this.onChange.bind(this, 'noteText')}
           style={textAreaStyle}
           value={noteText}
-          errorText={errors.note}
         />
 
         <div style={{textAlign: 'right'}}>

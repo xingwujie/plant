@@ -8,8 +8,10 @@ import {validate} from '../../models/plant';
 import * as actions from '../../actions';
 import Divider from 'material-ui/lib/divider';
 import InputCombo from '../InputCombo';
+import Paper from 'material-ui/lib/paper';
 import RaisedButton from 'material-ui/lib/raised-button';
 import React from 'react';
+import TextField from 'material-ui/lib/text-field';
 
 export default class PlantCreateUpdate extends React.Component {
   static contextTypes = {
@@ -88,101 +90,126 @@ export default class PlantCreateUpdate extends React.Component {
       console.log('errors:', errors);
     }
 
+    const paperStyle = {
+      padding: 20,
+      width: '100%',
+      margin: 20,
+      textAlign: 'center',
+      display: 'inline-block',
+    };
+
+    const underlineStyle = {
+      display: 'none',
+    };
+
+    const textFieldStyle = {
+      marginLeft: 20
+    };
+
+    const textAreaStyle = {
+      ...textFieldStyle,
+      textAlign: 'left'
+    };
+
+
+
+
     return (
-      <div>
+      <Paper style={paperStyle} zDepth={5}>
         <h2 style={{textAlign: 'center'}}>{pageTitle}</h2>
-          <form className='editor'>
 
-            <InputCombo
-              error={errors.title}
-              label='Title'
-              value={title}
-              placeholder={`How do you refer to this plant? (e.g. Washington Navel)`}
-              changeHandler={this.handleChange.bind(this, 'title')}
-            />
+        <InputCombo
+          error={errors.title}
+          label='Title'
+          value={title}
+          placeholder={`How do you refer to this plant? (e.g. Washington Navel)`}
+          changeHandler={this.handleChange.bind(this, 'title')}
+        />
+        <Divider />
 
+        <InputCombo
+          error={errors.botanicalName}
+          label='Botanical Name'
+          value={botanicalName}
+          extraClasses='col-sm-6'
+          placeholder={`e.g. Citrus sinensis 'Washington Navel'`}
+          changeHandler={this.handleChange.bind(this, 'botanicalName')}
+        />
+        <Divider />
+
+        <InputCombo
+          error={errors.commonName}
+          label='Common Name'
+          extraClasses='col-sm-6'
+          value={commonName}
+          placeholder={`e.g. Washington Navel Orange`}
+          changeHandler={this.handleChange.bind(this, 'commonName')}
+        />
+        <Divider />
+
+        <TextField
+          errorText={errors.description}
+          floatingLabelText='Description'
+          fullWidth={true}
+          hintText={`Describe this plant and/or the location in your yard`}
+          multiLine={true}
+          onChange={this.handleChange.bind(this, 'description')}
+          style={textAreaStyle}
+          underlineStyle={underlineStyle}
+          value={description}
+        />
+        <Divider />
+
+        <InputCombo
+          error={errors.purchasedDate}
+          extraClasses='col-sm-4'
+          label='Purchase Date'
+          value={purchasedDate}
+          placeholder={`MM/DD/YYYY`}
+          changeHandler={this.handleChange.bind(this, 'purchasedDate')}
+        />
+        <Divider />
+
+        <InputCombo
+          error={errors.plantedDate}
+          extraClasses='col-sm-4'
+          label='Planted Date'
+          value={plantedDate}
+          placeholder={`MM/DD/YYYY`}
+          changeHandler={this.handleChange.bind(this, 'plantedDate')}
+        />
+        <Divider />
+
+        <InputCombo
+          error={errors.price}
+          extraClasses='col-sm-4'
+          label='Price'
+          value={price}
+          placeholder={`$9.99`}
+          changeHandler={this.handleChange.bind(this, 'price')}
+        />
+        <Divider />
+
+        {!_.isEmpty(errors) &&
+          <div>
+            <p className='text-danger col-xs-12'>There were errors. Please check your input.</p>
             <Divider />
+          </div>
+        }
 
-            <InputCombo
-              error={errors.botanicalName}
-              label='Botanical Name'
-              value={botanicalName}
-              extraClasses='col-sm-6'
-              placeholder={`e.g. Citrus sinensis 'Washington Navel'`}
-              changeHandler={this.handleChange.bind(this, 'botanicalName')}
-            />
-            <Divider />
+        <div style={{textAlign: 'right'}}>
+          <RaisedButton
+            label='Cancel'
+            onClick={this.cancel.bind(this)}
+          />
+          <RaisedButton
+            label='Save'
+            onClick={this.save.bind(this)}
+            style={{marginLeft: '10px'}}
+          />
+        </div>
 
-            <InputCombo
-              error={errors.commonName}
-              label='Common Name'
-              extraClasses='col-sm-6'
-              value={commonName}
-              placeholder={`e.g. Washington Navel Orange`}
-              changeHandler={this.handleChange.bind(this, 'commonName')}
-            />
-            <Divider />
-
-            <InputCombo
-              error={errors.description}
-              label='Description'
-              value={description}
-              placeholder={`Describe this plant and/or the location in your yard`}
-              changeHandler={this.handleChange.bind(this, 'description')}
-            />
-            <Divider />
-
-            <InputCombo
-              error={errors.purchasedDate}
-              extraClasses='col-sm-4'
-              label='Purchase Date'
-              value={purchasedDate}
-              placeholder={`MM/DD/YYYY`}
-              changeHandler={this.handleChange.bind(this, 'purchasedDate')}
-            />
-            <Divider />
-
-            <InputCombo
-              error={errors.plantedDate}
-              extraClasses='col-sm-4'
-              label='Planted Date'
-              value={plantedDate}
-              placeholder={`MM/DD/YYYY`}
-              changeHandler={this.handleChange.bind(this, 'plantedDate')}
-            />
-            <Divider />
-
-            <InputCombo
-              error={errors.price}
-              extraClasses='col-sm-4'
-              label='Price'
-              value={price}
-              placeholder={`$9.99`}
-              changeHandler={this.handleChange.bind(this, 'price')}
-            />
-            <Divider />
-
-            {!_.isEmpty(errors) &&
-              <div>
-                <p className='text-danger col-xs-12'>There were errors. Please check your input.</p>
-                <Divider />
-              </div>
-            }
-
-            <div style={{textAlign: 'right'}}>
-              <RaisedButton
-                label='Cancel'
-                onClick={this.cancel.bind(this)}
-              />
-              <RaisedButton
-                label='Save'
-                onClick={this.save.bind(this)}
-                style={{marginLeft: '10px'}}
-              />
-            </div>
-
-          </form>
-      </div>
+      </Paper>
     );
   }
 };
