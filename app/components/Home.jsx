@@ -1,6 +1,5 @@
 import {Link} from 'react-router';
 import Base from './Base';
-import Footer from './Footer';
 import React from 'react';
 import store from '../store';
 import {isLoggedIn} from '../libs/auth-helper';
@@ -112,7 +111,6 @@ export default class Home extends React.Component {
           {this.renderUserPlants()}
           {!isLoggedIn() && this.anonHome()}
         </div>
-        <Footer />
       </Base>
     );
   }

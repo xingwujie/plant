@@ -20,3 +20,8 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+Exclusions
+
+The Privacy.jsx file and its contents are excluded from the MIT License.
+(It makes no sense for anybody else to use this file. If you are running this
+software as a website you will need to provide your own privacy policy.)

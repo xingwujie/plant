@@ -1,5 +1,6 @@
 import Navbar from './Navbar';
 import React from 'react';
+import Footer from './Footer';
 
 export default class Base extends React.Component {
 
@@ -10,6 +11,7 @@ export default class Base extends React.Component {
         <div id='main'>
           {this.props.children}
         </div>
+        <Footer />
       </div>
     );
   }

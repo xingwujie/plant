@@ -16,6 +16,7 @@ import Plants from './components/plants/Plants';
 import Profile from './components/Profile';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Privacy from './components/info/Privacy';
 
 //Needed for onTouchTap
 //Can go away when react 1.0 release
@@ -35,6 +36,7 @@ var routes = (
     <Route path='/plant' component={Plant}/>
     <Route path='/plant/:slug/:id' component={Plant}/>
     <Route path='/plants' component={Plants}/>
+    <Route path='/privacy' component={Privacy}/>
     <Route path='/profile' component={Profile}/>
     <Route path='*' component={Help}/>
   </Route>
