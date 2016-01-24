@@ -24,7 +24,7 @@ var common = {
     path: path.resolve(ROOT_PATH, 'build'),
     filename: '/bundle.js',
     // http://stackoverflow.com/questions/34133808/webpack-ots-parsing-error-loading-fonts/34133809#34133809
-    publicPath: 'http://localhost:8080/'
+    // publicPath: 'http://localhost:8080/'
   },
   module: {
     noParse: [],

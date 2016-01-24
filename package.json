@@ -108,8 +108,9 @@
     "lint": "eslint --ext .js --ext .jsx .",
     "mocha": "node_modules/mocha/bin/_mocha test/**/*.js --recursive --require babel-core/register",
     "prepublish": "npm run build",
+    "prod": "npm run build && DB_NAME_SUFFIX=production DEBUG=plant:* nodemon index.js",
     "start": "TARGET=dev webpack-dev-server --devtool eval-source --progress --colors --hot --inline --history-api-fallback",
-    "test": "TEST_DB_NAME=plant-automated-testing DEBUG=plant:* npm run coverage"
+    "test": "DB_NAME_SUFFIX=automated-testing DEBUG=plant:* npm run coverage"
   },
   "version": "0.0.1"
 }
