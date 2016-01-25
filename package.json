@@ -59,7 +59,7 @@
     "html-webpack-plugin": "^2.7.1",
     "istanbul": "^1.0.0-alpha",
     "mocha": "^2.3.3",
-    "node-libs-browser": "^0.5.2",
+    "node-libs-browser": "^1.0.0",
     "npm-update-outdated": "^0.1.6",
     "pre-commit": "^1.1.2",
     "react-hot-loader": "^1.2.7",
