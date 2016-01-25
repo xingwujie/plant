@@ -109,7 +109,7 @@
     "lint": "eslint --ext .js --ext .jsx .",
     "mocha": "node_modules/mocha/bin/_mocha test/**/*.js --recursive --require babel-core/register",
     "prepublish": "npm run build",
-    "prodstart": "npm run build && DB_NAME_SUFFIX=production forever start -l forever.log -o out.log -e err.log -a index.js",
+    "prodstart": "NODE_ENV=production npm run build && NODE_ENV=production forever start -l forever.log -o out.log -e err.log -a index.js",
     "prodstop": "forever stop index.js",
     "start": "TARGET=dev webpack-dev-server --devtool eval-source --progress --colors --hot --inline --history-api-fallback",
     "test": "DB_NAME_SUFFIX=automated-testing DEBUG=plant:* npm run coverage"
