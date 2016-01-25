@@ -38,7 +38,7 @@
     "react-redux": "^4.0.6",
     "react-router": "1.0.3",
     "react-tap-event-plugin": "^0.2.1",
-    "redux": "^3.0.5",
+    "redux": "^3.0.6",
     "request": "^2.60.0",
     "serve-favicon": "^2.3.0",
     "slug": "^0.9.1",
