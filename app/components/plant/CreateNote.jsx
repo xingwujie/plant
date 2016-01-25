@@ -30,8 +30,7 @@ export default class CreateNote extends React.Component {
       <div>
         {plant.createNote &&
           <NoteCreateUpdate
-            dispatch={this.props.dispatch}
-            plant={this.props.plant}
+            {...this.props}
           />
         }
         {!plant.createNote &&
@@ -53,4 +52,5 @@ CreateNote.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
   isOwner: React.PropTypes.bool.isRequired,
   plant: React.PropTypes.object.isRequired,
+  user: React.PropTypes.object.isRequired,
 };

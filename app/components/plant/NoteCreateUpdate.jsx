@@ -24,7 +24,8 @@ export default class NoteCreateUpdate extends React.Component {
     const isNew = true; // TODO fix this
     const note = {
       ...this.state,
-      plant: this.props.plant._id
+      plantId: this.props.plant._id,
+      userId: this.props.user._id
     };
     validate(note, {isNew}, (errors, transformed) => {
       console.log('NoteCreateUpdate.save:', errors, transformed);
@@ -143,4 +144,5 @@ export default class NoteCreateUpdate extends React.Component {
 NoteCreateUpdate.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
   plant: React.PropTypes.object.isRequired,
+  user: React.PropTypes.object.isRequired,
 };
