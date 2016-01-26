@@ -103,6 +103,8 @@ export default class Plant extends React.Component {
       plant = {}
     } = this.state || {};
 
+    const {user} = store.getState();
+
     const mode = plant.mode || this.state.mode || 'read';
 
     return (
@@ -119,6 +121,7 @@ export default class Plant extends React.Component {
                 dispatch={store.dispatch}
                 isOwner={owner}
                 plant={plant}
+                user={user}
               />
             }
           </div>
