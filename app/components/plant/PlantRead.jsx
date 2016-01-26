@@ -57,6 +57,23 @@ export default class PlantRead extends React.Component {
 
   }
 
+  renderNotes(plant) {
+    if(!plant.notes || !plant.notes.length) {
+      return null;
+    }
+
+    return plant.notes.map(note => {
+      console.log('note:', note);
+      return (
+        <div key={note._id}>
+          <div>{note.date}</div>
+          <div>{note.note}</div>
+        </div>
+      );
+    });
+
+  }
+
   render() {
     let {
       isOwner,
@@ -98,6 +115,7 @@ export default class PlantRead extends React.Component {
               {plant.title}
             </h2>
             {this.renderDetails(plant)}
+            {this.renderNotes(plant)}
           </div>
         }
       </div>
