@@ -28,5 +28,6 @@ node_modules
 
 build/
 
-lib/config/secrets.js
+devops/setenv-local.sh
+devops/setenv-prod.sh
 local-only/
