@@ -111,7 +111,7 @@
     "prodstart": ". devops/setenv-prod.sh && NODE_ENV=production npm run build && NODE_ENV=production forever start -l forever.log -o out.log -e err.log -a index.js",
     "prodstop": "forever stop index.js",
     "start": "TARGET=dev webpack-dev-server --devtool eval-source --progress --colors --hot --inline --history-api-fallback",
-    "test": "DB_NAME_SUFFIX=automated-testing DEBUG=plant:* npm run coverage"
+    "test": "DEBUG=plant:* npm run coverage"
   },
   "version": "0.0.1"
 }
