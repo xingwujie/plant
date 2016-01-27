@@ -3,6 +3,8 @@
 A website app to manage backyard orchards and anything else you can grow
 in your yard.
 
+[![Build Status](https://travis-ci.org/guyellis/plant.svg)](https://travis-ci.org/guyellis/plant) [![Dependency Status](https://david-dm.org/guyellis/plant.svg)](https://david-dm.org/guyellis/plant) [![Code Climate](https://codeclimate.com/github/guyellis/plant/badges/gpa.svg)](https://codeclimate.com/github/guyellis/plant)
+
 * [Project Objectives](#objectives)
   * [Versions](#versions)
   * [Questions](#questions)
@@ -123,9 +125,12 @@ Components for managing a collection and the listing of plants.
 
 ## Developer Setup
 
-Copy the [secrets-example.js](lib/config/secrets-example.js) file to `secrets.js` in the same directory.
+Setup environment variables needed to connect to services:
+* Cloudant
+* Facebook
 
-Edit the `secrets.js` file and fill in the missing data. You will need to setup an application with Facebook and an account with IBM's Cloudant. At the time of writing this both were free and IBM allowed up to $50/month of Cloudant usage without charge.
+TODO: Provide sample list. In the meantime search codebase for
+process.env
 
 ### Facebook
 
