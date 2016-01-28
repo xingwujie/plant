@@ -179,5 +179,91 @@ describe('/app/models/plant', function() {
     });
   });
 
+  it('should fail if a tag element is over its maximum length', (done) => {
+    const plant = {
+      _id: '0e55d91cb33d420024432d67a3c7fb36',
+      botanicalName: 'Botanical Name',
+      commonName: 'Common Name',
+      description: 'Description',
+      plantedDate: '12/15/12',
+      price: 25.99,
+      purchasedDate: '12/15/12',
+      tags: ['citrus', '01234567890012345678901'],
+      title: 'Title',
+      type: 'plant',
+      userId: '9ec5c8ffcf885bf372488977ae0d6476',
+    };
+    const plantCopy = _.clone(plant);
+
+    const isNew = false;
+
+    plantValidator(plant, {isNew}, (err, transformed) => {
+      // debug(err);
+      assert(err);
+      assert.equal(err.tags, 'Tags cannot be more than 20 characters');
+      assert.deepEqual(Object.keys(transformed), Object.keys(plant));
+      assert.deepEqual(transformed, plant);
+      assert.deepEqual(plantCopy, plant);
+      done();
+    });
+  });
+
+  it('should fail if a tags is not an array', (done) => {
+    const plant = {
+      _id: '0e55d91cb33d420024432d67a3c7fb36',
+      botanicalName: 'Botanical Name',
+      commonName: 'Common Name',
+      description: 'Description',
+      plantedDate: '12/15/12',
+      price: 25.99,
+      purchasedDate: '12/15/12',
+      tags: 'citrus',
+      title: 'Title',
+      type: 'plant',
+      userId: '9ec5c8ffcf885bf372488977ae0d6476',
+    };
+    const plantCopy = _.clone(plant);
+
+    const isNew = false;
+
+    plantValidator(plant, {isNew}, (err, transformed) => {
+      // debug(err);
+      assert(err);
+      assert.equal(err.tags, 'Tags must be an array');
+      assert.deepEqual(Object.keys(transformed), Object.keys(plant));
+      assert.deepEqual(transformed, plant);
+      assert.deepEqual(plantCopy, plant);
+      done();
+    });
+  });
+
+  it('should fail if a tag element has invalid characters', (done) => {
+    const plant = {
+      _id: '0e55d91cb33d420024432d67a3c7fb36',
+      botanicalName: 'Botanical Name',
+      commonName: 'Common Name',
+      description: 'Description',
+      plantedDate: '12/15/12',
+      price: 25.99,
+      purchasedDate: '12/15/12',
+      tags: ['cit&rus'],
+      title: 'Title',
+      type: 'plant',
+      userId: '9ec5c8ffcf885bf372488977ae0d6476',
+    };
+    const plantCopy = _.clone(plant);
+
+    const isNew = false;
+
+    plantValidator(plant, {isNew}, (err, transformed) => {
+      // debug(err);
+      assert(err);
+      assert.equal(err.tags, 'Tags can only have alphabetic characters and a dash');
+      assert.deepEqual(Object.keys(transformed), Object.keys(plant));
+      assert.deepEqual(transformed, plant);
+      assert.deepEqual(plantCopy, plant);
+      done();
+    });
+  });
 
 });
