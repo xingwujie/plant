@@ -1,5 +1,5 @@
 import slug from 'slug';
-import uuid from 'node-uuid';
+import uuid from 'uuid';
 
 export function makeCouchId() {
   return uuid.v4().replace(/-/g, '');
