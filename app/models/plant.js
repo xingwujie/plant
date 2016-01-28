@@ -15,7 +15,7 @@ import validatejs from 'validate.js';
 //
 // If the validator passes simply return null or undefined. Otherwise return a string or an array of strings containing the error message(s).
 // Make sure not to append the key name, this will be done automatically.
-validatejs.validators.tagValidate = (value, options /*, key, attributes */) => { // eslint-disable-line: no-shadow
+validatejs.validators.tagValidate = (value, options /*, key, attributes */) => {
   // tags array rules:
   // 1. lowercase alpha and -
   // 2. unique array of strings

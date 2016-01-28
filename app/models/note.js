@@ -6,6 +6,33 @@ import validatejs from 'validate.js';
 // import d from 'debug';
 // const debug = d('plant:test.plant');
 
+validatejs.validators.plantIdsValidate = (value, options /*, key, attributes */) => {
+  // plantId array rules:
+  // 1. is present
+  // 2. is array
+  // 3. min length 1
+  // 4. each item is uuid
+
+  if(!value || !_.isArray(value)) {
+    return 'must be an array';
+  }
+
+  const minarray = _.get(options, 'length.minimum');
+  if(minarray && value.length < minarray) {
+    return `must have at least ${minarray} on plant associated`;
+  }
+
+  // Only uuid values of x length
+  const validInner = _.every(value, item => {
+    return item && item.length === 32 && constants.uuidRE.test(item);
+  });
+
+  if(!validInner) {
+    return `must be UUIDs`;
+  }
+
+};
+
 function transform(attributes) {
   return {
     ...attributes,
@@ -22,7 +49,7 @@ export default (attributes, {isNew}, cb) => {
   const constraints = {
     _id: {format: constants.uuidRE, presence: true},
     date: {datetime: true, presence: true},
-    plantId: {format: constants.uuidRE, presence: true},
+    plantIds: {plantIdsValidate: {length: {minimum: 1}}},
     note: {length: {minimum: 1, maximum: 5000}, presence: true},
     type: {inclusion: ['note'], presence: true},
     userId: {format: constants.uuidRE, presence: true},
