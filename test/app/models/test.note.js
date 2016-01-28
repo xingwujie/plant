@@ -6,7 +6,7 @@ import assert from 'assert';
 const noteValidator = validators.note;
 
 // import d from 'debug';
-// const debug = d('plant:test.plant');
+// const debug = d('plant:test.note');
 
 describe('/app/models/note', function() {
 

@@ -16,6 +16,7 @@ describe('/db/cloudant/', function() {
   var userId;
 
   describe('/user/', function() {
+    // TODO: This should be in a setup helper
     it('should create a user account', (done) => {
       const userDB = new User.User();
 
