@@ -8,6 +8,7 @@ const debug = d('plant:test.create-designs');
 describe('/db/create-designs/', function() {
   this.timeout(10000);
 
+  // TODO: Should this be here? Isn't this what the first test is doing and the second testing?
   before((done) => {
     createDesigns(done);
   });

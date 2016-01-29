@@ -51,10 +51,23 @@ describe('/db/cloudant/', function() {
     const plant = {
       name: 'Plant Name',
       plantedOn: new Date(2015, 7, 1),
-      userId: userId
+      userId
     };
 
+    it('should fail to create a plant because type is not set', (done) => {
+
+      plantDB.create(plant, (err, body) => {
+
+        assert(err);
+        assert(err, 'Invalid doc or no doc.type');
+        assert(!body);
+
+        done();
+      });
+    });
+
     it('should create a plant', (done) => {
+      plant.type = 'plant';
 
       plantDB.create(plant, (err, body) => {
 
@@ -74,6 +87,7 @@ describe('/db/cloudant/', function() {
 
         assert(!err);
         assert(result);
+        assert.equal(result.type, 'plant');
         assert.equal(result.name, plant.name);
         const plantedOn = new Date(result.plantedOn);
         assert.equal(plantedOn.getTime(), plant.plantedOn.getTime());
@@ -101,6 +115,8 @@ describe('/db/cloudant/', function() {
 
           // Has name changed?
           assert.equal(result2.name, plantUpdate.name);
+
+          assert.equal(result2.type, 'plant');
 
           // Did plantedOn date remain the same?
           const plantedOn = new Date(result2.plantedOn);
@@ -133,6 +149,10 @@ describe('/db/cloudant/', function() {
 
           // Has name changed?
           assert.equal(result2.name, plantUpdate.name);
+
+          // TODO: Should update without type be allowed?
+          // debug(result2);
+          // assert.equal(result2.type, 'plant');
 
           // Were plantedOn and other removed?
           assert(!result2.plantedOn);
