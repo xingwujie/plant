@@ -1,11 +1,11 @@
+import _ from 'lodash';
 import { createDesigns } from '../../helper';
 import * as User from '../../../lib/db/user-db';
 import assert from 'assert';
 import constants from '../../../app/libs/constants';
-// import {makeCouchId} from '../../../app/libs/utils';
 
-import d from 'debug';
-const debug = d('plant:test.user');
+// import d from 'debug';
+// const debug = d('plant:test.user');
 
 describe('/lib/db/user/', function() {
   this.timeout(10000);
@@ -39,20 +39,16 @@ describe('/lib/db/user/', function() {
     userDB.findOrCreateFacebookUser(fbUser, (err, body) => {
 
       assert(!err);
-      // debug('body:', body);
       assert(body);
       assert(body._id);
       assert(constants.uuidRE.test(body._id));
-      // fbUser is updated and returned by create function
-      assert.equal(body, fbUser);
-
-      debug('fbUser:', fbUser);
+      assert.deepStrictEqual(_.omit(body, ['_id', '_rev']), fbUser);
 
       done();
     });
   });
 
-  it.skip('should fetch an exisiting user', (done) => {
+  it('should fetch an exisiting user', (done) => {
     const userDB = new User.User();
 
     const user = {
@@ -64,16 +60,10 @@ describe('/lib/db/user/', function() {
     userDB.findOrCreateFacebookUser(user, (err, body) => {
       // TODO: This test is WIP
       assert(!err);
-      debug('body:', body);
       assert(body);
       assert(body._id);
       assert(constants.uuidRE.test(body._id));
-      assert.equal(body._id, fbUser._id);
-      assert.equal(body.facebook.id, fbUser.facebook.id);
-      assert.equal(body.type, 'user');
-      assert.equal(body.email, fbUser.email);
-      assert.equal(body.first, fbUser.first);
-      assert.equal(body.last, fbUser.last);
+      assert.deepStrictEqual(_.omit(body, ['_id', '_rev']), fbUser);
 
       done();
     });
