@@ -3,6 +3,7 @@ import { createDesigns } from '../../helper';
 import * as User from '../../../lib/db/user-db';
 import assert from 'assert';
 import constants from '../../../app/libs/constants';
+import uuid from 'node-uuid';
 
 // import d from 'debug';
 // const debug = d('plant:test.user');
@@ -16,7 +17,7 @@ describe('/lib/db/user/', function() {
 
   const fbUser = {
     facebook: {
-      id: '1234567890123456',
+      id: uuid.v4(),
       gender: 'male',
       link: 'https://www.facebook.com/app_scoped_user_id/1234567890123456/',
       locale: 'en_US',
@@ -42,7 +43,7 @@ describe('/lib/db/user/', function() {
       assert(body);
       assert(body._id);
       assert(constants.uuidRE.test(body._id));
-      assert.deepStrictEqual(_.omit(body, ['_id', '_rev']), fbUser);
+      assert.equal(body, fbUser);
 
       done();
     });
@@ -63,7 +64,7 @@ describe('/lib/db/user/', function() {
       assert(body);
       assert(body._id);
       assert(constants.uuidRE.test(body._id));
-      assert.deepStrictEqual(_.omit(body, ['_id', '_rev']), fbUser);
+      assert.deepStrictEqual(_.omit(body, ['_rev']), fbUser);
 
       done();
     });
