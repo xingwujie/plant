@@ -1,7 +1,11 @@
 import * as DesignDB from '../lib/db/design-db';
 import assert from 'assert';
-import d from 'debug';
+import fakePassport from './fake-passport';
+import proxyquire from 'proxyquire';
 
+const server = proxyquire('../lib/server', { passport: fakePassport });
+
+import d from 'debug';
 const debug = d('plant:test.helper');
 
 // Many of the tests won't be able to run if the design docs haven't been
@@ -32,5 +36,14 @@ export function startServerAuthenticated(done) {
     return done(null, serverAndUser);
   }
 
-  done();
+  server.default((err, app) => {
+    assert(!err);
+
+    serverAndUser = {
+      server: app,
+      user: {} // TODO: Auth and set this
+    };
+
+    return done(err, serverAndUser);
+  });
 };
