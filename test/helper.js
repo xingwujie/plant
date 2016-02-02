@@ -33,26 +33,35 @@ export function createDesigns(done) {
 };
 
 export function getUrl(url) {
+  if(_.startsWith(url, 'http')) {
+    return url;
+  }
+
   return `http://127.0.0.1:3000${url}`;
 }
 
 let jwt;
-export function makeRequest(options, cb) {
+export function makeRequest(opts, cb) {
 
-  if(!_.startsWith(options.url, 'http')) {
-    options.url = getUrl(options.url);
-  }
+  const auth = opts.authenticate
+    ? {Authorization: 'Bearer ' + jwt }
+    : {};
 
-  if(options.authenticate) {
-    delete options.authenticate;
-    options.headers = options.headers || {};
-    options.headers = {
-      ...options.headers,
-      Authorization: 'Bearer ' + jwt
-    };
-  }
+  const headers = {
+    ...(opts.headers || {}),
+    ...auth
+  };
 
-  options.followRedirect = options.followRedirect || false;
+  const followRedirect = opts.followRedirect || false;
+
+  const options = {
+    ...opts,
+    url: getUrl(opts.url),
+    headers,
+    followRedirect
+  };
+
+  debug('options:', options);
 
   // cb will get (error, httpMsg, response);
   request(options, cb);

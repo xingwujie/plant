@@ -1,3 +1,4 @@
+import {makeCouchId} from '../../../app/libs/utils';
 import * as helper from '../../helper';
 import assert from 'assert';
 
@@ -7,20 +8,25 @@ const debug = d('plant:test.plant-api');
 describe('plant-api', function() {
   this.timeout(10000);
 
-  before('it should start the server and get an authenticated user', done => {
+  before('it should start the server and setup auth token', done => {
     helper.startServerAuthenticated((err) => {
       assert(!err);
       done();
     });
   });
 
+  before('it should create a user', done => {
+    done();
+  });
+
   it('should create a plant', (done) => {
     const plant = {
-      title: 'Plant Title'
+      title: 'Plant Title',
+      userId: makeCouchId()
     };
     const reqOptions = {
       method: 'POST',
-      authenticated: true,
+      authenticate: true,
       body: plant,
       json: true,
       url: '/api/plant'
