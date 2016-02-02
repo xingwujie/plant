@@ -25,3 +25,12 @@ export function createDesigns(done) {
   });
 
 };
+
+let serverAndUser;
+export function startServerAuthenticated(done) {
+  if(serverAndUser) {
+    return done(null, serverAndUser);
+  }
+
+  done();
+};
