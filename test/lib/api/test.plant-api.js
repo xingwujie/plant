@@ -28,6 +28,27 @@ describe('plant-api', function() {
   };
   let plantId;
 
+  it('should fail server validation if title is missing', (done) => {
+    const reqOptions = {
+      method: 'POST',
+      authenticate: true,
+      body: {...initialPlant, title: ''},
+      json: true,
+      url: '/api/plant'
+    };
+    helper.makeRequest(reqOptions, (error, httpMsg, response) => {
+      // response should look like:
+      // { title: [ 'Title can\'t be blank' ] }
+      // ...and status should be 400
+      assert(!error);
+      assert(httpMsg.statusCode, 400);
+      assert(response);
+      assert.equal(response.title[0], `Title can't be blank`);
+
+      done();
+    });
+  });
+
   it('should create a plant', (done) => {
     const reqOptions = {
       method: 'POST',
