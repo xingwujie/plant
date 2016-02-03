@@ -1,4 +1,4 @@
-import uuid from 'uuid';
+import {makeCouchId} from '../app/libs/utils';
 
 import d from 'debug';
 const debug = d('plant:test.fake-passport');
@@ -18,7 +18,7 @@ export default {
       debug('fake fb authenticate setup with cb');
       const err = null;
       const user = {
-        _id: uuid.v4(),
+        _id: makeCouchId(),
         name: 'John Smith'
       };
       const info = {};

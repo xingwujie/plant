@@ -4,7 +4,7 @@ import constants from '../libs/constants';
 import validatejs from 'validate.js';
 
 // import d from 'debug';
-// const debug = d('plant:test.plant');
+// const debug = d('plant:model.plant');
 
 //  The validator receives the following arguments:
 //     value - The value exactly how it looks in the attribute object.

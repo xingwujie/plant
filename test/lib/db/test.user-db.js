@@ -3,7 +3,7 @@ import { createDesigns } from '../../helper';
 import * as User from '../../../lib/db/user-db';
 import assert from 'assert';
 import constants from '../../../app/libs/constants';
-import uuid from 'node-uuid';
+import {makeCouchId} from '../../../app/libs/utils';
 
 // import d from 'debug';
 // const debug = d('plant:test.user');
@@ -17,7 +17,7 @@ describe('/lib/db/user/', function() {
 
   const fbUser = {
     facebook: {
-      id: uuid.v4(),
+      id: makeCouchId(),
       gender: 'male',
       link: 'https://www.facebook.com/app_scoped_user_id/1234567890123456/',
       locale: 'en_US',

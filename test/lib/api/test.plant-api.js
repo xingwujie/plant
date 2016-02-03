@@ -22,7 +22,8 @@ describe('plant-api', function() {
   it('should create a plant', (done) => {
     const plant = {
       title: 'Plant Title',
-      userId: makeCouchId()
+      _id: makeCouchId(),
+      userId: makeCouchId(),
     };
     const reqOptions = {
       method: 'POST',
