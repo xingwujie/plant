@@ -4,8 +4,8 @@ import * as helper from '../../helper';
 import assert from 'assert';
 import constants from '../../../app/libs/constants';
 
-// import d from 'debug';
-// const debug = d('plant:test.plant-api');
+import d from 'debug';
+const debug = d('plant:test.plant-api');
 
 describe('plant-api', function() {
   this.timeout(10000);
@@ -15,10 +15,6 @@ describe('plant-api', function() {
       assert(!err);
       done();
     });
-  });
-
-  before('it should create a user', done => {
-    done();
   });
 
   const initialPlant = {
@@ -98,6 +94,25 @@ describe('plant-api', function() {
       assert.equal(response._id, plantId);
       assert.equal(response.title, initialPlant.title);
       assert.equal(response.type, 'plant');
+
+      done();
+    });
+  });
+
+  it('should fail to retrieve a plant if the id does not exist', (done) => {
+    const reqOptions = {
+      method: 'GET',
+      authenticate: false,
+      json: true,
+      url: `/api/plant/does-not-exist`
+    };
+    helper.makeRequest(reqOptions, (error, httpMsg, response) => {
+      debug(response);
+
+      assert(!error);
+      assert(httpMsg.statusCode, 404);
+      assert(response);
+      assert.equal(response.error, 'missing');
 
       done();
     });
