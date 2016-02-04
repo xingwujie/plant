@@ -24,6 +24,29 @@ describe('plant-api', function() {
   };
   let plantId;
 
+  it('should fail to create a plant record if user is not authenticated', (done) => {
+    const reqOptions = {
+      method: 'POST',
+      authenticate: false,
+      body: initialPlant,
+      json: true,
+      url: '/api/plant'
+    };
+    helper.makeRequest(reqOptions, (error, httpMsg, response) => {
+      debug(response);
+      debug('httpMsg.statusCode:', httpMsg.statusCode);
+      // response should look like:
+      // { title: [ 'Title can\'t be blank' ] }
+      // ...and status should be 400
+      assert(!error);
+      assert.equal(httpMsg.statusCode, 401);
+      assert(response);
+      assert.equal(response.error, `Not Authenticated`);
+
+      done();
+    });
+  });
+
   it('should fail server validation if title is missing', (done) => {
     const reqOptions = {
       method: 'POST',
@@ -37,7 +60,7 @@ describe('plant-api', function() {
       // { title: [ 'Title can\'t be blank' ] }
       // ...and status should be 400
       assert(!error);
-      assert(httpMsg.statusCode, 400);
+      assert.equal(httpMsg.statusCode, 400);
       assert(response);
       assert.equal(response.title[0], `Title can't be blank`);
 
@@ -59,7 +82,7 @@ describe('plant-api', function() {
       // id: '500147d5b68746efa2cc18510d4663a6',
       // rev: '1-bbeb5b8c4a14d2ff9008a4c818443bf7' }
       assert(!error);
-      assert(httpMsg.statusCode, 200);
+      assert.equal(httpMsg.statusCode, 200);
       assert(response);
       assert(response.ok);
       assert(constants.uuidRE.test(response.id));
@@ -86,7 +109,7 @@ describe('plant-api', function() {
       // userId: '241ff27e28c7448fb22c4f6fb2580923',
       // type: 'plant' }
       assert(!error);
-      assert(httpMsg.statusCode, 200);
+      assert.equal(httpMsg.statusCode, 200);
       assert(response);
       // TODO: Will the client ever need the _rev?
       // If not we should strip out at source.
@@ -110,7 +133,7 @@ describe('plant-api', function() {
       debug(response);
 
       assert(!error);
-      assert(httpMsg.statusCode, 404);
+      assert.equal(httpMsg.statusCode, 404);
       assert(response);
       assert.equal(response.error, 'missing');
 
@@ -140,7 +163,7 @@ describe('plant-api', function() {
       // id: 'ff3c5edea01a46b19c3d6af759bcda95',
       // rev: '2-57363e3a510dc13b26e53afccf80294c' }
       assert(!error);
-      assert(httpMsg.statusCode, 200);
+      assert.equal(httpMsg.statusCode, 200);
       assert(response);
       assert(response.ok);
       assert.equal(response.id, plantId);
@@ -162,7 +185,7 @@ describe('plant-api', function() {
     helper.makeRequest(reqOptions, (error, httpMsg, response) => {
 
       assert(!error);
-      assert(httpMsg.statusCode, 200);
+      assert.equal(httpMsg.statusCode, 200);
       assert(response);
 
       assert(response.userId);
