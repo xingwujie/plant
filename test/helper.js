@@ -4,11 +4,14 @@ import assert from 'assert';
 import fakePassport from './fake-passport';
 import proxyquire from 'proxyquire';
 import request from 'request';
+import * as Plant from '../lib/db/plant-db';
 
 const server = proxyquire('../lib/server', { passport: fakePassport });
 
 import d from 'debug';
 const debug = d('plant:test.helper');
+
+const plantDB = new Plant.Plant();
 
 // Many of the tests won't be able to run if the design docs haven't been
 // inserted into the DB. Call the createDesigns() function at the beginning
@@ -67,16 +70,16 @@ export function makeRequest(opts, cb) {
   request(options, cb);
 }
 
-let app;
+const data = {};
 export function startServerAuthenticated(done) {
-  if(app) {
-    return done(null, app);
+  if(data.app) {
+    return done(null, data);
   }
 
   server.default((err, application) => {
     assert(!err);
 
-    app = application;
+    data.app = application;
 
     makeRequest({
       url: '/auth/facebook/callback'
@@ -88,7 +91,12 @@ export function startServerAuthenticated(done) {
       jwt = parts[1];
       debug('Test jwt:', jwt);
       assert(jwt);
-      return done(error);
+      data.userId = fakePassport.getUserId();
+      return done(error, data);
     });
   });
 };
+
+export function deleteAllPlantsForUser(cb) {
+  plantDB.deleteByUserId(data.userId, cb);
+}

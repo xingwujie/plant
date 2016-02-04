@@ -3,7 +3,13 @@ import {makeCouchId} from '../app/libs/utils';
 import d from 'debug';
 const debug = d('plant:test.fake-passport');
 
+const userId = makeCouchId();
+
 export default {
+
+  getUserId: () => {
+    return userId;
+  },
 
   initialize: () => {
     debug('fake fb initialize setup');
@@ -18,7 +24,7 @@ export default {
       debug('fake fb authenticate setup with cb');
       const err = null;
       const user = {
-        _id: makeCouchId(),
+        _id: userId,
         name: 'John Smith'
       };
       const info = {};
