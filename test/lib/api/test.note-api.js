@@ -4,8 +4,8 @@ import * as helper from '../../helper';
 import assert from 'assert';
 import constants from '../../../app/libs/constants';
 
-// import d from 'debug';
-// const debug = d('plant:test.note-api');
+import d from 'debug';
+const debug = d('plant:test.note-api');
 
 describe('note-api', function() {
   this.timeout(10000);
@@ -242,6 +242,57 @@ describe('note-api', function() {
         assert.equal(response.notes.length, 1);
         assert.equal(response.notes[0]._id, noteId);
         assert.equal(response.notes[0].note, updatedNote.note);
+
+        done();
+      });
+    });
+
+    it('should delete the note', (done) => {
+
+      const reqOptions = {
+        method: 'DELETE',
+        authenticate: true,
+        json: true,
+        url: `/api/note/${noteId}`
+      };
+
+      helper.makeRequest(reqOptions, (error, httpMsg, response) => {
+        debug('response:', response);
+        // response should look like:
+        // { ok: true,
+        // id: '386613f402b2407bb4781d31133886c3',
+        // rev: '3-8fa47a7f50265ad19f036f406b888a0b' }
+        assert(!error);
+        assert.equal(httpMsg.statusCode, 200);
+        assert(response);
+        assert(response.ok);
+        assert.equal(response.id, noteId);
+
+        done();
+      });
+    });
+
+    it('should confirm that the note has been deleted', (done) => {
+      const reqOptions = {
+        method: 'GET',
+        authenticate: false,
+        json: true,
+        url: `/api/plant/${plantId}`
+      };
+
+      helper.makeRequest(reqOptions, (error, httpMsg, response) => {
+
+        assert(!error);
+        assert.equal(httpMsg.statusCode, 200);
+        assert(response);
+
+        assert(response.userId);
+        assert.equal(response._id, plantId);
+        assert.equal(response.title, initialPlant.title);
+        assert.equal(response.type, 'plant');
+
+        // Check that there are no notes
+        assert(!response.notes);
 
         done();
       });
