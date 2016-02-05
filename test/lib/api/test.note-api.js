@@ -184,9 +184,6 @@ describe('note-api', function() {
         done();
       });
     });
-  });
-
-  describe.skip('note-api update notes', () => {
 
     let updatedNote;
     it('should update the just created note', (done) => {
@@ -213,7 +210,7 @@ describe('note-api', function() {
         assert.equal(httpMsg.statusCode, 200);
         assert(response);
         assert(response.ok);
-        assert.equal(response.id, plantId);
+        assert.equal(response.id, noteId);
         // Should now be on revision #2
         assert(_.startsWith(response.rev, '2-'));
 
@@ -221,7 +218,7 @@ describe('note-api', function() {
       });
     });
 
-    it.skip('should retrieve the just updated plant', (done) => {
+    it('should retrieve the just updated note as part of a plant request', (done) => {
       const reqOptions = {
         method: 'GET',
         authenticate: false,
@@ -237,8 +234,14 @@ describe('note-api', function() {
 
         assert(response.userId);
         assert.equal(response._id, plantId);
-        assert.equal(response.title, updatedNote.title);
+        assert.equal(response.title, initialPlant.title);
         assert.equal(response.type, 'plant');
+
+        // Check notes
+        assert(response.notes);
+        assert.equal(response.notes.length, 1);
+        assert.equal(response.notes[0]._id, noteId);
+        assert.equal(response.notes[0].note, updatedNote.note);
 
         done();
       });
