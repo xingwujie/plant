@@ -1,8 +1,7 @@
 import * as actions from '../../actions';
-import RaisedButton from 'material-ui/lib/raised-button';
-import React from 'react';
-import RemoveConfirm from '../RemoveConfirm';
+import EditDeleteButtons from './EditDeleteButtons';
 import Paper from 'material-ui/lib/paper';
+import React from 'react';
 
 export default class PlantRead extends React.Component {
   static contextTypes = {
@@ -107,26 +106,14 @@ export default class PlantRead extends React.Component {
         {plant &&
           <div className='plant'>
             <Paper style={paperStyle} zDepth={5}>
-              {isOwner && !plant.createNote &&
-                <h2 className='vcenter'>
-                  {!showDeleteConfirmation &&
-                    <div style={{textAlign: 'right'}}>
-                      <RaisedButton
-                        label='Edit'
-                        onClick={this.edit}
-                      />
-                      <RaisedButton
-                        label='Delete'
-                        onClick={this.checkDelete}
-                        style={{marginLeft: '10px'}}
-                      />
-                    </div>
-                  }
-                  {showDeleteConfirmation &&
-                    <RemoveConfirm title={plant.title} confirmFn={this.confirmDelete} />
-                  }
-                </h2>
-              }
+              <EditDeleteButtons
+                clickEdit={this.edit}
+                clickDelete={this.checkDelete}
+                confirmDelete={this.confirmDelete}
+                showDeleteConfirmation={showDeleteConfirmation}
+                showButtons={isOwner && !plant.createNote}
+                deleteTitle={plant.title || ''}
+              />
               <h2 className='vcenter' style={{textAlign: 'center'}}>
                 {plant.title}
               </h2>
