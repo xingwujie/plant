@@ -14,7 +14,7 @@ describe('/db/create-designs/', function() {
   });
 
   it('should create the designs', (done) => {
-    debug('Creating new Design class 1st time');
+    // debug('Creating new Design class 1st time');
     const designDB = new DesignDB.DesignDB();
 
     designDB.updateAllDesigns((err) => {
@@ -27,7 +27,7 @@ describe('/db/create-designs/', function() {
   });
 
   it('should create the designs a second time (tests upsert)', (done) => {
-    debug('Creating new Design class 2nd time');
+    // debug('Creating new Design class 2nd time');
     const designDB = new DesignDB.DesignDB();
 
     designDB.updateAllDesigns((err) => {

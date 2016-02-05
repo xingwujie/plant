@@ -2,9 +2,9 @@ import { createDesigns } from '../../helper';
 import * as Plant from '../../../lib/db/plant-db';
 import * as User from '../../../lib/db/user-db';
 import assert from 'assert';
-import d from 'debug';
 
-const debug = d('plant:test.cloudant');
+// import d from 'debug';
+// const debug = d('plant:test.cloudant');
 
 describe('/db/cloudant/', function() {
   this.timeout(10000);
@@ -32,7 +32,6 @@ describe('/db/cloudant/', function() {
       userDB.findOrCreateFacebookUser(user, (err, body) => {
 
         assert(!err);
-        debug('body:', body);
         assert(body);
         assert(body._id);
         assert.equal(body.type, 'user');
@@ -111,8 +110,6 @@ describe('/db/cloudant/', function() {
 
         plantDB.getById(plant.id, (err2, result2) => {
 
-          debug('update result:', result2);
-
           // Has name changed?
           assert.equal(result2.name, plantUpdate.name);
 
@@ -144,8 +141,6 @@ describe('/db/cloudant/', function() {
         assert.equal(result.id, plant.id);
 
         plantDB.getById(plant.id, (err2, result2) => {
-
-          debug('update result:', result2);
 
           // Has name changed?
           assert.equal(result2.name, plantUpdate.name);

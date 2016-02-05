@@ -2,8 +2,8 @@ import * as helper from '../../helper';
 import assert from 'assert';
 import async from 'async';
 
-import d from 'debug';
-const debug = d('plant:test.plants-api');
+// import d from 'debug';
+// const debug = d('plant:test.plants-api');
 
 describe('plants-api', function() {
   this.timeout(10000);
@@ -59,7 +59,7 @@ describe('plants-api', function() {
     }, function(err, plants) {
       assert(!err);
       // we should now have 2 plants
-      debug('async.times:', plants);
+      // debug('async.times:', plants);
       assert.equal(plants.length, numPlants);
       insertedPlants = plants;
       done();
@@ -76,7 +76,7 @@ describe('plants-api', function() {
     };
 
     helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-      debug(response);
+      // debug(response);
       // response should look like:
       // ?
       assert(!error);
@@ -108,7 +108,7 @@ describe('plants-api', function() {
       url: `/api/plants/does-not-exist`
     };
     helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-      debug(response);
+      // debug(response);
 
       // TODO: If the userId exists and has no plants then this test should run like this.
       //       If the userId does not exist then we should get back a 404 - which is this test

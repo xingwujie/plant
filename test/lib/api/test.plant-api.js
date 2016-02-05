@@ -4,8 +4,8 @@ import * as helper from '../../helper';
 import assert from 'assert';
 import constants from '../../../app/libs/constants';
 
-import d from 'debug';
-const debug = d('plant:test.plant-api');
+// import d from 'debug';
+// const debug = d('plant:test.plant-api');
 
 describe('plant-api', function() {
   this.timeout(10000);
@@ -33,8 +33,8 @@ describe('plant-api', function() {
       url: '/api/plant'
     };
     helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-      debug(response);
-      debug('httpMsg.statusCode:', httpMsg.statusCode);
+      // debug(response);
+      // debug('httpMsg.statusCode:', httpMsg.statusCode);
       // response should look like:
       // { title: [ 'Title can\'t be blank' ] }
       // ...and status should be 400
@@ -130,7 +130,7 @@ describe('plant-api', function() {
       url: `/api/plant/does-not-exist`
     };
     helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-      debug(response);
+      // debug(response);
 
       assert(!error);
       assert.equal(httpMsg.statusCode, 404);

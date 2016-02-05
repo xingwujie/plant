@@ -4,8 +4,8 @@ import * as helper from '../../helper';
 import assert from 'assert';
 import constants from '../../../app/libs/constants';
 
-import d from 'debug';
-const debug = d('plant:test.note-api');
+// import d from 'debug';
+// const debug = d('plant:test.note-api');
 
 describe('note-api', function() {
   this.timeout(10000);
@@ -164,7 +164,7 @@ describe('note-api', function() {
       url: `/api/plant/does-not-exist`
     };
     helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-      debug(response);
+      // debug(response);
 
       assert(!error);
       assert.equal(httpMsg.statusCode, 404);

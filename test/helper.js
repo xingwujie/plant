@@ -8,8 +8,8 @@ import * as Plant from '../lib/db/plant-db';
 
 const server = proxyquire('../lib/server', { passport: fakePassport });
 
-import d from 'debug';
-const debug = d('plant:test.helper');
+// import d from 'debug';
+// const debug = d('plant:test.helper');
 
 const plantDB = new Plant.Plant();
 
@@ -24,7 +24,7 @@ export function createDesigns(done) {
     return done();
   }
 
-  debug('Creating designs from helper');
+  // debug('Creating designs from helper');
   const designDB = new DesignDB.DesignDB();
 
   designDB.updateAllDesigns((err) => {
