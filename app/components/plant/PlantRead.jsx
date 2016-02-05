@@ -2,6 +2,7 @@ import * as actions from '../../actions';
 import RaisedButton from 'material-ui/lib/raised-button';
 import React from 'react';
 import RemoveConfirm from '../RemoveConfirm';
+import Paper from 'material-ui/lib/paper';
 
 export default class PlantRead extends React.Component {
   static contextTypes = {
@@ -62,19 +63,33 @@ export default class PlantRead extends React.Component {
       return null;
     }
 
+    const paperStyle = {
+      padding: 20,
+      width: '100%',
+      margin: 20,
+      display: 'inline-block'
+    };
+
     return plant.notes.map(note => {
       console.log('note:', note);
       return (
-        <div key={note._id}>
+        <Paper key={note._id} style={paperStyle} zDepth={5}>
           <div>{note.date}</div>
           <div>{note.note}</div>
-        </div>
+        </Paper>
       );
     });
 
   }
 
   render() {
+    const paperStyle = {
+      padding: 20,
+      width: '100%',
+      margin: 20,
+      display: 'inline-block'
+    };
+
     let {
       isOwner,
       plant
@@ -91,30 +106,32 @@ export default class PlantRead extends React.Component {
         }
         {plant &&
           <div className='plant'>
-            {isOwner && !plant.createNote &&
-              <h2 className='vcenter'>
-                {!showDeleteConfirmation &&
-                  <div style={{textAlign: 'right'}}>
-                    <RaisedButton
-                      label='Edit'
-                      onClick={this.edit}
-                    />
-                    <RaisedButton
-                      label='Delete'
-                      onClick={this.checkDelete}
-                      style={{marginLeft: '10px'}}
-                    />
-                  </div>
-                }
-                {showDeleteConfirmation &&
-                  <RemoveConfirm title={plant.title} confirmFn={this.confirmDelete} />
-                }
+            <Paper style={paperStyle} zDepth={5}>
+              {isOwner && !plant.createNote &&
+                <h2 className='vcenter'>
+                  {!showDeleteConfirmation &&
+                    <div style={{textAlign: 'right'}}>
+                      <RaisedButton
+                        label='Edit'
+                        onClick={this.edit}
+                      />
+                      <RaisedButton
+                        label='Delete'
+                        onClick={this.checkDelete}
+                        style={{marginLeft: '10px'}}
+                      />
+                    </div>
+                  }
+                  {showDeleteConfirmation &&
+                    <RemoveConfirm title={plant.title} confirmFn={this.confirmDelete} />
+                  }
+                </h2>
+              }
+              <h2 className='vcenter' style={{textAlign: 'center'}}>
+                {plant.title}
               </h2>
-            }
-            <h2 className='vcenter' style={{textAlign: 'center'}}>
-              {plant.title}
-            </h2>
-            {this.renderDetails(plant)}
+              {this.renderDetails(plant)}
+            </Paper>
             {this.renderNotes(plant)}
           </div>
         }
