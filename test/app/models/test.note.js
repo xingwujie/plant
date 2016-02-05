@@ -193,8 +193,37 @@ describe('/app/models/note', function() {
       // debug('transformed:', transformed);
 
       assert(err);
-      assert.equal(err.plantIds, `Plant ids must be an array`);
+      assert.equal(err.plantIds, `Plant ids is required`);
       assert.equal(Object.keys(transformed).length, 5);
+      assert.equal(transformed._id, note._id);
+      assert.equal(transformed.note, note.note);
+      assert.equal(transformed.type, 'note');
+      assert.equal(transformed.userId, note.userId);
+      assert.deepEqual(noteCopy, note);
+      done();
+    });
+  });
+
+  it('should fail if plantIds is not an array', (done) => {
+    const note = {
+      _id: '0e55d91cb33d420024432d67a3c7fb36',
+      date: new Date(),
+      note: 'some text',
+      type: 'note',
+      plantIds: '9ec5c8ffcf885bf372488977ae0d6476',
+      userId: '9ec5c8ffcf885bf372488977ae0d6476',
+    };
+    const noteCopy = _.clone(note);
+
+    const isNew = false;
+
+    noteValidator(note, {isNew}, (err, transformed) => {
+      // debug('err:', err);
+      // debug('transformed:', transformed);
+
+      assert(err);
+      assert.equal(err.plantIds, `Plant ids must be an array`);
+      assert.equal(Object.keys(transformed).length, 6);
       assert.equal(transformed._id, note._id);
       assert.equal(transformed.note, note.note);
       assert.equal(transformed.type, 'note');

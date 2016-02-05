@@ -13,7 +13,11 @@ validatejs.validators.plantIdsValidate = (value, options /*, key, attributes */)
   // 3. min length 1
   // 4. each item is uuid
 
-  if(!value || !_.isArray(value)) {
+  if(!value) {
+    return 'is required';
+  }
+
+  if(!_.isArray(value)) {
     return 'must be an array';
   }
 

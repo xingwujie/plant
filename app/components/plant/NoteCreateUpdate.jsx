@@ -24,7 +24,7 @@ export default class NoteCreateUpdate extends React.Component {
     const isNew = true; // TODO fix this
     const note = {
       ...this.state,
-      plantId: this.props.plant._id,
+      plantIds: [this.props.plant._id],
       userId: this.props.user._id
     };
     validate(note, {isNew}, (errors, transformed) => {
