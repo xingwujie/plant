@@ -1,5 +1,6 @@
 import * as actions from '../../actions';
 import EditDeleteButtons from './EditDeleteButtons';
+import NotesRead from './NotesRead';
 import Paper from 'material-ui/lib/paper';
 import React from 'react';
 
@@ -57,30 +58,6 @@ export default class PlantRead extends React.Component {
 
   }
 
-  renderNotes(plant) {
-    if(!plant.notes || !plant.notes.length) {
-      return null;
-    }
-
-    const paperStyle = {
-      padding: 20,
-      width: '100%',
-      margin: 20,
-      display: 'inline-block'
-    };
-
-    return plant.notes.map(note => {
-      console.log('note:', note);
-      return (
-        <Paper key={note._id} style={paperStyle} zDepth={5}>
-          <div>{note.date}</div>
-          <div>{note.note}</div>
-        </Paper>
-      );
-    });
-
-  }
-
   render() {
     const paperStyle = {
       padding: 20,
@@ -106,6 +83,10 @@ export default class PlantRead extends React.Component {
         {plant &&
           <div className='plant'>
             <Paper style={paperStyle} zDepth={5}>
+              <h2 className='vcenter' style={{textAlign: 'center'}}>
+                {plant.title}
+              </h2>
+              {this.renderDetails(plant)}
               <EditDeleteButtons
                 clickEdit={this.edit}
                 clickDelete={this.checkDelete}
@@ -114,12 +95,8 @@ export default class PlantRead extends React.Component {
                 showButtons={isOwner && !plant.createNote}
                 deleteTitle={plant.title || ''}
               />
-              <h2 className='vcenter' style={{textAlign: 'center'}}>
-                {plant.title}
-              </h2>
-              {this.renderDetails(plant)}
             </Paper>
-            {this.renderNotes(plant)}
+            <NotesRead notes={plant.notes} />
           </div>
         }
       </div>
