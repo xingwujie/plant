@@ -5,7 +5,7 @@ import async from 'async';
 import d from 'debug';
 const debug = d('plant:test.plants-api');
 
-describe.skip('plants-api', function() {
+describe('plants-api', function() {
   this.timeout(10000);
   let userId;
 

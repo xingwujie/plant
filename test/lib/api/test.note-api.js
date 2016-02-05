@@ -66,8 +66,8 @@ describe('note-api', function() {
       url: '/api/note'
     };
     helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-      debug(response);
-      debug('httpMsg.statusCode:', httpMsg.statusCode);
+      // debug(response);
+      // debug('httpMsg.statusCode:', httpMsg.statusCode);
 
       assert(!error);
       assert.equal(httpMsg.statusCode, 401);
@@ -87,7 +87,7 @@ describe('note-api', function() {
       url: '/api/note'
     };
     helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-      debug(response);
+      // debug(response);
       // response should look like:
       // { plantIds: [ 'Plant ids must be an array' ], note: [ 'Note can\'t be blank' ] }
       assert(!error);
@@ -108,7 +108,7 @@ describe('note-api', function() {
       url: '/api/note'
     };
     helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-      debug(response);
+      // debug(response);
       // response should look like:
       // { ok: true,
       // id: '500147d5b68746efa2cc18510d4663a6',

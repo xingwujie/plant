@@ -64,7 +64,7 @@ export function makeRequest(opts, cb) {
     followRedirect
   };
 
-  debug('options:', options);
+  // debug('options:', options);
 
   // cb will get (error, httpMsg, response);
   request(options, cb);
@@ -89,7 +89,7 @@ export function startServerAuthenticated(done) {
       assert(httpMsg.headers.location);
       const parts = httpMsg.headers.location.split('=');
       jwt = parts[1];
-      debug('Test jwt:', jwt);
+      // debug('Test jwt:', jwt);
       assert(jwt);
       data.userId = fakePassport.getUserId();
       return done(error, data);
