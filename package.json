@@ -20,7 +20,7 @@
     "express": "4.13.4",
     "express-session": "1.13.0",
     "forever": "0.15.1",
-    "history": "2.0.0",
+    "history": "1.17.0",
     "jquery": "2.2.0",
     "jwt-simple": "0.4.1",
     "lodash": "4.2.1",
@@ -91,8 +91,7 @@
     "run": [
       "dependency-update",
       "lint",
-      "test",
-      "check-coverage"
+      "test"
     ],
     "silent": false
   },
