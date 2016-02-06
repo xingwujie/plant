@@ -30,7 +30,7 @@ describe('note-api', function() {
   };
   let noteId;
 
-  before('it should create a plant to attach a note to', (done) => {
+  before('it should create a plant', (done) => {
     const reqOptions = {
       method: 'POST',
       authenticate: true,
@@ -296,6 +296,24 @@ describe('note-api', function() {
 
         done();
       });
+    });
+  });
+
+  describe('plant/note deletion', () => {
+    it.skip('should delete notes when a plant is deleted', (done) => {
+      // 1. Create 2 plants
+      // 2. Create 3 notes:
+      //    Note #1: plantIds reference plant #1
+      //    Note #2: plantIds reference plant #1 & #2
+      //    Note #3: plantIds reference plant #2
+      // 3. Delete plant #1
+      // 4. Confirm that Note #1 is no longer in DB
+      // 5. Retrieve plant #2 and confirm that both notes are attached.
+
+
+
+
+      done();
     });
   });
 

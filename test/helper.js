@@ -1,10 +1,11 @@
 import _ from 'lodash';
 import * as DesignDB from '../lib/db/design-db';
+import * as Plant from '../lib/db/plant-db';
 import assert from 'assert';
+import async from 'async';
 import fakePassport from './fake-passport';
 import proxyquire from 'proxyquire';
 import request from 'request';
-import * as Plant from '../lib/db/plant-db';
 
 const server = proxyquire('../lib/server', { passport: fakePassport });
 
@@ -99,4 +100,45 @@ export function startServerAuthenticated(done) {
 
 export function deleteAllPlantsForUser(cb) {
   plantDB.deleteByUserId(data.userId, cb);
+}
+
+export function createPlants(numPlants, userId, cb) {
+  const plantTemplate = {
+    title: 'Plant Title',
+    userId
+  };
+
+  var createPlant = function(count, callback) {
+    const reqOptions = {
+      method: 'POST',
+      authenticate: true,
+      body: {...plantTemplate, title: `${plantTemplate.title} ${count}`},
+      json: true,
+      url: '/api/plant'
+    };
+
+    makeRequest(reqOptions, (error, httpMsg, response) => {
+      assert(!error);
+      assert.equal(httpMsg.statusCode, 200);
+      assert(response.ok);
+
+      callback(null, {
+        ...reqOptions.body,
+        _id: response.id
+      });
+    });
+  };
+
+  // generate some plants
+  async.times(numPlants, (n, next) => {
+    createPlant(n, next);
+  }, function(err, plants) {
+    assert(!err);
+    // we should now have 'numPlants' plants
+    // debug('async.times:', plants);
+    assert.equal(plants.length, numPlants);
+
+    cb(err, plants);
+  });
+
 }

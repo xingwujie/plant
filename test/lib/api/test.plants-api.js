@@ -1,6 +1,5 @@
 import * as helper from '../../helper';
 import assert from 'assert';
-import async from 'async';
 
 // import d from 'debug';
 // const debug = d('plant:test.plants-api');
@@ -21,50 +20,14 @@ describe('plants-api', function() {
     helper.deleteAllPlantsForUser(done);
   });
 
-  const initialPlant = {
-    title: 'Plant Title',
-    userId
-  };
   let insertedPlants;
   const numPlants = 2;
 
   before('should create multiple plants to use in test', (done) => {
-
-    var createPlant = function(id, callback) {
-      const reqOptions = {
-        method: 'POST',
-        authenticate: true,
-        body: {...initialPlant, title: `${initialPlant.title} ${id}`},
-        json: true,
-        url: '/api/plant'
-      };
-
-      helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-        assert(!error);
-        assert.equal(httpMsg.statusCode, 200);
-        assert(response.ok);
-
-        callback(null, {
-          ...reqOptions.body,
-          _id: response.id
-        });
-      });
-    };
-
-    // generate some plants
-    async.times(numPlants, (n, next) => {
-      createPlant(n, (err, plant) => {
-        next(err, plant);
-      });
-    }, function(err, plants) {
-      assert(!err);
-      // we should now have 2 plants
-      // debug('async.times:', plants);
-      assert.equal(plants.length, numPlants);
+    helper.createPlants(numPlants, userId, (err, plants) => {
       insertedPlants = plants;
       done();
     });
-
   });
 
   it('should retrieve the just created plants by userId', (done) => {
