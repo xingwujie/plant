@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import {makeCouchId} from '../../../app/libs/utils';
 import * as helper from '../../helper';
 import assert from 'assert';
 import constants from '../../../app/libs/constants';
@@ -9,19 +8,17 @@ const debug = d('plant:test.note-api');
 
 describe('note-api', function() {
   this.timeout(10000);
+  let userId;
 
   before('it should start the server and setup auth token', done => {
-    helper.startServerAuthenticated((err) => {
-      assert(!err);
+    helper.startServerAuthenticated((err, data) => {
+      assert(data.userId);
+      userId = data.userId;
       done();
     });
   });
 
-  const initialPlant = {
-    title: 'Plant Title',
-    // _id: makeCouchId(),
-    userId: makeCouchId(),
-  };
+  let initialPlant;
   let plantId;
 
   const initialNote = {
@@ -31,28 +28,10 @@ describe('note-api', function() {
   let noteId;
 
   before('it should create a plant', (done) => {
-    const reqOptions = {
-      method: 'POST',
-      authenticate: true,
-      body: initialPlant,
-      json: true,
-      url: '/api/plant'
-    };
-    helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-      // response should look like:
-      // { ok: true,
-      // id: '500147d5b68746efa2cc18510d4663a6',
-      // rev: '1-bbeb5b8c4a14d2ff9008a4c818443bf7' }
-      assert(!error);
-      assert.equal(httpMsg.statusCode, 200);
-      assert(response);
-      assert(response.ok);
-      assert(constants.uuidRE.test(response.id));
-      assert(_.startsWith(response.rev, '1-'));
-
-      plantId = response.id;
+    helper.createPlants(1, userId, (err, plants) => {
+      initialPlant = plants[0];
+      plantId = initialPlant._id;
       initialNote.plantIds = [plantId];
-
       done();
     });
   });
