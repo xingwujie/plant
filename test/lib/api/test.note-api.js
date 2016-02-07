@@ -3,7 +3,7 @@ import * as helper from '../../helper';
 import assert from 'assert';
 import async from 'async';
 import constants from '../../../app/libs/constants';
-import BaseDB from '../../../lib/db/base-db';
+import * as BaseDB from '../../../lib/db/base-db';
 
 import d from 'debug';
 const debug = d('plant:test.note-api');
@@ -326,6 +326,9 @@ describe('note-api', function() {
           });
         },
 
+        // TODO: Update first note so that we have 2 revisions of it to
+        // confirm that it's been deleted?
+
         // 3. Delete plant #1
         (plants, notes, cb) => {
 
@@ -351,17 +354,40 @@ describe('note-api', function() {
           baseDB.getById(notes[0]._id, (err, result) => {
             debug('Step 4 err:', err);
             debug('Step 4 result:', result);
+            assert(!err);
+            assert(!result);
             cb(err, plants, notes);
           });
         },
 
         // 5. Retrieve plant #2 and confirm that both notes are attached.
+        (plants, notes, cb) => {
+          const reqOptions = {
+            method: 'GET',
+            authenticate: true,
+            json: true,
+            url: `/api/plant/${plants[1]._id}`
+          };
 
+          helper.makeRequest(reqOptions, (error, httpMsg, plant) => {
+            assert(!error);
+            assert.equal(httpMsg.statusCode, 200);
+            assert(plant);
+            assert.equal(plant._id, plants[1]._id);
+            assert.equal(plant.notes.length, 2);
+            assert.equal(plant.notes[0]._id, notes[1]._id);
+            assert.equal(plant.notes[1]._id, notes[2]._id);
+            cb(error, plants, notes);
+          });
+        },
 
       ],
-      (err, finalResult) => {
+
+      // Final callback
+      (err, plants, notes) => {
         assert(!err);
-        assert(finalResult);
+        assert.equal(plants.length, 2);
+        assert.equal(notes.length, 3);
         done();
       });
 
