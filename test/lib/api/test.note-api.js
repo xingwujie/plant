@@ -1,7 +1,9 @@
 import _ from 'lodash';
 import * as helper from '../../helper';
 import assert from 'assert';
+import async from 'async';
 import constants from '../../../app/libs/constants';
+import BaseDB from '../../../lib/db/base-db';
 
 import d from 'debug';
 const debug = d('plant:test.note-api');
@@ -289,11 +291,82 @@ describe('note-api', function() {
       // 4. Confirm that Note #1 is no longer in DB
       // 5. Retrieve plant #2 and confirm that both notes are attached.
 
+      async.waterfall([
+
+        // 1. Create 2 plants
+        async.apply(helper.createPlants, 2, userId),
+
+        // 2. Create 3 notes, part 1:
+        //    Note #1: plantIds reference plant #1
+        (plants, cb) => {
+          assert(plants.length, 2);
+          helper.createNote([plants[0]._id], (err, note) => {
+            assert(note);
+            cb(err, plants, [note]);
+          });
+        },
+
+        // 2. Create 3 notes, part 2:
+        //    Note #2: plantIds reference plant #1 & #2
+        (plants, notes, cb) => {
+          helper.createNote([plants[0]._id, plants[1]._id], (err, note) => {
+            assert(note);
+            notes.push(note);
+            cb(err, plants, notes);
+          });
+        },
+
+        // 2. Create 3 notes, part 3:
+        //    Note #3: plantIds reference plant #2
+        (plants, notes, cb) => {
+          helper.createNote([plants[1]._id], (err, note) => {
+            assert(note);
+            notes.push(note);
+            cb(err, plants, notes);
+          });
+        },
+
+        // 3. Delete plant #1
+        (plants, notes, cb) => {
+
+          const reqOptions = {
+            method: 'DELETE',
+            authenticate: true,
+            json: true,
+            url: `/api/plant/${plants[0]._id}`
+          };
+
+          helper.makeRequest(reqOptions, (error, httpMsg, response) => {
+            assert(!error);
+            assert.equal(httpMsg.statusCode, 200);
+            assert(response.ok);
+            cb(error, plants, notes);
+          });
+
+        },
+
+        // 4. Confirm that Note #1 is no longer in DB
+        (plants, notes, cb) => {
+          const baseDB = new BaseDB.BaseDB();
+          baseDB.getById(notes[0]._id, (err, result) => {
+            debug('Step 4 err:', err);
+            debug('Step 4 result:', result);
+            cb(err, plants, notes);
+          });
+        },
+
+        // 5. Retrieve plant #2 and confirm that both notes are attached.
 
 
+      ],
+      (err, finalResult) => {
+        assert(!err);
+        assert(finalResult);
+        done();
+      });
 
-      done();
     });
+
   });
 
 });

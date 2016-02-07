@@ -142,3 +142,33 @@ export function createPlants(numPlants, userId, cb) {
   });
 
 }
+
+export function createNote(plantIds, cb) {
+  assert(_.isArray(plantIds));
+  const noteTemplate = {
+    note: 'This is a note',
+    date: new Date(),
+    plantIds
+  };
+
+  const reqOptions = {
+    method: 'POST',
+    authenticate: true,
+    body: noteTemplate,
+    json: true,
+    url: '/api/note'
+  };
+
+  makeRequest(reqOptions, (error, httpMsg, response) => {
+    assert(!error);
+    assert.equal(httpMsg.statusCode, 200);
+    assert(response.ok);
+
+    cb(null, {
+      ...reqOptions.body,
+      _id: response.id
+    });
+  });
+
+
+}
