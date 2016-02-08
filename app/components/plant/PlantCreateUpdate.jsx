@@ -65,7 +65,6 @@ export default class PlantCreateUpdate extends React.Component {
     });
     e.preventDefault();
     e.stopPropagation();
-    // TODO: Open Plant page and allow for adding of a note.
   }
 
   handleChange(propName, e) {
