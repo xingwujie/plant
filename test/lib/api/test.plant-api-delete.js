@@ -9,6 +9,7 @@ import * as BaseDB from '../../../lib/db/base-db';
 describe('plant-api-delete', function() {
   this.timeout(10000);
   let userId;
+  const baseDB = new BaseDB.BaseDB();
 
   before('it should start the server and setup auth token', done => {
     helper.startServerAuthenticated((err, data) => {
@@ -34,13 +35,25 @@ describe('plant-api-delete', function() {
         // 1. Create 2 plants
         async.apply(helper.createPlants, 2, userId),
 
-        // 2. Create 3 notes, part 1:
+        // 2. Create 3 notes, part 1.1:
         //    Note #1: plantIds reference plant #1
         (plants, cb) => {
           assert(plants.length, 2);
           helper.createNote([plants[0]._id], {note: 'Note #1'}, (err, note) => {
             assert(note);
             cb(err, plants, [note]);
+          });
+        },
+
+        // 2. Create 3 notes, part 1.2:
+        //    Update Note #1 so that it's on revision 2-...
+        (plants, notes, cb) => {
+          const updatedNote = {...notes[0], x: 'random'};
+          baseDB.updateSet(updatedNote, (err, note) => {
+            assert(!err);
+            assert(note);
+            assert.equal(note.rev.slice(0, 2), '2-');
+            cb(err, plants, notes);
           });
         },
 
@@ -64,9 +77,6 @@ describe('plant-api-delete', function() {
           });
         },
 
-        // TODO: Update first note so that we have 2 revisions of it to
-        // confirm that it's been deleted?
-
         // 3. Delete plant #1
         (plants, notes, cb) => {
 
@@ -88,7 +98,6 @@ describe('plant-api-delete', function() {
 
         // 4. Confirm that Note #1 is no longer in DB
         (plants, notes, cb) => {
-          const baseDB = new BaseDB.BaseDB();
           baseDB.getById(notes[0]._id, (err, result) => {
             assert.equal(err.statusCode, 404);
             assert.equal(err.reason, 'deleted');

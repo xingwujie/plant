@@ -99,10 +99,11 @@ describe('/db/cloudant/', function() {
 
       const plantUpdate = {
         name: 'New Name',
-        other: 'Other Text'
+        other: 'Other Text',
+        _id: plant.id
       };
 
-      plantDB.updateSet(plantUpdate, plant.id, (err, result) => {
+      plantDB.updateSet(plantUpdate, (err, result) => {
 
         assert(!err);
         assert(result.ok);
