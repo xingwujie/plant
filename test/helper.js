@@ -143,12 +143,13 @@ export function createPlants(numPlants, userId, cb) {
 
 }
 
-export function createNote(plantIds, cb) {
+export function createNote(plantIds, noteOverride = {}, cb) {
   assert(_.isArray(plantIds));
   const noteTemplate = {
     note: 'This is a note',
     date: new Date(),
-    plantIds
+    plantIds,
+    ...noteOverride
   };
 
   const reqOptions = {

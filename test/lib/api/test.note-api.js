@@ -5,8 +5,8 @@ import async from 'async';
 import constants from '../../../app/libs/constants';
 import * as BaseDB from '../../../lib/db/base-db';
 
-import d from 'debug';
-const debug = d('plant:test.note-api');
+// import d from 'debug';
+// const debug = d('plant:test.note-api');
 
 describe('note-api', function() {
   this.timeout(10000);
@@ -238,7 +238,7 @@ describe('note-api', function() {
       };
 
       helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-        debug('response:', response);
+        // debug('response:', response);
         // response should look like:
         // { ok: true,
         // id: '386613f402b2407bb4781d31133886c3',
@@ -281,7 +281,7 @@ describe('note-api', function() {
   });
 
   describe('plant/note deletion', () => {
-    it.skip('should delete notes when a plant is deleted', (done) => {
+    it('should delete notes when a plant is deleted', (done) => {
       // 1. Create 2 plants
       // 2. Create 3 notes:
       //    Note #1: plantIds reference plant #1
@@ -300,7 +300,7 @@ describe('note-api', function() {
         //    Note #1: plantIds reference plant #1
         (plants, cb) => {
           assert(plants.length, 2);
-          helper.createNote([plants[0]._id], (err, note) => {
+          helper.createNote([plants[0]._id], {note: 'Note #1'}, (err, note) => {
             assert(note);
             cb(err, plants, [note]);
           });
@@ -309,7 +309,7 @@ describe('note-api', function() {
         // 2. Create 3 notes, part 2:
         //    Note #2: plantIds reference plant #1 & #2
         (plants, notes, cb) => {
-          helper.createNote([plants[0]._id, plants[1]._id], (err, note) => {
+          helper.createNote([plants[0]._id, plants[1]._id], {note: 'Note #2'}, (err, note) => {
             assert(note);
             notes.push(note);
             cb(err, plants, notes);
@@ -319,7 +319,7 @@ describe('note-api', function() {
         // 2. Create 3 notes, part 3:
         //    Note #3: plantIds reference plant #2
         (plants, notes, cb) => {
-          helper.createNote([plants[1]._id], (err, note) => {
+          helper.createNote([plants[1]._id], {note: 'Note #3'}, (err, note) => {
             assert(note);
             notes.push(note);
             cb(err, plants, notes);
@@ -352,11 +352,10 @@ describe('note-api', function() {
         (plants, notes, cb) => {
           const baseDB = new BaseDB.BaseDB();
           baseDB.getById(notes[0]._id, (err, result) => {
-            debug('Step 4 err:', err);
-            debug('Step 4 result:', result);
-            assert(!err);
+            assert.equal(err.statusCode, 404);
+            assert.equal(err.reason, 'deleted');
             assert(!result);
-            cb(err, plants, notes);
+            cb(null, plants, notes);
           });
         },
 
@@ -375,12 +374,16 @@ describe('note-api', function() {
             assert(plant);
             assert.equal(plant._id, plants[1]._id);
             assert.equal(plant.notes.length, 2);
-            assert.equal(plant.notes[0]._id, notes[1]._id);
-            assert.equal(plant.notes[1]._id, notes[2]._id);
+
+            // The notes array could be in any order.
+            // TODO: Should sort in date order in DB
+            const noteIds = [notes[1]._id, notes[2]._id];
+            assert(noteIds.indexOf(plant.notes[0]._id) >= 0);
+            assert(noteIds.indexOf(plant.notes[1]._id) >= 0);
+
             cb(error, plants, notes);
           });
         },
-
       ],
 
       // Final callback
