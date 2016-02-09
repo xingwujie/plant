@@ -38,13 +38,16 @@ export default class NotesRead extends React.Component {
       margin: 20,
       display: 'inline-block'
     };
-
+    let lastNoteDate;
     return (
       <div>
         {notes.map(note => {
+          const sinceLast = lastNoteDate ? lastNoteDate.from(note.date) : '';
+          lastNoteDate = note.date;
           return (
             <Paper key={note._id} style={paperStyle} zDepth={5}>
-              <h5>{note.date}</h5>
+              {sinceLast && <h6>{`(${sinceLast} since previous note)`}</h6>}
+              <h5>{note.date.format('DD-MMM-YYYY')}{` (${note.date.fromNow()})`}</h5>
               <div>{note.note}</div>
             </Paper>
             );

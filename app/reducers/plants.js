@@ -8,6 +8,7 @@
 // meta object:
 // status: 'create', 'create-saving', 'update', 'update-saving', 'delete-saving', 'error'
 // error: A string representing the reason why the status is 'error'
+import moment from 'moment';
 
 import {
   CANCEL_PLANT_CREATE_MODE,
@@ -58,9 +59,28 @@ function loadPlantRequest(state /*, action*/) {
   return state;
 }
 
+// action.payload is a plant object
 function loadPlantSuccess(state, action) {
-  const keepers = state.filter(plant => plant._id !== action.payload._id);
-  return [...keepers, action.payload];
+  const keepers = state.filter(p => p._id !== action.payload._id);
+  let plant = action.payload;
+  // TODO: Move this logic into a transformPlants() helper so it can be
+  // used by other methods
+  if(plant.notes && plant.notes.length) {
+    plant.notes = plant.notes.map(n => {
+      return {
+        ...n,
+        date: moment(new Date(n.date))
+      };
+    });
+    plant.notes = plant.notes.sort((a, b) => {
+      if(a.date.isSame(b.date)) {
+        return 0;
+      }
+      return a.date.isAfter(b.date) ? 1 : -1;
+    });
+  }
+  plant.plantedDate = plant.plantedDate ? moment(new Date(plant.plantedDate)) : plant.plantedDate;
+  return [...keepers, plant];
 }
 
 function loadPlantFailure(state, action) {

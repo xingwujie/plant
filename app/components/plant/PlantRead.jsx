@@ -3,6 +3,7 @@ import EditDeleteButtons from './EditDeleteButtons';
 import NotesRead from './NotesRead';
 import Paper from 'material-ui/lib/paper';
 import React from 'react';
+import moment from 'moment';
 
 export default class PlantRead extends React.Component {
   static contextTypes = {
@@ -50,7 +51,7 @@ export default class PlantRead extends React.Component {
       {name: 'description', text: ''},
       {name: 'commonName', text: 'Common Name'},
       {name: 'botanicalName', text: 'Botanical Name'},
-      {name: 'purchasedDate', text: 'Bought On'},
+      {name: 'plantedDate', text: 'Planted On'},
     ];
     if(!plant) {
       return null;
@@ -59,8 +60,14 @@ export default class PlantRead extends React.Component {
       if(!plant[title.name]) {
         return null;
       }
+      let renderText;
+      if(title.name === 'plantedDate' && moment.isMoment(plant[title.name])) {
+        renderText = `Planted On: ${plant[title.name].format('DD-MMM-YYYY')} (${plant[title.name].fromNow()})`;
+      } else {
+        renderText = `${title.text ? title.text + ': ' : ''}${plant[title.name]}`;
+      }
       return (<h3 key={title.name}>
-        {`${title.text ? title.text + ': ' : ''}${plant[title.name]}`}
+        {renderText}
       </h3>);
     });
 
