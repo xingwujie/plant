@@ -271,7 +271,7 @@ describe('note-api', function() {
         assert.equal(response.type, 'plant');
 
         // Check that there are no notes
-        assert(!response.notes);
+        assert.equal(response.notes.length, 0);
 
         done();
       });

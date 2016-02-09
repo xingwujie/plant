@@ -117,6 +117,8 @@ describe('plant-api', function() {
       assert.equal(response._id, plantId);
       assert.equal(response.title, initialPlant.title);
       assert.equal(response.type, 'plant');
+      assert(response.notes);
+      assert.equal(response.notes.length, 0);
 
       done();
     });
