@@ -68,12 +68,17 @@ function deletePlant(store, action, next) {
 
 function loadOne(store, action) {
 
-  const options = {
-    url: `/api/plant/${action.payload._id}`,
-    success: actions.loadPlantSuccess,
-    failure: actions.loadPlantFailure,
-  };
-  ajax(store, action, options);
+  if(!action.payload._id) {
+    console.log('No _id in loadOne');
+    console.log((new Error()).stack);
+  } else {
+    const options = {
+      url: `/api/plant/${action.payload._id}`,
+      success: actions.loadPlantSuccess,
+      failure: actions.loadPlantFailure,
+    };
+    ajax(store, action, options);
+  }
 }
 
 // Get all the plants a user has created

@@ -12,6 +12,7 @@ import Paper from 'material-ui/lib/paper';
 import RaisedButton from 'material-ui/lib/raised-button';
 import React from 'react';
 import TextField from 'material-ui/lib/text-field';
+import moment from 'moment';
 
 const validate = validators.plant;
 
@@ -175,7 +176,7 @@ export default class PlantCreateUpdate extends React.Component {
           error={errors.plantedDate}
           extraClasses='col-sm-4'
           label='Planted Date'
-          value={plantedDate}
+          value={plantedDate && moment.isMoment(plantedDate) ? plantedDate.format('MM/DD/YYYY') : plantedDate}
           placeholder={`MM/DD/YYYY`}
           changeHandler={this.handleChange.bind(this, 'plantedDate')}
         />
