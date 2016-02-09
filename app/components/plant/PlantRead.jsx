@@ -16,6 +16,14 @@ export default class PlantRead extends React.Component {
     this.confirmDelete = this.confirmDelete.bind(this);
   }
 
+  componentWillMount() {
+    const {plant = {}} = this.props || {};
+    if(!plant.notes) {
+      const {_id} = plant;
+      this.props.dispatch(actions.loadPlant({_id}));
+    }
+  }
+
   edit() {
     this.props.dispatch(actions.setPlantMode({
       _id: this.props.plant._id,
