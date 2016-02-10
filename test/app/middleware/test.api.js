@@ -6,14 +6,14 @@ import sinon from 'sinon';
 
 describe('/app/middleware/api', function() {
 
-  it('should check that functions/url exist', (done) => {
+  it('should check that functions/url exist', done => {
     const store = {};
     const action = {
       payload: {_id: '123'}
     };
     const next = () => {};
 
-    const stub = sinon.stub(ajax, 'default', (s, a, options) => {
+    const stub = sinon.stub(ajax, 'default', (state, options) => {
       const message = JSON.stringify(options);
       assert(_.isString(options.url), `Missing url: ${message}`);
       assert(_.isFunction(options.success), `Missing success fn: ${message}`);
@@ -30,7 +30,7 @@ describe('/app/middleware/api', function() {
     done();
   });
 
-  it('should check that next gets called if no match', (done) => {
+  it('should check that next gets called if no match', done => {
     const store = {};
     const action = {
       payload: {_id: '123'}

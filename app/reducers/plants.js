@@ -32,13 +32,13 @@ import {
 function createPlantRequest(state, action) {
   // payload is an object of new plant being POSTed to server
   // an id has already been assigned to this object
-  return [...state, action.payload];
+  return Object.freeze([...state, action.payload]);
 }
 
 // User clicks save after creating a new plant
 function ajaxPlantFailure(state, action) {
   const keepers = state.filter(plant => plant._id !== action.payload._id);
-  return [...keepers, action.payload];
+  return Object.freeze([...keepers, action.payload]);
 }
 
 // User clicks save after update a plant
@@ -46,13 +46,13 @@ function updatePlantRequest(state, action) {
   // payload is an object of plant being PUT to server
   // an id has already been assigned to this object
   const keepers = state.filter(plant => plant._id !== action.payload._id);
-  return [...keepers, action.payload];
+  return Object.freeze([...keepers, action.payload]);
 }
 
 // action.payload: <plant-id>
 function deletePlant(state, action) {
   // payload is {id} of plant being DELETEd from server
-  return state.filter(plant => plant._id !== action.payload);
+  return Object.freeze(state.filter(plant => plant._id !== action.payload));
 }
 
 function loadPlantRequest(state /*, action*/) {
@@ -80,12 +80,12 @@ function loadPlantSuccess(state, action) {
     });
   }
   plant.plantedDate = plant.plantedDate ? moment(new Date(plant.plantedDate)) : plant.plantedDate;
-  return [...keepers, plant];
+  return Object.freeze([...keepers, plant]);
 }
 
 function loadPlantFailure(state, action) {
   const keepers = state.filter(plant => plant._id !== action.payload._id);
-  return [...keepers, action.payload];
+  return Object.freeze([...keepers, action.payload]);
 }
 
 function loadPlantsRequest(state /*, action*/) {
@@ -97,7 +97,7 @@ function loadPlantsSuccess(state, action) {
   if(action.payload && action.payload.length > 0) {
     const ids = action.payload.map(plant => plant._id);
     const keepers = state.filter(plant => ids.indexOf(plant._id >= 0));
-    return [...keepers, ...action.payload];
+    return Object.freeze([...keepers, ...action.payload]);
   }
   return state;
 }
@@ -110,24 +110,24 @@ function loadPlantsFailure(state, action) {
 // action.payload:
 // {_id <plant-id>, mode: 'create/update/read'}
 function setPlantMode(state, action) {
-  return state.map( plant => {
+  return Object.freeze(state.map( plant => {
     if (plant._id === action.payload._id) {
       return {...plant, mode: action.payload.mode};
     } else {
       return plant;
     }
-  });
+  }));
 }
 
 // action.payload: {_id <plant-id>, enable: true/false}
 function createNote(state, action) {
-  return state.map( plant => {
+  return Object.freeze(state.map( plant => {
     if (plant._id === action.payload._id) {
       return {...plant, createNote: action.payload.enable};
     } else {
       return plant;
     }
-  });
+  }));
 }
 
 const reducers = {

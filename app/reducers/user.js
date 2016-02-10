@@ -7,29 +7,29 @@ import {
   LOGOUT} from '../actions';
 
 function loginRequest() {
-  return {
+  return Object.freeze({
     status:'fetching'
-  };
+  });
 }
 
 function loginSuccess(state, action) {
-  return {
+  return Object.freeze({
     status:'success',
     isLoggedIn: true,
     ...action.payload
-  };
+  });
 }
 
 function loginFailure(state, action) {
-  return {
+  return Object.freeze({
     status:'failed',
     isLoggedIn: false,
     ...action.payload
-  };
+  });
 }
 
 function logout() {
-  return {};
+  return Object.freeze({});
 }
 
 const reducers = {
