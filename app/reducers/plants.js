@@ -10,24 +10,7 @@
 // error: A string representing the reason why the status is 'error'
 import moment from 'moment';
 
-import {
-  CANCEL_PLANT_CREATE_MODE,
-  CREATE_NOTE,
-  CREATE_NOTE_SUCCESS,
-  CREATE_PLANT_FAILURE,
-  CREATE_PLANT_REQUEST,
-  DELETE_PLANT_FAILURE,
-  DELETE_PLANT_REQUEST,
-  LOAD_PLANT_FAILURE,
-  LOAD_PLANT_REQUEST,
-  LOAD_PLANT_SUCCESS,
-  LOAD_PLANTS_FAILURE,
-  LOAD_PLANTS_REQUEST,
-  LOAD_PLANTS_SUCCESS,
-  SET_PLANT_MODE,
-  UPDATE_PLANT_FAILURE,
-  UPDATE_PLANT_REQUEST,
-  } from '../actions';
+import * as actions from '../actions';
 
 // User clicks save after creating a new plant
 function createPlantRequest(state, action) {
@@ -146,22 +129,22 @@ function createNoteSuccess(state, action) {
 }
 
 const reducers = {
-  [CANCEL_PLANT_CREATE_MODE]: deletePlant,
-  [CREATE_NOTE]: createNote,
-  [CREATE_NOTE_SUCCESS]: createNoteSuccess,
-  [CREATE_PLANT_FAILURE]: ajaxPlantFailure,
-  [CREATE_PLANT_REQUEST]: createPlantRequest,
-  [DELETE_PLANT_FAILURE]: ajaxPlantFailure,
-  [DELETE_PLANT_REQUEST]: deletePlant,
-  [LOAD_PLANT_FAILURE]: loadPlantFailure,
-  [LOAD_PLANT_REQUEST]: loadPlantRequest,
-  [LOAD_PLANT_SUCCESS]: loadPlantSuccess,
-  [LOAD_PLANTS_FAILURE]: loadPlantsFailure,
-  [LOAD_PLANTS_REQUEST]: loadPlantsRequest,
-  [LOAD_PLANTS_SUCCESS]: loadPlantsSuccess,
-  [SET_PLANT_MODE]: setPlantMode,
-  [UPDATE_PLANT_FAILURE]: ajaxPlantFailure,
-  [UPDATE_PLANT_REQUEST]: updatePlantRequest,
+  [actions.CANCEL_PLANT_CREATE_MODE]: deletePlant,
+  [actions.CREATE_NOTE]: createNote,
+  [actions.CREATE_NOTE_SUCCESS]: createNoteSuccess,
+  [actions.CREATE_PLANT_FAILURE]: ajaxPlantFailure,
+  [actions.CREATE_PLANT_REQUEST]: createPlantRequest,
+  [actions.DELETE_PLANT_FAILURE]: ajaxPlantFailure,
+  [actions.DELETE_PLANT_REQUEST]: deletePlant,
+  [actions.LOAD_PLANT_FAILURE]: loadPlantFailure,
+  [actions.LOAD_PLANT_REQUEST]: loadPlantRequest,
+  [actions.LOAD_PLANT_SUCCESS]: loadPlantSuccess,
+  [actions.LOAD_PLANTS_FAILURE]: loadPlantsFailure,
+  [actions.LOAD_PLANTS_REQUEST]: loadPlantsRequest,
+  [actions.LOAD_PLANTS_SUCCESS]: loadPlantsSuccess,
+  [actions.SET_PLANT_MODE]: setPlantMode,
+  [actions.UPDATE_PLANT_FAILURE]: ajaxPlantFailure,
+  [actions.UPDATE_PLANT_REQUEST]: updatePlantRequest,
 };
 
 export default (state = [], action) => {
