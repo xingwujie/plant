@@ -159,3 +159,13 @@ process.env
 * Terminal Window #2: `npm start`
   * Starts the Webpack Dev Server on port 8080
 * Navigate: [http://localhost:8080](http://localhost:8080)
+
+### Running the tests
+
+Setup a local instance of CouchDB using Docker:
+
+```
+docker pull klaemo/couchdb:latest
+docker run -d -p 5984:5984 --name couchdb klaemo/couchdb
+Test: curl http://localhost:5984
+```
