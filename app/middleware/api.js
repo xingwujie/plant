@@ -33,7 +33,9 @@ function createNote(store, action, next) {
     type: 'POST',
     url: '/api/note',
     data: action.payload,
-    success: actions.createNoteSuccess,
+    // bind the existing payload to the success action so that we
+    // can get to the plantId to close the create note form.
+    success: actions.createNoteSuccess.bind(null, action.payload),
     failure: actions.createNoteFailure
   };
   ajax(store, options);

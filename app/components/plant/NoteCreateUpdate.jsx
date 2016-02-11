@@ -33,6 +33,8 @@ export default class NoteCreateUpdate extends React.Component {
         console.log('Note validation errors:', errors);
         this.setState({errors});
       } else {
+        // The PLANT_CREATE_SUCCESS action needs this to hide the note create form
+        transformed.plantId = this.props.plant._id;
         if(isNew) {
           this.props.dispatch(actions.createNoteRequest(transformed));
         } else {

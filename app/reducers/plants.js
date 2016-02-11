@@ -13,6 +13,7 @@ import moment from 'moment';
 import {
   CANCEL_PLANT_CREATE_MODE,
   CREATE_NOTE,
+  CREATE_NOTE_SUCCESS,
   CREATE_PLANT_FAILURE,
   CREATE_PLANT_REQUEST,
   DELETE_PLANT_FAILURE,
@@ -130,9 +131,24 @@ function createNote(state, action) {
   }));
 }
 
+// The action.payload here was bound to the action.payload
+// in the request and not the return object from the server
+// so that we could get to the plantId from the request.
+function createNoteSuccess(state, action) {
+  return Object.freeze(state.map( plant => {
+    console.log('createNoteSuccess:', action);
+    if (plant._id === action.payload.plantId) {
+      return {...plant, createNote: false};
+    } else {
+      return plant;
+    }
+  }));
+}
+
 const reducers = {
   [CANCEL_PLANT_CREATE_MODE]: deletePlant,
   [CREATE_NOTE]: createNote,
+  [CREATE_NOTE_SUCCESS]: createNoteSuccess,
   [CREATE_PLANT_FAILURE]: ajaxPlantFailure,
   [CREATE_PLANT_REQUEST]: createPlantRequest,
   [DELETE_PLANT_FAILURE]: ajaxPlantFailure,
