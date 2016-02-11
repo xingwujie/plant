@@ -38,10 +38,7 @@ function demomentize(obj) {
       if(moment.isMoment(obj[key])) {
         obj[key] = obj[key].format(dateFormat);
       }
-      if(_.isArray(obj[key])) {
-        obj[key] = obj[key].map(demomentize);
-      }
-      if(_.isObject(obj[key])) {
+      if(_.isObject(obj[key])) { // Includes arrays
         obj[key] = demomentize(obj[key]);
       }
     });
