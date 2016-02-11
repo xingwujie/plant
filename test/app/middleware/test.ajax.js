@@ -136,4 +136,29 @@ describe('/app/middleware/ajax', function() {
     done();
   });
 
+  it('should not change a native data type', done => {
+
+    const store = {};
+    const options = {
+      url: '/something',
+      success: () => {},
+      failure: () => {},
+      data: 'do not change me',
+      type: 'POST'
+    };
+
+    let jqueryAjaxCalled = false;
+
+    ajaxStub.jquery.ajax = opts => {
+      assert.equal(opts.data, 'do not change me');
+      jqueryAjaxCalled = true;
+    };
+
+    ajax.default(store, options);
+
+    assert(jqueryAjaxCalled);
+
+    done();
+  });
+
 });
