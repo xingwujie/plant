@@ -1,8 +1,8 @@
 import * as helper from '../../helper';
 import assert from 'assert';
 
-// import d from 'debug';
-// const debug = d('plant:test.plants-api');
+import d from 'debug';
+const debug = d('plant:test.plants-api');
 
 describe('plants-api', function() {
   this.timeout(10000);
@@ -23,14 +23,16 @@ describe('plants-api', function() {
   let insertedPlants;
   const numPlants = 2;
 
-  before('should create multiple plants to use in test', (done) => {
+  before('should create multiple plants to use in test', done => {
     helper.createPlants(numPlants, userId, (err, plants) => {
       insertedPlants = plants;
       done();
     });
   });
 
-  it('should retrieve the just created plants by userId', (done) => {
+  it('should return an empty list if userId exists and has no plants');
+
+  it('should retrieve the just created plants by userId', done => {
     const reqOptions = {
       method: 'GET',
       authenticate: false,
@@ -63,24 +65,44 @@ describe('plants-api', function() {
 
   });
 
-  it('should fail to retrieve any plants if the userId does not exist', (done) => {
-    const reqOptions = {
-      method: 'GET',
-      authenticate: false,
-      json: true,
-      url: `/api/plants/does-not-exist`
-    };
-    helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-      // debug(response);
+  describe('failures', () => {
+    it.skip('should get a 404 if there is no userId', done => {
+      const reqOptions = {
+        method: 'GET',
+        authenticate: false,
+        json: true,
+        url: `/api/plants`
+      };
 
-      // TODO: If the userId exists and has no plants then this test should run like this.
-      //       If the userId does not exist then we should get back a 404 - which is this test
-      assert(!error);
-      assert.equal(httpMsg.statusCode, 200);
-      assert(!response);
-      // assert.equal(response.error, 'missing');
+      helper.makeRequest(reqOptions, (error, httpMsg, response) => {
+        debug('error:', error);
+        debug('httpMsg:', httpMsg.statusCode);
+        debug('response:', response);
+        assert(!error);
+        assert.equal(httpMsg.statusCode, 404);
+        assert(!response);
 
-      done();
+        done();
+      });
+    });
+
+    it('should fail to retrieve any plants if the userId does not exist', done => {
+      const reqOptions = {
+        method: 'GET',
+        authenticate: false,
+        json: true,
+        url: `/api/plants/does-not-exist`
+      };
+      helper.makeRequest(reqOptions, (error, httpMsg, response) => {
+        // debug(response);
+
+        assert(!error);
+        assert.equal(httpMsg.statusCode, 404);
+        assert(!response);
+        // assert.equal(response.error, 'missing');
+
+        done();
+      });
     });
   });
 
