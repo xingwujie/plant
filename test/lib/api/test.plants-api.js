@@ -1,8 +1,8 @@
 import * as helper from '../../helper';
 import assert from 'assert';
 
-import d from 'debug';
-const debug = d('plant:test.plants-api');
+// import d from 'debug';
+// const debug = d('plant:test.plants-api');
 
 describe('plants-api', function() {
   this.timeout(10000);
@@ -66,7 +66,7 @@ describe('plants-api', function() {
   });
 
   describe('failures', () => {
-    it.skip('should get a 404 if there is no userId', done => {
+    it('should get a 404 if there is no userId', done => {
       const reqOptions = {
         method: 'GET',
         authenticate: false,
@@ -75,12 +75,9 @@ describe('plants-api', function() {
       };
 
       helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-        debug('error:', error);
-        debug('httpMsg:', httpMsg.statusCode);
-        debug('response:', response);
         assert(!error);
         assert.equal(httpMsg.statusCode, 404);
-        assert(!response);
+        assert(response);
 
         done();
       });
@@ -94,12 +91,10 @@ describe('plants-api', function() {
         url: `/api/plants/does-not-exist`
       };
       helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-        // debug(response);
 
         assert(!error);
         assert.equal(httpMsg.statusCode, 404);
         assert(!response);
-        // assert.equal(response.error, 'missing');
 
         done();
       });
