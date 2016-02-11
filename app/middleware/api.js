@@ -12,7 +12,7 @@ function loginRequest(store, action) {
     failure: actions.loginFailure,
     beforeSend: () => {}
   };
-  ajax(store, action, options);
+  ajax(store, options);
 }
 
 function createPlant(store, action, next) {
@@ -24,7 +24,7 @@ function createPlant(store, action, next) {
     success: actions.createPlantSuccess,
     failure: actions.createPlantFailure
   };
-  ajax(store, action, options);
+  ajax(store, options);
   next(action);
 }
 
@@ -37,7 +37,7 @@ function createNote(store, action, next) {
     success: actions.createNoteSuccess,
     failure: actions.createNoteFailure
   };
-  ajax(store, action, options);
+  ajax(store, options);
   next(action);
 }
 
@@ -50,7 +50,7 @@ function updatePlant(store, action, next) {
     success: actions.updatePlantSuccess,
     failure: actions.updatePlantFailure,
   };
-  ajax(store, action, options);
+  ajax(store, options);
   return next(action);
 }
 
@@ -61,7 +61,7 @@ function deletePlant(store, action, next) {
     success: actions.deletePlantSuccess,
     failure: actions.deletePlantFailure
   };
-  ajax(store, action, options);
+  ajax(store, options);
   next(action);
 }
 
@@ -77,7 +77,7 @@ function loadOne(store, action) {
       success: actions.loadPlantSuccess,
       failure: actions.loadPlantFailure,
     };
-    ajax(store, action, options);
+    ajax(store, options);
   }
 }
 
@@ -89,7 +89,7 @@ function load(store, action) {
     success: actions.loadPlantsSuccess,
     failure: actions.loadPlantsFailure
   };
-  ajax(store, action, options);
+  ajax(store, options);
 }
 
 export const apis = {
