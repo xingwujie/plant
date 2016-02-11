@@ -22,7 +22,15 @@ describe('/app/middleware/ajax', function() {
       failure: () => {},
       data: {
         _id: '123',
-        testDate: moment(new Date(2015, 4, 5))
+        date: moment(new Date(2015, 4, 5)),
+        one: {
+          fooone: 'bar',
+          date: moment(new Date(2015, 4, 5)),
+          two: {
+            footwo: 'baz',
+            date: moment(new Date(2015, 4, 5)),
+          }
+        }
       },
       type: 'POST'
     };
@@ -31,7 +39,11 @@ describe('/app/middleware/ajax', function() {
 
     ajaxStub.jquery.ajax = opts => {
       assert.equal(opts.data._id, opts.data._id);
-      assert.equal(opts.data.testDate, '05/05/2015');
+      assert.equal(opts.data.date, '05/05/2015');
+      assert.equal(opts.data.one.fooone, 'bar');
+      assert.equal(opts.data.one.date, '05/05/2015');
+      assert.equal(opts.data.one.two.date, '05/05/2015');
+      assert.equal(opts.data.one.two.footwo, 'baz');
       jqueryAjaxCalled = true;
     };
 

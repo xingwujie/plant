@@ -36,7 +36,7 @@ describe('note-api', function() {
     });
   });
 
-  describe('note-api create failures', () => {
+  describe('create failures', () => {
     it('should fail to create a note document if user is not authenticated', (done) => {
       const reqOptions = {
         method: 'POST',

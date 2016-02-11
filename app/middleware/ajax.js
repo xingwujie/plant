@@ -41,6 +41,9 @@ function demomentize(obj) {
       if(_.isArray(obj[key])) {
         obj[key] = obj[key].map(demomentize);
       }
+      if(_.isObject(obj[key])) {
+        obj[key] = demomentize(obj[key]);
+      }
     });
   }
 

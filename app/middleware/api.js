@@ -4,7 +4,6 @@
 import * as actions from '../actions';
 import ajax from './ajax';
 
-
 function loginRequest(store, action) {
   const options = {
     url: `/auth/with?code=${action.payload}`,
