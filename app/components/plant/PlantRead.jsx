@@ -7,7 +7,7 @@ import moment from 'moment';
 
 export default class PlantRead extends React.Component {
   static contextTypes = {
-    history: React.PropTypes.object
+    router: React.PropTypes.object.isRequired
   };
 
   constructor(props) {
@@ -42,7 +42,7 @@ export default class PlantRead extends React.Component {
     if(yes) {
       this.props.dispatch(actions.deletePlantRequest(this.props.plant._id));
       // Transition to /plants
-      this.context.history.pushState(null, '/plants');
+      this.context.router.push('/plants');
     } else {
       this.setState({showDeleteConfirmation: false});
     }

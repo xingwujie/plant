@@ -18,7 +18,7 @@ const validate = validators.plant;
 
 export default class PlantCreateUpdate extends React.Component {
   static contextTypes = {
-    history: React.PropTypes.object
+    router: React.PropTypes.object.isRequired
   };
 
   constructor(props) {
@@ -46,7 +46,7 @@ export default class PlantCreateUpdate extends React.Component {
       }));
     } else {
       // Transition to /plants
-      this.context.history.pushState(null, '/plants');
+      this.context.router.push('/plants');
     }
   }
 
@@ -61,7 +61,9 @@ export default class PlantCreateUpdate extends React.Component {
         } else {
           this.props.dispatch(actions.updatePlantRequest(transformed));
         }
-        this.context.history.pushState(null, `/plant/${makeSlug(transformed.title)}/${transformed._id}`);
+        const temp = `/plant/${makeSlug(transformed.title)}/${transformed._id}`;
+        console.log('temp:', temp);
+        this.context.router.push(`/plant/${makeSlug(transformed.title)}/${transformed._id}`);
       }
     });
     e.preventDefault();

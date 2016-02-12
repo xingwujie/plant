@@ -4,6 +4,9 @@ import Paper from 'material-ui/lib/paper';
 import React from 'react';
 
 export default class NotesRead extends React.Component {
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  };
 
   edit() {
     this.props.dispatch(actions.setPlantMode({
@@ -20,7 +23,7 @@ export default class NotesRead extends React.Component {
     if(yes) {
       this.props.dispatch(actions.deletePlantRequest(this.props.plant._id));
       // Transition to /plants
-      this.context.history.pushState(null, '/plants');
+      this.context.router.push('/plants');
     } else {
       this.setState({showDeleteConfirmation: false});
     }

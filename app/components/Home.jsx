@@ -7,7 +7,7 @@ import * as actions from '../actions';
 
 export default class Home extends React.Component {
   static contextTypes = {
-    history: React.PropTypes.object
+    router: React.PropTypes.object.isRequired
   };
 
   constructor() {

@@ -23,7 +23,7 @@ import store from '../../store';
 
 export default class Plant extends React.Component {
   static contextTypes = {
-    history: React.PropTypes.object
+    router: React.PropTypes.object.isRequired
   };
 
   constructor(props) {

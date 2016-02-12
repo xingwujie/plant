@@ -3,20 +3,19 @@ import 'bootstrap';
 import 'bootstrap.css';
 import './stylesheets/main.css';
 
-import {Router, Route, IndexRoute} from 'react-router';
+import {browserHistory, Router, Route, IndexRoute} from 'react-router';
 import App from './components/App';
 import Auth from './components/Auth';
-import createBrowserHistory from 'history/lib/createBrowserHistory';
 import DebugSettings from './components/DebugSettings';
 import Help from './components/Help';
 import Home from './components/Home';
 import Login from './components/auth/Login';
 import Plant from './components/plant/Plant';
 import Plants from './components/plants/Plants';
+import Privacy from './components/info/Privacy';
 import Profile from './components/Profile';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Privacy from './components/info/Privacy';
 
 //Needed for onTouchTap
 //Can go away when react 1.0 release
@@ -42,14 +41,13 @@ var routes = (
   </Route>
 );
 
-let createHistory = createBrowserHistory();
 function render() {
   let content = document.createElement('div');
   content.setAttribute('id', 'content');
   document.body.appendChild(content);
   content = document.getElementById('content');
 
-  ReactDOM.render((<Router history={createHistory}>{routes}</Router>), content);
+  ReactDOM.render((<Router history={browserHistory}>{routes}</Router>), content);
 
 }
 

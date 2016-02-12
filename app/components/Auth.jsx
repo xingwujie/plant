@@ -5,6 +5,9 @@ import store from '../store';
 import * as actions from '../actions';
 
 export default class Auth extends React.Component {
+  static contextTypes = {
+    router: React.PropTypes.object.isRequired
+  };
 
   constructor() {
     super();
@@ -15,9 +18,8 @@ export default class Auth extends React.Component {
     this.unsubscribe = store.subscribe(this.onChange);
 
     let { query } = this.props.location;
-    var code = query && query.jwt;
 
-    console.log('Auth.componentDidMount query:', query);
+    var code = query && query.jwt;
 
     store.dispatch(actions.loginRequest(code));
   }
@@ -40,12 +42,11 @@ export default class Auth extends React.Component {
         localStorage.removeItem('returnurl');
       }
       let destination = returnurl || '/';
-      let { history: historyContext } = this.props;
       console.log('Auth.componentDidUpdate destination:', destination);
-      historyContext.pushState(null, destination);
+      this.context.router.push(destination);
     } else {
       console.log('Auth.componentDidUpdate /login');
-      window.location = '/login';
+      this.context.router.push('/login');
     }
   }
 
