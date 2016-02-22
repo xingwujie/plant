@@ -168,7 +168,7 @@ describe('/app/models/plant', function() {
       // debug('transformed:', transformed);
 
       assert(err);
-      assert.equal(err.userId, `User id can't be blank`);
+      assert.equal(err.userId, 'User id can\'t be blank');
       assert.equal(Object.keys(transformed).length, 3);
       assert.equal(transformed._id, plant._id);
       assert.equal(transformed.title, plant.title);

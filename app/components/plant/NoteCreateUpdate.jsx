@@ -102,7 +102,7 @@ export default class NoteCreateUpdate extends React.Component {
           errorText={errors.date}
           floatingLabelText='Date'
           fullWidth={true}
-          hintText={`MM/DD/YYYY`}
+          hintText={'MM/DD/YYYY'}
           onChange={this.onChange.bind(this, 'date')}
           style={textFieldStyle}
           underlineStyle={underlineStyle}

@@ -41,7 +41,7 @@ describe('plant-api', function() {
       assert(!error);
       assert.equal(httpMsg.statusCode, 401);
       assert(response);
-      assert.equal(response.error, `Not Authenticated`);
+      assert.equal(response.error, 'Not Authenticated');
 
       done();
     });
@@ -62,7 +62,7 @@ describe('plant-api', function() {
       assert(!error);
       assert.equal(httpMsg.statusCode, 400);
       assert(response);
-      assert.equal(response.title[0], `Title can't be blank`);
+      assert.equal(response.title[0], 'Title can\'t be blank');
 
       done();
     });
@@ -129,7 +129,7 @@ describe('plant-api', function() {
       method: 'GET',
       authenticate: false,
       json: true,
-      url: `/api/plant/does-not-exist`
+      url: '/api/plant/does-not-exist'
     };
     helper.makeRequest(reqOptions, (error, httpMsg, response) => {
       // debug(response);

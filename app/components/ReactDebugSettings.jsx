@@ -47,7 +47,7 @@ export default class DebugSettings extends React.Component {
 
     return (
       <div style={{marginLeft: '50px'}}>
-        <div>{`Check the console debug messages that you want to enable. These settings are stored in localStorage which means that they'll still be set the next time you open this browser.`}</div>
+        <div>{'Check the console debug messages that you want to enable. These settings are stored in localStorage which means that they\'ll still be set the next time you open this browser.'}</div>
         {settings.map( setting => this.renderCheckbox(setting) )}
       </div>
     );

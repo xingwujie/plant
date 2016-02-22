@@ -136,7 +136,7 @@ describe('/app/models/note', function() {
       // debug('transformed:', transformed);
 
       assert(err);
-      assert.equal(err.userId, `User id can't be blank`);
+      assert.equal(err.userId, 'User id can\'t be blank');
       assert.equal(Object.keys(transformed).length, 5);
       assert.equal(transformed._id, note._id);
       assert.equal(transformed.note, note.note);
@@ -165,7 +165,7 @@ describe('/app/models/note', function() {
       // debug('transformed:', transformed);
 
       assert(err);
-      assert.equal(err.plantIds, `Plant ids must have at least 1 on plant associated`);
+      assert.equal(err.plantIds, 'Plant ids must have at least 1 on plant associated');
       assert.equal(Object.keys(transformed).length, 6);
       assert.equal(transformed._id, note._id);
       assert.equal(transformed.note, note.note);
@@ -193,7 +193,7 @@ describe('/app/models/note', function() {
       // debug('transformed:', transformed);
 
       assert(err);
-      assert.equal(err.plantIds, `Plant ids is required`);
+      assert.equal(err.plantIds, 'Plant ids is required');
       assert.equal(Object.keys(transformed).length, 5);
       assert.equal(transformed._id, note._id);
       assert.equal(transformed.note, note.note);
@@ -222,7 +222,7 @@ describe('/app/models/note', function() {
       // debug('transformed:', transformed);
 
       assert(err);
-      assert.equal(err.plantIds, `Plant ids must be an array`);
+      assert.equal(err.plantIds, 'Plant ids must be an array');
       assert.equal(Object.keys(transformed).length, 6);
       assert.equal(transformed._id, note._id);
       assert.equal(transformed.note, note.note);

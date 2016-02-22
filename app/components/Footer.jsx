@@ -16,8 +16,8 @@ export default class Footer extends React.Component {
     return (
       <div style={style}>
         <Divider />
-        <Link to={`/`}>{'Home'}</Link>
-        <Link style={{marginLeft: '10px'}} to={`/privacy`}>{'Privacy'}</Link>
+        <Link to={'/'}>{'Home'}</Link>
+        <Link style={{marginLeft: '10px'}} to={'/privacy'}>{'Privacy'}</Link>
       </div>
     );
   }

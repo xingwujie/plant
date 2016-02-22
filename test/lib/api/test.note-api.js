@@ -52,7 +52,7 @@ describe('note-api', function() {
         assert(!error);
         assert.equal(httpMsg.statusCode, 401);
         assert(response);
-        assert.equal(response.error, `Not Authenticated`);
+        assert.equal(response.error, 'Not Authenticated');
 
         done();
       });
@@ -73,7 +73,7 @@ describe('note-api', function() {
         assert(!error);
         assert.equal(httpMsg.statusCode, 400);
         assert(response);
-        assert.equal(response.note[0], `Note can't be blank`);
+        assert.equal(response.note[0], 'Note can\'t be blank');
 
         done();
       });
@@ -94,7 +94,7 @@ describe('note-api', function() {
         assert(!error);
         assert.equal(httpMsg.statusCode, 400);
         assert(response);
-        assert.equal(response.plantIds[0], `Plant ids must have at least 1 on plant associated`);
+        assert.equal(response.plantIds[0], 'Plant ids must have at least 1 on plant associated');
 
         done();
       });

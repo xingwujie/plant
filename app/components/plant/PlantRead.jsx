@@ -95,7 +95,7 @@ export default class PlantRead extends React.Component {
     return (
       <div>
         {!plant &&
-          <div>{`Plant not found or still loading...`}</div>
+          <div>{'Plant not found or still loading...'}</div>
         }
         {plant &&
           <div className='plant'>

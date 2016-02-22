@@ -66,10 +66,10 @@ export default class Home extends React.Component {
       return (
         <div id='hero'>
           <div className='home-header'>
-            {`Ready to add your first Plant or Tree?`}
+            {'Ready to add your first Plant or Tree?'}
           </div>
           <div className='home-subheader'>
-            <Link to='/plant'>{`Let's Do It`}</Link>
+            <Link to='/plant'>{'Let\'s Do It'}</Link>
           </div>
         </div>
     );
@@ -82,7 +82,7 @@ export default class Home extends React.Component {
             {`You have ${plants.length} plant${plants.length > 1 ? 's' : ''} in your collection. `}
           </div>
           <div className='home-subheader'>
-            <Link to={`/plants`}>{'Go to plant collection...'}</Link>
+            <Link to={'/plants'}>{'Go to plant collection...'}</Link>
           </div>
         </div>
       );

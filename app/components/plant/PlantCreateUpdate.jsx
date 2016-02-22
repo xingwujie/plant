@@ -31,7 +31,7 @@ export default class PlantCreateUpdate extends React.Component {
     if(!_.isEmpty(this.props.plant)){
       const pageTitle = this.props.plant.mode === 'edit'
         ? `Edit ${this.props.plant.title}`
-        : `Add New Plant`;
+        : 'Add New Plant';
       this.setState({...this.props.plant, pageTitle });
     } else {
       this.setState({});
@@ -126,7 +126,7 @@ export default class PlantCreateUpdate extends React.Component {
           error={errors.title}
           label='Title'
           value={title}
-          placeholder={`How do you refer to this plant? (e.g. Washington Navel)`}
+          placeholder={'How do you refer to this plant? (e.g. Washington Navel)'}
           changeHandler={this.handleChange.bind(this, 'title')}
         />
         <Divider />
@@ -136,7 +136,7 @@ export default class PlantCreateUpdate extends React.Component {
           label='Botanical Name'
           value={botanicalName}
           extraClasses='col-sm-6'
-          placeholder={`e.g. Citrus sinensis 'Washington Navel'`}
+          placeholder={'e.g. Citrus sinensis \'Washington Navel\''}
           changeHandler={this.handleChange.bind(this, 'botanicalName')}
         />
         <Divider />
@@ -146,7 +146,7 @@ export default class PlantCreateUpdate extends React.Component {
           label='Common Name'
           extraClasses='col-sm-6'
           value={commonName}
-          placeholder={`e.g. Washington Navel Orange`}
+          placeholder={'e.g. Washington Navel Orange'}
           changeHandler={this.handleChange.bind(this, 'commonName')}
         />
         <Divider />
@@ -155,7 +155,7 @@ export default class PlantCreateUpdate extends React.Component {
           errorText={errors.description}
           floatingLabelText='Description'
           fullWidth={true}
-          hintText={`Describe this plant and/or the location in your yard`}
+          hintText={'Describe this plant and/or the location in your yard'}
           multiLine={true}
           onChange={this.handleChange.bind(this, 'description')}
           style={textAreaStyle}
@@ -169,7 +169,7 @@ export default class PlantCreateUpdate extends React.Component {
           extraClasses='col-sm-4'
           label='Purchase Date'
           value={purchasedDate}
-          placeholder={`MM/DD/YYYY`}
+          placeholder={'MM/DD/YYYY'}
           changeHandler={this.handleChange.bind(this, 'purchasedDate')}
         />
         <Divider />
@@ -179,7 +179,7 @@ export default class PlantCreateUpdate extends React.Component {
           extraClasses='col-sm-4'
           label='Planted Date'
           value={plantedDate && moment.isMoment(plantedDate) ? plantedDate.format('MM/DD/YYYY') : plantedDate}
-          placeholder={`MM/DD/YYYY`}
+          placeholder={'MM/DD/YYYY'}
           changeHandler={this.handleChange.bind(this, 'plantedDate')}
         />
         <Divider />
@@ -189,7 +189,7 @@ export default class PlantCreateUpdate extends React.Component {
           extraClasses='col-sm-4'
           label='Price'
           value={price}
-          placeholder={`$9.99`}
+          placeholder={'$9.99'}
           changeHandler={this.handleChange.bind(this, 'price')}
         />
         <Divider />

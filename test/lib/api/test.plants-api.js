@@ -71,7 +71,7 @@ describe('plants-api', function() {
         method: 'GET',
         authenticate: false,
         json: true,
-        url: `/api/plants`
+        url: '/api/plants'
       };
 
       helper.makeRequest(reqOptions, (error, httpMsg, response) => {
@@ -88,7 +88,7 @@ describe('plants-api', function() {
         method: 'GET',
         authenticate: false,
         json: true,
-        url: `/api/plants/does-not-exist`
+        url: '/api/plants/does-not-exist'
       };
       helper.makeRequest(reqOptions, (error, httpMsg, response) => {
 

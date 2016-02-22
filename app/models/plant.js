@@ -48,7 +48,7 @@ validatejs.validators.tagValidate = (value, options /*, key, attributes */) => {
 
   // Only a to z and '-'
   if(!_.every(value, item => {return /^[a-z-]*$/.test(item); })) {
-    return `can only have alphabetic characters and a dash`;
+    return 'can only have alphabetic characters and a dash';
   }
 
 };

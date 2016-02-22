@@ -20,13 +20,13 @@ describe('api', function() {
       method: 'GET',
       authenticate: false,
       json: true,
-      url: `/unknown`
+      url: '/unknown'
     };
 
     helper.makeRequest(reqOptions, (error, httpMsg, response) => {
       assert(!error);
       assert.equal(httpMsg.statusCode, 404);
-      assert(_.includes(response, `<!DOCTYPE html>`));
+      assert(_.includes(response, '<!DOCTYPE html>'));
 
       done();
     });

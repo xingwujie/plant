@@ -32,7 +32,7 @@ validatejs.validators.plantIdsValidate = (value, options /*, key, attributes */)
   });
 
   if(!validInner) {
-    return `must be UUIDs`;
+    return 'must be UUIDs';
   }
 
 };
