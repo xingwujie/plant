@@ -2,9 +2,10 @@ import * as helper from '../../helper';
 import assert from 'assert';
 import async from 'async';
 import * as BaseDB from '../../../lib/db/base-db';
+import * as utils from '../../../app/libs/utils';
 
-// import d from 'debug';
-// const debug = d('plant:test.note-api');
+import d from 'debug';
+const debug = d('plant:test.note-api');
 
 describe('plant-api-delete', function() {
   this.timeout(10000);
@@ -36,10 +37,28 @@ describe('plant-api-delete', function() {
           assert(response.ok);
           done();
         });
-
       });
 
     });
+
+    it('should return a 404 if plant id does not exist', done => {
+      const reqOptions = {
+        method: 'DELETE',
+        authenticate: true,
+        json: true,
+        url: `/api/plant/${utils.makeCouchId()}`
+      };
+
+      helper.makeRequest(reqOptions, (error, httpMsg, response) => {
+        assert(!error);
+        assert.equal(httpMsg.statusCode, 404);
+        debug('response:', response);
+        assert.equal(response.error, 'missing');
+        done();
+      });
+
+    });
+
   });
 
   describe('plant/note deletion', () => {
