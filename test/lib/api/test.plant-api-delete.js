@@ -19,8 +19,31 @@ describe('plant-api-delete', function() {
     });
   });
 
+  describe('simple plant deletion', () => {
+    it('should delete a plant without notes', done => {
+      helper.createPlants(1, userId, (err, plants) => {
+        assert(!err);
+        const reqOptions = {
+          method: 'DELETE',
+          authenticate: true,
+          json: true,
+          url: `/api/plant/${plants[0]._id}`
+        };
+
+        helper.makeRequest(reqOptions, (error, httpMsg, response) => {
+          assert(!error);
+          assert.equal(httpMsg.statusCode, 200);
+          assert(response.ok);
+          done();
+        });
+
+      });
+
+    });
+  });
+
   describe('plant/note deletion', () => {
-    it('should delete notes when a plant is deleted', (done) => {
+    it('should delete notes when a plant is deleted', done => {
       // 1. Create 2 plants
       // 2. Create 3 notes:
       //    Note #1: plantIds reference plant #1
