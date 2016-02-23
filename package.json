@@ -73,7 +73,7 @@
     "webpack-merge": "0.7.3"
   },
   "engines": {
-    "node": "5.6.0"
+    "node": "5.7.0"
   },
   "homepage": "https://github.com/guyellis/plant",
   "keywords": [
@@ -89,6 +89,7 @@
     "colors": true,
     "run": [
       "dependency-update",
+      "build",
       "lint",
       "test"
     ],
@@ -99,7 +100,7 @@
     "url": "https://github.com/guyellis/plant.git"
   },
   "scripts": {
-    "build": "TARGET=build webpack",
+    "build": "TARGET=build webpack --bail",
     "check-coverage": "node_modules/.bin/istanbul check-coverage --statements 10 --branches 10 --functions 10 --lines 10 ./coverage/coverage.json",
     "coverage": "babel-node ./node_modules/istanbul/lib/cli cover node_modules/mocha/bin/_mocha -- --require test/setup.js test/**/*.js --recursive",
     "dependency-update": "node_modules/.bin/npm-update-outdated",
