@@ -52,6 +52,7 @@
     "eslint": "2.3.0",
     "eslint-config-guyellis": "0.0.5",
     "eslint-plugin-react": "4.2.0",
+    "estraverse-fb": "^1.3.1",
     "file-loader": "0.8.5",
     "html-webpack-plugin": "2.9.0",
     "istanbul": "1.0.0-alpha.2",
@@ -105,12 +106,12 @@
     "coverage": "babel-node ./node_modules/istanbul/lib/cli cover node_modules/mocha/bin/_mocha -- --require test/setup.js test/**/*.js --recursive",
     "dependency-update": "node_modules/.bin/npm-update-outdated",
     "lint": "eslint --ext .js --ext .jsx .",
-    "mocha": "node_modules/mocha/bin/_mocha test/**/*.js --recursive --require babel-core/register",
+    "mocha": "node_modules/mocha/bin/_mocha test/**/*.js --recursive --require babel-core/register --require test/setup.js",
     "prepublish": "npm run build",
     "prodstart": ". devops/setenv-prod.sh && NODE_ENV=production npm run build && NODE_ENV=production forever start -l forever.log -o out.log -e err.log -a index.js",
     "prodstop": "forever stop index.js",
     "start": "TARGET=dev webpack-dev-server --devtool eval-source --progress --colors --hot --inline --history-api-fallback",
-    "test": "DEBUG=plant:* npm run coverage"
+    "test": "DEBUG=plant:* npm run mocha && npm run lint && npm run build"
   },
   "version": "0.0.1"
 }
