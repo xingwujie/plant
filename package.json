@@ -46,7 +46,7 @@
   },
   "description": "Plant Tracker",
   "devDependencies": {
-    "babel-eslint": "6.0.3",
+    "babel-eslint": "6.0.4",
     "babel-loader": "6.2.4",
     "css-loader": "0.23.1",
     "eslint": "2.8.0",
