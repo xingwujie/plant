@@ -27,7 +27,7 @@
     "moment": "2.13.0",
     "morgan": "1.7.0",
     "node-version-checker": "2.0.0",
-    "nodemon": "1.9.1",
+    "nodemon": "1.9.2",
     "passport": "0.3.2",
     "passport-facebook": "2.1.0",
     "react": "15.0.1",
