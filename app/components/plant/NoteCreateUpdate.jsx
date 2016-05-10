@@ -3,10 +3,10 @@
 import _ from 'lodash';
 import * as actions from '../../actions';
 import moment from 'moment';
-import Paper from 'material-ui/lib/paper';
-import RaisedButton from 'material-ui/lib/raised-button';
+import Paper from 'material-ui/Paper';
+import RaisedButton from 'material-ui/RaisedButton';
 import React from 'react';
-import TextField from 'material-ui/lib/text-field';
+import TextField from 'material-ui/TextField';
 import validators from '../../models';
 
 const validate = validators.note;

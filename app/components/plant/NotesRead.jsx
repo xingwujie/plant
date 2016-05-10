@@ -1,6 +1,6 @@
 import * as actions from '../../actions';
 // import EditDeleteButtons from './EditDeleteButtons';
-import Paper from 'material-ui/lib/paper';
+import Paper from 'material-ui/Paper';
 import React from 'react';
 
 export default class NotesRead extends React.Component {

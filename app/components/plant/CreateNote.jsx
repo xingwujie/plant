@@ -1,9 +1,9 @@
 // Responsible for showing a button or create note form
 
 import * as actions from '../../actions';
-import Divider from 'material-ui/lib/divider';
+import Divider from 'material-ui/Divider';
 import NoteCreateUpdate from './NoteCreateUpdate';
-import RaisedButton from 'material-ui/lib/raised-button';
+import RaisedButton from 'material-ui/RaisedButton';
 import React from 'react';
 
 export default class CreateNote extends React.Component {

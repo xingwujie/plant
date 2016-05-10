@@ -6,12 +6,12 @@ import _ from 'lodash';
 import {makeSlug} from '../../libs/utils';
 import validators from '../../models';
 import * as actions from '../../actions';
-import Divider from 'material-ui/lib/divider';
+import Divider from 'material-ui/Divider';
 import InputCombo from '../InputCombo';
-import Paper from 'material-ui/lib/paper';
-import RaisedButton from 'material-ui/lib/raised-button';
+import Paper from 'material-ui/Paper';
+import RaisedButton from 'material-ui/RaisedButton';
 import React from 'react';
-import TextField from 'material-ui/lib/text-field';
+import TextField from 'material-ui/TextField';
 import moment from 'moment';
 
 const validate = validators.plant;

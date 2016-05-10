@@ -1,4 +1,4 @@
-import RaisedButton from 'material-ui/lib/raised-button';
+import RaisedButton from 'material-ui/RaisedButton';
 import _ from 'lodash';
 import React from 'react';
 

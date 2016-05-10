@@ -8,7 +8,7 @@ import PlantItem from './PlantItem';
 // import PlantStore from '../../stores/PlantStore';
 import React from 'react';
 import store from '../../store';
-import GridList from 'material-ui/lib/grid-list/grid-list';
+import {GridList} from 'material-ui/GridList';
 import {isLoggedIn} from '../../libs/auth-helper';
 import * as actions from '../../actions';
 

@@ -3,9 +3,9 @@
 import {Link} from 'react-router';
 import {makeSlug} from '../../libs/utils';
 import React from 'react';
-import GridTile from 'material-ui/lib/grid-list/grid-tile';
-import StarBorder from 'material-ui/lib/svg-icons/toggle/star-border';
-import IconButton from 'material-ui/lib/icon-button';
+import {GridTile} from 'material-ui/GridList';
+import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+import IconButton from 'material-ui/IconButton';
 
 export default class PlantItem extends React.Component {
 

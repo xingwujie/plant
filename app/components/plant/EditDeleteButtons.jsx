@@ -1,5 +1,5 @@
 // import * as actions from '../../actions';
-import RaisedButton from 'material-ui/lib/raised-button';
+import RaisedButton from 'material-ui/RaisedButton';
 import React from 'react';
 import RemoveConfirm from '../RemoveConfirm';
 
