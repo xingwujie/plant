@@ -16,3 +16,7 @@ export default class Base extends React.Component {
     );
   }
 }
+
+Base.propTypes = {
+  children: React.PropTypes.object,
+};

@@ -24,3 +24,7 @@ export default class Errors extends React.Component {
     );
   }
 }
+
+Errors.propTypes = {
+  errors: React.PropTypes.array,
+};

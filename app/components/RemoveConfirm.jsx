@@ -38,3 +38,7 @@ export default class RemoveConfirm extends React.Component {
     );
   }
 }
+
+RemoveConfirm.propTypes = {
+  confirmFn: React.PropTypes.func.isRequired,
+};

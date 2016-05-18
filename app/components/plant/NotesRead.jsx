@@ -63,5 +63,7 @@ export default class NotesRead extends React.Component {
 }
 
 NotesRead.propTypes = {
+  dispatch: React.PropTypes.func.isRequired,
   notes: React.PropTypes.array,
+  plant: React.PropTypes.object.isRequired,
 };
