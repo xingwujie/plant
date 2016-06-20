@@ -31,3 +31,5 @@ build/
 devops/setenv-local.sh
 devops/setenv-prod.sh
 local-only/
+
+.well-known/
