@@ -74,7 +74,7 @@
     "webpack-merge": "0.14.0"
   },
   "engines": {
-    "node": "6.1.0"
+    "node": "6.2.2"
   },
   "homepage": "https://github.com/guyellis/plant",
   "keywords": [
