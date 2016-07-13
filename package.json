@@ -4,7 +4,7 @@
     "url": "https://github.com/guyellis/plant/issues"
   },
   "dependencies": {
-    "async": "1.5.2",
+    "async": "2.0.0",
     "babel-cli": "6.10.1",
     "babel-core": "6.10.4",
     "babel-preset-es2015": "6.9.0",
