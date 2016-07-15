@@ -1,12 +1,12 @@
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var merge = require('webpack-merge');
-var path = require('path');
-var webpack = require('webpack');
+// const HtmlWebpackPlugin = require('html-webpack-plugin');
+const merge = require('webpack-merge');
+const path = require('path');
+const webpack = require('webpack');
 
-var TARGET = process.env.TARGET;
-var ROOT_PATH = path.resolve(__dirname);
+const TARGET = process.env.TARGET;
+const ROOT_PATH = path.resolve(__dirname);
 
-var common = {
+const common = {
   addVendor: function (vendorName, moduleLocation) {
     moduleLocation = path.join(__dirname, moduleLocation);
     this.resolve.alias[vendorName] = moduleLocation;
@@ -22,13 +22,15 @@ var common = {
   },
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
-    filename: '/bundle.js',
-    // http://stackoverflow.com/questions/34133808/webpack-ots-parsing-error-loading-fonts/34133809#34133809
-    // publicPath: 'http://localhost:8080/'
+    filename: '/bundle.js'
   },
   module: {
     noParse: [],
     loaders: [
+      {
+        test: /\.json$/,
+        loaders: ['json']
+      },
       {
         test: /\.css$/,
         loaders: ['style', 'css']
@@ -62,9 +64,6 @@ var common = {
     ]
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      title: 'Plant'
-    }),
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
@@ -110,11 +109,30 @@ if(TARGET === 'build') {
   });
 }
 
+const proxy = [
+  '/api/*',
+  '/auth/*',
+  '/favicon.ico',
+  '/img/*',
+  '/plant/*',
+];
+
+const passthrough = proxy.reduce((acc, url) => {
+  acc[url] = {
+    target: 'http://localhost:3000/',
+    secure: false,
+    autoRewrite: true,
+  };
+
+  return acc;
+}, {});
+
 if(TARGET === 'dev') {
   module.exports = merge(common, {
     entry: [
       'webpack/hot/dev-server'
     ],
+    devtool: 'source-map',
     module: {
       loaders: [
         {
@@ -125,33 +143,8 @@ if(TARGET === 'dev') {
       ]
     },
     devServer: {
-      proxy: {
-        '/auth/*': {
-          target: 'http://localhost:3000/',
-          secure: false,
-          autoRewrite: true,
-        },
-        '/api/*': {
-          target: 'http://localhost:3000/',
-          secure: false,
-          autoRewrite: true,
-        },
-        '/img/*': {
-          target: 'http://localhost:3000/',
-          secure: false,
-          autoRewrite: true,
-        },
-        '/plant/*': {
-          target: 'http://localhost:3000/',
-          secure: false,
-          autoRewrite: true,
-        },
-        '/favicon.ico': {
-          target: 'http://localhost:3000/',
-          secure: false,
-          autoRewrite: true,
-        },
-      },
-    },
+      proxy: passthrough,
+      contentBase: path.resolve(ROOT_PATH, 'build')
+    }
   });
 }

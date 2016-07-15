@@ -110,7 +110,8 @@
     "prepublish": "npm run build",
     "prodstart": ". devops/setenv-prod.sh && NODE_ENV=production npm run build && NODE_ENV=production forever start -l forever.log -o out.log -e err.log -a index.js",
     "prodstop": "forever stop index.js",
-    "start": "TARGET=dev webpack-dev-server --devtool eval-source --progress --colors --hot --inline --history-api-fallback",
+    "server": ". ./devops/run-app.sh",
+    "start": "TARGET=dev webpack-dev-server --progress --colors --hot --inline --history-api-fallback --bail",
     "test": "DEBUG=plant:* npm run mocha && npm run lint && npm run build"
   },
   "version": "0.0.1"
