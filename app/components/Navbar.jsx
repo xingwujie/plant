@@ -40,9 +40,9 @@ export default class Navbar extends React.Component {
           <div className='navbar-header'>
             <button type='button' className='navbar-toggle collapsed' data-toggle='collapse' data-target='#plant-navbar-collapse' aria-expanded='false'>
               <span className='sr-only'>Toggle navigation</span>
-              <span className='icon-bar'></span>
-              <span className='icon-bar'></span>
-              <span className='icon-bar'></span>
+              <span className='icon-bar' />
+              <span className='icon-bar' />
+              <span className='icon-bar' />
             </button>
             <Link to={'/'} className='navbar-brand'>Plant</Link>
           </div>
@@ -54,7 +54,7 @@ export default class Navbar extends React.Component {
                   <a href='#' className='dropdown-toggle'
                     data-toggle='dropdown' role='button'
                     aria-haspopup='true' aria-expanded='false'
-                    title='My Yard'>My Yard <span className='caret'></span>
+                    title='My Yard'>My Yard <span className='caret' />
                   </a>
                   <ul className='dropdown-menu'>
                     <li>
@@ -71,7 +71,7 @@ export default class Navbar extends React.Component {
                   <a href='#' className='dropdown-toggle'
                     data-toggle='dropdown' role='button'
                     aria-haspopup='true' aria-expanded='false'
-                    title={displayName}>{displayName} <span className='caret'></span>
+                    title={displayName}>{displayName} <span className='caret' />
                   </a>
                   <ul className='dropdown-menu'>
                     <li>
