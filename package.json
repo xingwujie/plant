@@ -113,7 +113,7 @@
     "prodstop": "forever stop index.js",
     "server": ". ./devops/run-app.sh",
     "start": "TARGET=dev webpack-dev-server --progress --colors --hot --inline --history-api-fallback --bail",
-    "test": "DEBUG=plant:* npm run mocha && npm run lint && npm run build"
+    "test": "DEBUG=plant:* npm run mocha"
   },
   "version": "0.0.1"
 }

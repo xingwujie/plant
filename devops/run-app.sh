@@ -1,6 +1,6 @@
 
 # Run CouchDB locally for performance.
-# Comment this out and open and new terminal window to switch to Cloudant
+# Comment this out and open a new terminal window to switch to Cloudant
 docker pull klaemo/couchdb:latest
 docker run -d -p 5984:5984 --name couchdb klaemo/couchdb
 docker start couchdb
