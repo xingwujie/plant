@@ -2,8 +2,8 @@ import _ from 'lodash';
 import * as helper from '../../helper';
 import assert from 'assert';
 
-// import d from 'debug';
-// const debug = d('plant:test.plants-api');
+import d from 'debug';
+const debug = d('plant:test.plants-api');
 
 describe('api', function() {
   this.timeout(10000);
@@ -24,9 +24,11 @@ describe('api', function() {
     };
 
     helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-      assert(!error);
+      assert(!error, error);
       assert.equal(httpMsg.statusCode, 404);
-      assert(_.includes(response, '<!DOCTYPE html>'));
+      const docType = '<!DOCTYPE html>';
+      debug('response:', response);
+      assert(_.includes(response, docType), `Expected ${response} to have ${docType}`);
 
       done();
     });
