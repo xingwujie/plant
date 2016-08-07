@@ -75,7 +75,7 @@
     "webpack-merge": "0.14.1"
   },
   "engines": {
-    "node": "6.2.2"
+    "node": "6.3.1"
   },
   "homepage": "https://github.com/guyellis/plant",
   "keywords": [
@@ -91,8 +91,6 @@
     "colors": true,
     "run": [
       "dependency-update",
-      "lint",
-      "build",
       "test"
     ],
     "silent": false
@@ -107,13 +105,13 @@
     "coverage": "babel-node ./node_modules/istanbul/lib/cli cover node_modules/mocha/bin/_mocha -- --require test/setup.js test/**/*.js --recursive",
     "dependency-update": "node_modules/.bin/npm-update-outdated",
     "lint": "eslint --ext .js --ext .jsx .",
-    "mocha": "node_modules/mocha/bin/_mocha test/**/*.js --recursive --require babel-core/register --require test/setup.js",
+    "mocha": "DEBUG=plant:* node_modules/mocha/bin/_mocha test/**/*.js --recursive --require babel-core/register --require test/setup.js",
     "prepublish": "npm run build",
     "prodstart": ". devops/setenv-prod.sh && NODE_ENV=production npm run build && NODE_ENV=production forever start -l forever.log -o out.log -e err.log -a index.js",
     "prodstop": "forever stop index.js",
     "server": ". ./devops/run-app.sh",
     "start": "TARGET=dev webpack-dev-server --progress --colors --hot --inline --history-api-fallback --bail",
-    "test": "DEBUG=plant:* npm run mocha"
+    "test": "npm run lint && npm run build && npm run mocha"
   },
   "version": "0.0.1"
 }

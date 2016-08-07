@@ -15,9 +15,11 @@ describe('/lib/db/user/', function() {
     createDesigns(done);
   });
 
+  const facebookId = makeCouchId();
+
   const fbUser = {
     facebook: {
-      id: makeCouchId(),
+      id: facebookId,
       gender: 'male',
       link: 'https://www.facebook.com/app_scoped_user_id/1234567890123456/',
       locale: 'en_US',
@@ -49,12 +51,12 @@ describe('/lib/db/user/', function() {
     });
   });
 
-  it('should fetch an exisiting user', (done) => {
+  it('should fetch the just-created user', (done) => {
     const userDB = new User.User();
 
     const user = {
       facebook: {
-        id: fbUser.facebook.id
+        id: facebookId
       },
     };
 
