@@ -20,7 +20,11 @@ process.env.PLANT_TOKEN_SECRET = '<fake-token-secret>';
 // To run locally against Cloudant then:
 // Comment the next block and uncomment the subsequent block
 
-if(!process.env.TRAVIS) {
+// if(!process.env.TRAVIS) {
+//   process.env.PLANT_DB_URL = 'http://localhost:5984';
+// };
+
+if(!process.env.PLANT_DB_URL) {
   process.env.PLANT_DB_URL = 'http://localhost:5984';
 };
 
