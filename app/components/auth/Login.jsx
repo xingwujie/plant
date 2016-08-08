@@ -1,9 +1,8 @@
 import Base from '../Base';
 import React from 'react';
 
-export default class App extends React.Component {
-  componentDidMount() {
-  }
+export default class Login extends React.Component {
+
   render() {
     return (
       <Base>
