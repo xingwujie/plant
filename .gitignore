@@ -33,3 +33,5 @@ devops/setenv-prod.sh
 local-only/
 
 .well-known/
+
+typings/
