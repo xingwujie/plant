@@ -125,14 +125,9 @@ Components for managing a collection and the listing of plants.
 
 ## Developer Setup
 
-Setup environment variables needed to connect to services:
-* Cloudant
-* Facebook
-
-TODO: Provide sample list. In the meantime search codebase for
-process.env
-
 ### Facebook
+
+You can start the site without setting up Facebook credentials, you just won't be able to login.
 
 (As with any site, the layout and options change over time so these instructions are an approximation.)
 
@@ -140,22 +135,21 @@ process.env
 * Select a WWW Website.
 * Add a name (Plant is good) and click `Create New Facebook App ID`.
 * There's a button to the top right to `Skip Quickstart` - hit that.
-* You should end up on the Dashboard. From here you want the `App ID` and `App Secret`. Fill those in the `secrets.js` file under `clientID` and `clientSecret`.
+* You should end up on the Dashboard. From here you want the `App ID` and `App Secret`.
+* In the `/devops/run-server.sh` file replace `facebook-app-id` and `facebook-app-secret` placeholders with those values.
 
-### Cloudant
+### CouchDB
 
-* Setup an account at [Cloudant](https://cloudant.com/)
-* In the `secrets.js` file use the same `account` and `password` that you used to register on the Cloudant site.
-* For dbName enter anything you want: `plant-dev` is a good choice.
-* You don't need to create the DB in the Cloudant dashboard. When the app tries to access your Cloudant account it will create the DB if it can't find it.
+If you have `Docker` installed then it will pull down and spin-up CouchDB for you when you start the server.
+
+Otherwise, you need to install Docker (recommended) or CouchDB.
 
 ### Running the site
 
 * Clone the repo locally.
-* As you'd expect: `npm install`
-* `npm install -g nodemon`
-* Terminal Window #1: `DEBUG=plant:* nodemon index.js`
-  * Starts the server on port 3000
+* `npm i`
+* Terminal Window #1: `npm run server`
+  * Starts the server on port 3000 using the `/devops/run-server.sh` script. Edit this script to fine tune how the server starts.
 * Terminal Window #2: `npm start`
   * Starts the Webpack Dev Server on port 8080
 * Navigate: [http://localhost:8080](http://localhost:8080)

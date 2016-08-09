@@ -5,7 +5,6 @@ process.env.PLANT_DB_NAME = 'plant-automated-testing';
 
 process.env.PLANT_FB_ID = '<fake-fb-id>';
 process.env.PLANT_FB_SECRET = '<fake-fb-secret>';
-process.env.PLANT_FB_CALLBACK_URL = '/auth/facebook/callback';
 process.env.PLANT_TOKEN_SECRET = '<fake-token-secret>';
 
 // The test can connect to Cloudant as the DB or a locally running

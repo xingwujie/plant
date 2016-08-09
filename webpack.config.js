@@ -110,9 +110,11 @@ if(TARGET === 'build') {
 }
 
 const proxy = [
+  '/',
   '/api/*',
   '/auth/*',
   '/favicon.ico',
+  '/help',
   '/img/*',
   '/plant/*',
 ];
