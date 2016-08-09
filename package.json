@@ -105,7 +105,7 @@
     "check-coverage": "node_modules/.bin/istanbul check-coverage --statements 10 --branches 10 --functions 10 --lines 10 ./coverage/coverage.json",
     "coverage": "babel-node ./node_modules/istanbul/lib/cli cover node_modules/mocha/bin/_mocha -- --require test/setup.js test/**/*.js --recursive",
     "dependency-update": "node_modules/.bin/npm-update-outdated",
-    "lint": "eslint --ext .js --ext .jsx .",
+    "lint": "eslint --ext .js --ext .jsx . --max-warnings 0",
     "mocha": "DEBUG=plant:* node_modules/mocha/bin/_mocha test/**/*.js --recursive --require babel-core/register --require test/setup.js",
     "prepublish": "npm run build",
     "prodstart": ". devops/setenv-prod.sh && NODE_ENV=production npm run build && NODE_ENV=production forever start -l forever.log -o out.log -e err.log -a server.js",
