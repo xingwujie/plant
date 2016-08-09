@@ -128,6 +128,13 @@ Components for managing a collection and the listing of plants.
 ### Facebook
 
 You can start the site without setting up Facebook credentials, you just won't be able to login.
+You do, however, need to set the Facebook environment variables to a non-empty value.
+In your ~/.bashrc or equivalent file (or a script you `source` before you start the server) set the following:
+
+```
+export PLANT_FB_ID=<facebook-app-id>
+export PLANT_FB_SECRET=<facebook-app-secret>
+```
 
 (As with any site, the layout and options change over time so these instructions are an approximation.)
 
@@ -136,7 +143,7 @@ You can start the site without setting up Facebook credentials, you just won't b
 * Add a name (Plant is good) and click `Create New Facebook App ID`.
 * There's a button to the top right to `Skip Quickstart` - hit that.
 * You should end up on the Dashboard. From here you want the `App ID` and `App Secret`.
-* In the `/devops/run-server.sh` file replace `facebook-app-id` and `facebook-app-secret` placeholders with those values.
+* Set the `PLANT_FB_ID` and `PLANT_FB_SECRET` environment variables to these values.
 
 ### CouchDB
 

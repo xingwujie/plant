@@ -9,8 +9,8 @@ docker start couchdb
 docker ps
 
 # Look at readme to setup your own Facebook (FB) credentials
-export PLANT_FB_ID=facebook-app-id
-export PLANT_FB_SECRET=facebook-app-secret
+[ -z "$PLANT_FB_ID" ] && { echo "Need to set PLANT_FB_ID non-empty. See Readme"; exit 1; }
+[ -z "$PLANT_FB_SECRET" ] && { echo "Need to set PLANT_FB_SECRET non-empty. See Readme"; exit 1; }
 
 # For testing and dev work you can leave this as it is.
 # If you use this script to run a prod server then you need to change this
