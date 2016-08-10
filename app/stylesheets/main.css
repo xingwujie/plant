@@ -2,10 +2,7 @@
 
 body {
   font-family: 'Roboto', sans-serif;
-  /*background-color: rgba(0, 0, 0, 0.0);
-  color: white;*/
 }
-
 
 #hero {
   height: 100vh;
@@ -13,8 +10,8 @@ body {
   width: 100%;
 }
 
-.home-header, .home-subheader {
-  /*color: white;*/
+.home-header,
+.home-subheader {
   line-height: 3em;
   text-align: center;
 }
@@ -28,41 +25,32 @@ body {
   font-size: x-large;
 }
 
-.home-subheader a{
-  /*text-transform: uppercase;*/
-  /*color: white;*/
+.home-subheader a {
   font-size: xx-large;
-  
 }
 
 .plant-item-list {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-};
-
-/* Seems redundant but won't work unless there are 2 declared */
-.plant-item {
 }
 
 .plant-item {
   border-radius: 5px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  display: table; /* Allow display: table-cell on inner anchor to allow anchor to fill area*/
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  display: table; /* Allow display: table-cell on inner anchor to allow anchor to fill area */
   height: 100px;
-  margin: 15px 0px 0px 15px ;
+  margin: 15px 0 0 15px;
   width: 100px;
 }
 
 .plant-item a {
-  /*color: white;*/
   background-color: rgba(255, 255, 255, 0.3);
 }
 
-
 .plant-item:hover {
   border: 2px solid lightgrey;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .plant-item a {
@@ -93,7 +81,7 @@ body {
 }
 
 .title-input-combo {
-  padding: 10px 20px 10px 20px;
+  padding: 10px 20px;
 }
 
 .title-input-combo > label {
@@ -115,21 +103,20 @@ body {
 }
 
 html {
-  background:linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.1)), url('/img/apple-tree.jpg') no-repeat center center fixed;
-  -webkit-background-size: cover;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.1)), url('/img/apple-tree.jpg') no-repeat center center fixed;
   -moz-background-size: cover;
   -o-background-size: cover;
+  -webkit-background-size: cover;
   background-size: cover;
   height: 100%;
 }
 
 #main {
-  /*background-color: rgba(0, 0, 0, 0.8);*/
+  height: 100vh;
   margin-left: auto;
   margin-right: auto;
-  max-width: 800px;
-  height: 100vh;
   margin-top: -20px;
+  max-width: 800px;
 }
 
 .plant {
@@ -137,28 +124,25 @@ html {
 }
 
 .plant h2 {
-  width: 100%;
   margin-bottom: 5px;
+  width: 100%;
 }
 
 .vcenter {
-    display: inline-block;
-    vertical-align: middle;
-    float: none;
-}
-
-.plant h2 a {
-  /*vertical-align: middle;*/
+  display: inline-block;
+  float: none;
+  vertical-align: middle;
 }
 
 .delete {
   margin-right: 10px;
 }
+
 .delete button {
   margin-left: 10px;
 }
 
 .center-div {
-  margin-right: auto;
   margin-left: auto;
+  margin-right: auto;
 }

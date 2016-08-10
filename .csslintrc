@@ -1,0 +1,16 @@
+{
+	"ids": false,
+	"vendor-prefix": false,
+	"box-model": false,
+	"box-sizing": false,
+	"duplicate-background-images": false,
+	"universal-selector": false,
+	"qualified-headings": false,
+	"unique-headings": false,
+
+	"_comment": "for normalize.css",
+	"adjoining-classes": false,
+	"regex-selectors": false,
+	"important": false,
+	"font-sizes": false
+}
