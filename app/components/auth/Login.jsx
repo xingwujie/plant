@@ -4,6 +4,8 @@ import React from 'react';
 export default class Login extends React.Component {
 
   render() {
+    const devLogin = process.env.NODE_ENV !== 'production';
+
     return (
       <Base>
         <div id='hero'>
@@ -12,6 +14,13 @@ export default class Login extends React.Component {
               <img src='/img/facebook-login.png' />
             </a>
           </div>
+          {devLogin &&
+            <div className='home-subheader'>
+              <a href='/auth/dev'>
+                {'Developer Login'}
+              </a>
+            </div>
+          }
         </div>
       </Base>
     );

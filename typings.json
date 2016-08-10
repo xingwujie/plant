@@ -8,6 +8,7 @@
     "express": "registry:dt/express#4.0.0+20160708185218",
     "lodash": "registry:dt/lodash#4.14.0+20160802150749",
     "mocha": "registry:dt/mocha#2.2.5+20160720003353",
+    "node": "registry:dt/node#6.0.0+20160807145350",
     "react": "registry:dt/react#0.14.0+20160805125551",
     "webpack": "registry:dt/webpack#1.12.9+20160724112410"
   }

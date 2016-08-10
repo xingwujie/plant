@@ -95,11 +95,8 @@ export default class Home extends React.Component {
       <div className='home-header'>Trees and Plants</div>
       <div className='home-subheader'>Increase your success through tracking</div>
       <div className='home-subheader'>
-        <div>Login to get started</div>
-        <a href='/auth/facebook'>
-          <img src='/img/facebook-login.png' />
-        </a>
-        </div>
+        <div><Link to={'/login'}>{'Login'}</Link>{' to get started'}</div>
+      </div>
     </div>);
   }
 
