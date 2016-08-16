@@ -5,7 +5,7 @@
 
 import _ from 'lodash';
 import {isOwner} from '../../libs/auth-helper';
-import {makeCouchId} from '../../libs/utils';
+import {makeMongoId} from '../../libs/utils';
 import * as actions from '../../actions';
 import Base from '../Base';
 import PlantCreateUpdate from './PlantCreateUpdate';
@@ -48,7 +48,7 @@ export default class Plant extends React.Component {
       }
     } else {
       plant = {
-        _id: makeCouchId(),
+        _id: makeMongoId(),
         userId: user._id,
         mode: 'create'
       };
@@ -109,30 +109,32 @@ export default class Plant extends React.Component {
 
     return (
       <Base>
-        {mode === 'read' &&
-          <div>
-            <PlantRead
-              dispatch={store.dispatch}
-              isOwner={owner}
-              plant={plant}
-            />
-            {plant && plant.title &&
-              <CreateNote
+        <div>
+          {mode === 'read' &&
+            <div>
+              <PlantRead
                 dispatch={store.dispatch}
                 isOwner={owner}
                 plant={plant}
-                user={user}
               />
-            }
-          </div>
-        }
-        {(mode === 'edit' || mode === 'create') &&
-          <PlantCreateUpdate
-            dispatch={store.dispatch}
-            mode={mode}
-            plant={plant}
-          />
-        }
+              {plant && plant.title &&
+                <CreateNote
+                  dispatch={store.dispatch}
+                  isOwner={owner}
+                  plant={plant}
+                  user={user}
+                />
+              }
+            </div>
+          }
+          {(mode === 'edit' || mode === 'create') &&
+            <PlantCreateUpdate
+              dispatch={store.dispatch}
+              mode={mode}
+              plant={plant}
+            />
+          }
+        </div>
       </Base>
     );
   }

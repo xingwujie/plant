@@ -1,8 +1,8 @@
 import * as helper from '../../helper';
 import assert from 'assert';
 
-// import d from 'debug';
-// const debug = d('plant:test.plants-api');
+import d from 'debug';
+const debug = d('plant:test.plants-api');
 
 describe('plants-api', function() {
   this.timeout(10000);
@@ -41,12 +41,13 @@ describe('plants-api', function() {
     };
 
     helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-      // debug(response);
+      debug('response:', response);
       // response should look like:
       // ?
       assert(!error);
       assert.equal(httpMsg.statusCode, 200);
       assert(response);
+
       assert.equal(response.length, numPlants);
       // assert that all plants exist
       insertedPlants.forEach( plant => {
@@ -55,10 +56,6 @@ describe('plants-api', function() {
         });
         assert(some);
       });
-      // assert(response.userId);
-      // assert.equal(response._id, plantId);
-      // assert.equal(response.title, initialPlant.title);
-      // assert.equal(response.type, 'plant');
 
       done();
     });

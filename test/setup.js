@@ -7,32 +7,6 @@ process.env.PLANT_FB_ID = '<fake-fb-id>';
 process.env.PLANT_FB_SECRET = '<fake-fb-secret>';
 process.env.PLANT_TOKEN_SECRET = '<fake-token-secret>';
 
-// The test can connect to Cloudant as the DB or a locally running
-// instance of CouchDB.
-
-// If running locally then we should have Docker running a local
-// instance of CouchDB:
-// docker pull klaemo/couchdb:latest
-// docker run -d -p 5984:5984 --name couchdb klaemo/couchdb
-// Test: curl http://localhost:5984
-
-// To run locally against Cloudant then:
-// Comment the next block and uncomment the subsequent block
-
-// if(!process.env.TRAVIS) {
-//   process.env.PLANT_DB_URL = 'http://localhost:5984';
-// };
-
-if(!process.env.PLANT_DB_URL) {
-  process.env.PLANT_DB_URL = 'http://localhost:5984';
-};
-
-// if(!process.env.PLANT_DB_ACCOUNT) {
-//   console.log('No PLANT_DB_ACCOUNT ENV');
-//   process.exit(1);
-// };
-
-
 // from mocha-jsdom https://github.com/rstacruz/mocha-jsdom/blob/master/index.js#L80
 function propagateToGlobal (win) {
   for (var key in win) {
@@ -46,7 +20,6 @@ function propagateToGlobal (win) {
     global[key] = win[key];
   }
 }
-
 
 // Source: https://github.com/jesstelford/react-testing-mocha-jsdom
 // A super simple DOM ready for React to render into

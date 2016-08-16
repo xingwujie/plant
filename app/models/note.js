@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import {makeCouchId} from '../libs/utils';
+import {makeMongoId} from '../libs/utils';
 import constants from '../libs/constants';
 import validatejs from 'validate.js';
 
@@ -28,7 +28,7 @@ validatejs.validators.plantIdsValidate = (value, options /*, key, attributes */)
 
   // Only uuid values of x length
   const validInner = _.every(value, item => {
-    return item && item.length === 32 && constants.uuidRE.test(item);
+    return item && item.length === 24 && constants.mongoIdRE.test(item);
   });
 
   if(!validInner) {
@@ -38,10 +38,7 @@ validatejs.validators.plantIdsValidate = (value, options /*, key, attributes */)
 };
 
 function transform(attributes) {
-  return {
-    ...attributes,
-    type: 'note'
-  };
+  return attributes;
 }
 
 
@@ -51,16 +48,15 @@ function transform(attributes) {
 export default (attributes, {isNew}, cb) => {
 
   const constraints = {
-    _id: {format: constants.uuidRE, presence: true},
+    _id: {format: constants.mongoIdRE, presence: true},
     date: {datetime: true, presence: true},
     plantIds: {plantIdsValidate: {length: {minimum: 1}}},
     note: {length: {minimum: 1, maximum: 5000}, presence: true},
-    type: {inclusion: ['note'], presence: true},
-    userId: {format: constants.uuidRE, presence: true},
+    userId: {format: constants.mongoIdRE, presence: true},
   };
 
   if(isNew && !attributes._id) {
-    attributes = {...attributes, _id: makeCouchId()};
+    attributes = {...attributes, _id: makeMongoId()};
   }
 
   // debug('attributes:', attributes);

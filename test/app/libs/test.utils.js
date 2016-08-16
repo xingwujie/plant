@@ -7,11 +7,11 @@ import assert from 'assert';
 
 describe('/app/libs/utils', function() {
 
-  it('should create a couch id', (done) => {
-    const couchId = utils.makeCouchId();
-    // debug('couchId:', couchId);
-    assert.equal(couchId.length, 32);
-    assert(!_.includes(couchId, '-'));
+  it('should create a mongo id', (done) => {
+    const mongoId = utils.makeMongoId();
+    // debug('mongoId:', mongoId);
+    assert.equal(mongoId.length, 24);
+    assert(!_.includes(mongoId, '-'));
     done();
   });
 

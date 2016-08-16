@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import {makeCouchId} from '../libs/utils';
+import {makeMongoId} from '../libs/utils';
 import constants from '../libs/constants';
 import validatejs from 'validate.js';
 
@@ -63,7 +63,7 @@ function transform(attributes) {
   if(attributes.tags && _.isArray(attributes.tags)) {
     attributes.tags = _.uniq(attributes.tags.map(tag => { return tag.toLowerCase(); }));
   }
-  attributes.type = 'plant';
+
   return attributes;
 }
 
@@ -73,7 +73,7 @@ function transform(attributes) {
 export default (attributes, {isNew}, cb) => {
 
   const constraints = {
-    _id: {format: constants.uuidRE, presence: true},
+    _id: {format: constants.mongoIdRE, presence: true},
     botanicalName: {length: {maximum: 100}},
     commonName:  {length: {maximum: 100}},
     description: {length: {maximum: 500}},
@@ -82,12 +82,11 @@ export default (attributes, {isNew}, cb) => {
     purchasedDate: {datetime: true},
     tags: {tagValidate: {length: {maximum: 5, innermax: 20}, unique: true, format: /[a-z-]/}},
     title: {length: {minimum: 1, maximum: 100}, presence: true},
-    type: {inclusion: ['plant'], presence: true},
-    userId: {format: constants.uuidRE, presence: true},
+    userId: {format: constants.mongoIdRE, presence: true},
   };
 
   if(isNew && !attributes._id) {
-    attributes = {...attributes, _id: makeCouchId()};
+    attributes = {...attributes, _id: makeMongoId()};
   }
 
   // debug('attributes:', attributes);

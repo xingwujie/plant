@@ -10,7 +10,5 @@ addons:
     packages:
     - gcc-4.8
     - g++-4.8
-before_script:
-  - curl -X PUT localhost:5984/plant-automated-testing
 services:
-  - couchdb
+  - mongodb

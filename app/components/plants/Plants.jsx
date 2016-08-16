@@ -61,26 +61,27 @@ export default class Plants extends React.Component {
 
     return (
       <Base>
-        <h2 style={{textAlign: 'center'}}>{user.name} Plant List ({plants.length})</h2>
-        {plants.length === 0 &&
-          <div className='plant-item-list'>
-              <div className='addFirstClassBtn'>
-                <Link className='btn btn-primary' to='/plant'>Add your first plant</Link>
-              </div>
-          </div>
-        }
+        <div>
+          <h2 style={{textAlign: 'center'}}>{user.name} Plant List ({plants.length})</h2>
+          {plants.length === 0 &&
+            <div className='plant-item-list'>
+                <div className='addFirstClassBtn'>
+                  <Link className='btn btn-primary' to='/plant'>Add your first plant</Link>
+                </div>
+            </div>
+          }
 
-        {plants.length > 0 &&
-          <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around'}}>
-            <GridList
-              cellHeight={200}
-              style={gridListStyle}
-              >
-              {tileElements}
-            </GridList>
-          </div>
-        }
-
+          {plants.length > 0 &&
+            <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around'}}>
+              <GridList
+                cellHeight={200}
+                style={gridListStyle}
+                >
+                {tileElements}
+              </GridList>
+            </div>
+          }
+        </div>
       </Base>
     );
   }

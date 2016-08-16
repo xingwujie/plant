@@ -17,8 +17,40 @@
       "env": {
         "NODE_ENV": "development",
         "PLANT_TOKEN_SECRET": "json-web-token-secret",
-        "PLANT_DB_URL": "http://localhost:5984",
+        "PLANT_DB_URL": "127.0.0.1:27017",
         "PLANT_DB_NAME": "plant-development",
+        "PLANT_FB_ID": "facebook-app-id",
+        "PLANT_FB_SECRET": "facebook-app-secret"
+      },
+      "externalConsole": false,
+      "sourceMaps": true,
+      "outDir": null
+    },
+    {
+      "name": "Mocha",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceRoot}/node_modules/.bin/_mocha",
+      "stopOnEntry": false,
+      "args": [
+				"./test/**/*.js",
+        "--recursive",
+				"--compilers",
+				"js:babel-register",
+        "--require",
+        "./test/setup.js"
+			],
+      "cwd": "${workspaceRoot}",
+      "preLaunchTask": null,
+      "runtimeExecutable": null,
+      "runtimeArgs": [
+        "--nolazy"
+      ],
+      "env": {
+        "NODE_ENV": "development",
+        "PLANT_TOKEN_SECRET": "json-web-token-secret",
+        "PLANT_DB_URL": "127.0.0.1:27017",
+        "PLANT_DB_NAME": "plant-test",
         "PLANT_FB_ID": "facebook-app-id",
         "PLANT_FB_SECRET": "facebook-app-secret"
       },

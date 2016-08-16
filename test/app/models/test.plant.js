@@ -11,9 +11,9 @@ describe('/app/models/plant', function() {
 
   it('should pass minimum validation', (done) => {
     const plant = {
-      _id: '0e55d91cb33d420024432d67a3c7fb36',
+      _id: 'b33d420024432d67a3c7fb36',
       title: 'Title',
-      userId: '9ec5c8ffcf885bf372488977ae0d6476'
+      userId: 'cf885bf372488977ae0d6476'
     };
     const plantCopy = _.clone(plant);
 
@@ -29,7 +29,7 @@ describe('/app/models/plant', function() {
 
   it('should pass full validation', (done) => {
     const plant = {
-      _id: '0e55d91cb33d420024432d67a3c7fb36',
+      _id: 'b33d420024432d67a3c7fb36',
       botanicalName: 'Botanical Name',
       commonName: 'Common Name',
       description: 'Description',
@@ -38,8 +38,7 @@ describe('/app/models/plant', function() {
       purchasedDate: '12/15/12',
       tags: ['citrus', 'north-east'],
       title: 'Title',
-      type: 'plant',
-      userId: '9ec5c8ffcf885bf372488977ae0d6476',
+      userId: 'cf885bf372488977ae0d6476',
     };
     const plantCopy = _.clone(plant);
 
@@ -68,7 +67,6 @@ describe('/app/models/plant', function() {
       purchasedDate: '55/55/55', // Invalid date
       tags: ['citrus', 'north-east', 'north', 'west', 'south', 'east'], // Tags not unique
       title: {}, // Not a string
-      type: 'planter', // Not 'plant'
       userId: 123, // Not a UUID
     };
     const plantCopy = _.clone(plant);
@@ -104,8 +102,8 @@ describe('/app/models/plant', function() {
 
   it('should strip out props not in the schema', (done) => {
     const plant = {
-      _id: '0e55d91cb33d420024432d67a3c7fb36',
-      userId: '9ec5c8ffcf885bf372488977ae0d6476',
+      _id: 'b33d420024432d67a3c7fb36',
+      userId: 'cf885bf372488977ae0d6476',
       title: 'Title is required',
       fakeName1: 'Common Name',
       fakeName2: 'Description',
@@ -119,10 +117,9 @@ describe('/app/models/plant', function() {
       // debug('transformed:', transformed);
 
       assert(!err);
-      assert.equal(Object.keys(transformed).length, 4);
+      assert.equal(Object.keys(transformed).length, 3);
       assert.equal(transformed._id, plant._id);
       assert.equal(transformed.title, plant.title);
-      assert.equal(transformed.type, 'plant');
       assert.equal(transformed.userId, plant.userId);
       assert(!transformed.fakeName1);
       assert(!transformed.fakeName2);
@@ -133,9 +130,8 @@ describe('/app/models/plant', function() {
 
   it('should add _id if it is a new record', (done) => {
     const plant = {
-      userId: '9ec5c8ffcf885bf372488977ae0d6476',
-      title: 'Title is required',
-      type: 'plant'
+      userId: 'cf885bf372488977ae0d6476',
+      title: 'Title is required'
     };
     const plantCopy = _.clone(plant);
 
@@ -143,10 +139,9 @@ describe('/app/models/plant', function() {
     plantValidator(plant, {isNew}, (err, transformed) => {
 
       assert(!err);
-      assert.equal(Object.keys(transformed).length, 4);
+      assert.equal(Object.keys(transformed).length, 3);
       assert(transformed._id);
       assert.equal(transformed.title, plant.title);
-      assert.equal(transformed.type, 'plant');
       assert.equal(transformed.userId, plant.userId);
       assert.deepEqual(plantCopy, plant);
       done();
@@ -155,9 +150,8 @@ describe('/app/models/plant', function() {
 
   it('should fail if userId is missing', (done) => {
     const plant = {
-      _id: '0e55d91cb33d420024432d67a3c7fb36',
-      title: 'Title is required',
-      type: 'plant'
+      _id: 'b33d420024432d67a3c7fb36',
+      title: 'Title is required'
     };
     const plantCopy = _.clone(plant);
 
@@ -169,10 +163,9 @@ describe('/app/models/plant', function() {
 
       assert(err);
       assert.equal(err.userId, 'User id can\'t be blank');
-      assert.equal(Object.keys(transformed).length, 3);
+      assert.equal(Object.keys(transformed).length, 2);
       assert.equal(transformed._id, plant._id);
       assert.equal(transformed.title, plant.title);
-      assert.equal(transformed.type, 'plant');
       assert(!transformed.userId);
       assert.deepEqual(plantCopy, plant);
       done();
@@ -181,7 +174,7 @@ describe('/app/models/plant', function() {
 
   it('should fail if a tag element is over its maximum length', (done) => {
     const plant = {
-      _id: '0e55d91cb33d420024432d67a3c7fb36',
+      _id: 'b33d420024432d67a3c7fb36',
       botanicalName: 'Botanical Name',
       commonName: 'Common Name',
       description: 'Description',
@@ -190,8 +183,7 @@ describe('/app/models/plant', function() {
       purchasedDate: '12/15/12',
       tags: ['citrus', '01234567890012345678901'],
       title: 'Title',
-      type: 'plant',
-      userId: '9ec5c8ffcf885bf372488977ae0d6476',
+      userId: 'cf885bf372488977ae0d6476',
     };
     const plantCopy = _.clone(plant);
 
@@ -210,7 +202,7 @@ describe('/app/models/plant', function() {
 
   it('should fail if a tags is not an array', (done) => {
     const plant = {
-      _id: '0e55d91cb33d420024432d67a3c7fb36',
+      _id: 'b33d420024432d67a3c7fb36',
       botanicalName: 'Botanical Name',
       commonName: 'Common Name',
       description: 'Description',
@@ -219,8 +211,7 @@ describe('/app/models/plant', function() {
       purchasedDate: '12/15/12',
       tags: 'citrus',
       title: 'Title',
-      type: 'plant',
-      userId: '9ec5c8ffcf885bf372488977ae0d6476',
+      userId: 'cf885bf372488977ae0d6476',
     };
     const plantCopy = _.clone(plant);
 
@@ -239,7 +230,7 @@ describe('/app/models/plant', function() {
 
   it('should fail if a tag element has invalid characters', (done) => {
     const plant = {
-      _id: '0e55d91cb33d420024432d67a3c7fb36',
+      _id: 'b33d420024432d67a3c7fb36',
       botanicalName: 'Botanical Name',
       commonName: 'Common Name',
       description: 'Description',
@@ -248,8 +239,7 @@ describe('/app/models/plant', function() {
       purchasedDate: '12/15/12',
       tags: ['cit&rus'],
       title: 'Title',
-      type: 'plant',
-      userId: '9ec5c8ffcf885bf372488977ae0d6476',
+      userId: 'cf885bf372488977ae0d6476',
     };
     const plantCopy = _.clone(plant);
 

@@ -1,16 +1,15 @@
 import * as helper from '../../helper';
 import assert from 'assert';
 import async from 'async';
-import * as BaseDB from '../../../lib/db/base-db';
+import mongo from '../../../lib/db/mongo';
 import * as utils from '../../../app/libs/utils';
 
 import d from 'debug';
-const debug = d('plant:test.note-api');
+const debug = d('plant:test.plant-api-delete');
 
 describe('plant-api-delete', function() {
   this.timeout(10000);
   let userId;
-  const baseDB = new BaseDB.BaseDB();
 
   before('it should start the server and setup auth token', done => {
     helper.startServerAuthenticated((err, data) => {
@@ -33,8 +32,9 @@ describe('plant-api-delete', function() {
 
         helper.makeRequest(reqOptions, (error, httpMsg, response) => {
           assert(!error);
+          debug('response:', response);
           assert.equal(httpMsg.statusCode, 200);
-          assert(response.ok);
+          assert.deepStrictEqual(response, {message: 'Deleted'});
           done();
         });
       });
@@ -46,14 +46,14 @@ describe('plant-api-delete', function() {
         method: 'DELETE',
         authenticate: true,
         json: true,
-        url: `/api/plant/${utils.makeCouchId()}`
+        url: `/api/plant/${utils.makeMongoId()}`
       };
 
       helper.makeRequest(reqOptions, (error, httpMsg, response) => {
+        debug('DELETE /api/plant response:', response);
         assert(!error);
         assert.equal(httpMsg.statusCode, 404);
-        debug('response:', response);
-        assert.equal(response.error, 'missing');
+        assert.equal(response.message, 'Not Found');
         done();
       });
 
@@ -91,10 +91,9 @@ describe('plant-api-delete', function() {
         //    Update Note #1 so that it's on revision 2-...
         (plants, notes, cb) => {
           const updatedNote = {...notes[0], x: 'random'};
-          baseDB.updateSet(updatedNote, (err, note) => {
+          mongo.updateNote(updatedNote, (err, note) => {
             assert(!err);
             assert(note);
-            assert.equal(note.rev.slice(0, 2), '2-');
             cb(err, plants, notes);
           });
         },
@@ -128,21 +127,25 @@ describe('plant-api-delete', function() {
             json: true,
             url: `/api/plant/${plants[0]._id}`
           };
-
+          debug('#3.1');
           helper.makeRequest(reqOptions, (error, httpMsg, response) => {
+            debug('#3.2');
             assert(!error);
             assert.equal(httpMsg.statusCode, 200);
-            assert(response.ok);
+
+            assert.deepStrictEqual(response, {message: 'Deleted'});
             cb(error, plants, notes);
           });
+          debug('#3.3');
 
         },
 
         // 4. Confirm that Note #1 is no longer in DB
         (plants, notes, cb) => {
-          baseDB.getById(notes[0]._id, (err, result) => {
-            assert.equal(err.statusCode, 404);
-            assert.equal(err.reason, 'deleted');
+          mongo.getNoteById(notes[0]._id, (err, result) => {
+
+            assert(!err);
+            debug('result:', result);
             assert(!result);
             cb(null, plants, notes);
           });
@@ -150,6 +153,7 @@ describe('plant-api-delete', function() {
 
         // 5. Retrieve plant #2 and confirm that both notes are attached.
         (plants, notes, cb) => {
+          debug('notes:', notes);
           const reqOptions = {
             method: 'GET',
             authenticate: true,
@@ -166,7 +170,9 @@ describe('plant-api-delete', function() {
 
             // The notes array could be in any order.
             // TODO: Should sort in date order in DB
+            debug('plant.notes:', plant.notes);
             const noteIds = [notes[1]._id, notes[2]._id];
+            debug('noteIds:', noteIds);
             assert(noteIds.indexOf(plant.notes[0]._id) >= 0);
             assert(noteIds.indexOf(plant.notes[1]._id) >= 0);
 

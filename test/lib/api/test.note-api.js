@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import * as helper from '../../helper';
 import assert from 'assert';
 import constants from '../../../app/libs/constants';
@@ -88,7 +87,6 @@ describe('note-api', function() {
         url: '/api/note'
       };
       helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-        // debug(response);
         // response should look like:
         // { plantIds: [ 'Plant ids must be an array' ], note: [ 'Note can\'t be blank' ] }
         assert(!error);
@@ -113,25 +111,18 @@ describe('note-api', function() {
         url: '/api/note'
       };
       helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-        // debug(response);
-        // response should look like:
-        // { ok: true,
-        // id: '500147d5b68746efa2cc18510d4663a6',
-        // rev: '1-bbeb5b8c4a14d2ff9008a4c818443bf7' }
+
         assert(!error);
         assert.equal(httpMsg.statusCode, 200);
         assert(response);
-        assert(response.ok);
-        assert(constants.uuidRE.test(response.id));
-        assert(_.startsWith(response.rev, '1-'));
+        assert(response.note);
+        assert(constants.mongoIdRE.test(response._id));
 
-        noteId = response.id;
+        noteId = response._id;
 
         done();
       });
     });
-
-    // TODO: Convert the tests from here onwards to note tests (copied from plant)
 
     it('should retrieve the just created note as part of the plant', (done) => {
       const reqOptions = {
@@ -143,19 +134,14 @@ describe('note-api', function() {
       helper.makeRequest(reqOptions, (error, httpMsg, response) => {
         // response should look like:
         // { _id: 'e5fc6fff0a8f48ad90636b3cea6e4f93',
-        // _rev: '1-fecae45e9dfdde023b93ebe313ff6ce1',
         // title: 'Plant Title',
-        // userId: '241ff27e28c7448fb22c4f6fb2580923',
-        // type: 'plant' }
+        // userId: '241ff27e28c7448fb22c4f6fb2580923'}
         assert(!error);
         assert.equal(httpMsg.statusCode, 200);
         assert(response);
-        // TODO: Will the client ever need the _rev?
-        // If not we should strip out at source.
         assert(response.userId);
         assert.equal(response._id, plantId);
         assert.equal(response.title, initialPlant.title);
-        assert.equal(response.type, 'plant');
         assert(response.notes);
         assert.equal(response.notes.length, 1);
         assert.equal(response.notes[0]._id, noteId);
@@ -182,16 +168,13 @@ describe('note-api', function() {
 
       helper.makeRequest(reqOptions, (error, httpMsg, response) => {
         // response should look like:
-        // { ok: true,
-        // id: 'ff3c5edea01a46b19c3d6af759bcda95',
-        // rev: '2-57363e3a510dc13b26e53afccf80294c' }
+        // { ok: 1, nModified: 1, n: 1 }
         assert(!error);
         assert.equal(httpMsg.statusCode, 200);
         assert(response);
-        assert(response.ok);
-        assert.equal(response.id, noteId);
-        // Should now be on revision #2
-        assert(_.startsWith(response.rev, '2-'));
+        assert.equal(response.ok, 1);
+        assert.equal(response.nModified, 1);
+        assert.equal(response.n, 1);
 
         done();
       });
@@ -214,7 +197,7 @@ describe('note-api', function() {
         assert(response.userId);
         assert.equal(response._id, plantId);
         assert.equal(response.title, initialPlant.title);
-        assert.equal(response.type, 'plant');
+
 
         // Check notes
         assert(response.notes);
@@ -236,16 +219,20 @@ describe('note-api', function() {
       };
 
       helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-        // debug('response:', response);
         // response should look like:
-        // { ok: true,
-        // id: '386613f402b2407bb4781d31133886c3',
-        // rev: '3-8fa47a7f50265ad19f036f406b888a0b' }
+        // { lastErrorObject: { n: 1 },
+        // value:
+        // { _id: 'c3478867852c47529ddcc498',
+        //   note: 'A New Note',
+        //   date: '2016-08-12T23:49:12.244Z',
+        //   plantIds: [ '78d0570bc9104b0ca4cc29c2' ],
+        //   userId: 'f5d12193ae674e7ab6d1e106' },
+        // ok: 1 }
+
         assert(!error);
         assert.equal(httpMsg.statusCode, 200);
         assert(response);
-        assert(response.ok);
-        assert.equal(response.id, noteId);
+        assert.equal(response.success, true);
 
         done();
       });
@@ -268,7 +255,7 @@ describe('note-api', function() {
         assert(response.userId);
         assert.equal(response._id, plantId);
         assert.equal(response.title, initialPlant.title);
-        assert.equal(response.type, 'plant');
+
 
         // Check that there are no notes
         assert.equal(response.notes.length, 0);

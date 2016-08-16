@@ -1,9 +1,9 @@
-import {makeCouchId} from '../app/libs/utils';
+import {makeMongoId} from '../app/libs/utils';
 
 // import d from 'debug';
 // const debug = d('plant:test.fake-passport');
 
-const userId = makeCouchId();
+const userId = makeMongoId();
 
 export default {
 

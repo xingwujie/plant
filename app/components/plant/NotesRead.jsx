@@ -30,7 +30,7 @@ export default class NotesRead extends React.Component {
   }
 
   render() {
-    const {notes = []} = this.props || {};
+    const {notes = []} = this.props.plant || {};
     if(!notes.length) {
       return null;
     }
@@ -64,6 +64,5 @@ export default class NotesRead extends React.Component {
 
 NotesRead.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
-  notes: React.PropTypes.array,
   plant: React.PropTypes.object.isRequired,
 };

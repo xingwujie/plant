@@ -1,9 +1,8 @@
 import _ from 'lodash';
-import * as DesignDB from '../lib/db/design-db';
-import * as Plant from '../lib/db/plant-db';
 import assert from 'assert';
 import async from 'async';
 import fakePassport from './fake-passport';
+import mongo from '../lib/db/mongo';
 import proxyquire from 'proxyquire';
 import request from 'request';
 
@@ -11,30 +10,6 @@ const server = proxyquire('../lib/server', { passport: fakePassport });
 
 // import d from 'debug';
 // const debug = d('plant:test.helper');
-
-const plantDB = new Plant.Plant();
-
-// Many of the tests won't be able to run if the design docs haven't been
-// inserted into the DB. Call the createDesigns() function at the beginning
-// of all tests. The designsCreated flag will stop the designs from being
-// created more than once.
-var designsCreated = false;
-export function createDesigns(done) {
-
-  if(designsCreated) {
-    return done();
-  }
-
-  // debug('Creating designs from helper');
-  const designDB = new DesignDB.DesignDB();
-
-  designDB.updateAllDesigns((err) => {
-    assert(!err);
-    designsCreated = true;
-    done();
-  });
-
-};
 
 export function getUrl(url) {
   if(_.startsWith(url, 'http')) {
@@ -99,7 +74,7 @@ export function startServerAuthenticated(done) {
 };
 
 export function deleteAllPlantsForUser(cb) {
-  plantDB.deleteByUserId(data.userId, cb);
+  mongo.deleteAllPlantsByUserId(data.userId, cb);
 }
 
 export function createPlants(numPlants, userId, cb) {
@@ -117,15 +92,13 @@ export function createPlants(numPlants, userId, cb) {
       url: '/api/plant'
     };
 
-    makeRequest(reqOptions, (error, httpMsg, response) => {
+    makeRequest(reqOptions, (error, httpMsg, plant) => {
       assert(!error);
       assert.equal(httpMsg.statusCode, 200);
-      assert(response.ok);
 
-      callback(null, {
-        ...reqOptions.body,
-        _id: response.id
-      });
+      assert(plant.title);
+
+      callback(null, plant);
     });
   };
 
@@ -163,12 +136,9 @@ export function createNote(plantIds, noteOverride = {}, cb) {
   makeRequest(reqOptions, (error, httpMsg, response) => {
     assert(!error);
     assert.equal(httpMsg.statusCode, 200);
-    assert(response.ok);
+    assert(response._id);
 
-    cb(null, {
-      ...reqOptions.body,
-      _id: response.id
-    });
+    cb(null, response);
   });
 
 

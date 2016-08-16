@@ -118,6 +118,7 @@ const proxy = [
   '/img/*',
   '/login',
   '/plant/*',
+  '/plants',
 ];
 
 const passthrough = proxy.reduce((acc, url) => {

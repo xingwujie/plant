@@ -113,7 +113,10 @@ export default class PlantRead extends React.Component {
                 deleteTitle={plant.title || ''}
               />
             </Paper>
-            <NotesRead notes={plant.notes} />
+            <NotesRead
+              dispatch={this.props.dispatch}
+              plant={plant}
+            />
           </div>
         }
       </div>

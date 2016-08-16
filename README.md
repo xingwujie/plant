@@ -148,11 +148,11 @@ If want to use Facebook OAuth then you'll need to setup credentials.
 * You should end up on the Dashboard. From here you want the `App ID` and `App Secret`.
 * Set the `PLANT_FB_ID` and `PLANT_FB_SECRET` environment variables to these values.
 
-### CouchDB
+### MongoDB
 
-If you have `Docker` installed then it will pull down and spin-up CouchDB for you when you start the server.
+If you have `Docker` installed then it will pull down and spin-up MongoDB for you when you start the server.
 
-Otherwise, you need to install Docker (recommended) or CouchDB.
+Otherwise, you need to install Docker (recommended) or MongoDB.
 
 ### Running the site
 
@@ -166,10 +166,6 @@ Otherwise, you need to install Docker (recommended) or CouchDB.
 
 ### Running the tests
 
-Setup a local instance of CouchDB using Docker:
-
 ```
-docker pull klaemo/couchdb:latest
-docker run -d -p 5984:5984 --name couchdb klaemo/couchdb
-Test: curl http://localhost:5984
+npm t
 ```
