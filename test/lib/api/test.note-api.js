@@ -173,7 +173,6 @@ describe('note-api', function() {
         assert.equal(httpMsg.statusCode, 200);
         assert(response);
         assert.equal(response.ok, 1);
-        assert.equal(response.nModified, 1);
         assert.equal(response.n, 1);
 
         done();
