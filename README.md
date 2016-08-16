@@ -159,7 +159,7 @@ Otherwise, you need to install Docker (recommended) or MongoDB.
 * Clone the repo locally.
 * `npm i`
 * Terminal Window #1: `npm run server`
-  * Starts the server on port 3000 using the `/devops/run-server.sh` script. Edit this script to fine tune how the server starts.
+  * Starts the server on port 3001 using the `/devops/run-server.sh` script. Edit this script to fine tune how the server starts.
 * Terminal Window #2: `npm start`
   * Starts the Webpack Dev Server on port 8080
 * Navigate: [http://localhost:8080](http://localhost:8080)

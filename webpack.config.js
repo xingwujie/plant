@@ -123,7 +123,7 @@ const proxy = [
 
 const passthrough = proxy.reduce((acc, url) => {
   acc[url] = {
-    target: 'http://localhost:3000/',
+    target: 'http://localhost:3001/',
     secure: false,
     autoRewrite: true,
   };
