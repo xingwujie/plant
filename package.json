@@ -41,8 +41,7 @@
     "serve-favicon": "2.3.0",
     "slug": "0.9.1",
     "uuid": "2.0.2",
-    "validate.js": "0.10.0",
-    "yql": "1.0.2"
+    "validate.js": "0.10.0"
   },
   "description": "Plant Tracker",
   "devDependencies": {
