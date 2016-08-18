@@ -28,14 +28,21 @@ export default class PlantCreateUpdate extends React.Component {
   }
 
   componentWillMount() {
-    if(!_.isEmpty(this.props.plant)){
-      const pageTitle = this.props.plant.mode === 'edit'
-        ? `Edit ${this.props.plant.title}`
-        : 'Add New Plant';
-      this.setState({...this.props.plant, pageTitle });
-    } else {
-      this.setState({});
-    }
+    const pageTitle = this.props.plant.mode === 'edit'
+      ? `Edit ${this.props.plant.title}`
+      : 'Add New Plant';
+    this.setState({
+      title: '',
+      botanicalName: '',
+      commonName: '',
+      description: '',
+      purchasedDate: '',
+      plantedDate: '',
+      price: '',
+      errors: {},
+      ...this.props.plant,
+      pageTitle
+    });
   }
 
   cancel() {
