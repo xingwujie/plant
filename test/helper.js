@@ -8,8 +8,8 @@ import proxyquire from 'proxyquire';
 import request from 'request';
 import {makeMongoId} from '../app/libs/utils';
 
-import d from 'debug';
-const debug = d('plant:test.helper');
+// import d from 'debug';
+// const debug = d('plant:test.helper');
 
 export function getUrl(url) {
   if(_.startsWith(url, 'http')) {
@@ -70,7 +70,7 @@ export function createUser(cb) {
 
   assert(!fbUser._id);
   mongo.findOrCreateFacebookUser(fbUser, (err, body) => {
-    debug('body:', body);
+    // debug('body:', body);
 
     assert(!err);
     assert(body);

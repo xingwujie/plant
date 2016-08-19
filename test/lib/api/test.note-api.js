@@ -2,8 +2,8 @@ import * as helper from '../../helper';
 import assert from 'assert';
 import constants from '../../../app/libs/constants';
 
-// import d from 'debug';
-// const debug = d('plant:test.note-api');
+import d from 'debug';
+const debug = d('plant:test.note-api');
 
 describe('note-api', function() {
   this.timeout(10000);
@@ -27,16 +27,18 @@ describe('note-api', function() {
   let noteId;
 
   before('it should create a plant', (done) => {
-    helper.createPlants(1, userId, (err, plants) => {
+    const howMany = 1;
+    helper.createPlants(howMany, userId, (err, plants) => {
       initialPlant = plants[0];
       plantId = initialPlant._id;
       initialNote.plantIds = [plantId];
+      debug('plant created:', initialPlant);
       done();
     });
   });
 
   describe('create failures', () => {
-    it('should fail to create a note document if user is not authenticated', (done) => {
+    it('should fail to create a note if user is not authenticated', (done) => {
       const reqOptions = {
         method: 'POST',
         authenticate: false,
@@ -119,6 +121,7 @@ describe('note-api', function() {
         assert(constants.mongoIdRE.test(response._id));
 
         noteId = response._id;
+        debug('note created:', response);
 
         done();
       });
@@ -136,6 +139,7 @@ describe('note-api', function() {
         // { _id: 'e5fc6fff0a8f48ad90636b3cea6e4f93',
         // title: 'Plant Title',
         // userId: '241ff27e28c7448fb22c4f6fb2580923'}
+        debug('note retrieved:', response);
         assert(!error);
         assert.equal(httpMsg.statusCode, 200);
         assert(response);
