@@ -1,36 +1,29 @@
-import {makeMongoId} from '../app/libs/utils';
 
-// import d from 'debug';
-// const debug = d('plant:test.fake-passport');
+class FakePassport {
+  constructor(user) {
+    this.user = user;
+  }
 
-const userId = makeMongoId();
+  getUserId() {
+    return this.user._id;
+  }
 
-export default {
-
-  getUserId: () => {
-    return userId;
-  },
-
-  initialize: () => {
+  initialize() {
     // debug('fake fb initialize setup');
     return (req, res, next) => {
       // debug('fake fb initialize called');
       next();
     };
-  },
+  }
 
-  authenticate: (type, cb) => {
+  authenticate(type, cb) {
     if(cb) {
       // debug('fake fb authenticate setup with cb');
       const err = null;
-      const user = {
-        _id: userId,
-        name: 'John Smith'
-      };
       const info = {};
       return () => {
         // debug('fake fb authenticate called with cb, arg.length:', arguments.length);
-        return cb(err, user, info);
+        return cb(err, this.user, info);
       };
     } else {
       // debug('fake fb authenticate setup');
@@ -39,9 +32,11 @@ export default {
         return next();
       };
     }
-  },
+  }
 
-  use: (/* strategy */) => {
+  use(/* strategy */) {
     // debug('fake fb use:', arguments.length);
   }
 };
+
+module.exports = FakePassport;

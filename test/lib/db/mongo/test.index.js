@@ -1,10 +1,10 @@
 import mongo from '../../../../lib/db/mongo';
 import assert from 'assert';
 import constants from '../../../../app/libs/constants';
-import {makeMongoId} from '../../../../app/libs/utils';
+import helper from '../../../helper';
 
-import d from 'debug';
-const debug = d('plant:test.mongo');
+// import d from 'debug';
+// const debug = d('plant:test.mongo');
 
 describe('/lib/db/mongo/', function() {
   this.timeout(10000);
@@ -12,50 +12,20 @@ describe('/lib/db/mongo/', function() {
 
   describe('user', () => {
 
-    const facebookId = makeMongoId();
-    // let createdUser;
-
-    const fbUser = {
-      facebook: {
-        id: facebookId,
-        gender: 'male',
-        link: 'https://www.facebook.com/app_scoped_user_id/1234567890123456/',
-        locale: 'en_US',
-        last_name: 'Smith', // eslint-disable-line camelcase
-        first_name: 'John', // eslint-disable-line camelcase
-        timezone: -7,
-        updated_time: '2015-01-29T23:11:04+0000', // eslint-disable-line camelcase
-        verified: true
-      },
-      name: 'John Smith',
-      email: 'test@test.com',
-      createdAt: '2016-01-28T14:59:32.989Z',
-      updatedAt: '2016-01-28T14:59:32.989Z'
-    };
-
-    it('should create a user account if everything is present', (done) => {
-      assert(!fbUser._id);
-      mongo.findOrCreateFacebookUser(fbUser, (err, body) => {
-        debug('body:', body);
-
-        assert(!err);
-        assert(body);
-        assert(body._id);
-        assert(constants.mongoIdRE.test(body._id));
-        assert.equal(body, fbUser);
-
-        assert(fbUser._id);
-        userId = body._id;
-
+    let fbUser;
+    before('should create a user account through the helper', (done) => {
+      helper.createUser((err, user) => {
+        fbUser = user;
         done();
       });
     });
+
 
     it('should fetch the just-created user', (done) => {
 
       const user = {
         facebook: {
-          id: facebookId
+          id: fbUser.facebook.id
         },
       };
 
