@@ -176,6 +176,7 @@ describe('note-api', function() {
       helper.makeRequest(reqOptions, (error, httpMsg, response) => {
         // response should look like:
         // { ok: 1, nModified: 1, n: 1 }
+        // Mongo 2.x does not return nModified which is what Travis uses so do not check this
         debug('response:', response);
         assert(!error);
         assert.equal(httpMsg.statusCode, 200);
