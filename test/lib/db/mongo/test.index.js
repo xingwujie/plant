@@ -82,7 +82,7 @@ describe('/lib/db/mongo/', function() {
         assert.equal(result.name, plant.name);
         const plantedOn = new Date(result.plantedOn);
         assert.equal(plantedOn.getTime(), plant.plantedOn.getTime());
-        assert.equal(result.userid, plant.userId);
+        assert.equal(result.userId, plant.userId);
         done();
       });
     });

@@ -13,6 +13,7 @@ describe('note-api', function() {
     helper.startServerAuthenticated((err, data) => {
       assert(data.userId);
       userId = data.userId;
+      debug('startServerAuthenticated userId:', userId);
       done();
     });
   });
@@ -28,7 +29,9 @@ describe('note-api', function() {
 
   before('it should create a plant', (done) => {
     const howMany = 1;
+    debug('before createPlants');
     helper.createPlants(howMany, userId, (err, plants) => {
+      debug('after createPlants');
       initialPlant = plants[0];
       plantId = initialPlant._id;
       initialNote.plantIds = [plantId];
@@ -173,6 +176,7 @@ describe('note-api', function() {
       helper.makeRequest(reqOptions, (error, httpMsg, response) => {
         // response should look like:
         // { ok: 1, nModified: 1, n: 1 }
+        debug('response:', response);
         assert(!error);
         assert.equal(httpMsg.statusCode, 200);
         assert(response);

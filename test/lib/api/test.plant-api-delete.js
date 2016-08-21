@@ -80,6 +80,7 @@ describe('plant-api-delete', function() {
         // 2. Create 3 notes, part 1.1:
         //    Note #1: plantIds reference plant #1
         (plants, cb) => {
+          debug('** #2');
           assert(plants.length, 2);
           helper.createNote([plants[0]._id], {note: 'Note #1'}, (err, note) => {
             assert(note);
@@ -88,8 +89,9 @@ describe('plant-api-delete', function() {
         },
 
         // 2. Create 3 notes, part 1.2:
-        //    Update Note #1 so that it's on revision 2-...
+        //    Update Note #1
         (plants, notes, cb) => {
+          debug('** #3');
           const updatedNote = {...notes[0], x: 'random'};
           mongo.updateNote(updatedNote, (err, note) => {
             assert(!err);
@@ -101,6 +103,7 @@ describe('plant-api-delete', function() {
         // 2. Create 3 notes, part 2:
         //    Note #2: plantIds reference plant #1 & #2
         (plants, notes, cb) => {
+          debug('** #3');
           helper.createNote([plants[0]._id, plants[1]._id], {note: 'Note #2'}, (err, note) => {
             assert(note);
             notes.push(note);
@@ -111,6 +114,7 @@ describe('plant-api-delete', function() {
         // 2. Create 3 notes, part 3:
         //    Note #3: plantIds reference plant #2
         (plants, notes, cb) => {
+          debug('** #4');
           helper.createNote([plants[1]._id], {note: 'Note #3'}, (err, note) => {
             assert(note);
             notes.push(note);
@@ -120,6 +124,7 @@ describe('plant-api-delete', function() {
 
         // 3. Delete plant #1
         (plants, notes, cb) => {
+          debug('** #5');
 
           const reqOptions = {
             method: 'DELETE',
@@ -127,21 +132,22 @@ describe('plant-api-delete', function() {
             json: true,
             url: `/api/plant/${plants[0]._id}`
           };
-          debug('#3.1');
+          debug('#5.1');
           helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-            debug('#3.2');
+            debug('#5.2');
             assert(!error);
             assert.equal(httpMsg.statusCode, 200);
 
             assert.deepStrictEqual(response, {message: 'Deleted'});
             cb(error, plants, notes);
           });
-          debug('#3.3');
+          debug('#5.3');
 
         },
 
         // 4. Confirm that Note #1 is no longer in DB
         (plants, notes, cb) => {
+          debug('** #6');
           mongo.getNoteById(notes[0]._id, (err, result) => {
 
             assert(!err);
@@ -153,6 +159,7 @@ describe('plant-api-delete', function() {
 
         // 5. Retrieve plant #2 and confirm that both notes are attached.
         (plants, notes, cb) => {
+          debug('** #7');
           debug('notes:', notes);
           const reqOptions = {
             method: 'GET',
@@ -162,6 +169,7 @@ describe('plant-api-delete', function() {
           };
 
           helper.makeRequest(reqOptions, (error, httpMsg, plant) => {
+            debug('** #8');
             assert(!error);
             assert.equal(httpMsg.statusCode, 200);
             assert(plant);
@@ -176,6 +184,7 @@ describe('plant-api-delete', function() {
             assert(noteIds.indexOf(plant.notes[0]._id) >= 0);
             assert(noteIds.indexOf(plant.notes[1]._id) >= 0);
 
+            debug('** #9');
             cb(error, plants, notes);
           });
         },
@@ -183,6 +192,7 @@ describe('plant-api-delete', function() {
 
       // Final callback
       (err, plants, notes) => {
+        debug('** #10:', err);
         assert(!err);
         assert.equal(plants.length, 2);
         assert.equal(notes.length, 3);

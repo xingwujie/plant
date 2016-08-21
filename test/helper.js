@@ -8,8 +8,8 @@ import proxyquire from 'proxyquire';
 import request from 'request';
 import {makeMongoId} from '../app/libs/utils';
 
-// import d from 'debug';
-// const debug = d('plant:test.helper');
+import d from 'debug';
+const debug = d('plant:test.helper');
 
 export function getUrl(url) {
   if(_.startsWith(url, 'http')) {
@@ -123,6 +123,7 @@ export function deleteAllPlantsForUser(cb) {
 }
 
 export function createPlants(numPlants, userId, cb) {
+  debug('createPlant typeof userId:', typeof userId);
   const plantTemplate = {
     title: 'Plant Title',
     userId
