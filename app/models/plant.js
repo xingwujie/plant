@@ -64,6 +64,11 @@ function transform(attributes) {
     attributes.tags = _.uniq(attributes.tags.map(tag => { return tag.toLowerCase(); }));
   }
 
+  // If any amounts are preceded by a $ sign then trim that.
+  if(attributes.price && typeof attributes.price === 'string') {
+    attributes.price = _.trim(attributes.price, '$');
+  }
+
   return attributes;
 }
 
