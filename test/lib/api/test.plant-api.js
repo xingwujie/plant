@@ -1,5 +1,3 @@
-// import _ from 'lodash';
-import {makeMongoId} from '../../../app/libs/utils';
 import * as helper from '../../helper';
 import assert from 'assert';
 import constants from '../../../app/libs/constants';
@@ -20,7 +18,9 @@ describe('plant-api', function() {
 
   const initialPlant = {
     title: 'Plant Title',
-    userId: makeMongoId(),
+    price: 19.99,
+    tags: ['north-east', 'citrus']
+    // userId: makeMongoId(),
   };
   let plantId;
 

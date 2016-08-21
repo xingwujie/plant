@@ -66,7 +66,7 @@ function transform(attributes) {
 
   // If any amounts are preceded by a $ sign then trim that.
   if(attributes.price && typeof attributes.price === 'string') {
-    attributes.price = _.trim(attributes.price, '$');
+    attributes.price = +_.trim(attributes.price, '$');
   }
 
   return attributes;
@@ -83,7 +83,7 @@ export default (attributes, {isNew}, cb) => {
     commonName:  {length: {maximum: 100}},
     description: {length: {maximum: 500}},
     plantedDate: {datetime: true},
-    price: {numericality: true},
+    price: {numericality: {noStrings: true}},
     purchasedDate: {datetime: true},
     tags: {tagValidate: {length: {maximum: 5, innermax: 20}, unique: true, format: /[a-z-]/}},
     title: {length: {minimum: 1, maximum: 100}, presence: true},
@@ -100,6 +100,7 @@ export default (attributes, {isNew}, cb) => {
   const transformed = transform(cleaned);
   // debug('transformed:', transformed);
   const errors = validatejs.validate(transformed, constraints);
+  // debug('errors:', errors);
   const flatErrors = errors && errors.length > 0
     ? errors.map( (value, key) => {return {[key]: value[0]};} )
     : errors;

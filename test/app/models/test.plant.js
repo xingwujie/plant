@@ -4,8 +4,8 @@ import assert from 'assert';
 
 const plantValidator = validators.plant;
 
-// import d from 'debug';
-// const debug = d('plant:test.plant');
+import d from 'debug';
+const debug = d('plant:test.plant');
 
 describe('/app/models/plant', function() {
 
@@ -13,7 +13,8 @@ describe('/app/models/plant', function() {
     const plant = {
       _id: 'b33d420024432d67a3c7fb36',
       title: 'Title',
-      userId: 'cf885bf372488977ae0d6476'
+      userId: 'cf885bf372488977ae0d6476',
+      price: '$19.99' // should convert this to numeric 19.99
     };
     const plantCopy = _.clone(plant);
 
@@ -23,6 +24,7 @@ describe('/app/models/plant', function() {
       assert(!err);
       assert.equal(transformed.title, plant.title);
       assert.deepEqual(plantCopy, plant);
+      assert.equal(transformed.price, 19.99);
       done();
     });
   });
@@ -48,7 +50,7 @@ describe('/app/models/plant', function() {
       // debug(err);
       assert(!err);
       assert.deepEqual(Object.keys(transformed), Object.keys(plant));
-      // debug('transformed:', transformed);
+      debug('transformed:', transformed);
       assert.deepEqual(transformed, plant);
       assert.deepEqual(plantCopy, plant);
       done();
@@ -78,23 +80,15 @@ describe('/app/models/plant', function() {
       // debug(err);
 
       assert.equal(err._id, ' id is invalid');
-
       assert.equal(err.botanicalName, 'Botanical name is too long (maximum is 100 characters)');
-
       assert.equal(err.commonName, 'Common name has an incorrect length');
-
       assert.equal(err.description, 'Description has an incorrect length');
-
       assert.equal(err.plantedDate, 'Planted date must be a valid date');
-
+      assert.equal(err.price, 'Price is not a number');
       assert.equal(err.purchasedDate, 'Purchased date must be a valid date');
-
       assert.equal(err.tags, 'Tags can have a maximum of 5 tags');
-
       assert.equal(err.title, 'Title can\'t be blank');
-
       assert.equal(err.userId, 'User id is invalid');
-
       assert.deepEqual(plantCopy, plant);
       done();
     });
