@@ -250,4 +250,30 @@ describe('/app/models/plant', function() {
     });
   });
 
+  it('should lowercase tags', (done) => {
+    const plant = {
+      _id: 'b33d420024432d67a3c7fb36',
+      botanicalName: 'Botanical Name',
+      commonName: 'Common Name',
+      description: 'Description',
+      plantedDate: '12/15/2012',
+      price: 25.99,
+      purchasedDate: '12/15/2012',
+      tags: ['CITRUS', 'North-West', 'upPer'],
+      title: 'Title',
+      userId: 'cf885bf372488977ae0d6476',
+    };
+    const plantCopy = _.clone(plant);
+
+    const isNew = false;
+
+    plantValidator(plant, {isNew}, (err, transformed) => {
+      assert(!err);
+      assert.deepEqual(Object.keys(transformed), Object.keys(plant));
+      assert.deepEqual(transformed.tags, ['citrus', 'north-west', 'upper']);
+      assert.deepEqual(plantCopy, plant);
+      done();
+    });
+  });
+
 });
