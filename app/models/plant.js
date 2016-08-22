@@ -15,12 +15,15 @@ import validatejs from 'validate.js';
 //
 // If the validator passes simply return null or undefined. Otherwise return a string or an array of strings containing the error message(s).
 // Make sure not to append the key name, this will be done automatically.
-validatejs.validators.tagValidate = (value, options /*, key, attributes */) => {
+validatejs.validators.tagValidate = (value, /*options, key, attributes */) => {
   // tags array rules:
   // 1. lowercase alpha and -
+  const validRegex = /^[a-z-]*$/;
   // 2. unique array of strings
   // 3. max length of array: 5
+  const maxTags = 5;
   // 4. max length of each string: 20
+  const maxTagLength = 20;
   // 5. optional
 
   if(!value) {
@@ -31,23 +34,21 @@ validatejs.validators.tagValidate = (value, options /*, key, attributes */) => {
     return 'must be an array';
   }
 
-  const maxarray = _.get(options, 'length.maximum');
-  if(maxarray && value.length > maxarray) {
-    return `can have a maximum of ${maxarray} tags`;
+  if(maxTags && value.length > maxTags) {
+    return `can have a maximum of ${maxTags} tags`;
   }
 
-  const innermax = _.get(options, 'length.innermax');
-  if(innermax && value.length > 0) {
+  if(maxTagLength && value.length > 0) {
     const maxlen = value.reduce( (prev, item) => {
       return Math.max(prev, item.length);
     }, 0);
-    if(maxlen > innermax) {
-      return `cannot be more than ${innermax} characters`;
+    if(maxlen > maxTagLength) {
+      return `cannot be more than ${maxTagLength} characters`;
     }
   }
 
   // Only a to z and '-'
-  if(!_.every(value, item => {return /^[a-z-]*$/.test(item); })) {
+  if(!_.every(value, item => {return validRegex.test(item); })) {
     return 'can only have alphabetic characters and a dash';
   }
 
@@ -85,7 +86,7 @@ export default (attributes, {isNew}, cb) => {
     plantedDate: {datetime: true},
     price: {numericality: {noStrings: true}},
     purchasedDate: {datetime: true},
-    tags: {tagValidate: {length: {maximum: 5, innermax: 20}, unique: true, format: /[a-z-]/}},
+    tags: {tagValidate: {}},
     title: {length: {minimum: 1, maximum: 100}, presence: true},
     userId: {format: constants.mongoIdRE, presence: true},
   };

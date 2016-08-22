@@ -35,9 +35,9 @@ describe('/app/models/plant', function() {
       botanicalName: 'Botanical Name',
       commonName: 'Common Name',
       description: 'Description',
-      plantedDate: '12/15/12',
+      plantedDate: '12/15/2012',
       price: 25.99,
-      purchasedDate: '12/15/12',
+      purchasedDate: '12/15/2012',
       tags: ['citrus', 'north-east'],
       title: 'Title',
       userId: 'cf885bf372488977ae0d6476',
@@ -64,7 +64,7 @@ describe('/app/models/plant', function() {
       botanicalName: _.repeat('Botanical Name is too long', 50),
       commonName: true, // Not a string
       description: 500, // Not a string
-      plantedDate: 'Not a Date',
+      plantedDate: '12/12/12', // Year is not 4 digits
       price: 'Not a number',
       purchasedDate: '55/55/55', // Invalid date
       tags: ['citrus', 'north-east', 'north', 'west', 'south', 'east'], // Tags not unique
