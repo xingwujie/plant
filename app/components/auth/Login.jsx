@@ -13,6 +13,9 @@ export default class Login extends React.Component {
             <a href='/auth/facebook'>
               <img src='/img/facebook-login.png' />
             </a>
+            <a href='/auth/google'>
+              <img src='/img/google-login.png' />
+            </a>
           </div>
           {devLogin &&
             <div className='home-subheader'>
