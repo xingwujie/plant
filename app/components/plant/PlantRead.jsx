@@ -64,7 +64,7 @@ export default class PlantRead extends React.Component {
       }
       let renderText;
       if(title.name === 'plantedDate' && moment.isMoment(plant[title.name])) {
-        renderText = `Planted On: ${plant[title.name].format('DD-MMM-YYYY')} (${plant[title.name].fromNow()})`;
+        renderText = `Planted ${plant[title.name].fromNow()}`;
       } else {
         renderText = `${title.text ? title.text + ': ' : ''}${plant[title.name]}`;
       }

@@ -122,8 +122,7 @@ export default class PlantCreateUpdate extends React.Component {
       textAlign: 'left'
     };
 
-
-
+    const dateFormat = 'MM/DD/YYYY';
 
     return (
       <Paper style={paperStyle} zDepth={5}>
@@ -176,7 +175,8 @@ export default class PlantCreateUpdate extends React.Component {
           extraClasses='col-sm-4'
           label='Purchase Date'
           value={purchasedDate}
-          placeholder={'MM/DD/YYYY'}
+          value={purchasedDate && moment.isMoment(purchasedDate) ? purchasedDate.format(dateFormat) : purchasedDate}
+          placeholder={dateFormat}
           changeHandler={this.handleChange.bind(this, 'purchasedDate')}
         />
         <Divider />
@@ -185,8 +185,8 @@ export default class PlantCreateUpdate extends React.Component {
           error={errors.plantedDate}
           extraClasses='col-sm-4'
           label='Planted Date'
-          value={plantedDate && moment.isMoment(plantedDate) ? plantedDate.format('MM/DD/YYYY') : plantedDate}
-          placeholder={'MM/DD/YYYY'}
+          value={plantedDate && moment.isMoment(plantedDate) ? plantedDate.format(dateFormat) : plantedDate}
+          placeholder={dateFormat}
           changeHandler={this.handleChange.bind(this, 'plantedDate')}
         />
         <Divider />

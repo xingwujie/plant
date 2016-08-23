@@ -64,6 +64,7 @@ function loadPlantSuccess(state, action) {
     });
   }
   plant.plantedDate = plant.plantedDate ? moment(new Date(plant.plantedDate)) : plant.plantedDate;
+  plant.purchasedDate = plant.purchasedDate ? moment(new Date(plant.purchasedDate)) : plant.purchasedDate;
   return Object.freeze([...keepers, plant]);
 }
 
