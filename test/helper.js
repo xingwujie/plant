@@ -76,9 +76,11 @@ export function createUser(cb) {
     assert(body);
     assert(body._id);
     assert(constants.mongoIdRE.test(body._id));
-    assert.equal(body, fbUser);
+    debug('body:', body);
+    debug('fbUser:', fbUser);
+    assert.deepEqual(_.omit(body, ['_id']), fbUser);
 
-    assert(fbUser._id);
+    assert(body._id);
 
     cb(err, body);
   });

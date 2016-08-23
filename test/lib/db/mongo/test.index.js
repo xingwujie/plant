@@ -65,6 +65,7 @@ describe('/lib/db/mongo/', function() {
       name: 'Plant Name',
       plantedOn: new Date(2015, 7, 1)
     };
+    let plantId;
 
     it('should create a plant', (done) => {
       plant.userId = userId;
@@ -75,10 +76,12 @@ describe('/lib/db/mongo/', function() {
         assert(!createPlantErr);
         assert(body);
         assert(body._id);
-        assert(plant._id);
         assert.equal(typeof body._id, 'string');
         assert.equal(typeof body.userId, 'string');
-        assert.equal(typeof plant.userId, 'string');
+        assert.equal(typeof plant.userId, 'object');
+
+        // To be used in next test...
+        plantId = body._id;
 
         done();
       });
@@ -86,12 +89,10 @@ describe('/lib/db/mongo/', function() {
 
     it('should get an existing plant', (done) => {
 
-      mongo.getPlantById(plant._id, (err, result) => {
+      mongo.getPlantById(plantId, (err, result) => {
         debug('getPlantById result:', result);
         assert.equal(typeof result.userId, 'string');
-        assert.equal(typeof plant.userId, 'string');
         assert(!err);
-        assert(result);
         assert.equal(result.name, plant.name);
         const plantedOn = new Date(result.plantedOn);
         assert.equal(plantedOn.getTime(), plant.plantedOn.getTime());
@@ -99,7 +100,7 @@ describe('/lib/db/mongo/', function() {
         debug('plant.userId:', plant.userId);
         debug('typeof result.userId:', typeof result.userId);
         debug('typeof plant.userId:', typeof plant.userId);
-        assert.equal(result.userId, plant.userId);
+        assert.equal(result.userId, plant.userId.toString());
         done();
       });
     });
@@ -109,7 +110,7 @@ describe('/lib/db/mongo/', function() {
       const plantUpdate = {
         name: 'New Name',
         other: 'Other Text',
-        _id: plant._id,
+        _id: plantId,
         userId
       };
 
