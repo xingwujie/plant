@@ -7,11 +7,11 @@ import constants from '../../../app/libs/constants';
 
 describe('plant-api', function() {
   this.timeout(10000);
-  let serverData;
+  let user;
   before('it should start the server and setup auth token', done => {
     helper.startServerAuthenticated((err, data) => {
       assert(!err);
-      serverData = data;
+      user = data.user;
       done();
     });
   });
@@ -80,7 +80,7 @@ describe('plant-api', function() {
       assert.equal(httpMsg.statusCode, 200);
       assert(response);
       assert.equal(response.title, 'Plant Title');
-      assert.equal(response.userId, serverData.userId);
+      assert.equal(response.userId, user._id);
       assert(constants.mongoIdRE.test(response._id));
 
       plantId = response._id;

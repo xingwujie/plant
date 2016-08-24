@@ -46,83 +46,114 @@ export function makeRequest(opts, cb) {
   request(options, cb);
 }
 
-export function createUser(cb) {
-  const facebookId = makeMongoId();
-  // let createdUser;
-
-  const fbUser = {
-    facebook: {
-      id: facebookId,
-      gender: 'male',
-      link: 'https://www.facebook.com/app_scoped_user_id/1234567890123456/',
-      locale: 'en_US',
-      last_name: 'Smith', // eslint-disable-line camelcase
-      first_name: 'John', // eslint-disable-line camelcase
-      timezone: -7,
-      updated_time: '2015-01-29T23:11:04+0000', // eslint-disable-line camelcase
-      verified: true
-    },
-    name: 'John Smith',
-    email: 'test@test.com',
-    createdAt: '2016-01-28T14:59:32.989Z',
-    updatedAt: '2016-01-28T14:59:32.989Z'
-  };
-
-  assert(!fbUser._id);
-  mongo.findOrCreateUser(fbUser, (err, body) => {
-    debug('err:', err);
-    debug('body:', body);
-    debug('fbUser:', fbUser);
-
-    assert(!err);
-    assert(body);
-    assert(body._id);
-    assert(constants.mongoIdRE.test(body._id));
-    assert.deepEqual(_.omit(body, ['_id']), fbUser);
-
-    assert(body._id);
-
-    cb(err, body);
-  });
-}
-
 const data = {};
-export function startServerAuthenticated(done) {
-  if(data.app) {
-    return done(null, data);
-  }
 
-  createUser((createUserError, user) => {
-    assert(!createUserError);
-    assert(user);
-    const passport = new FakePassport(user);
-    const server = proxyquire('../lib/server', { passport });
-
-    server.default((err, application) => {
-      assert(!err);
-
-      data.app = application;
-
-      makeRequest({
-        url: '/auth/facebook/callback'
-      }, (error, httpMsg) => {
-        assert(!error);
-        assert(httpMsg.headers);
-        assert(httpMsg.headers.location);
-        const parts = httpMsg.headers.location.split('=');
-        jwt = parts[1];
-        // debug('Test jwt:', jwt);
-        assert(jwt);
-        data.userId = passport.getUserId();
-        return done(error, data);
+export function startServerAuthenticated(cb) {
+  function emptyDatabase(done) {
+    mongo.GetDb((dbGetError, db) => {
+      assert(!dbGetError);
+      async.each(['user', 'plant', 'note'], (collection, callback) => {
+        const coll = db.collection(collection);
+        coll.deleteMany({}, callback);
+      }, (err) => {
+        assert(!err);
+        done(err, data);
       });
     });
+  }
+
+  function createUser(waterfallData, done) {
+    const fbUser = {
+      facebook: {
+        id: makeMongoId(),
+        gender: 'male',
+        link: 'https://www.facebook.com/app_scoped_user_id/1234567890123456/',
+        locale: 'en_US',
+        last_name: 'Smith', // eslint-disable-line camelcase
+        first_name: 'John', // eslint-disable-line camelcase
+        timezone: -7,
+        updated_time: '2015-01-29T23:11:04+0000', // eslint-disable-line camelcase
+        verified: true
+      },
+      name: 'John Smith',
+      email: 'test@test.com',
+      createdAt: '2016-01-28T14:59:32.989Z',
+      updatedAt: '2016-01-28T14:59:32.989Z'
+    };
+
+    mongo.findOrCreateUser(fbUser, (err, user) => {
+      debug('err:', err);
+      debug('user:', user);
+      debug('fbUser:', fbUser);
+
+      assert(!err);
+      assert(user);
+      assert(user._id);
+      assert(constants.mongoIdRE.test(user._id));
+      assert.deepEqual(_.omit(user, ['_id']), fbUser);
+
+      waterfallData.user = user;
+      done(err, waterfallData);
+    });
+  }
+
+  function createPassport(waterfallData, done) {
+    if(waterfallData.passport) {
+      waterfallData.passport.setUser(waterfallData.user);
+    } else {
+      waterfallData.passport = new FakePassport(waterfallData.user);
+    }
+    done(null, waterfallData);
+  }
+
+  function createServer(waterfallData, done) {
+    if(!waterfallData.server) {
+      waterfallData.server = proxyquire('../lib/server', { passport: waterfallData.passport });
+    }
+    done(null, waterfallData);
+  }
+
+  function startServer(waterfallData, done) {
+    if(waterfallData.app) {
+      return done(null, waterfallData);
+    }
+    waterfallData.server.default((err, application) => {
+      assert(!err);
+
+      waterfallData.app = application;
+      return done(null, waterfallData);
+    });
+  }
+
+  function authenticateUser(waterfallData, done) {
+    makeRequest({
+      url: '/auth/facebook/callback'
+    }, (error, httpMsg) => {
+      assert(!error);
+      assert(httpMsg.headers);
+      assert(httpMsg.headers.location);
+      const parts = httpMsg.headers.location.split('=');
+      jwt = parts[1];
+      // debug('Test jwt:', jwt);
+      assert(jwt);
+      waterfallData.userId = waterfallData.passport.getUserId();
+      return done(null, waterfallData);
+    });
+  }
+
+  async.waterfall([
+    emptyDatabase,
+    createUser,
+    createPassport,
+    createServer,
+    startServer,
+    authenticateUser
+  ], (err, waterfallData) => {
+    assert(!err);
+    debug('waterfallData:', waterfallData);
+    cb(err, waterfallData);
   });
 };
-
-export function deleteAllPlantsForUser(cb) {
-  mongo.deleteAllPlantsByUserId(data.userId, cb);
-}
 
 export function createPlants(numPlants, userId, cb) {
   debug('createPlant typeof userId:', typeof userId);

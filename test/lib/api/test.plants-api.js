@@ -16,10 +16,6 @@ describe('plants-api', function() {
     });
   });
 
-  before('it should clear all plants for this user from DB', done => {
-    helper.deleteAllPlantsForUser(done);
-  });
-
   let insertedPlants;
   const numPlants = 2;
 

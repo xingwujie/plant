@@ -11,10 +11,11 @@ describe('/lib/db/mongo/', function() {
   let userId;
   let fbUser;
 
-  before('should create a user account through the helper', (done) => {
-    helper.createUser((err, user) => {
-      debug('createUser result:', user);
-      fbUser = user;
+  before('should create a user account by starting the server', (done) => {
+    helper.startServerAuthenticated((err, data) => {
+      assert(!err);
+      debug('createUser result:', data.user);
+      fbUser = data.user;
       userId = fbUser._id;
       assert(userId);
       assert.equal(typeof userId, 'string');
