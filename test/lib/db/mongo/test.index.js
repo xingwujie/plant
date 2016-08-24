@@ -26,10 +26,9 @@ describe('/lib/db/mongo/', function() {
   describe('user', () => {
     it('should fail to create a user account if there is no object', (done) => {
 
-      mongo.findOrCreateFacebookUser(null, (err, body) => {
-
+      mongo.findOrCreateUser(null, (err, body) => {
         assert(err);
-        assert.equal(err.message, 'No facebook.id:');
+        assert.equal(err.message, 'No facebook.id or google.id:');
         assert(!body);
         assert.equal(typeof userId, 'string');
 
@@ -37,16 +36,17 @@ describe('/lib/db/mongo/', function() {
       });
     });
 
-    it('should fetch the just-created user', (done) => {
+    it('should fetch the user created in the before setup', (done) => {
 
       const user = {
         facebook: {
           id: fbUser.facebook.id
         },
       };
-
-      mongo.findOrCreateFacebookUser(user, (err, body) => {
-        // TODO: This test is WIP
+      debug('before user:', user);
+      mongo.findOrCreateUser(user, (err, body) => {
+        debug('body:', body);
+        debug('fbUser:', fbUser);
         assert(!err);
         assert(body);
         assert(body._id);

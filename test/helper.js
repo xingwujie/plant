@@ -69,15 +69,15 @@ export function createUser(cb) {
   };
 
   assert(!fbUser._id);
-  mongo.findOrCreateFacebookUser(fbUser, (err, body) => {
-    // debug('body:', body);
+  mongo.findOrCreateUser(fbUser, (err, body) => {
+    debug('err:', err);
+    debug('body:', body);
+    debug('fbUser:', fbUser);
 
     assert(!err);
     assert(body);
     assert(body._id);
     assert(constants.mongoIdRE.test(body._id));
-    debug('body:', body);
-    debug('fbUser:', fbUser);
     assert.deepEqual(_.omit(body, ['_id']), fbUser);
 
     assert(body._id);
