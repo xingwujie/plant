@@ -125,16 +125,18 @@ Components for managing a collection and the listing of plants.
 
 ## Developer Setup
 
-### Facebook
+### Facebook and Google OAuth
 
 You can start the site without setting up Facebook credentials.
 As long as the NODE_ENV is not set to `production` you will be able to login as a dev user.
-You do, however, need to set the Facebook environment variables to a non-empty value.
+You do, however, need to set the Facebook and Google environment variables to a non-empty value.
 In your ~/.bashrc or equivalent file (or a script you `source` before you start the server) set the following:
 
 ```
 export PLANT_FB_ID=<facebook-app-id>
 export PLANT_FB_SECRET=<facebook-app-secret>
+export PLANT_GOOGLE_ID=<google-app-id>
+export PLANT_GOOGLE_SECRET=<google-app-secret>
 ```
 
 If want to use Facebook OAuth then you'll need to setup credentials.
