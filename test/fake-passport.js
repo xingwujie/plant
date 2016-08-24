@@ -4,6 +4,10 @@ class FakePassport {
     this.user = user;
   }
 
+  setUser(user) {
+    this.user = user;
+  }
+
   getUserId() {
     return this.user._id;
   }

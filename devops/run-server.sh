@@ -11,6 +11,8 @@ docker ps
 # Look at readme to setup your own Facebook (FB) credentials
 [ -z "$PLANT_FB_ID" ] && { echo "Need to set PLANT_FB_ID non-empty. See Readme"; exit 1; }
 [ -z "$PLANT_FB_SECRET" ] && { echo "Need to set PLANT_FB_SECRET non-empty. See Readme"; exit 1; }
+[ -z "$PLANT_GOOGLE_ID" ] && { echo "Need to set PLANT_GOOGLE_ID non-empty. See Readme"; exit 1; }
+[ -z "$PLANT_GOOGLE_SECRET" ] && { echo "Need to set PLANT_GOOGLE_SECRET non-empty. See Readme"; exit 1; }
 
 # For testing and dev work you can leave this as it is.
 # If you use this script to run a prod server then you need to change this
