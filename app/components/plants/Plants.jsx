@@ -43,12 +43,30 @@ export default class Plants extends React.Component {
     this.setState(state);
   }
 
+  renderNoPlants(user) {
+    return (
+      <Base>
+        <div>
+          <h2 style={{textAlign: 'center'}}>{user.name} Plant List</h2>
+          <div className='plant-item-list'>
+              <div className='addFirstClassBtn'>
+                <Link className='btn btn-primary' to='/plant'>Add your first plant</Link>
+              </div>
+          </div>
+        </div>
+      </Base>
+    );
+  }
+
   render() {
     var {
       user = {},
       plants = []
     } = this.state || {};
 
+    if(!plants.length) {
+      return this.renderNoPlants(user);
+    }
 
     const tileElements = plants.map(plant => <PlantItem
         key={plant._id}
@@ -57,30 +75,23 @@ export default class Plants extends React.Component {
       />
     );
 
-    const gridListStyle = {width: 500, height: 400, overflowY: 'auto', marginBottom: 24};
+    const gridListStyle = {overflowY: 'auto', marginBottom: 24};
 
     return (
       <Base>
         <div>
           <h2 style={{textAlign: 'center'}}>{user.name} Plant List ({plants.length})</h2>
-          {plants.length === 0 &&
-            <div className='plant-item-list'>
-                <div className='addFirstClassBtn'>
-                  <Link className='btn btn-primary' to='/plant'>Add your first plant</Link>
-                </div>
-            </div>
-          }
 
-          {plants.length > 0 &&
-            <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around'}}>
-              <GridList
-                cellHeight={200}
-                style={gridListStyle}
-                >
-                {tileElements}
-              </GridList>
-            </div>
-          }
+          <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around'}}>
+            <GridList
+              cellHeight={200}
+              cellWidth={200}
+              style={gridListStyle}
+              >
+              {tileElements}
+            </GridList>
+          </div>
+
         </div>
       </Base>
     );
