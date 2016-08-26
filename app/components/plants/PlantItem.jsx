@@ -4,8 +4,6 @@ import {Link} from 'react-router';
 import {makeSlug} from '../../libs/utils';
 import React from 'react';
 import {GridTile} from 'material-ui/GridList';
-import StarBorder from 'material-ui/svg-icons/toggle/star-border';
-import IconButton from 'material-ui/IconButton';
 
 export default class PlantItem extends React.Component {
 
@@ -14,28 +12,36 @@ export default class PlantItem extends React.Component {
   }
 
   render() {
-    var {
+    const {
       title,
       _id,
-      imageUrl,
+      imageUrl = '/img/apple-silhouette.jpg',
       name // eslint-disable-line no-shadow
     } = this.props || {};
 
-    // const phImage = 'http://www.maerskline.com/~/media/maersk-line/Countries/int/Images/Customer%20Cases/fruit_2_u_case.jpg';
-    const phImage = 'http://www.ascensioneating.com/wp-content/uploads/2012/12/aa-fruit-2.jpg';
+    const imageStyle = {
+      height: '200px',
+      width: '200px'
+    };
+
+    const subtitle = name && (<span>by <b>{name}</b></span>);
+
     const link = `/plant/${makeSlug(title)}/${_id}`;
 
     return (
       <Link
-        to={link}>
+        style={{margin: '20px'}}
+        to={link}
+      >
         <GridTile
-          key={imageUrl || phImage}
+          key={imageUrl}
+          subtitle={subtitle}
           title={title}
-          subtitle={<span>by <b>{name}</b></span>}
-          actionIcon={<IconButton><StarBorder color='white'/></IconButton>}
-          >
-            <img src={imageUrl || phImage}
-         />
+        >
+          <img
+            src={imageUrl}
+            style={imageStyle}
+          />
         </GridTile>
       </Link>
     );
@@ -43,7 +49,8 @@ export default class PlantItem extends React.Component {
 }
 
 PlantItem.propTypes = {
-  name: React.PropTypes.string.isRequired,
   _id: React.PropTypes.string.isRequired,
   imageUrl: React.PropTypes.string,
+  name: React.PropTypes.string,
+  title: React.PropTypes.string,
 };
