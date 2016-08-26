@@ -2,6 +2,7 @@ import * as actions from '../../actions';
 // import EditDeleteButtons from './EditDeleteButtons';
 import Paper from 'material-ui/Paper';
 import React from 'react';
+import * as utils from '../../libs/utils';
 
 export default class NotesRead extends React.Component {
   static contextTypes = {
@@ -22,8 +23,9 @@ export default class NotesRead extends React.Component {
   confirmDelete(yes) {
     if(yes) {
       this.props.dispatch(actions.deletePlantRequest(this.props.plant._id));
-      // Transition to /plants
-      this.context.router.push('/plants');
+      // Transition to /plants/:slug/:id
+      const plantUrl = utils.makePlantsUrl(this.props.user);
+      this.context.router.push(plantUrl);
     } else {
       this.setState({showDeleteConfirmation: false});
     }
@@ -65,4 +67,5 @@ export default class NotesRead extends React.Component {
 NotesRead.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
   plant: React.PropTypes.object.isRequired,
+  user: React.PropTypes.object.isRequired,
 };

@@ -39,7 +39,7 @@ var routes = (
     <Route path='/login' component={Login}/>
     <Route path='/plant' component={Plant}/>
     <Route path='/plant/:slug/:id' component={Plant}/>
-    <Route path='/plants' component={Plants}/>
+    <Route path='/plants/:slug/:id' component={Plants}/>
     <Route path='/privacy' component={Privacy}/>
     <Route path='/profile' component={Profile}/>
     <Route path='*' component={Help}/>

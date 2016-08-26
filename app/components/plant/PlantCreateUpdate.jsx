@@ -13,6 +13,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import React from 'react';
 import TextField from 'material-ui/TextField';
 import moment from 'moment';
+import * as utils from '../../libs/utils';
 
 const validate = validators.plant;
 
@@ -52,8 +53,9 @@ export default class PlantCreateUpdate extends React.Component {
         mode: 'read'
       }));
     } else {
-      // Transition to /plants
-      this.context.router.push('/plants');
+      // Transition to /plants/:slug/:id
+      const plantUrl = utils.makePlantsUrl(this.props.user);
+      this.context.router.push(plantUrl);
     }
   }
 
@@ -226,7 +228,8 @@ export default class PlantCreateUpdate extends React.Component {
 };
 
 PlantCreateUpdate.propTypes = {
-  plant: React.PropTypes.object.isRequired,
   dispatch: React.PropTypes.func.isRequired,
-  mode: React.PropTypes.string.isRequired
+  mode: React.PropTypes.string.isRequired,
+  plant: React.PropTypes.object.isRequired,
+  user: React.PropTypes.object.isRequired,
 };

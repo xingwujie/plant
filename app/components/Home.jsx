@@ -4,6 +4,7 @@ import React from 'react';
 import store from '../store';
 import {isLoggedIn} from '../libs/auth-helper';
 import * as actions from '../actions';
+import * as utils from '../libs/utils';
 
 export default class Home extends React.Component {
   static contextTypes = {
@@ -75,19 +76,17 @@ export default class Home extends React.Component {
     );
 
     } else {
-
       return (
         <div id='hero'>
           <div className='home-header'>
             {`You have ${plants.length} plant${plants.length > 1 ? 's' : ''} in your collection. `}
           </div>
           <div className='home-subheader'>
-            <Link to={'/plants'}>{'Go to plant collection...'}</Link>
+            <Link to={utils.makePlantsUrl(user)}>{'Go to plant collection...'}</Link>
           </div>
         </div>
       );
     }
-
   }
 
   anonHome() {
@@ -101,7 +100,6 @@ export default class Home extends React.Component {
   }
 
   render() {
-
     return (
       <Base>
         <div className='home-content'>

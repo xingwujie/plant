@@ -65,7 +65,8 @@ export default class Plant extends React.Component {
 
     this.setState({
       isOwner: owner,
-      plant
+      plant,
+      user
     });
 
   }
@@ -116,6 +117,7 @@ export default class Plant extends React.Component {
                 dispatch={store.dispatch}
                 isOwner={owner}
                 plant={plant}
+                user={user}
               />
               {plant && plant.title &&
                 <CreateNote
@@ -132,6 +134,7 @@ export default class Plant extends React.Component {
               dispatch={store.dispatch}
               mode={mode}
               plant={plant}
+              user={user}
             />
           }
         </div>

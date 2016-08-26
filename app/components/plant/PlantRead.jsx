@@ -4,6 +4,7 @@ import NotesRead from './NotesRead';
 import Paper from 'material-ui/Paper';
 import React from 'react';
 import moment from 'moment';
+import * as utils from '../../libs/utils';
 
 export default class PlantRead extends React.Component {
   static contextTypes = {
@@ -41,8 +42,9 @@ export default class PlantRead extends React.Component {
   confirmDelete(yes) {
     if(yes) {
       this.props.dispatch(actions.deletePlantRequest(this.props.plant._id));
-      // Transition to /plants
-      this.context.router.push('/plants');
+      // Transition to /plants/:slug/:id
+      const plantUrl = utils.makePlantsUrl(this.props.user);
+      this.context.router.push(plantUrl);
     } else {
       this.setState({showDeleteConfirmation: false});
     }
@@ -83,9 +85,10 @@ export default class PlantRead extends React.Component {
       display: 'inline-block'
     };
 
-    let {
+    const {
       isOwner,
-      plant
+      plant,
+      user
     } = this.props || {};
 
     const {
@@ -116,6 +119,7 @@ export default class PlantRead extends React.Component {
             <NotesRead
               dispatch={this.props.dispatch}
               plant={plant}
+              user={user}
             />
           </div>
         }
@@ -128,4 +132,5 @@ PlantRead.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
   isOwner: React.PropTypes.bool.isRequired,
   plant: React.PropTypes.object.isRequired,
+  user: React.PropTypes.object.isRequired,
 };

@@ -13,5 +13,24 @@ export function makeSlug(text) {
   }
 
   text = text.toString();
-  return slug(text.toLowerCase());
+  text = text.replace(/\//g, ' ');
+  return slug(text.toString(), {
+    // replacement: '-',
+    // symbols: true,
+    // remove: /[.]/g,
+    lower: true,
+    // charmap: slug.charmap,
+    // multicharmap: slug.multicharmap
+  });
 }
+
+export function makePlantsUrl(user = {}) {
+  const {
+    name: userName = '',
+    _id = ''
+  } = user;
+
+  return `/plants/${makeSlug(userName)}/${_id}`;
+}
+
+// TODO: Move this file to a /shared/ folder.

@@ -1,7 +1,7 @@
-import _ from 'lodash';
 import React from 'react';
 import store from '../store';
 import * as actions from '../actions';
+import * as utils from '../libs/utils';
 
 import {Link} from 'react-router';
 
@@ -32,7 +32,11 @@ export default class Navbar extends React.Component {
   }
 
   render() {
-    const displayName = _.get(this, 'state.user.name');
+    const {
+      user = {}
+    } = this.state || {};
+    const displayName = user.name || '';
+
 
     return (
       <nav className='navbar navbar-default'>
@@ -58,7 +62,7 @@ export default class Navbar extends React.Component {
                   </a>
                   <ul className='dropdown-menu'>
                     <li>
-                      <Link to={'/plants'} title='My Plants'>My Plants</Link>
+                      <Link to={utils.makePlantsUrl(user)} title='My Plants'>My Plants</Link>
                     </li>
                     <li>
                       <Link to={'/plant'} title='add plant'>Add Plant</Link>
