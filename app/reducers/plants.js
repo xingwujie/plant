@@ -122,7 +122,27 @@ function createNoteSuccess(state, action) {
   return Object.freeze(state.map( plant => {
     console.log('createNoteSuccess:', action);
     if (plant._id === action.payload.plantId) {
-      return {...plant, createNote: false};
+
+      const plantNotes = [...(plant.notes || [])];
+      const note = {
+        ...action.payload,
+        date: moment(new Date(action.payload.date))
+      };
+
+      plantNotes.push(note);
+
+      const notes = plantNotes.sort((a, b) => {
+        if(a.date.isSame(b.date)) {
+          return 0;
+        }
+        return a.date.isAfter(b.date) ? 1 : -1;
+      });
+
+      return {
+        ...plant,
+        createNote: false,
+        notes
+      };
     } else {
       return plant;
     }
