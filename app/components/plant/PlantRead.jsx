@@ -120,6 +120,7 @@ export default class PlantRead extends React.Component {
               dispatch={this.props.dispatch}
               plant={plant}
               user={user}
+              isOwner={isOwner}
             />
           </div>
         }

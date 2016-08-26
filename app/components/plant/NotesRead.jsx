@@ -31,33 +31,40 @@ export default class NotesRead extends React.Component {
     }
   }
 
-  render() {
-    const {notes = []} = this.props.plant || {};
-    if(!notes.length) {
-      return null;
-    }
-
+  renderNote(note, sinceLast) {
     const paperStyle = {
       padding: 20,
       width: '100%',
       margin: 20,
       display: 'inline-block'
     };
+
+    return (
+      <Paper key={note._id} style={paperStyle} zDepth={5}>
+        {sinceLast && <h6>{`(${sinceLast} since previous note)`}</h6>}
+        <h5>{note.date.format('DD-MMM-YYYY')}{` (${note.date.fromNow()})`}</h5>
+        <div>{note.note}</div>
+      </Paper>
+      );
+
+  }
+
+  render() {
+    const {notes = []} = this.props.plant || {};
+    if(!notes.length) {
+      return null;
+    }
+
     let lastNoteDate;
+    const renderedNotes = notes.map(note => {
+      const sinceLast = lastNoteDate ? lastNoteDate.from(note.date) : '';
+      lastNoteDate = note.date;
+      return this.renderNote(note, sinceLast);
+    });
+
     return (
       <div>
-        {notes.map(note => {
-          const sinceLast = lastNoteDate ? lastNoteDate.from(note.date) : '';
-          lastNoteDate = note.date;
-          return (
-            <Paper key={note._id} style={paperStyle} zDepth={5}>
-              {sinceLast && <h6>{`(${sinceLast} since previous note)`}</h6>}
-              <h5>{note.date.format('DD-MMM-YYYY')}{` (${note.date.fromNow()})`}</h5>
-              <div>{note.note}</div>
-            </Paper>
-            );
-        })
-        }
+        {renderedNotes}
       </div>
     );
 
@@ -66,6 +73,7 @@ export default class NotesRead extends React.Component {
 
 NotesRead.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
+  isOwner: React.PropTypes.bool.isRequired,
   plant: React.PropTypes.object.isRequired,
   user: React.PropTypes.object.isRequired,
 };
