@@ -23,7 +23,7 @@ export default class RemoveConfirm extends React.Component {
 
     return (
       <div style={{textAlign: 'right'}}>
-        <strong className='lead'>{'This cannot be undone. Really delete?'}</strong>
+        <strong className='lead'>{'Really delete? (This cannot be undone.)'}</strong>
         <RaisedButton
           label='Cancel'
           onClick={this.cancelDelete}

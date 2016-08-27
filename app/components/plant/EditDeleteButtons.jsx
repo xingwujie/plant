@@ -1,7 +1,8 @@
-// import * as actions from '../../actions';
-import RaisedButton from 'material-ui/RaisedButton';
 import React from 'react';
 import RemoveConfirm from '../RemoveConfirm';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import EditIcon from 'material-ui/svg-icons/editor/mode-edit';
+import DeleteIcon from 'material-ui/svg-icons/action/delete';
 
 export default class EditDeleteButtons extends React.Component {
 
@@ -20,15 +21,18 @@ export default class EditDeleteButtons extends React.Component {
       <h2 className='vcenter'>
         {!showDeleteConfirmation &&
           <div style={{textAlign: 'right'}}>
-            <RaisedButton
-              label='Edit'
+            <FloatingActionButton
               onClick={this.props.clickEdit}
-            />
-            <RaisedButton
-              label='Delete'
+            >
+              <EditIcon />
+            </FloatingActionButton>
+            <FloatingActionButton
               onClick={this.props.clickDelete}
+              secondary={true}
               style={{marginLeft: '10px'}}
-            />
+            >
+              <DeleteIcon />
+            </FloatingActionButton>
           </div>
         }
         {showDeleteConfirmation &&
