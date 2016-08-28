@@ -22,7 +22,10 @@ const common = {
   },
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
-    filename: '/bundle.js'
+    filename: '/bundle.js',
+    // Putting in publicPath fixes this error:
+    // [HMR] Update check failed: SyntaxError: Unexpected token <
+    publicPath: '/'
   },
   module: {
     noParse: [],
