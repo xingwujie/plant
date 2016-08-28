@@ -1,8 +1,10 @@
 import _ from 'lodash';
 import validators from '../../../app/models';
 import constants from '../../../app/libs/constants';
+import * as utils from '../../../app/libs/utils';
 import assert from 'assert';
 
+const {makeMongoId} = utils;
 const noteValidator = validators.note;
 
 // import d from 'debug';
@@ -12,11 +14,11 @@ describe('/app/models/note', function() {
 
   it('should pass minimum validation', (done) => {
     const note = {
-      _id: 'b33d420024432d67a3c7fb36',
+      _id: makeMongoId(),
       date: new Date(),
-      plantIds: ['cf885bf372488977ae0d6476'],
+      plantIds: [makeMongoId()],
       note: 'some text',
-      userId: 'cf885bf372488977ae0d6476',
+      userId: makeMongoId(),
     };
     const noteCopy = _.clone(note);
 
@@ -60,13 +62,14 @@ describe('/app/models/note', function() {
 
   it('should strip out props not in the schema', (done) => {
     const note = {
-      _id: 'b33d420024432d67a3c7fb36',
+      _id: makeMongoId(),
       date: new Date(),
-      plantIds: ['cf885bf372488977ae0d6476'],
+      plantIds: [makeMongoId()],
       note: 'some text',
-      userId: 'cf885bf372488977ae0d6476',
+      userId: makeMongoId(),
       fakeName1: 'Common Name',
       fakeName2: 'Description',
+      plantId: 'fake plant id',
     };
     const noteCopy = _.clone(note);
 
@@ -83,6 +86,7 @@ describe('/app/models/note', function() {
       assert.equal(transformed.userId, note.userId);
       assert(!transformed.fakeName1);
       assert(!transformed.fakeName2);
+      assert(!transformed.plantId);
       assert.deepEqual(noteCopy, note);
       done();
     });
@@ -91,9 +95,9 @@ describe('/app/models/note', function() {
   it('should add _id if it is a new record', (done) => {
     const note = {
       date: new Date(),
-      plantIds: ['cf885bf372488977ae0d6476'],
+      plantIds: [makeMongoId()],
       note: 'some text',
-      userId: 'cf885bf372488977ae0d6476',
+      userId: makeMongoId(),
     };
     const noteCopy = _.clone(note);
 
@@ -114,9 +118,9 @@ describe('/app/models/note', function() {
 
   it('should fail if userId is missing', (done) => {
     const note = {
-      _id: 'b33d420024432d67a3c7fb36',
+      _id: makeMongoId(),
       date: new Date(),
-      plantIds: ['cf885bf372488977ae0d6476'],
+      plantIds: [makeMongoId()],
       note: 'some text',
     };
     const noteCopy = _.clone(note);
@@ -140,11 +144,11 @@ describe('/app/models/note', function() {
 
   it('should fail if plantIds is empty', (done) => {
     const note = {
-      _id: 'b33d420024432d67a3c7fb36',
+      _id: makeMongoId(),
       date: new Date(),
       plantIds: [],
       note: 'some text',
-      userId: 'cf885bf372488977ae0d6476',
+      userId: makeMongoId(),
     };
     const noteCopy = _.clone(note);
 
@@ -167,10 +171,10 @@ describe('/app/models/note', function() {
 
   it('should fail if plantIds is missing', (done) => {
     const note = {
-      _id: 'b33d420024432d67a3c7fb36',
+      _id: makeMongoId(),
       date: new Date(),
       note: 'some text',
-      userId: 'cf885bf372488977ae0d6476',
+      userId: makeMongoId(),
     };
     const noteCopy = _.clone(note);
 
@@ -193,11 +197,11 @@ describe('/app/models/note', function() {
 
   it('should fail if plantIds is not an array', (done) => {
     const note = {
-      _id: 'b33d420024432d67a3c7fb36',
+      _id: makeMongoId(),
       date: new Date(),
       note: 'some text',
-      plantIds: 'cf885bf372488977ae0d6476',
-      userId: 'cf885bf372488977ae0d6476',
+      plantIds: makeMongoId(),
+      userId: makeMongoId(),
     };
     const noteCopy = _.clone(note);
 

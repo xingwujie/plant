@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import * as utils from '../../../app/libs/utils';
+import constants from '../../../app/libs/constants';
 import assert from 'assert';
 
 // import d from 'debug';
@@ -12,6 +13,8 @@ describe('/app/libs/utils', function() {
     // debug('mongoId:', mongoId);
     assert.equal(mongoId.length, 24);
     assert(!_.includes(mongoId, '-'));
+    assert(typeof mongoId === 'string');
+    assert(constants.mongoIdRE.test(mongoId));
     done();
   });
 
