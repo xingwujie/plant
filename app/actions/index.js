@@ -83,8 +83,6 @@ export function createNoteFailure(payload) {
   };
 }
 
-
-
 export const UPDATE_PLANT_REQUEST = 'UPDATE_PLANT_REQUEST';
 export const UPDATE_PLANT_SUCCESS = 'UPDATE_PLANT_SUCCESS';
 export const UPDATE_PLANT_FAILURE = 'UPDATE_PLANT_FAILURE';
@@ -106,6 +104,31 @@ export function updatePlantSuccess(payload) {
 export function updatePlantFailure(payload) {
   return {
     type: UPDATE_PLANT_FAILURE,
+    payload
+  };
+}
+
+export const UPDATE_NOTE_REQUEST = 'UPDATE_NOTE_REQUEST';
+export const UPDATE_NOTE_SUCCESS = 'UPDATE_NOTE_SUCCESS';
+export const UPDATE_NOTE_FAILURE = 'UPDATE_NOTE_FAILURE';
+
+export function updateNoteRequest(payload) {
+  return {
+    type: UPDATE_NOTE_REQUEST,
+    payload
+  };
+}
+
+export function updateNoteSuccess(payload) {
+  return {
+    type: UPDATE_NOTE_SUCCESS,
+    payload
+  };
+}
+
+export function updateNoteFailure(payload) {
+  return {
+    type: UPDATE_NOTE_FAILURE,
     payload
   };
 }

@@ -47,9 +47,20 @@ function updatePlant(store, action, next) {
     type: 'PUT',
     url: '/api/plant',
     data: action.payload,
-    // success: () => {},
     success: actions.updatePlantSuccess,
     failure: actions.updatePlantFailure,
+  };
+  ajax(store, options);
+  return next(action);
+}
+
+function updateNote(store, action, next) {
+  const options = {
+    type: 'PUT',
+    url: '/api/note',
+    data: action.payload,
+    success: actions.updateNoteSuccess,
+    failure: actions.updateNoteFailure,
   };
   ajax(store, options);
   return next(action);
@@ -98,6 +109,7 @@ export const apis = {
   [actions.CREATE_PLANT_REQUEST]: createPlant,
   [actions.CREATE_NOTE_REQUEST]: createNote,
   [actions.UPDATE_PLANT_REQUEST]: updatePlant,
+  [actions.UPDATE_NOTE_REQUEST]: updateNote,
   [actions.DELETE_PLANT_REQUEST]: deletePlant,
   [actions.LOAD_PLANT_REQUEST]: loadOne,
   [actions.LOAD_PLANTS_REQUEST]: load,

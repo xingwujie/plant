@@ -1,15 +1,9 @@
-// A collection of plants loaded from the server. (an object)
+// An array of plants loaded from the server.
 // Plants could be for any user.
-// If a user is logged in then some of the items in the object
+// If a user is logged in then some of the items in the array
 // might be plants belonging to the user.
 
-// Each key in the plants object is a document id that represents a plant.
-
-// meta object:
-// status: 'create', 'create-saving', 'update', 'update-saving', 'delete-saving', 'error'
-// error: A string representing the reason why the status is 'error'
 import moment from 'moment';
-
 import * as actions from '../actions';
 
 // User clicks save after creating a new plant
@@ -28,9 +22,28 @@ function ajaxPlantFailure(state, action) {
 // User clicks save after update a plant
 function updatePlantRequest(state, action) {
   // payload is an object of plant being PUT to server
-  // an id has already been assigned to this object
   const keepers = state.filter(plant => plant._id !== action.payload._id);
   return Object.freeze([...keepers, action.payload]);
+}
+
+/**
+ * This reducer called when the user updates a note.
+ * It must replace the plant's note with the updated one
+ * Multiple plants might have this note in their notes array.
+ * @param {array} state - the plant objects loaded
+ * @param {object} action - the action.payload is the object holding the updated note
+ * @returns {array} state - the updated state
+ */
+function updateNoteRequest(state /*, action */) {
+  // const plants = state.map(plant => {
+  //   if((plant.notes || []).find)
+  // });
+  // const split = state.reduce((acc, plant) => {
+  //   plant._id !== action.payload._id
+  // });
+  // return Object.freeze([...keepers, action.payload]);
+  // TODO: Finish this reducer
+  return state;
 }
 
 // action.payload: <plant-id>
@@ -166,6 +179,7 @@ const reducers = {
   [actions.SET_PLANT_MODE]: setPlantMode,
   [actions.UPDATE_PLANT_FAILURE]: ajaxPlantFailure,
   [actions.UPDATE_PLANT_REQUEST]: updatePlantRequest,
+  [actions.UPDATE_NOTE_REQUEST]: updateNoteRequest,
 };
 
 export default (state = [], action) => {
