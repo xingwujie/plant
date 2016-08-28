@@ -2,6 +2,7 @@ import * as actions from '../../actions';
 import Paper from 'material-ui/Paper';
 import React from 'react';
 import EditDeleteButtons from './EditDeleteButtons';
+import NoteCreateUpdate from './NoteCreateUpdate';
 
 export default class NoteRead extends React.Component {
 
@@ -34,7 +35,11 @@ export default class NoteRead extends React.Component {
   }
 
   renderEdit() {
-    return null;
+    return (
+      <NoteCreateUpdate
+        {...this.props}
+      />
+    );
   }
 
   renderRead() {

@@ -13,22 +13,38 @@ const validate = validators.note;
 
 export default class NoteCreateUpdate extends React.Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    const {
+      note = {}
+    } = props || {};
+    const {
+      date = new Date()
+    } = note;
+
     this.state = {
-      date: moment().format('MM/DD/YYYY')
+      userId: this.props.user._id,
+      ...note,
+      date: moment(date).format('MM/DD/YYYY'),
+      isNew: !note._id
     };
   }
 
   save(e) {
-    const isNew = true; // TODO fix this
-    const note = {
-      ...this.state,
-      plantIds: [this.props.plant._id],
-      userId: this.props.user._id
-    };
+    const note = this.state;
+    const {isNew} = note;
+    if(!_.isArray(note.plantIds)) {
+      note.plantIds = [];
+    }
+    console.log('note.plantIds:', note.plantIds);
+    console.log('this.props.plant._id:', this.props.plant._id);
+    if(note.plantIds.indexOf(this.props.plant._id) === -1) {
+      note.plantIds.push(this.props.plant._id);
+    }
+
     validate(note, {isNew}, (errors, transformed) => {
-      console.log('NoteCreateUpdate.save:', errors, transformed);
+      console.log('NoteCreateUpdate.save errors:', errors);
+      console.log('NoteCreateUpdate.save transformed:', transformed);
       if(errors) {
         console.log('Note validation errors:', errors);
         this.setState({errors});
@@ -62,14 +78,8 @@ export default class NoteCreateUpdate extends React.Component {
   }
 
   render() {
-    // const plantId = _.get(this, 'props.params.id', '');
-
-    // const {
-    //   plant,
-    // } = this.props || {};
-
     const {
-      date = moment().format('MM/DD/YYYY'),
+      date,
       errors = {},
       note = '',
     } = this.state || {};
@@ -145,6 +155,7 @@ export default class NoteCreateUpdate extends React.Component {
 
 NoteCreateUpdate.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
+  note: React.PropTypes.object, // optional existing note if editing
   plant: React.PropTypes.object.isRequired,
   user: React.PropTypes.object.isRequired,
 };
