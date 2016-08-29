@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
-import user from './user';
+import notes from './notes';
 import plants from './plants';
+import user from './user';
 
 const rootReducer = combineReducers({
+  notes,
+  plants,
   user,
-  plants
 });
 
 export default rootReducer;

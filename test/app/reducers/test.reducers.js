@@ -6,6 +6,7 @@ describe('/app/reducers', function() {
 
   it('should reduce a logout action', (done) => {
     const expected = {
+      notes: {},
       plants: [],
       user: {}
     };
