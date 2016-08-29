@@ -15,6 +15,10 @@ export default class NoteCreateUpdate extends React.Component {
 
   constructor(props) {
     super(props);
+    this.init(props);
+  }
+
+  init(props) {
     const {
       note = {}
     } = props || {};
@@ -139,7 +143,7 @@ export default class NoteCreateUpdate extends React.Component {
         <div style={{textAlign: 'right'}}>
           <RaisedButton
             label='Cancel'
-            onClick={this.cancel.bind(this)}
+            onClick={this.props.toggleCreateNote}
           />
           <RaisedButton
             label='Save'
@@ -157,5 +161,6 @@ NoteCreateUpdate.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
   note: React.PropTypes.object, // optional existing note if editing
   plant: React.PropTypes.object.isRequired,
+  toggleCreateNote: React.PropTypes.func.isRequired,
   user: React.PropTypes.object.isRequired,
 };

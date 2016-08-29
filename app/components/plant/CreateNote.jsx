@@ -1,44 +1,52 @@
 // Responsible for showing a button or create note form
 
-import * as actions from '../../actions';
+// import * as actions from '../../actions';
 import Divider from 'material-ui/Divider';
 import NoteCreateUpdate from './NoteCreateUpdate';
 import RaisedButton from 'material-ui/RaisedButton';
 import React from 'react';
 
 export default class CreateNote extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      createNote: false
+    };
+    this.toggleCreateNote = this.toggleCreateNote.bind(this);
+  }
 
-  createNoteClick() {
-    console.log('createNoteClick');
-    this.props.dispatch(actions.createNote({
-      _id: this.props.plant._id,
-      enable: true
-    }));
+  toggleCreateNote() {
+    console.log('CreateNote.toggleCreateNote:', this.state.createNote);
+    this.setState({
+      createNote: !this.state.createNote
+    });
   }
 
   render() {
     const {
-      isOwner,
-      plant
+      isOwner
     } = this.props || {};
 
     if(!isOwner) {
       return null;
     }
 
+    const {createNote = false} = this.state || {};
+
     return (
       <div>
-        {plant.createNote &&
+        {createNote &&
           <NoteCreateUpdate
             {...this.props}
+            toggleCreateNote={this.toggleCreateNote}
           />
         }
-        {!plant.createNote &&
+        {!createNote &&
           <div style={{textAlign: 'right'}}>
             <Divider />
             <RaisedButton
               label='Create Note'
-              onClick={this.createNoteClick.bind(this)}
+              onClick={this.toggleCreateNote}
             />
           </div>
         }
