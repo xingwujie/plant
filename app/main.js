@@ -48,9 +48,7 @@ var routes = (
 
 function render() {
   let content = document.createElement('div');
-  content.setAttribute('id', 'content');
   document.body.appendChild(content);
-  content = document.getElementById('content');
 
   ReactDOM.render((
     <MuiThemeProvider muiTheme={muiTheme}>
