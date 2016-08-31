@@ -112,12 +112,13 @@ export default class PlantRead extends React.Component {
                 clickDelete={this.checkDelete}
                 confirmDelete={this.confirmDelete}
                 showDeleteConfirmation={showDeleteConfirmation}
-                showButtons={isOwner && !plant.createNote}
+                showButtons={isOwner}
                 deleteTitle={plant.title || ''}
               />
             </Paper>
             <NotesRead
               dispatch={this.props.dispatch}
+              notes={this.props.notes}
               plant={plant}
               user={user}
               isOwner={isOwner}
@@ -132,6 +133,7 @@ export default class PlantRead extends React.Component {
 PlantRead.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
   isOwner: React.PropTypes.bool.isRequired,
+  notes: React.PropTypes.object.isRequired,
   plant: React.PropTypes.object.isRequired,
   user: React.PropTypes.object.isRequired,
 };

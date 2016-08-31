@@ -20,6 +20,7 @@ Object of notes:
 */
 
 import * as actions from '../actions';
+import moment from 'moment';
 
 /**
  * Raised when a save event is triggered for a note.
@@ -28,11 +29,14 @@ import * as actions from '../actions';
  * @returns {object} state - the new object of notes
  */
 function createNoteRequest(state, action) {
-  const {_id} = action.payload || {};
+  const {_id, date} = action.payload || {};
 
   return Object.freeze({
     ...state,
-    [_id]: Object.freeze(action.payload)
+    [_id]: Object.freeze({
+      ...action.payload,
+      date: moment(new Date(date))
+    })
   });
 }
 
@@ -49,6 +53,8 @@ function createNoteSuccess(state, action) {
     ...note.meta,
     state: 'saved'
   };
+
+  console.log('reducer.notes.createNoteSuccess:', note);
 
   return Object.freeze({
     ...state,
@@ -137,6 +143,23 @@ function deleteNoteFailure(state /*, action*/) {
   return state;
 }
 
+// action.payload is a plant object
+function loadPlantSuccess(state, action) {
+  const {payload: plant} = action;
+  if(plant.notes && plant.notes.length) {
+    const notes = {...state};
+    plant.notes.forEach(n => {
+      notes[n._id] = {
+        ...n,
+        date: moment(new Date(n.date))
+      };
+    });
+    return Object.freeze(notes);
+  } else {
+    return state;
+  }
+}
+
 const reducers = {
   [actions.CREATE_NOTE_REQUEST]: createNoteRequest,
   [actions.CREATE_NOTE_SUCCESS]: createNoteSuccess,
@@ -149,6 +172,9 @@ const reducers = {
   [actions.DELETE_NOTE_REQUEST]: deleteNoteRequest,
   [actions.DELETE_NOTE_SUCCESS]: deleteNoteSuccess,
   [actions.DELETE_NOTE_FAILURE]: deleteNoteFailure,
+
+  [actions.LOAD_PLANT_SUCCESS]: loadPlantSuccess,
+
 };
 
 export default (state = {}, action) => {

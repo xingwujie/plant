@@ -1,92 +1,24 @@
 // Used to add a note to a plant
 
 import _ from 'lodash';
-import * as actions from '../../actions';
 import moment from 'moment';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import React from 'react';
 import TextField from 'material-ui/TextField';
-import validators from '../../models';
-
-const validate = validators.note;
 
 export default class NoteCreateUpdate extends React.Component {
 
-  constructor(props) {
-    super(props);
-    this.init(props);
-  }
-
-  init(props) {
-    const {
-      note = {}
-    } = props || {};
-    const {
-      date = new Date()
-    } = note;
-
-    this.state = {
-      userId: this.props.user._id,
-      ...note,
-      date: moment(date).format('MM/DD/YYYY'),
-      isNew: !note._id
-    };
-  }
-
-  save(e) {
-    const note = this.state;
-    const {isNew} = note;
-    if(!_.isArray(note.plantIds)) {
-      note.plantIds = [];
-    }
-    console.log('note.plantIds:', note.plantIds);
-    console.log('this.props.plant._id:', this.props.plant._id);
-    if(note.plantIds.indexOf(this.props.plant._id) === -1) {
-      note.plantIds.push(this.props.plant._id);
-    }
-
-    validate(note, {isNew}, (errors, transformed) => {
-      console.log('NoteCreateUpdate.save errors:', errors);
-      console.log('NoteCreateUpdate.save transformed:', transformed);
-      if(errors) {
-        console.log('Note validation errors:', errors);
-        this.setState({errors});
-      } else {
-        // The PLANT_CREATE_SUCCESS action needs this to hide the note create form
-        transformed.plantId = this.props.plant._id;
-        if(isNew) {
-          this.props.dispatch(actions.createNoteRequest(transformed));
-        } else {
-          this.props.dispatch(actions.updateNoteRequest(transformed));
-        }
-      }
-    });
-    e.preventDefault();
-    e.stopPropagation();
-  }
-
-  cancel(e) {
-    this.props.dispatch(actions.createNote({
-      _id: this.props.plant._id,
-      enable: false
-    }));
-    e.preventDefault();
-    e.stopPropagation();
-  }
-
-  onChange(key, e) {
-    this.setState({
-      [key]: e.target.value
-    });
-  }
-
   render() {
     const {
-      date,
+      plantNote = {},
+    } = this.props || {};
+
+    const {
+      date = moment.format('MM/DD/YYYY'),
       errors = {},
-      note = '',
-    } = this.state || {};
+      note = ''
+    } = plantNote;
 
     const textAreaStyle = {
       textAlign: 'left'
@@ -117,7 +49,8 @@ export default class NoteCreateUpdate extends React.Component {
           floatingLabelText='Date'
           fullWidth={true}
           hintText={'MM/DD/YYYY'}
-          onChange={this.onChange.bind(this, 'date')}
+          name='date'
+          onChange={this.props.onChange}
           style={textFieldStyle}
           underlineStyle={underlineStyle}
           value={date}
@@ -129,7 +62,8 @@ export default class NoteCreateUpdate extends React.Component {
           fullWidth={true}
           hintText='What has happened since your last note?'
           multiLine={true}
-          onChange={this.onChange.bind(this, 'note')}
+          name='note'
+          onChange={this.props.onChange}
           style={textAreaStyle}
           value={note}
         />
@@ -143,11 +77,11 @@ export default class NoteCreateUpdate extends React.Component {
         <div style={{textAlign: 'right'}}>
           <RaisedButton
             label='Cancel'
-            onClick={this.props.toggleCreateNote}
+            onClick={this.props.cancel}
           />
           <RaisedButton
             label='Save'
-            onClick={this.save.bind(this)}
+            onClick={this.props.save}
             style={{marginLeft: '10px'}}
           />
         </div>
@@ -158,9 +92,12 @@ export default class NoteCreateUpdate extends React.Component {
 }
 
 NoteCreateUpdate.propTypes = {
-  dispatch: React.PropTypes.func.isRequired,
-  note: React.PropTypes.object, // optional existing note if editing
-  plant: React.PropTypes.object.isRequired,
-  toggleCreateNote: React.PropTypes.func.isRequired,
-  user: React.PropTypes.object.isRequired,
+  cancel: React.PropTypes.func.isRequired,
+  onChange: React.PropTypes.func.isRequired,
+  plantNote:  React.PropTypes.shape({
+    date: React.PropTypes.string.isRequired,
+    errors: React.PropTypes.object,
+    note: React.PropTypes.string.isRequired,
+  }),
+  save: React.PropTypes.func.isRequired,
 };

@@ -59,7 +59,7 @@ function loadPlantRequest(state /*, action*/) {
 // action.payload is a plant object
 function loadPlantSuccess(state, action) {
   const keepers = state.filter(p => p._id !== action.payload._id);
-  let plant = action.payload;
+  const {payload: plant} = action;
   // TODO: Move this logic into a transformPlants() helper so it can be
   // used by other methods
   if(plant.notes && plant.notes.length) {
@@ -75,9 +75,11 @@ function loadPlantSuccess(state, action) {
       }
       return a.date.isAfter(b.date) ? 1 : -1;
     });
+    plant.notes = plant.notes.map(n => n._id);
   }
-  plant.plantedDate = plant.plantedDate ? moment(new Date(plant.plantedDate)) : plant.plantedDate;
-  plant.purchasedDate = plant.purchasedDate ? moment(new Date(plant.purchasedDate)) : plant.purchasedDate;
+  plant.plantedDate = plant.plantedDate && moment(new Date(plant.plantedDate));
+  plant.purchasedDate = plant.purchasedDate && moment(new Date(plant.purchasedDate));
+  // BUG: Plant order in UI is lost as a result of operation below.
   return Object.freeze([...keepers, plant]);
 }
 
@@ -117,45 +119,30 @@ function setPlantMode(state, action) {
   }));
 }
 
-// action.payload: {_id <plant-id>, enable: true/false}
-function createNote(state, action) {
-  return Object.freeze(state.map( plant => {
-    if (plant._id === action.payload._id) {
-      return {...plant, createNote: action.payload.enable};
-    } else {
-      return plant;
-    }
-  }));
-}
-
 // The action.payload here was bound to the action.payload
 // in the request and not the return object from the server
 // so that we could get to the plantId from the request.
 function createNoteSuccess(state, action) {
+  console.log('createNoteSuccess:', action);
+  const {
+    _id,
+    plantIds = []
+  } = action.payload;
+
+  if(!plantIds.length) {
+    console.error('No plantIds in createNoteSuccess:', action);
+  }
+
   return Object.freeze(state.map( plant => {
-    console.log('createNoteSuccess:', action);
-    if (plant._id === action.payload.plantId) {
+    if(plantIds.indexOf(plant._id) >= 0) {
 
-      const plantNotes = [...(plant.notes || [])];
-      const note = {
-        ...action.payload,
-        date: moment(new Date(action.payload.date))
-      };
+      const notes = Object.freeze([...(plant.notes || [])].concat(_id));
 
-      plantNotes.push(note);
-
-      const notes = plantNotes.sort((a, b) => {
-        if(a.date.isSame(b.date)) {
-          return 0;
-        }
-        return a.date.isAfter(b.date) ? 1 : -1;
-      });
-
-      return {
+      return Object.freeze({
         ...plant,
         createNote: false,
         notes
-      };
+      });
     } else {
       return plant;
     }
@@ -164,7 +151,6 @@ function createNoteSuccess(state, action) {
 
 const reducers = {
   [actions.CANCEL_PLANT_CREATE_MODE]: deletePlant,
-  [actions.CREATE_NOTE]: createNote,
   [actions.CREATE_NOTE_SUCCESS]: createNoteSuccess,
   [actions.CREATE_PLANT_FAILURE]: ajaxPlantFailure,
   [actions.CREATE_PLANT_REQUEST]: createPlantRequest,

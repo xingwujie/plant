@@ -10,7 +10,7 @@ import * as actions from '../../actions';
 import Base from '../Base';
 import PlantCreateUpdate from './PlantCreateUpdate';
 import PlantRead from './PlantRead';
-import CreateNote from './CreateNote';
+import NoteCreate from './NoteCreate';
 import React from 'react';
 import store from '../../store';
 
@@ -104,7 +104,7 @@ export default class Plant extends React.Component {
       plant = {}
     } = this.state || {};
 
-    const {user} = store.getState();
+    const {user, notes} = store.getState();
 
     const mode = plant.mode || this.state.mode || 'read';
 
@@ -118,9 +118,10 @@ export default class Plant extends React.Component {
                 isOwner={owner}
                 plant={plant}
                 user={user}
+                notes={notes}
               />
               {plant && plant.title &&
-                <CreateNote
+                <NoteCreate
                   dispatch={store.dispatch}
                   isOwner={owner}
                   plant={plant}
