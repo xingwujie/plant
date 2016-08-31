@@ -133,6 +133,31 @@ export function updateNoteFailure(payload) {
   };
 }
 
+export const DELETE_NOTE_REQUEST = 'DELETE_NOTE_REQUEST';
+export const DELETE_NOTE_SUCCESS = 'DELETE_NOTE_SUCCESS';
+export const DELETE_NOTE_FAILURE = 'DELETE_NOTE_FAILURE';
+
+export function deleteNoteRequest(payload) {
+  return {
+    type: DELETE_NOTE_REQUEST,
+    payload
+  };
+}
+
+export function deleteNoteSuccess(payload) {
+  return {
+    type: DELETE_NOTE_SUCCESS,
+    payload
+  };
+}
+
+export function deleteNoteFailure(payload) {
+  return {
+    type: DELETE_NOTE_FAILURE,
+    payload
+  };
+}
+
 export const DELETE_PLANT_REQUEST = 'DELETE_PLANT_REQUEST';
 export const DELETE_PLANT_SUCCESS = 'DELETE_PLANT_SUCCESS';
 export const DELETE_PLANT_FAILURE = 'DELETE_PLANT_FAILURE';

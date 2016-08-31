@@ -18,10 +18,7 @@ export default class NoteRead extends React.Component {
 
   confirmDelete(yes) {
     if(yes) {
-      this.props.dispatch(actions.deleteNoteRequest({
-        noteId: this.props.note._id,
-        plantId: this.props.plant._id,
-      }));
+      this.props.dispatch(actions.deleteNoteRequest(this.props.note._id));
     } else {
       this.setState({showDeleteConfirmation: false});
     }

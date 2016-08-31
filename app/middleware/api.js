@@ -77,6 +77,16 @@ function deletePlant(store, action, next) {
   next(action);
 }
 
+function deleteNoteRequest(store, action, next) {
+  const options = {
+    type: 'DELETE',
+    url: `/api/note/${action.payload}`,
+    success: actions.deleteNoteSuccess,
+    failure: actions.deleteNoteFailure
+  };
+  ajax(store, options);
+  next(action);
+}
 
 function loadOne(store, action) {
 
@@ -111,6 +121,7 @@ export const apis = {
   [actions.UPDATE_PLANT_REQUEST]: updatePlant,
   [actions.UPDATE_NOTE_REQUEST]: updateNote,
   [actions.DELETE_PLANT_REQUEST]: deletePlant,
+  [actions.DELETE_NOTE_REQUEST]: deleteNoteRequest,
   [actions.LOAD_PLANT_REQUEST]: loadOne,
   [actions.LOAD_PLANTS_REQUEST]: load,
 };

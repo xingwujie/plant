@@ -52,6 +52,22 @@ function deletePlant(state, action) {
   return Object.freeze(state.filter(plant => plant._id !== action.payload));
 }
 
+// action.payload: <plant-id>
+function deleteNoteRequest(state, action) {
+  // payload is {id} of note being DELETEd from server
+  return Object.freeze(state.map(plant => {
+    if((plant.notes || []).indexOf(action.payload) >= 0) {
+      const x = Object.freeze({
+        ...plant,
+        notes: plant.notes.filter(noteId => noteId !== action.payload)
+      });
+      return x;
+    } else {
+      return plant;
+    }
+  }));
+}
+
 function loadPlantRequest(state /*, action*/) {
   return state;
 }
@@ -156,6 +172,7 @@ const reducers = {
   [actions.CREATE_PLANT_REQUEST]: createPlantRequest,
   [actions.DELETE_PLANT_FAILURE]: ajaxPlantFailure,
   [actions.DELETE_PLANT_REQUEST]: deletePlant,
+  [actions.DELETE_NOTE_REQUEST]: deleteNoteRequest,
   [actions.LOAD_PLANT_FAILURE]: loadPlantFailure,
   [actions.LOAD_PLANT_REQUEST]: loadPlantRequest,
   [actions.LOAD_PLANT_SUCCESS]: loadPlantSuccess,
