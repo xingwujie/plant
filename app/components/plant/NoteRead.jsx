@@ -51,13 +51,11 @@ export default class NoteRead extends React.Component {
 
     const {
       isOwner,
-      note,
-      sinceLast
+      note
     } = this.props;
 
     return (
-      <Paper key={note._id} style={paperStyle} zDepth={5}>
-        {sinceLast && <h6>{`(${sinceLast} since previous note)`}</h6>}
+      <Paper key={note._id} style={paperStyle} zDepth={1}>
         <h5>{note.date.format('DD-MMM-YYYY')}{` (${note.date.fromNow()})`}</h5>
         <div>{note.note}</div>
         <EditDeleteButtons
@@ -89,5 +87,5 @@ NoteRead.propTypes = {
   isOwner: React.PropTypes.bool.isRequired,
   note: React.PropTypes.object.isRequired,
   plant: React.PropTypes.object.isRequired,
-  sinceLast: React.PropTypes.string.isRequired,
+  // sinceLast: React.PropTypes.string.isRequired,
 };

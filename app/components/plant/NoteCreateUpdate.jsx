@@ -42,7 +42,7 @@ export default class NoteCreateUpdate extends React.Component {
     };
 
     return (
-      <Paper style={paperStyle} zDepth={5}>
+      <Paper style={paperStyle} zDepth={1}>
 
         <TextField
           errorText={errors.date}

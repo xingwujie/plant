@@ -1,6 +1,7 @@
 import CircularProgress from 'material-ui/CircularProgress';
 import React from 'react';
 import NoteRead from './NoteRead';
+import Paper from 'material-ui/Paper';
 
 export default class NotesRead extends React.Component {
 
@@ -23,26 +24,40 @@ export default class NotesRead extends React.Component {
       }
     });
 
+    const paperStyle = {
+      padding: 20,
+      width: '100%',
+      margin: 20,
+      display: 'inline-block'
+    };
+
     let lastNoteDate;
-    const renderedNotes = sortedIds.map(noteId => {
+    const renderedNotes = sortedIds.reduce((acc, noteId) => {
       const note = this.props.notes[noteId];
       if(note) {
-        const sinceLast = lastNoteDate ? lastNoteDate.from(note.date) : '';
+        const sinceLast = lastNoteDate ? `...and then after ${lastNoteDate.from(note.date, true)}` : '';
         lastNoteDate = note.date;
-        return (
+        if(sinceLast) {
+          acc.push(
+            <Paper key={note._id + '-sincelast'} style={paperStyle} zDepth={1}>
+              {sinceLast}
+            </Paper>
+          );
+        }
+        acc.push(
           <NoteRead
             key={note._id}
             {...this.props}
             note={note}
-            sinceLast={sinceLast}
           />
         );
       } else {
-        return (
+        acc.push(
           <CircularProgress />
         );
       }
-    });
+      return acc;
+    }, []);
 
     return (
       <div>

@@ -127,7 +127,7 @@ export default class PlantCreateUpdate extends React.Component {
     const dateFormat = 'MM/DD/YYYY';
 
     return (
-      <Paper style={paperStyle} zDepth={5}>
+      <Paper style={paperStyle} zDepth={1}>
         <h2 style={{textAlign: 'center'}}>{pageTitle}</h2>
 
         <InputCombo

@@ -102,7 +102,7 @@ export default class PlantRead extends React.Component {
         }
         {plant &&
           <div className='plant'>
-            <Paper style={paperStyle} zDepth={5}>
+            <Paper style={paperStyle} zDepth={1}>
               <h2 className='vcenter' style={{textAlign: 'center'}}>
                 {plant.title}
               </h2>
