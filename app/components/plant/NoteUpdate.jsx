@@ -22,21 +22,23 @@ export default class NoteUpdate extends React.Component {
   }
 
   initState() {
+    const {note} = this.props;
     this.setState({
-      plantNote: this.props.note
+      plantNote: {
+        ...note,
+        date: note.date.format('MM/DD/YYYY')
+      }
     });
   }
 
   cancel() {
     console.log('About to call initState');
     this.initState();
+    this.props.cancel();
   }
 
   save(e) {
     const {plantNote} = this.state;
-
-    console.log('plantNote.plantIds:', plantNote.plantIds);
-    console.log('this.props.plant._id:', this.props.plant._id);
 
     if(plantNote.plantIds.indexOf(this.props.plant._id) === -1) {
       plantNote.plantIds.push(this.props.plant._id);
@@ -52,8 +54,9 @@ export default class NoteUpdate extends React.Component {
         plantNote.errors = errors;
         this.setState({plantNote});
       } else {
-        this.initState();
         this.props.dispatch(actions.updateNoteRequest(transformed));
+        this.initState();
+        this.props.cancel();
       }
     });
     e.preventDefault();
@@ -94,6 +97,6 @@ NoteUpdate.propTypes = {
   cancel: React.PropTypes.func.isRequired,
   dispatch: React.PropTypes.func.isRequired,
   isOwner: React.PropTypes.bool.isRequired,
-  note: React.PropTypes.object.isRequire,
+  note: React.PropTypes.object.isRequired,
   plant: React.PropTypes.object.isRequired,
 };
