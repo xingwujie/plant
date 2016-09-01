@@ -6,13 +6,38 @@ import Paper from 'material-ui/Paper';
 import React from 'react';
 import TextField from 'material-ui/TextField';
 import CancelSaveButtons from './CancelSaveButtons';
+import Dropzone from 'react-dropzone';
 
 export default class NoteCreateUpdate extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onDrop = this.onDrop.bind(this);
+  }
+
+  componentWillMount() {
+    this.initState();
+  }
+
+  initState() {
+    const {images = []} = this.props;
+    this.setState({images});
+  }
+
+  onDrop(files) {
+    console.log('Received files: ', files);
+    const {images: existingImages = []} = this.state || {};
+    const images = existingImages.concat(files);
+    this.setState({images});
+  }
 
   render() {
     const {
       plantNote = {},
     } = this.props || {};
+
+    const {
+      images = []
+    } = this.state || {};
 
     const {
       date = moment.format('MM/DD/YYYY'),
@@ -73,12 +98,25 @@ export default class NoteCreateUpdate extends React.Component {
             <p className='text-danger col-xs-12'>{'There were errors. Please check your input.'}</p>
           </div>
         }
+
         <CancelSaveButtons
           clickAddPhoto={() => {}}
           clickSave={this.props.save}
           clickCancel={this.props.cancel}
           showButtons={true}
         />
+
+        <Dropzone onDrop={this.onDrop}>
+          <div>Drop images here or tap to select images to upload.</div>
+        </Dropzone>
+
+        {images.length &&
+          images.map(image => {
+            return (
+              <img width={'150px'} key={image.preview} src={image.preview} />
+            );
+          })
+        }
 
       </Paper>
     );
@@ -95,4 +133,5 @@ NoteCreateUpdate.propTypes = {
     note: React.PropTypes.string.isRequired,
   }),
   save: React.PropTypes.func.isRequired,
+  images: React.PropTypes.array,
 };
