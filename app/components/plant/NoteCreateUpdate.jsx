@@ -3,9 +3,9 @@
 import _ from 'lodash';
 import moment from 'moment';
 import Paper from 'material-ui/Paper';
-import RaisedButton from 'material-ui/RaisedButton';
 import React from 'react';
 import TextField from 'material-ui/TextField';
+import CancelSaveButtons from './CancelSaveButtons';
 
 export default class NoteCreateUpdate extends React.Component {
 
@@ -73,18 +73,11 @@ export default class NoteCreateUpdate extends React.Component {
             <p className='text-danger col-xs-12'>{'There were errors. Please check your input.'}</p>
           </div>
         }
-
-        <div style={{textAlign: 'right'}}>
-          <RaisedButton
-            label='Cancel'
-            onClick={this.props.cancel}
-          />
-          <RaisedButton
-            label='Save'
-            onClick={this.props.save}
-            style={{marginLeft: '10px'}}
-          />
-        </div>
+        <CancelSaveButtons
+          clickSave={this.props.save}
+          clickCancel={this.props.cancel}
+          showButtons={true}
+        />
 
       </Paper>
     );

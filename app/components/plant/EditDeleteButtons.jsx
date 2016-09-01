@@ -8,7 +8,7 @@ export default class EditDeleteButtons extends React.Component {
 
   render() {
 
-    let {
+    const {
       showButtons,
       showDeleteConfirmation,
     } = this.props || {};
@@ -23,6 +23,7 @@ export default class EditDeleteButtons extends React.Component {
           <div style={{textAlign: 'right'}}>
             <FloatingActionButton
               onClick={this.props.clickEdit}
+              title='Edit'
             >
               <EditIcon />
             </FloatingActionButton>
@@ -30,6 +31,7 @@ export default class EditDeleteButtons extends React.Component {
               onClick={this.props.clickDelete}
               secondary={true}
               style={{marginLeft: '10px'}}
+              title='Delete'
             >
               <DeleteIcon />
             </FloatingActionButton>
