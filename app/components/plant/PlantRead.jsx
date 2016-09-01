@@ -70,9 +70,9 @@ export default class PlantRead extends React.Component {
       } else {
         renderText = `${title.text ? title.text + ': ' : ''}${plant[title.name]}`;
       }
-      return (<h3 key={title.name}>
+      return (<div key={title.name}>
         {renderText}
-      </h3>);
+      </div>);
     });
 
   }
