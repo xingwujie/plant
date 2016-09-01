@@ -32,7 +32,6 @@ export default class NoteUpdate extends React.Component {
   }
 
   cancel() {
-    console.log('About to call initState');
     this.initState();
     this.props.cancel();
   }
@@ -45,12 +44,7 @@ export default class NoteUpdate extends React.Component {
     }
 
     validate(plantNote, {isNew: false}, (errors, transformed) => {
-
-      console.log('NoteCreate.save errors:', errors);
-      console.log('NoteCreate.save transformed:', transformed);
-
       if(errors) {
-        console.log('Note validation errors:', errors);
         plantNote.errors = errors;
         this.setState({plantNote});
       } else {

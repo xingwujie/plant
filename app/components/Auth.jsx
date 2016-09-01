@@ -29,12 +29,10 @@ export default class Auth extends React.Component {
   }
 
   onChange(){
-    console.log('Auth.onChange store.getState().user:', store.getState().user);
     this.setState(store.getState().user);
   }
 
   componentDidUpdate() {
-    console.log('Auth.componentDidUpdate this.state:', this.state);
     const jwt = _.get(this, 'state.jwt', '');
     if(jwt) {
       const returnurl = localStorage.getItem('returnurl');
@@ -42,10 +40,8 @@ export default class Auth extends React.Component {
         localStorage.removeItem('returnurl');
       }
       let destination = returnurl || '/';
-      console.log('Auth.componentDidUpdate destination:', destination);
       this.context.router.push(destination);
     } else {
-      console.log('Auth.componentDidUpdate /login');
       this.context.router.push('/login');
     }
   }

@@ -70,8 +70,6 @@ export default class PlantCreateUpdate extends React.Component {
         } else {
           this.props.dispatch(actions.updatePlantRequest(transformed));
         }
-        const temp = `/plant/${makeSlug(transformed.title)}/${transformed._id}`;
-        console.log('temp:', temp);
         this.context.router.push(`/plant/${makeSlug(transformed.title)}/${transformed._id}`);
       }
     });
@@ -98,10 +96,6 @@ export default class PlantCreateUpdate extends React.Component {
       errors = {},
       pageTitle
     } = this.state || {};
-
-    if(!_.isEmpty(errors)) {
-      console.log('errors:', errors);
-    }
 
     const paperStyle = {
       padding: 20,

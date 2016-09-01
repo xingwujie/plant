@@ -25,7 +25,6 @@ export default class NoteRead extends React.Component {
   }
 
   renderEdit() {
-    console.log('this.props.note:', this.props.note);
     return (
       <NoteUpdate
         cancel={() => this.setState({editMode: false})}

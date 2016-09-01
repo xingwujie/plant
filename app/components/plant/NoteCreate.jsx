@@ -38,15 +38,11 @@ export default class NoteCreate extends React.Component {
   }
 
   cancel() {
-    console.log('About to call initState');
     this.initState();
   }
 
   save(e) {
     const {plantNote} = this.state;
-
-    console.log('plantNote.plantIds:', plantNote.plantIds);
-    console.log('this.props.plant._id:', this.props.plant._id);
 
     if(plantNote.plantIds.indexOf(this.props.plant._id) === -1) {
       plantNote.plantIds.push(this.props.plant._id);
@@ -59,11 +55,8 @@ export default class NoteCreate extends React.Component {
 
     validate(plantNote, {isNew: true}, (errors, transformed) => {
 
-      console.log('NoteCreate.save errors:', errors);
-      console.log('NoteCreate.save transformed:', transformed);
-
       if(errors) {
-        console.log('Note validation errors:', errors);
+        console.error('Note validation errors:', errors);
         plantNote.errors = errors;
         this.setState({plantNote});
       } else {
@@ -94,8 +87,6 @@ export default class NoteCreate extends React.Component {
       plantNote,
       createNote = false
     } = this.state || {};
-
-    console.log('createNote:', createNote);
 
     return (
       <div>

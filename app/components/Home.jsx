@@ -58,7 +58,7 @@ export default class Home extends React.Component {
       userPlants: plants = {}
     } = this.state;
     if(!user.isLoggedIn) {
-      console.log('user not logged in:', user);
+      console.warn('user not logged in:', user);
       return null;
     }
 

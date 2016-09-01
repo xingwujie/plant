@@ -28,7 +28,6 @@ function createPlant(store, action, next) {
 }
 
 function createNote(store, action, next) {
-  console.log('About to POST /api/note');
   const options = {
     type: 'POST',
     url: '/api/note',
@@ -91,8 +90,7 @@ function deleteNoteRequest(store, action, next) {
 function loadOne(store, action) {
 
   if(!action.payload._id) {
-    console.log('No _id in loadOne');
-    console.log((new Error()).stack);
+    console.error('No _id in loadOne', (new Error()).stack);
   } else {
     const options = {
       url: `/api/plant/${action.payload._id}`,

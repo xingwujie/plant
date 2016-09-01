@@ -119,7 +119,7 @@ function loadPlantsSuccess(state, action) {
 }
 
 function loadPlantsFailure(state, action) {
-  console.log('loadPlantsFailure:', action);
+  console.warn('loadPlantsFailure:', action);
   return state;
 }
 
@@ -139,7 +139,6 @@ function setPlantMode(state, action) {
 // in the request and not the return object from the server
 // so that we could get to the plantId from the request.
 function createNoteSuccess(state, action) {
-  console.log('createNoteSuccess:', action);
   const {
     _id,
     plantIds = []

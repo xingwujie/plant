@@ -53,7 +53,6 @@ export default class Plant extends React.Component {
         mode: 'create'
       };
     }
-    // console.log('initState plant:', plant, _id, props);
     const owner = plant && isOwner(plant, user);
 
     if(!owner && plant && plant.mode !== 'read') {
@@ -72,7 +71,6 @@ export default class Plant extends React.Component {
   }
 
   componentWillMount() {
-    // console.log('componentWillMount');
     this.unsubscribe = store.subscribe(this.onChange);
     this.initState(true);
   }
@@ -86,7 +84,6 @@ export default class Plant extends React.Component {
 - can call this.setState() here (will not trigger addition render)
 */
   componentWillReceiveProps(nextProps) {
-    // console.log('componentWillReceiveProps');
     this.initState(true, nextProps);
   }
 

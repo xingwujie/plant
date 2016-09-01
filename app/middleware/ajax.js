@@ -6,12 +6,10 @@ import moment from 'moment';
 // const debug = d('plant:ajax');
 
 function setJwtHeader(store, request) {
-  // console.log('setJwtHeader:', store, request);
   const {user} = store.getState();
   if(user && user.jwt) {
     request.setRequestHeader('Authorization', 'Bearer ' + user.jwt);
   } else {
-    // console.log('No user or user.jwt to add auth header:', user);
   }
 }
 
@@ -66,7 +64,7 @@ export default (store, options) => {
     },
     // Error: Function( jqXHR jqXHR, String textStatus, String errorThrown )
     error: (jqXHR, textStatus, errorThrown) => {
-      console.log(`${ajaxOptions.type} error for ${options.url}`, errorThrown);
+      console.error(`${ajaxOptions.type} error for ${options.url}`, errorThrown);
       if(options.failure) {
         store.dispatch(options.failure(errorThrown));
       }
