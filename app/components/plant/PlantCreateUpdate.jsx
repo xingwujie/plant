@@ -9,7 +9,7 @@ import * as actions from '../../actions';
 import Divider from 'material-ui/Divider';
 import InputCombo from '../InputCombo';
 import Paper from 'material-ui/Paper';
-import RaisedButton from 'material-ui/RaisedButton';
+import CancelSaveButtons from './CancelSaveButtons';
 import React from 'react';
 import TextField from 'material-ui/TextField';
 import moment from 'moment';
@@ -204,17 +204,11 @@ export default class PlantCreateUpdate extends React.Component {
           </div>
         }
 
-        <div style={{textAlign: 'right'}}>
-          <RaisedButton
-            label='Cancel'
-            onClick={this.cancel.bind(this)}
-          />
-          <RaisedButton
-            label='Save'
-            onClick={this.save.bind(this)}
-            style={{marginLeft: '10px'}}
-          />
-        </div>
+        <CancelSaveButtons
+          clickSave={this.save.bind(this)}
+          clickCancel={this.cancel.bind(this)}
+          showButtons={true}
+        />
 
       </Paper>
     );
