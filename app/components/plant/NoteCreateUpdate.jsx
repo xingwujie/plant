@@ -74,6 +74,7 @@ export default class NoteCreateUpdate extends React.Component {
           </div>
         }
         <CancelSaveButtons
+          clickAddPhoto={() => {}}
           clickSave={this.props.save}
           clickCancel={this.props.cancel}
           showButtons={true}
@@ -85,6 +86,7 @@ export default class NoteCreateUpdate extends React.Component {
 }
 
 NoteCreateUpdate.propTypes = {
+  // addPhoto: React.PropTypes.func,
   cancel: React.PropTypes.func.isRequired,
   onChange: React.PropTypes.func.isRequired,
   plantNote:  React.PropTypes.shape({

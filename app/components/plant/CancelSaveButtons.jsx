@@ -2,6 +2,7 @@ import React from 'react';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ClearIcon from 'material-ui/svg-icons/content/clear';
 import DoneIcon from 'material-ui/svg-icons/action/done';
+import AddPhotoIcon from 'material-ui/svg-icons/image/add-a-photo';
 
 export default class CancelSaveButtons extends React.Component {
 
@@ -15,16 +16,32 @@ export default class CancelSaveButtons extends React.Component {
       return null;
     }
 
+    const {
+      clickAddPhoto
+    } = this.props;
+
     return (
       <h2 className='vcenter'>
         <div style={{textAlign: 'right'}}>
+          {clickAddPhoto &&
+            <FloatingActionButton
+              onClick={clickAddPhoto}
+              secondary={true}
+              title='Upload Photo'
+            >
+              <AddPhotoIcon />
+            </FloatingActionButton>
+          }
+
           <FloatingActionButton
             onClick={this.props.clickCancel}
             secondary={true}
+            style={{marginLeft: '10px'}}
             title='Cancel'
           >
             <ClearIcon />
           </FloatingActionButton>
+
           <FloatingActionButton
             onClick={this.props.clickSave}
             style={{marginLeft: '10px'}}
@@ -39,7 +56,8 @@ export default class CancelSaveButtons extends React.Component {
 }
 
 CancelSaveButtons.propTypes = {
-  clickSave: React.PropTypes.func.isRequired,
+  clickAddPhoto: React.PropTypes.func,
   clickCancel: React.PropTypes.func.isRequired,
+  clickSave: React.PropTypes.func.isRequired,
   showButtons: React.PropTypes.bool.isRequired,
 };
