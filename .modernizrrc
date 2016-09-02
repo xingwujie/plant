@@ -1,0 +1,8 @@
+{
+  "minify": true,
+  "options": [
+    "hasEvent",
+    "setClasses"
+  ],
+  "feature-detects": []
+}

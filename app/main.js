@@ -5,21 +5,22 @@ import './stylesheets/main.css';
 
 import {browserHistory, Router, Route, IndexRoute} from 'react-router';
 import {deepOrange500} from 'material-ui/styles/colors';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import App from './components/App';
 import Auth from './components/Auth';
 import DebugSettings from './components/DebugSettings';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import Help from './components/Help';
 import Home from './components/Home';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import Login from './components/auth/Login';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Plant from './components/plant/Plant';
 import Plants from './components/plants/Plants';
 import Privacy from './components/info/Privacy';
 import Profile from './components/Profile';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Test from './components/info/Test';
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -42,6 +43,7 @@ var routes = (
     <Route path='/plants/:slug/:id' component={Plants}/>
     <Route path='/privacy' component={Privacy}/>
     <Route path='/profile' component={Profile}/>
+    <Route path='/test' component={Test}/>
     <Route path='*' component={Help}/>
   </Route>
 );

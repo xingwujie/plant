@@ -7,6 +7,7 @@ import React from 'react';
 import TextField from 'material-ui/TextField';
 import CancelSaveButtons from './CancelSaveButtons';
 import Dropzone from 'react-dropzone';
+import Modernizr from 'modernizr';
 
 export default class NoteCreateUpdate extends React.Component {
   constructor(props) {
@@ -20,7 +21,9 @@ export default class NoteCreateUpdate extends React.Component {
 
   initState() {
     const {images = []} = this.props;
-    this.setState({images});
+    const hasMouse = Modernizr.hasEvent('mousemove');
+    this.setState({images, hasMouse});
+    // console.log('hasMouse:', hasMouse);
   }
 
   onDrop(files) {
