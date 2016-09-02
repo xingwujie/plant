@@ -7,7 +7,6 @@ import React from 'react';
 import TextField from 'material-ui/TextField';
 import CancelSaveButtons from './CancelSaveButtons';
 import Dropzone from 'react-dropzone';
-import Modernizr from 'modernizr';
 
 export default class NoteCreateUpdate extends React.Component {
   constructor(props) {
@@ -21,9 +20,7 @@ export default class NoteCreateUpdate extends React.Component {
 
   initState() {
     const {images = []} = this.props;
-    const hasMouse = Modernizr.hasEvent('mousemove');
-    this.setState({images, hasMouse});
-    // console.log('hasMouse:', hasMouse);
+    this.setState({images});
   }
 
   onDrop(files) {
@@ -31,6 +28,10 @@ export default class NoteCreateUpdate extends React.Component {
     const {images: existingImages = []} = this.state || {};
     const images = existingImages.concat(files);
     this.setState({images});
+  }
+
+  onOpenClick() {
+    this.refs.dropzone.open();
   }
 
   render() {
@@ -69,8 +70,30 @@ export default class NoteCreateUpdate extends React.Component {
       textAlign: 'left'
     };
 
+    const imageStyle = {
+      maxWidth: '100%',
+      padding: '1%'
+    };
+
+    const dropZoneStyle = {
+      backgroundColor: 'beige',
+      borderColor: 'khaki',
+      borderStyle: 'solid',
+      borderWidth: '3px',
+      height: '40px',
+      width: '100%',
+    };
+
+    const dropZoneActiveStyle = {
+      backgroundColor: 'darkseagreen',
+      borderColor: 'tan',
+    };
+
     return (
-      <Paper style={paperStyle} zDepth={1}>
+      <Paper
+        style={paperStyle}
+        zDepth={1}
+      >
 
         <TextField
           errorText={errors.date}
@@ -103,20 +126,27 @@ export default class NoteCreateUpdate extends React.Component {
         }
 
         <CancelSaveButtons
-          clickAddPhoto={() => {}}
+          clickAddPhoto={this.onOpenClick.bind(this)}
           clickSave={this.props.save}
           clickCancel={this.props.cancel}
           showButtons={true}
         />
 
-        <Dropzone onDrop={this.onDrop}>
+        <Dropzone
+          activeStyle={dropZoneActiveStyle}
+          onDrop={this.onDrop}
+          ref='dropzone'
+          style={dropZoneStyle}
+        >
           <div>Drop images here or tap to select images to upload.</div>
         </Dropzone>
 
-        {images.length &&
+        {!!images.length &&
           images.map(image => {
             return (
-              <img width={'150px'} key={image.preview} src={image.preview} />
+              <div>
+                <img style={imageStyle} key={image.preview} src={image.preview} />
+              </div>
             );
           })
         }
