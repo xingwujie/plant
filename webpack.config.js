@@ -18,9 +18,7 @@ const common = {
   ],
   resolve: {
     extensions: ['', '.js', '.jsx'],
-    alias: {
-      modernizr$: path.resolve(__dirname, './.modernizrrc')
-    }
+    alias: {}
   },
   output: {
     path: path.resolve(ROOT_PATH, 'build'),
@@ -65,10 +63,6 @@ const common = {
       {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
         loader: 'url?limit=10000&mimetype=image/svg+xml'
-      },
-      {
-        test: /\.modernizrrc$/,
-        loader: 'modernizr'
       }
     ]
   },

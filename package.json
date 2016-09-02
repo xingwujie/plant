@@ -24,8 +24,6 @@
     "lwip": "0.0.9",
     "material-ui": "0.15.4",
     "method-override": "2.3.6",
-    "modernizr": "^3.3.1",
-    "modernizr-loader": "0.0.5",
     "moment": "2.14.1",
     "mongodb": "2.2.9",
     "morgan": "1.7.0",
