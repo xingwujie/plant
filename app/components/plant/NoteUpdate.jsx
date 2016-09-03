@@ -15,6 +15,7 @@ export default class NoteUpdate extends React.Component {
     this.save = this.save.bind(this);
     this.cancel = this.cancel.bind(this);
     this.onChange = this.onChange.bind(this);
+    this.saveFiles = this.saveFiles.bind(this);
   }
 
   componentWillMount() {
@@ -34,6 +35,11 @@ export default class NoteUpdate extends React.Component {
   cancel() {
     this.initState();
     this.props.cancel();
+  }
+
+  saveFiles(files) {
+    console.log('saveFiles:', files);
+    this.props.dispatch(actions.saveFilesRequest(files));
   }
 
   save(e) {
@@ -82,6 +88,7 @@ export default class NoteUpdate extends React.Component {
         onChange={this.onChange}
         plantNote={plantNote}
         save={this.save}
+        saveFiles={this.saveFiles}
       />
     );
   }

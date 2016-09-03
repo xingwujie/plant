@@ -20,7 +20,6 @@ import Privacy from './components/info/Privacy';
 import Profile from './components/Profile';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Test from './components/info/Test';
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -43,7 +42,6 @@ var routes = (
     <Route path='/plants/:slug/:id' component={Plants}/>
     <Route path='/privacy' component={Privacy}/>
     <Route path='/profile' component={Profile}/>
-    <Route path='/test' component={Test}/>
     <Route path='*' component={Help}/>
   </Route>
 );

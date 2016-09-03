@@ -208,7 +208,6 @@ export function loadPlantFailure(payload) {
   };
 }
 
-
 export const LOAD_PLANTS_REQUEST = 'LOAD_PLANTS_REQUEST';
 export const LOAD_PLANTS_SUCCESS = 'LOAD_PLANTS_SUCCESS';
 export const LOAD_PLANTS_FAILURE = 'LOAD_PLANTS_FAILURE';
@@ -230,6 +229,31 @@ export function loadPlantsSuccess(payload) {
 export function loadPlantsFailure(payload) {
   return {
     type: LOAD_PLANTS_FAILURE,
+    payload
+  };
+}
+
+export const SAVE_FILES_REQUEST = 'SAVE_FILES_REQUEST';
+export const SAVE_FILES_SUCCESS = 'SAVE_FILES_SUCCESS';
+export const SAVE_FILES_FAILURE = 'SAVE_FILES_FAILURE';
+
+export function saveFilesRequest(payload) {
+  return {
+    type: SAVE_FILES_REQUEST,
+    payload
+  };
+}
+
+export function saveFilesSuccess(payload) {
+  return {
+    type: SAVE_FILES_SUCCESS,
+    payload
+  };
+}
+
+export function saveFilesFailure(payload) {
+  return {
+    type: SAVE_FILES_FAILURE,
     payload
   };
 }

@@ -28,6 +28,7 @@ export default class NoteCreateUpdate extends React.Component {
     const {images: existingImages = []} = this.state || {};
     const images = existingImages.concat(files);
     this.setState({images});
+    this.props.saveFiles(files);
   }
 
   onOpenClick() {
@@ -144,8 +145,8 @@ export default class NoteCreateUpdate extends React.Component {
         {!!images.length &&
           images.map(image => {
             return (
-              <div>
-                <img style={imageStyle} key={image.preview} src={image.preview} />
+              <div key={image.preview}>
+                <img style={imageStyle} src={image.preview} />
               </div>
             );
           })
@@ -166,5 +167,6 @@ NoteCreateUpdate.propTypes = {
     note: React.PropTypes.string.isRequired,
   }),
   save: React.PropTypes.func.isRequired,
+  saveFiles: React.PropTypes.func.isRequired,
   images: React.PropTypes.array,
 };
