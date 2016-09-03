@@ -8,9 +8,6 @@ describe('/app/middleware/api', function() {
 
   it('should check that functions/url exist', done => {
     const store = {};
-    const action = {
-      payload: {_id: '123'}
-    };
     const next = () => {};
 
     const stub = sinon.stub(ajax, 'default', (state, options) => {
@@ -21,6 +18,10 @@ describe('/app/middleware/api', function() {
     });
 
     _.each(api.apis, (v, k) => {
+      const action = k === 'SAVE_FILES_REQUEST'
+        ? {payload: [{_id: '123'}]}
+        : {payload: {_id: '123'}};
+
       api.default(store)(next)({...action, type: k});
     });
 

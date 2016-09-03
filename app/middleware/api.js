@@ -127,24 +127,13 @@ function saveFilesRequest(store, action) {
   console.log('apis.saveFileRequest action.payload:', action.payload);
   console.log('apis.saveFileRequest typeof action.payload:', typeof action.payload);
 
-  // const data = new FormData(action.payload[0]);
-  const data = new FormData();
-  data.append('file', action.payload[0]);
-
-// .field('name', img.name)
-// .field('altText', img.altText)
-// .field('caption', img.caption)
-// .field('size', img.size)
-// .attach('image', img.file, img.file.name)
-
   // const data = new FormData();
-  // action.payload.forEach((file, index) => {
-  //   data.append(`file-${index}`, file, file.name);
-  // });
+  // data.append('file', action.payload[0]);
 
-  // jQuery.each(jQuery('#file')[0].files, function(i, file) {
-  //     data.append('file-'+i, file);
-  // });
+  const data = new FormData();
+  action.payload.forEach((file) => {
+    data.append('file', file);
+  });
 
   const options = {
     contentType: 'multipart/form-data',
