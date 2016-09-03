@@ -55,7 +55,7 @@
     "file-loader": "0.9.0",
     "html-webpack-plugin": "2.22.0",
     "istanbul": "1.0.0-alpha.2",
-    "jsdom": "9.4.5",
+    "jsdom": "9.5.0",
     "mocha": "3.0.2",
     "node-libs-browser": "1.0.0",
     "nodemon": "1.10.2",
