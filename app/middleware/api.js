@@ -112,6 +112,53 @@ function load(store, action) {
   ajax(store, options);
 }
 
+// Upload files
+// action.payload is an array of file objects:
+/*
+lastModified: 1472318340000
+lastModifiedDate: Sat Aug 27 2016 10:19:00 GMT-0700 (MST)
+name: "2016-08-27 10.19.00.jpg"
+preview: "blob:http://localhost:8080/43590135-cb1a-42f6-9d75-ea737ea2ce91"
+size: 6674516
+type: "image/jpeg"
+webkitRelativePath:""
+*/
+function saveFilesRequest(store, action) {
+  console.log('apis.saveFileRequest action.payload:', action.payload);
+  console.log('apis.saveFileRequest typeof action.payload:', typeof action.payload);
+
+  // const data = new FormData(action.payload[0]);
+  const data = new FormData();
+  data.append('file', action.payload[0]);
+
+// .field('name', img.name)
+// .field('altText', img.altText)
+// .field('caption', img.caption)
+// .field('size', img.size)
+// .attach('image', img.file, img.file.name)
+
+  // const data = new FormData();
+  // action.payload.forEach((file, index) => {
+  //   data.append(`file-${index}`, file, file.name);
+  // });
+
+  // jQuery.each(jQuery('#file')[0].files, function(i, file) {
+  //     data.append('file-'+i, file);
+  // });
+
+  const options = {
+    contentType: 'multipart/form-data',
+    data,
+    failure: actions.saveFilesFailure,
+    success: actions.saveFilesSuccess,
+    type: 'POST',
+    url: '/api/upload',
+    fileUpload: true, // removed in ajax function
+  };
+  console.log('api - saveFilesRequest:', options);
+  ajax(store, options);
+}
+
 export const apis = {
   [actions.LOGIN_REQUEST]: loginRequest,
   [actions.CREATE_PLANT_REQUEST]: createPlant,
@@ -122,6 +169,7 @@ export const apis = {
   [actions.DELETE_NOTE_REQUEST]: deleteNoteRequest,
   [actions.LOAD_PLANT_REQUEST]: loadOne,
   [actions.LOAD_PLANTS_REQUEST]: load,
+  [actions.SAVE_FILES_REQUEST]: saveFilesRequest,
 };
 
 export default store => next => action => {

@@ -55,7 +55,6 @@ export default (store, options) => {
     type: options.type || 'GET',
     beforeSend: options.beforeSend || setJwtHeader.bind(null, store),
     url: options.url,
-    data: demomentize(options.data),
     // Success: Function( Anything data, String textStatus, jqXHR jqXHR )
     success: (result) => {
       if(options.success) {
@@ -70,6 +69,16 @@ export default (store, options) => {
       }
     }
   };
+
+  if(options.fileUpload) {
+    delete options.fileUpload;
+    ajaxOptions.contentType = false;
+    ajaxOptions.processData = false;
+    ajaxOptions.cache = false;
+    ajaxOptions.data = options.data;
+  } else {
+    ajaxOptions.data = demomentize(options.data);
+  }
 
   jqueryAjax(ajaxOptions);
 
