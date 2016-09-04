@@ -134,6 +134,7 @@ function saveFilesRequest(store, action) {
   action.payload.forEach((file) => {
     data.append('file', file);
   });
+  data.append('note', JSON.stringify({one: 'test one', two: 'test two'}));
 
   const options = {
     contentType: 'multipart/form-data',

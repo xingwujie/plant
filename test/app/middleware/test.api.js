@@ -17,12 +17,12 @@ describe('/app/middleware/api', function() {
       assert(_.isFunction(options.failure), `Missing failure fn: ${message}`);
     });
 
-    _.each(api.apis, (v, k) => {
-      const action = k === 'SAVE_FILES_REQUEST'
+    Object.keys(api.apis).forEach(key => {
+      const action = key === 'SAVE_FILES_REQUEST'
         ? {payload: [{_id: '123'}]}
         : {payload: {_id: '123'}};
 
-      api.default(store)(next)({...action, type: k});
+      api.default(store)(next)({...action, type: key});
     });
 
     assert.equal(stub.callCount, Object.keys(api.apis).length);
