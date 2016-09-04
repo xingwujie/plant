@@ -18,9 +18,7 @@ describe('/app/middleware/api', function() {
     });
 
     Object.keys(api.apis).forEach(key => {
-      const action = key === 'SAVE_FILES_REQUEST'
-        ? {payload: [{_id: '123'}]}
-        : {payload: {_id: '123'}};
+      const action = {payload: {_id: '123'}};
 
       api.default(store)(next)({...action, type: key});
     });

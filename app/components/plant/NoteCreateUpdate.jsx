@@ -25,9 +25,6 @@ export default class NoteCreateUpdate extends React.Component {
 
   onDrop(files) {
     console.log('Received files: ', files);
-    const {images: existingImages = []} = this.state || {};
-    const images = existingImages.concat(files);
-    this.setState({images});
     this.props.saveFiles(files);
   }
 

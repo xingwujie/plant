@@ -233,31 +233,6 @@ export function loadPlantsFailure(payload) {
   };
 }
 
-export const SAVE_FILES_REQUEST = 'SAVE_FILES_REQUEST';
-export const SAVE_FILES_SUCCESS = 'SAVE_FILES_SUCCESS';
-export const SAVE_FILES_FAILURE = 'SAVE_FILES_FAILURE';
-
-export function saveFilesRequest(payload) {
-  return {
-    type: SAVE_FILES_REQUEST,
-    payload
-  };
-}
-
-export function saveFilesSuccess(payload) {
-  return {
-    type: SAVE_FILES_SUCCESS,
-    payload
-  };
-}
-
-export function saveFilesFailure(payload) {
-  return {
-    type: SAVE_FILES_FAILURE,
-    payload
-  };
-}
-
 export const SET_PLANT_MODE = 'SET_PLANT_MODE';
 export const CANCEL_PLANT_CREATE_MODE = 'CANCEL_PLANT_CREATE_MODE';
 

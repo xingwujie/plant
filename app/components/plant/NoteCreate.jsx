@@ -42,12 +42,7 @@ export default class NoteCreate extends React.Component {
     this.initState();
   }
 
-  saveFiles(files) {
-    console.log('saveFiles:', files);
-    this.props.dispatch(actions.saveFilesRequest(files));
-  }
-
-  save(e) {
+  saveNote(files) {
     const {plantNote} = this.state;
 
     if(plantNote.plantIds.indexOf(this.props.plant._id) === -1) {
@@ -59,7 +54,7 @@ export default class NoteCreate extends React.Component {
     plantNote.userId = this.props.user._id;
     plantNote._id = utils.makeMongoId();
 
-    validate(plantNote, {isNew: true}, (errors, transformed) => {
+    validate(plantNote, {isNew: true}, (errors, note) => {
 
       if(errors) {
         console.error('Note validation errors:', errors);
@@ -67,9 +62,17 @@ export default class NoteCreate extends React.Component {
         this.setState({plantNote});
       } else {
         this.initState();
-        this.props.dispatch(actions.createNoteRequest(transformed));
+        this.props.dispatch(actions.createNoteRequest({note, files}));
       }
     });
+  }
+
+  saveFiles(files) {
+    this.saveNote(files);
+  }
+
+  save(e) {
+    this.saveNote();
     e.preventDefault();
     e.stopPropagation();
   }

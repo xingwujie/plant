@@ -27,18 +27,55 @@ function createPlant(store, action, next) {
   next(action);
 }
 
-function createNote(store, action, next) {
+// Upload files
+// action.payload is an array of file objects:
+/*
+lastModified: 1472318340000
+lastModifiedDate: Sat Aug 27 2016 10:19:00 GMT-0700 (MST)
+name: "2016-08-27 10.19.00.jpg"
+preview: "blob:http://localhost:8080/43590135-cb1a-42f6-9d75-ea737ea2ce91"
+size: 6674516
+type: "image/jpeg"
+webkitRelativePath:""
+*/
+function saveFilesRequest(store, action) {
+  console.log('apis.saveFileRequest action.payload:', action.payload);
+
+  const data = new FormData();
+  action.payload.files.forEach((file) => {
+    data.append('file', file);
+  });
+  data.append('note', JSON.stringify(action.payload.note));
+
   const options = {
+    contentType: 'multipart/form-data',
+    data,
+    failure: actions.saveFilesFailure,
+    success: actions.saveFilesSuccess,
     type: 'POST',
-    url: '/api/note',
-    data: action.payload,
-    // bind the existing payload to the success action so that we
-    // can get to the plantId to close the create note form.
-    success: actions.createNoteSuccess.bind(null, action.payload),
-    failure: actions.createNoteFailure
+    url: '/api/upload',
+    fileUpload: true, // removed in ajax function
   };
+  console.log('api - saveFilesRequest:', options);
   ajax(store, options);
-  next(action);
+}
+
+function createNoteRequest(store, action, next) {
+  if(action.payload.files) {
+    saveFilesRequest(store, action);
+  } else {
+    const options = {
+      type: 'POST',
+      url: '/api/note',
+      data: action.payload,
+      // bind the existing payload to the success action so that we
+      // can get to the plantId to close the create note form.
+      success: actions.createNoteSuccess.bind(null, action.payload),
+      failure: actions.createNoteFailure
+    };
+    ajax(store, options);
+    next(action);
+  }
 }
 
 function updatePlant(store, action, next) {
@@ -112,54 +149,16 @@ function load(store, action) {
   ajax(store, options);
 }
 
-// Upload files
-// action.payload is an array of file objects:
-/*
-lastModified: 1472318340000
-lastModifiedDate: Sat Aug 27 2016 10:19:00 GMT-0700 (MST)
-name: "2016-08-27 10.19.00.jpg"
-preview: "blob:http://localhost:8080/43590135-cb1a-42f6-9d75-ea737ea2ce91"
-size: 6674516
-type: "image/jpeg"
-webkitRelativePath:""
-*/
-function saveFilesRequest(store, action) {
-  console.log('apis.saveFileRequest action.payload:', action.payload);
-  console.log('apis.saveFileRequest typeof action.payload:', typeof action.payload);
-
-  // const data = new FormData();
-  // data.append('file', action.payload[0]);
-
-  const data = new FormData();
-  action.payload.forEach((file) => {
-    data.append('file', file);
-  });
-  data.append('note', JSON.stringify({one: 'test one', two: 'test two'}));
-
-  const options = {
-    contentType: 'multipart/form-data',
-    data,
-    failure: actions.saveFilesFailure,
-    success: actions.saveFilesSuccess,
-    type: 'POST',
-    url: '/api/upload',
-    fileUpload: true, // removed in ajax function
-  };
-  console.log('api - saveFilesRequest:', options);
-  ajax(store, options);
-}
-
 export const apis = {
   [actions.LOGIN_REQUEST]: loginRequest,
   [actions.CREATE_PLANT_REQUEST]: createPlant,
-  [actions.CREATE_NOTE_REQUEST]: createNote,
+  [actions.CREATE_NOTE_REQUEST]: createNoteRequest,
   [actions.UPDATE_PLANT_REQUEST]: updatePlant,
   [actions.UPDATE_NOTE_REQUEST]: updateNote,
   [actions.DELETE_PLANT_REQUEST]: deletePlant,
   [actions.DELETE_NOTE_REQUEST]: deleteNoteRequest,
   [actions.LOAD_PLANT_REQUEST]: loadOne,
   [actions.LOAD_PLANTS_REQUEST]: load,
-  [actions.SAVE_FILES_REQUEST]: saveFilesRequest,
 };
 
 export default store => next => action => {
