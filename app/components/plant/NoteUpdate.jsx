@@ -37,28 +37,33 @@ export default class NoteUpdate extends React.Component {
     this.props.cancel();
   }
 
-  saveFiles(files) {
-    console.log('saveFiles:', files);
-    this.props.dispatch(actions.saveFilesRequest(files));
-  }
-
-  save(e) {
+  saveNote(files) {
     const {plantNote} = this.state;
 
     if(plantNote.plantIds.indexOf(this.props.plant._id) === -1) {
       plantNote.plantIds.push(this.props.plant._id);
     }
 
-    validate(plantNote, {isNew: false}, (errors, transformed) => {
+    validate(plantNote, {isNew: false}, (errors, note) => {
+
       if(errors) {
         plantNote.errors = errors;
         this.setState({plantNote});
       } else {
-        this.props.dispatch(actions.updateNoteRequest(transformed));
         this.initState();
+        this.props.dispatch(actions.updateNoteRequest({note, files}));
         this.props.cancel();
       }
     });
+  }
+
+  saveFiles(files) {
+    this.saveNote();
+    this.props.dispatch(actions.saveFilesRequest(files));
+  }
+
+  save(e) {
+    this.saveNote();
     e.preventDefault();
     e.stopPropagation();
   }

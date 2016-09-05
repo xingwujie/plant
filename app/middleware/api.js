@@ -94,16 +94,20 @@ function updatePlant(store, action, next) {
   return next(action);
 }
 
-function updateNote(store, action, next) {
-  const options = {
-    type: 'PUT',
-    url: '/api/note',
-    data: action.payload,
-    success: actions.updateNoteSuccess,
-    failure: actions.updateNoteFailure,
-  };
-  ajax(store, options);
-  return next(action);
+function updateNoteRequest(store, action, next) {
+  if(action.payload.files && action.payload.files.length) {
+    saveFilesRequest(store, action, {mode: 'update'}, next);
+  } else {
+    const options = {
+      type: 'PUT',
+      url: '/api/note',
+      data: action.payload.note,
+      success: actions.updateNoteSuccess,
+      failure: actions.updateNoteFailure,
+    };
+    ajax(store, options);
+    return next(action);
+  }
 }
 
 function deletePlant(store, action, next) {
@@ -158,7 +162,7 @@ export const apis = {
   [actions.CREATE_PLANT_REQUEST]: createPlant,
   [actions.CREATE_NOTE_REQUEST]: createNoteRequest,
   [actions.UPDATE_PLANT_REQUEST]: updatePlant,
-  [actions.UPDATE_NOTE_REQUEST]: updateNote,
+  [actions.UPDATE_NOTE_REQUEST]: updateNoteRequest,
   [actions.DELETE_PLANT_REQUEST]: deletePlant,
   [actions.DELETE_NOTE_REQUEST]: deleteNoteRequest,
   [actions.LOAD_PLANT_REQUEST]: loadOne,
