@@ -31,7 +31,7 @@ describe('/app/middleware/ajax', function() {
       jqueryAjaxCalled = true;
     };
 
-    ajax.default(store, options);
+    ajax(store, options);
 
     assert(jqueryAjaxCalled);
 
@@ -72,7 +72,7 @@ describe('/app/middleware/ajax', function() {
       jqueryAjaxCalled = true;
     };
 
-    ajax.default(store, options);
+    ajax(store, options);
 
     assert(jqueryAjaxCalled);
 
@@ -97,7 +97,7 @@ describe('/app/middleware/ajax', function() {
       jqueryAjaxCalled = true;
     };
 
-    ajax.default(store, options);
+    ajax(store, options);
 
     assert(jqueryAjaxCalled);
 
@@ -128,7 +128,7 @@ describe('/app/middleware/ajax', function() {
       jqueryAjaxCalled = true;
     };
 
-    ajax.default(store, options);
+    ajax(store, options);
 
     assert(jqueryAjaxCalled);
 
@@ -153,7 +153,7 @@ describe('/app/middleware/ajax', function() {
       jqueryAjaxCalled = true;
     };
 
-    ajax.default(store, options);
+    ajax(store, options);
 
     assert(jqueryAjaxCalled);
 

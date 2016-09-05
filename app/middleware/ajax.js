@@ -45,7 +45,7 @@ function demomentize(obj) {
   return obj;
 }
 
-export default (store, options) => {
+module.exports = (store, options) => {
 
   if(!options.url || !_.isFunction(options.success) || !_.isFunction(options.failure)) {
     console.error('Invalid options for ajax:', options);
