@@ -26,16 +26,16 @@ import moment from 'moment';
 /**
  * Raised when a save event is triggered for a note.
  * @param {object} state - existing object of notes
- * @param {object} action - action.payload holds new note
+ * @param {object} action - action.payload.note holds new note
  * @returns {object} state - the new object of notes
  */
 function upsertNoteRequest(state, action) {
-  const {_id, date} = action.payload || {};
+  const {_id, date} = action.payload.note || {};
 
   return Object.freeze({
     ...state,
     [_id]: Object.freeze({
-      ...action.payload,
+      ...action.payload.note,
       date: moment(new Date(date))
     })
   });

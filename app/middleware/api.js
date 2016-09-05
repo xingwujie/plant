@@ -60,6 +60,9 @@ function saveFilesRequest(store, action) {
   ajax(store, options);
 }
 
+// action.payload is an object with two properties
+// files: An optional array of files
+// note: The note being created
 function createNoteRequest(store, action, next) {
   if(action.payload.files) {
     saveFilesRequest(store, action);
@@ -67,10 +70,10 @@ function createNoteRequest(store, action, next) {
     const options = {
       type: 'POST',
       url: '/api/note',
-      data: action.payload,
+      data: action.payload.note,
       // bind the existing payload to the success action so that we
       // can get to the plantId to close the create note form.
-      success: actions.createNoteSuccess.bind(null, action.payload),
+      success: actions.createNoteSuccess.bind(null, action.payload.note),
       failure: actions.createNoteFailure
     };
     ajax(store, options);
