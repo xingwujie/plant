@@ -70,7 +70,6 @@
     "react-log-lifecycle": "1.0.0",
     "react-tools": "0.13.3",
     "redux-devtools": "3.3.1",
-    "sinon": "1.17.5",
     "style-loader": "0.13.1",
     "stylelint": "7.2.0",
     "stylelint-config-standard": "13.0.0",

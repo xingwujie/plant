@@ -3,8 +3,7 @@ import assert from 'assert';
 import moment from 'moment';
 import proxyquire from 'proxyquire';
 
-// import d from 'debug';
-// const debug = d('plant:test.ajax');
+// const logger = require('../../../lib/logging/logger').create('test.ajax');
 
 const ajaxStub = {
   'jquery': {}

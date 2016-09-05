@@ -1,21 +1,33 @@
 import _ from 'lodash';
-import * as api from '../../../app/middleware/api';
-import * as ajax from '../../../app/middleware/ajax';
+import * as actions from '../../../app/actions';
 import assert from 'assert';
-import sinon from 'sinon';
+import proxyquire from 'proxyquire';
+
+let ajax = () => {};
+const mockAjax = (store, options) => {
+  ajax(store, options);
+};
+
+const api = proxyquire('../../../app/middleware/api', {
+  './ajax': mockAjax
+});
+
+// const logger = require('../../../lib/logging/logger').create('test.api');
 
 describe('/app/middleware/api', function() {
 
-  it('should check that functions/url exist', done => {
+  it('should check that functions/url exist', () => {
     const store = {};
     const next = () => {};
+    let callCounter = 0;
 
-    const stub = sinon.stub(ajax, 'default', (state, options) => {
+    ajax = (state, options) => {
       const message = JSON.stringify(options);
       assert(_.isString(options.url), `Missing url: ${message}`);
       assert(_.isFunction(options.success), `Missing success fn: ${message}`);
       assert(_.isFunction(options.failure), `Missing failure fn: ${message}`);
-    });
+      callCounter++;
+    };
 
     Object.keys(api.apis).forEach(key => {
       const action = {payload: {_id: '123'}};
@@ -23,13 +35,39 @@ describe('/app/middleware/api', function() {
       api.default(store)(next)({...action, type: key});
     });
 
-    assert.equal(stub.callCount, Object.keys(api.apis).length);
+    assert.equal(callCounter, Object.keys(api.apis).length);
 
-    ajax.default.restore();
-    done();
   });
 
-  it('should check that next gets called if no match', done => {
+  it('should check that createNoteRequest calls saveNoteRequest when files is present', () => {
+    const store = {};
+    const next = () => {};
+    let callCounter = 0;
+    ajax = (state, options) => {
+      assert.equal(options.contentType, 'multipart/form-data');
+      assert(_.isFunction(options.data.append));
+      assert(_.isFunction(options.failure));
+      assert(_.isFunction(options.success));
+      assert.equal(options.type, 'POST');
+      assert.equal(options.url, '/api/upload');
+      assert.equal(options.fileUpload, true);
+      callCounter++;
+    };
+
+    const action = {
+      payload: {
+        note: {_id: '123'},
+        files: [{}]
+      },
+      type: actions.CREATE_NOTE_REQUEST
+    };
+
+    api.default(store)(next)(action);
+
+    assert.equal(callCounter, 1);
+  });
+
+  it('should check that next gets called if no match', () => {
     const store = {};
     const action = {
       payload: {_id: '123'}
@@ -39,15 +77,9 @@ describe('/app/middleware/api', function() {
       nextCalled = true;
     };
 
-    const spy = sinon.spy(ajax, 'default');
-
     api.default(store)(next)({...action, type: 'Does not exist'});
 
     assert(nextCalled);
-    assert.equal(spy.callCount, 0);
-
-    ajax.default.restore();
-    done();
   });
 
 });

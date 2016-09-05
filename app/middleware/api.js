@@ -2,7 +2,7 @@
 // the server as part of the store's dispatch(action) call.
 
 import * as actions from '../actions';
-import ajax from './ajax';
+const ajax = require('./ajax');
 
 function loginRequest(store, action) {
   const options = {
@@ -38,8 +38,8 @@ size: 6674516
 type: "image/jpeg"
 webkitRelativePath:""
 */
-function saveFilesRequest(store, action) {
-  console.log('apis.saveFileRequest action.payload:', action.payload);
+function saveFilesRequest(store, action, opts, next) {
+  // console.log('apis.saveFileRequest action.payload:', action.payload);
 
   const data = new FormData();
   action.payload.files.forEach((file) => {
@@ -50,22 +50,23 @@ function saveFilesRequest(store, action) {
   const options = {
     contentType: 'multipart/form-data',
     data,
-    failure: actions.saveFilesFailure,
-    success: actions.saveFilesSuccess,
+    failure: opts.mode === 'create' ? actions.createNoteFailure : actions.createNoteFailure,
+    success: opts.mode === 'create' ? actions.createNoteSuccess : actions.updateNoteSuccess,
     type: 'POST',
     url: '/api/upload',
     fileUpload: true, // removed in ajax function
   };
-  console.log('api - saveFilesRequest:', options);
+  // console.log('api - saveFilesRequest:', options);
   ajax(store, options);
+  next(action);
 }
 
 // action.payload is an object with two properties
 // files: An optional array of files
 // note: The note being created
 function createNoteRequest(store, action, next) {
-  if(action.payload.files) {
-    saveFilesRequest(store, action);
+  if(action.payload.files && action.payload.files.length) {
+    saveFilesRequest(store, action, {mode: 'create'}, next);
   } else {
     const options = {
       type: 'POST',

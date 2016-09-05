@@ -1,6 +1,9 @@
 require('node-version-checker');
 var jsdom = require('jsdom');
 
+const Logger = require('../lib/logging/logger');
+Logger.setLevel('trace');
+
 process.env.PLANT_DB_NAME = 'plant-automated-testing';
 
 process.env.PLANT_FB_ID = '<fake-fb-id>';
