@@ -2,8 +2,7 @@ import * as helper from '../../helper';
 import assert from 'assert';
 import constants from '../../../app/libs/constants';
 
-import d from 'debug';
-const debug = d('plant:test.note-api');
+const logger = require('../../../lib/logging/logger').create('test.note-api');
 
 describe('note-api', function() {
   this.timeout(10000);
@@ -13,7 +12,7 @@ describe('note-api', function() {
     helper.startServerAuthenticated((err, data) => {
       assert(data.userId);
       userId = data.userId;
-      debug('startServerAuthenticated userId:', userId);
+      logger.trace('startServerAuthenticated userId:', {userId});
       done();
     });
   });
@@ -29,13 +28,11 @@ describe('note-api', function() {
 
   before('it should create a plant', (done) => {
     const howMany = 1;
-    debug('before createPlants');
     helper.createPlants(howMany, userId, (err, plants) => {
-      debug('after createPlants');
       initialPlant = plants[0];
       plantId = initialPlant._id;
       initialNote.plantIds = [plantId];
-      debug('plant created:', initialPlant);
+      logger.trace('plant created:', {initialPlant});
       done();
     });
   });
@@ -50,9 +47,6 @@ describe('note-api', function() {
         url: '/api/note'
       };
       helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-        // debug(response);
-        // debug('httpMsg.statusCode:', httpMsg.statusCode);
-
         assert(!error);
         assert.equal(httpMsg.statusCode, 401);
         assert(response);
@@ -71,7 +65,6 @@ describe('note-api', function() {
         url: '/api/note'
       };
       helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-        // debug(response);
         // response should look like:
         // { plantIds: [ 'Plant ids must be an array' ], note: [ 'Note can\'t be blank' ] }
         assert(!error);
@@ -124,7 +117,7 @@ describe('note-api', function() {
         assert(constants.mongoIdRE.test(response._id));
 
         noteId = response._id;
-        debug('note created:', response);
+        logger.trace('note created:', {response});
 
         done();
       });
@@ -142,7 +135,7 @@ describe('note-api', function() {
         // { _id: 'e5fc6fff0a8f48ad90636b3cea6e4f93',
         // title: 'Plant Title',
         // userId: '241ff27e28c7448fb22c4f6fb2580923'}
-        debug('note retrieved:', response);
+        logger.trace('note retrieved:', {response});
         assert(!error);
         assert.equal(httpMsg.statusCode, 200);
         assert(response);
@@ -177,7 +170,7 @@ describe('note-api', function() {
         // response should look like:
         // { ok: 1, nModified: 1, n: 1 }
         // Mongo 2.x does not return nModified which is what Travis uses so do not check this
-        debug('response:', response);
+        logger.trace('response:', {updatedNote, reqOptions, response});
         assert(!error);
         assert.equal(httpMsg.statusCode, 200);
         assert(response);

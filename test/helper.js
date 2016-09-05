@@ -8,8 +8,7 @@ import proxyquire from 'proxyquire';
 import request from 'request';
 import {makeMongoId} from '../app/libs/utils';
 
-import d from 'debug';
-const debug = d('plant:test.helper');
+// const logger = require('../lib/logging/logger').create('test.helper');
 
 export function getUrl(url) {
   if(_.startsWith(url, 'http')) {
@@ -39,8 +38,6 @@ export function makeRequest(opts, cb) {
     headers,
     followRedirect
   };
-
-  // debug('options:', options);
 
   // cb will get (error, httpMsg, response);
   request(options, cb);
@@ -82,9 +79,7 @@ export function startServerAuthenticated(cb) {
     };
 
     mongo.findOrCreateUser(fbUser, (err, user) => {
-      debug('err:', err);
-      debug('user:', user);
-      debug('fbUser:', fbUser);
+      // logger.trace('findOrCreateUser callback', {err, user, fbUser});
 
       assert(!err);
       assert(user);
@@ -134,7 +129,7 @@ export function startServerAuthenticated(cb) {
       assert(httpMsg.headers.location);
       const parts = httpMsg.headers.location.split('=');
       jwt = parts[1];
-      // debug('Test jwt:', jwt);
+      // logger.trace('Test jwt:', {jwt});
       assert(jwt);
       waterfallData.userId = waterfallData.passport.getUserId();
       return done(null, waterfallData);
@@ -150,13 +145,12 @@ export function startServerAuthenticated(cb) {
     authenticateUser
   ], (err, waterfallData) => {
     assert(!err);
-    debug('waterfallData:', waterfallData);
+    // logger.trace('waterfallData:', {waterfallData});
     cb(err, waterfallData);
   });
 };
 
 export function createPlants(numPlants, userId, cb) {
-  debug('createPlant typeof userId:', typeof userId);
   const plantTemplate = {
     title: 'Plant Title',
     userId
@@ -187,7 +181,6 @@ export function createPlants(numPlants, userId, cb) {
   }, function(err, plants) {
     assert(!err);
     // we should now have 'numPlants' plants
-    // debug('async.times:', plants);
     assert.equal(plants.length, numPlants);
 
     cb(err, plants);
