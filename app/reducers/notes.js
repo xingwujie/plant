@@ -48,12 +48,15 @@ function upsertNoteRequest(state, action) {
  * @returns {object} state - the new object of notes
  */
 function upsertNoteSuccess(state, action) {
-  const {_id} = action.payload || {};
-  const note = {...state[_id]};
-  note.meta = {
-    ...note.meta,
-    state: 'saved'
-  };
+  console.log('upsertNoteSuccess:', action);
+  const {note = {}} = action.payload;
+  const {_id} = note;
+  note.date = moment(new Date(note.date));
+  // const targetNote = {...state[_id]};
+  // targetNote.meta = {
+  //   ...targetNote.meta,
+  //   state: 'saved'
+  // };
 
   return Object.freeze({
     ...state,

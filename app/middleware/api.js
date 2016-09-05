@@ -50,7 +50,7 @@ function saveFilesRequest(store, action, opts, next) {
   const options = {
     contentType: 'multipart/form-data',
     data,
-    failure: opts.mode === 'create' ? actions.createNoteFailure : actions.createNoteFailure,
+    failure: opts.mode === 'create' ? actions.createNoteFailure : actions.updateNoteFailure,
     success: opts.mode === 'create' ? actions.createNoteSuccess : actions.updateNoteSuccess,
     type: 'POST',
     url: '/api/upload',

@@ -36,6 +36,30 @@ export default class NoteRead extends React.Component {
     );
   }
 
+  buildImageUrl(image) {
+    const folder = process.env.NODE_ENV === 'production' ? 'up' : 'test';
+    return `https://i.plaaant.com/${folder}/orig/${image.id}.${image.ext}`;
+  }
+
+  renderImage(image) {
+    const imageStyle = {
+      maxWidth: '100%',
+      padding: '1%'
+    };
+
+    return (
+      <div key={image.id}>
+        <img style={imageStyle} src={this.buildImageUrl(image)} />
+      </div>
+    );
+  }
+
+  renderImages(note) {
+    return (note.images || []).map(image => {
+      return this.renderImage(image);
+    });
+  }
+
   renderRead() {
     const paperStyle = {
       padding: 20,
@@ -53,6 +77,8 @@ export default class NoteRead extends React.Component {
       note
     } = this.props;
 
+    const images = this.renderImages(note);
+
     return (
       <Paper key={note._id} style={paperStyle} zDepth={1}>
         <h5>{note.date.format('DD-MMM-YYYY')}{` (${note.date.fromNow()})`}</h5>
@@ -65,6 +91,7 @@ export default class NoteRead extends React.Component {
           showButtons={isOwner}
           deleteTitle={''}
         />
+        {!!images.length && images}
       </Paper>
       );
   }

@@ -57,7 +57,7 @@ export default class NoteCreate extends React.Component {
     validate(plantNote, {isNew: true}, (errors, note) => {
 
       if(errors) {
-        console.error('Note validation errors:', errors);
+        console.error('create: Note validation errors:', errors);
         plantNote.errors = errors;
         this.setState({plantNote});
       } else {

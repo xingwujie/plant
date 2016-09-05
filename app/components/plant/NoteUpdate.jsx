@@ -47,6 +47,7 @@ export default class NoteUpdate extends React.Component {
     validate(plantNote, {isNew: false}, (errors, note) => {
 
       if(errors) {
+        console.error('update: Note validation errors:', errors);
         plantNote.errors = errors;
         this.setState({plantNote});
       } else {
@@ -58,8 +59,7 @@ export default class NoteUpdate extends React.Component {
   }
 
   saveFiles(files) {
-    this.saveNote();
-    this.props.dispatch(actions.saveFilesRequest(files));
+    this.saveNote(files);
   }
 
   save(e) {
