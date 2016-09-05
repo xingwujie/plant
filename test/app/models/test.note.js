@@ -7,9 +7,6 @@ import assert from 'assert';
 const {makeMongoId} = utils;
 const noteValidator = validators.note;
 
-// import d from 'debug';
-// const debug = d('plant:test.note');
-
 describe('/app/models/note', function() {
 
   it('should pass minimum validation', (done) => {
@@ -48,11 +45,10 @@ describe('/app/models/note', function() {
 
     noteValidator(note, {isNew}, (err /*, transformed*/) => {
       assert(err);
-      // debug(err);
 
       assert.equal(err._id, ' id is invalid');
       assert.equal(err.date, 'Date must be a valid date');
-      assert.equal(err.plantIds, 'Plant ids must be UUIDs');
+      assert.equal(err.plantIds, 'Plant ids must be MongoIds');
       assert.equal(err.note, 'Note can\'t be blank');
       assert.equal(err.userId, 'User id is invalid');
       assert.deepEqual(noteCopy, note);
@@ -76,8 +72,6 @@ describe('/app/models/note', function() {
     const isNew = false;
 
     noteValidator(note, {isNew}, (err, transformed) => {
-      // debug('err:', err);
-      // debug('transformed:', transformed);
 
       assert(!err);
       assert.equal(Object.keys(transformed).length, 5);
@@ -128,8 +122,6 @@ describe('/app/models/note', function() {
     const isNew = false;
 
     noteValidator(note, {isNew}, (err, transformed) => {
-      // debug('err:', err);
-      // debug('transformed:', transformed);
 
       assert(err);
       assert.equal(err.userId, 'User id can\'t be blank');
@@ -155,8 +147,6 @@ describe('/app/models/note', function() {
     const isNew = false;
 
     noteValidator(note, {isNew}, (err, transformed) => {
-      // debug('err:', err);
-      // debug('transformed:', transformed);
 
       assert(err);
       assert.equal(err.plantIds, 'Plant ids must have at least 1 on plant associated');
@@ -181,8 +171,6 @@ describe('/app/models/note', function() {
     const isNew = false;
 
     noteValidator(note, {isNew}, (err, transformed) => {
-      // debug('err:', err);
-      // debug('transformed:', transformed);
 
       assert(err);
       assert.equal(err.plantIds, 'Plant ids is required');
@@ -208,8 +196,6 @@ describe('/app/models/note', function() {
     const isNew = false;
 
     noteValidator(note, {isNew}, (err, transformed) => {
-      // debug('err:', err);
-      // debug('transformed:', transformed);
 
       assert(err);
       assert.equal(err.plantIds, 'Plant ids must be an array');
@@ -222,5 +208,244 @@ describe('/app/models/note', function() {
     });
   });
 
+  describe('note.model/images validation', () => {
+    const image = {
+      ext: 'jpg',
+      id: makeMongoId(),
+      originalname: 'apple tree',
+      size: 123456
+    };
+
+    it('should pass with an empty images array', (done) => {
+      const note = {
+        _id: makeMongoId(),
+        date: new Date(),
+        images: [],
+        note: 'some text',
+        plantIds: [makeMongoId()],
+        userId: makeMongoId(),
+      };
+      const noteCopy = _.clone(note);
+
+      const isNew = false;
+
+      noteValidator(note, {isNew}, (err, transformed) => {
+
+        assert.equal(Object.keys(transformed).length, 6);
+        assert.equal(transformed._id, note._id);
+        assert.equal(transformed.note, note.note);
+        assert.equal(transformed.userId, note.userId);
+        assert.deepEqual(noteCopy, note);
+        done();
+      });
+    });
+
+    it('should pass with valid images', (done) => {
+      const note = {
+        _id: makeMongoId(),
+        date: new Date(),
+        images: [image],
+        note: 'some text',
+        plantIds: [makeMongoId()],
+        userId: makeMongoId(),
+      };
+      const noteCopy = _.clone(note);
+
+      const isNew = false;
+
+      noteValidator(note, {isNew}, (err, transformed) => {
+
+        assert.equal(Object.keys(transformed).length, 6);
+        assert.equal(transformed._id, note._id);
+        assert.equal(transformed.note, note.note);
+        assert.equal(transformed.userId, note.userId);
+        assert.deepEqual(noteCopy, note);
+        done();
+      });
+    });
+
+    it('should fail if images is not an array', (done) => {
+      const note = {
+        _id: makeMongoId(),
+        date: new Date(),
+        images: makeMongoId(),
+        note: 'some text',
+        plantIds: [makeMongoId()],
+        userId: makeMongoId(),
+      };
+      const noteCopy = _.clone(note);
+
+      const isNew = false;
+
+      noteValidator(note, {isNew}, (err, transformed) => {
+
+        assert(err);
+        assert.equal(err.images, 'Images must be an array');
+        assert.equal(Object.keys(transformed).length, 6);
+        assert.equal(transformed._id, note._id);
+        assert.equal(transformed.note, note.note);
+        assert.equal(transformed.userId, note.userId);
+        assert.deepEqual(noteCopy, note);
+        done();
+      });
+    });
+
+    it('should fail if images id is not a mongoId', (done) => {
+      const note = {
+        _id: makeMongoId(),
+        date: new Date(),
+        images: [{...image, id: 123}],
+        note: 'some text',
+        plantIds: [makeMongoId()],
+        userId: makeMongoId(),
+      };
+      const noteCopy = _.clone(note);
+
+      const isNew = false;
+
+      noteValidator(note, {isNew}, (err, transformed) => {
+
+        assert(err);
+        assert.equal(err.images, 'Images must be valid image objects');
+        assert.equal(Object.keys(transformed).length, 6);
+        assert.equal(transformed._id, note._id);
+        assert.equal(transformed.note, note.note);
+        assert.equal(transformed.userId, note.userId);
+        assert.deepEqual(noteCopy, note);
+        done();
+      });
+    });
+
+    it('should fail if images ext is not a string', (done) => {
+      const note = {
+        _id: makeMongoId(),
+        date: new Date(),
+        images: [{...image, ext: 123}],
+        note: 'some text',
+        plantIds: [makeMongoId()],
+        userId: makeMongoId(),
+      };
+      const noteCopy = _.clone(note);
+
+      const isNew = false;
+
+      noteValidator(note, {isNew}, (err, transformed) => {
+
+        assert(err);
+        assert.equal(err.images, 'Images must be valid image objects');
+        assert.equal(Object.keys(transformed).length, 6);
+        assert.equal(transformed._id, note._id);
+        assert.equal(transformed.note, note.note);
+        assert.equal(transformed.userId, note.userId);
+        assert.deepEqual(noteCopy, note);
+        done();
+      });
+    });
+
+    it('should fail if images originalname is not a string', (done) => {
+      const note = {
+        _id: makeMongoId(),
+        date: new Date(),
+        images: [{...image, originalname: 123}],
+        note: 'some text',
+        plantIds: [makeMongoId()],
+        userId: makeMongoId(),
+      };
+      const noteCopy = _.clone(note);
+
+      const isNew = false;
+
+      noteValidator(note, {isNew}, (err, transformed) => {
+
+        assert(err);
+        assert.equal(err.images, 'Images must be valid image objects');
+        assert.equal(Object.keys(transformed).length, 6);
+        assert.equal(transformed._id, note._id);
+        assert.equal(transformed.note, note.note);
+        assert.equal(transformed.userId, note.userId);
+        assert.deepEqual(noteCopy, note);
+        done();
+      });
+    });
+
+    it('should fail if images size is not a number', (done) => {
+      const note = {
+        _id: makeMongoId(),
+        date: new Date(),
+        images: [{...image, size: '123'}],
+        note: 'some text',
+        plantIds: [makeMongoId()],
+        userId: makeMongoId(),
+      };
+      const noteCopy = _.clone(note);
+
+      const isNew = false;
+
+      noteValidator(note, {isNew}, (err, transformed) => {
+
+        assert(err);
+        assert.equal(err.images, 'Images must be valid image objects');
+        assert.equal(Object.keys(transformed).length, 6);
+        assert.equal(transformed._id, note._id);
+        assert.equal(transformed.note, note.note);
+        assert.equal(transformed.userId, note.userId);
+        assert.deepEqual(noteCopy, note);
+        done();
+      });
+    });
+
+    it('should fail if images ext is longer than 20', (done) => {
+      const note = {
+        _id: makeMongoId(),
+        date: new Date(),
+        images: [{...image, ext: '123456789012345678901'}],
+        note: 'some text',
+        plantIds: [makeMongoId()],
+        userId: makeMongoId(),
+      };
+      const noteCopy = _.clone(note);
+
+      const isNew = false;
+
+      noteValidator(note, {isNew}, (err, transformed) => {
+
+        assert(err);
+        assert.equal(err.images, 'Images must be valid image objects');
+        assert.equal(Object.keys(transformed).length, 6);
+        assert.equal(transformed._id, note._id);
+        assert.equal(transformed.note, note.note);
+        assert.equal(transformed.userId, note.userId);
+        assert.deepEqual(noteCopy, note);
+        done();
+      });
+    });
+
+    it('should fail if images has extra props', (done) => {
+      const note = {
+        _id: makeMongoId(),
+        date: new Date(),
+        images: [{...image, extra: 'jpg'}],
+        note: 'some text',
+        plantIds: [makeMongoId()],
+        userId: makeMongoId(),
+      };
+      const noteCopy = _.clone(note);
+
+      const isNew = false;
+
+      noteValidator(note, {isNew}, (err, transformed) => {
+
+        assert(err);
+        assert.equal(err.images, 'Images must only have allowed props: id,ext,originalname,size');
+        assert.equal(Object.keys(transformed).length, 6);
+        assert.equal(transformed._id, note._id);
+        assert.equal(transformed.note, note.note);
+        assert.equal(transformed.userId, note.userId);
+        assert.deepEqual(noteCopy, note);
+        done();
+      });
+    });
+
+  });
 
 });

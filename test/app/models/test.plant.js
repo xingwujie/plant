@@ -60,7 +60,7 @@ describe('/app/models/plant', function() {
   it('should fail validation', (done) => {
     // All items in plant should be invalid
     const plant = {
-      _id: '0e55d91cb33d42', // Not a UUID
+      _id: '0e55d91cb33d42', // Not a MongoId
       botanicalName: _.repeat('Botanical Name is too long', 50),
       commonName: true, // Not a string
       description: 500, // Not a string
@@ -69,7 +69,7 @@ describe('/app/models/plant', function() {
       purchasedDate: '55/55/55', // Invalid date
       tags: ['citrus', 'north-east', 'north', 'west', 'south', 'east'], // Tags not unique
       title: {}, // Not a string
-      userId: 123, // Not a UUID
+      userId: 123, // Not a MongoId
     };
     const plantCopy = _.clone(plant);
 
