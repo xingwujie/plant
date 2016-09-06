@@ -38,7 +38,7 @@ export default class NoteRead extends React.Component {
 
   buildImageUrl(image) {
     const folder = process.env.NODE_ENV === 'production' ? 'up' : 'test';
-    return `https://i.plaaant.com/${folder}/orig/${image.id}.${image.ext}`;
+    return `//i.plaaant.com/${folder}/orig/${image.id}.${image.ext}`;
   }
 
   renderImage(image) {
