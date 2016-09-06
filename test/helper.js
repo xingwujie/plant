@@ -8,7 +8,7 @@ import proxyquire from 'proxyquire';
 import request from 'request';
 import {makeMongoId} from '../app/libs/utils';
 
-// const logger = require('../lib/logging/logger').create('test.helper');
+const logger = require('../lib/logging/logger').create('test.helper');
 
 export function getUrl(url) {
   if(_.startsWith(url, 'http')) {
@@ -206,9 +206,12 @@ export function createNote(plantIds, noteOverride = {}, cb) {
   };
 
   makeRequest(reqOptions, (error, httpMsg, response) => {
+    logger.trace('createNote', {response});
     assert(!error);
     assert.equal(httpMsg.statusCode, 200);
-    assert(response._id);
+    assert.equal(response.success, true);
+    const {note} = response;
+    assert(note._id);
 
     cb(null, response);
   });

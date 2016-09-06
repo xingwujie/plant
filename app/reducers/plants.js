@@ -135,14 +135,13 @@ function setPlantMode(state, action) {
   }));
 }
 
-// The action.payload here was bound to the action.payload
-// in the request and not the return object from the server
-// so that we could get to the plantId from the request.
+// The action.payload.note is the returned note from the
+// server.
 function createNoteSuccess(state, action) {
   const {
     _id,
     plantIds = []
-  } = action.payload;
+  } = action.payload.note;
 
   if(!plantIds.length) {
     console.error('No plantIds in createNoteSuccess:', action);

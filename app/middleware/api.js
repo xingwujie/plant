@@ -74,7 +74,7 @@ function createNoteRequest(store, action, next) {
       data: action.payload.note,
       // bind the existing payload to the success action so that we
       // can get to the plantId to close the create note form.
-      success: actions.createNoteSuccess.bind(null, action.payload.note),
+      success: actions.createNoteSuccess,
       failure: actions.createNoteFailure
     };
     ajax(store, options);

@@ -108,16 +108,18 @@ describe('note-api', function() {
         json: true,
         url: '/api/note'
       };
+      // logger.trace('options for note create', {reqOptions});
       helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-
+        // logger.trace('result of create note', {response});
+        const {note} = response;
         assert(!error);
         assert.equal(httpMsg.statusCode, 200);
         assert(response);
-        assert(response.note);
-        assert(constants.mongoIdRE.test(response._id));
+        assert(note.note);
+        assert(constants.mongoIdRE.test(note._id));
 
-        noteId = response._id;
-        logger.trace('note created:', {response});
+        noteId = note._id;
+        // logger.trace('note created', {note});
 
         done();
       });
@@ -170,12 +172,11 @@ describe('note-api', function() {
         // response should look like:
         // { ok: 1, nModified: 1, n: 1 }
         // Mongo 2.x does not return nModified which is what Travis uses so do not check this
-        logger.trace('response:', {updatedNote, reqOptions, response});
+        logger.trace('*********** response:', {updatedNote, reqOptions, response});
         assert(!error);
         assert.equal(httpMsg.statusCode, 200);
         assert(response);
-        assert.equal(response.ok, 1);
-        assert.equal(response.n, 1);
+        assert.equal(response.success, true);
 
         done();
       });
