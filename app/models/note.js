@@ -98,6 +98,18 @@ export default (attributes, {isNew}, cb) => {
     attributes = {...attributes, _id: makeMongoId()};
   }
 
+  if(_.isArray(attributes.images)) {
+    attributes = {
+      ...attributes,
+      images: attributes.images.map(image => {
+        return {
+          ...image,
+          size: parseInt(image.size, 10)
+        };
+      })
+    };
+  }
+
   // debug('attributes:', attributes);
   const cleaned = validatejs.cleanAttributes(_.clone(attributes), constraints);
   // debug('cleaned:', cleaned);

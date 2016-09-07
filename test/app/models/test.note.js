@@ -7,6 +7,8 @@ import assert from 'assert';
 const {makeMongoId} = utils;
 const noteValidator = validators.note;
 
+// const logger = require('../../../lib/logging/logger').create('test.model-note');
+
 describe('/app/models/note', function() {
 
   it('should pass minimum validation', (done) => {
@@ -368,7 +370,7 @@ describe('/app/models/note', function() {
       });
     });
 
-    it('should fail if images size is not a number', (done) => {
+    it('should convert image size if it is a string number', (done) => {
       const note = {
         _id: makeMongoId(),
         date: new Date(),
@@ -382,13 +384,12 @@ describe('/app/models/note', function() {
       const isNew = false;
 
       noteValidator(note, {isNew}, (err, transformed) => {
-
-        assert(err);
-        assert.equal(err.images, 'Images must be valid image objects');
+        assert(!err);
         assert.equal(Object.keys(transformed).length, 6);
         assert.equal(transformed._id, note._id);
         assert.equal(transformed.note, note.note);
         assert.equal(transformed.userId, note.userId);
+        assert.equal(transformed.images[0].size, 123);
         assert.deepEqual(noteCopy, note);
         done();
       });
