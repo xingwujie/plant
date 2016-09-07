@@ -47,7 +47,7 @@ export default class Home extends React.Component {
     this.unsubscribe();
   }
 
-  onChange(){
+  onChange() {
     this.updateState();
   }
 

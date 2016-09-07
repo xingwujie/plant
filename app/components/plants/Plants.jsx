@@ -10,6 +10,8 @@ import React from 'react';
 import store from '../../store';
 import {isLoggedIn} from '../../libs/auth-helper';
 import * as actions from '../../actions';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import EditIcon from 'material-ui/svg-icons/content/add';
 
 export default class Plants extends React.Component {
 
@@ -42,11 +44,17 @@ export default class Plants extends React.Component {
     this.setState(state);
   }
 
+  renderTitle(user) {
+    return (
+      <h2 style={{textAlign: 'center'}}>{`${user.name} Plant List`}</h2>
+    );
+  }
+
   renderNoPlants(user) {
     return (
       <Base>
         <div>
-          <h2 style={{textAlign: 'center'}}>{user.name} Plant List</h2>
+          {this.renderTitle(user)}
           <div className='plant-item-list'>
               <div className='addFirstClassBtn'>
                 <Link className='btn btn-primary' to='/plant'>Add your first plant</Link>
@@ -81,8 +89,17 @@ export default class Plants extends React.Component {
     return (
       <Base>
         <div>
-          <h2 style={{textAlign: 'center'}}>{user.name} Plant List ({plants.length})</h2>
+          {this.renderTitle(user)}
           {tileElements}
+          <div style={{float: 'right'}}>
+            <Link to='/plant'>
+              <FloatingActionButton
+                title='Add Plant'
+              >
+                <EditIcon />
+              </FloatingActionButton>
+            </Link>
+          </div>
         </div>
       </Base>
     );
