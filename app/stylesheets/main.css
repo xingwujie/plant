@@ -4,6 +4,10 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
+img {
+  image-orientation: from-image;
+}
+
 #hero {
   height: 100vh;
   margin-top: -20px;
