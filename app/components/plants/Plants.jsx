@@ -82,10 +82,7 @@ export default class Plants extends React.Component {
       <Base>
         <div>
           <h2 style={{textAlign: 'center'}}>{user.name} Plant List ({plants.length})</h2>
-          <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around'}}>
-            {tileElements}
-          </div>
-
+          {tileElements}
         </div>
       </Base>
     );

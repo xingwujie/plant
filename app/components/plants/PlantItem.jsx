@@ -3,7 +3,6 @@
 import {Link} from 'react-router';
 import {makeSlug} from '../../libs/utils';
 import React from 'react';
-import {GridTile} from 'material-ui/GridList';
 
 export default class PlantItem extends React.Component {
 
@@ -15,35 +14,19 @@ export default class PlantItem extends React.Component {
     const {
       title,
       _id,
-      imageUrl = '/img/apple-silhouette.jpg',
-      name // eslint-disable-line no-shadow
     } = this.props || {};
-
-    const imageStyle = {
-      height: '200px',
-      width: '200px'
-    };
-
-    const subtitle = name && (<span>by <b>{name}</b></span>);
 
     const link = `/plant/${makeSlug(title)}/${_id}`;
 
     return (
-      <Link
-        style={{margin: '20px'}}
-        to={link}
-      >
-        <GridTile
-          key={imageUrl}
-          subtitle={subtitle}
-          title={title}
+      <h4>
+        <Link
+          style={{margin: '20px'}}
+          to={link}
         >
-          <img
-            src={imageUrl}
-            style={imageStyle}
-          />
-        </GridTile>
-      </Link>
+          <span>{title}</span>
+        </Link>
+      </h4>
     );
   }
 }
