@@ -16,6 +16,7 @@
     "compression": "1.6.2",
     "cookie-parser": "1.4.3",
     "debug": "2.2.0",
+    "exif-parser": "^0.1.9",
     "express": "4.14.0",
     "forever": "0.15.2",
     "jquery": "2.2.4",

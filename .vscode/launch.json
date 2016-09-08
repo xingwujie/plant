@@ -26,6 +26,25 @@
       "sourceMaps": true,
       "outDir": null
     }, {
+      "name": "Temp",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceRoot}/test/temp.js",
+      "stopOnEntry": false,
+      "args": [],
+      "cwd": "${workspaceRoot}",
+      "preLaunchTask": null,
+      "runtimeExecutable": null,
+      "runtimeArgs": [
+        "--nolazy"
+      ],
+      "env": {
+        "NODE_ENV": "development"
+      },
+      "externalConsole": false,
+      "sourceMaps": true,
+      "outDir": null
+    }, {
       "name": "Mocha",
       "type": "node",
       "request": "launch",
