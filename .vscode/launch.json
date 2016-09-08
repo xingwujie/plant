@@ -26,10 +26,10 @@
       "sourceMaps": true,
       "outDir": null
     }, {
-      "name": "Temp",
+      "name": "TestPad",
       "type": "node",
       "request": "launch",
-      "program": "${workspaceRoot}/test/temp.js",
+      "program": "${workspaceRoot}/devops/test-pad.js",
       "stopOnEntry": false,
       "args": [],
       "cwd": "${workspaceRoot}",
