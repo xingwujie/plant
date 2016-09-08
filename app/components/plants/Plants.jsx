@@ -11,13 +11,17 @@ import store from '../../store';
 import {isLoggedIn} from '../../libs/auth-helper';
 import * as actions from '../../actions';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import EditIcon from 'material-ui/svg-icons/content/add';
+import AddIcon from 'material-ui/svg-icons/content/add';
+import NoteCreate from '../plant/NoteCreate';
 
 export default class Plants extends React.Component {
 
   constructor() {
     super();
     this.onChange = this.onChange.bind(this);
+    this.cancelCreateNote = this.cancelCreateNote.bind(this);
+    this.createNote = this.createNote.bind(this);
+    this.postSaveSuccessCreateNote = this.postSaveSuccessCreateNote.bind(this);
     this.state = store.getState();
 
     const {
@@ -44,6 +48,24 @@ export default class Plants extends React.Component {
     this.setState(state);
   }
 
+  createNote(plant) {
+    this.setState({
+      plantCreateNote: plant
+    });
+  }
+
+  postSaveSuccessCreateNote() {
+    this.setState({
+      plantCreateNote: null
+    });
+  }
+
+  cancelCreateNote() {
+    this.setState({
+      plantCreateNote: null
+    });
+  }
+
   renderTitle(user) {
     return (
       <h2 style={{textAlign: 'center'}}>{`${user.name} Plant List`}</h2>
@@ -68,8 +90,29 @@ export default class Plants extends React.Component {
   render() {
     var {
       user = {},
-      plants = []
+      plants = [],
+      plantCreateNote
     } = this.state || {};
+
+    if(plantCreateNote) {
+      console.log('plantCreateNote:', plantCreateNote);
+      return (
+        <Base>
+          <div>
+            <h1 style={{textAlign: 'center'}}>{`Create a Note for ${plantCreateNote.title}`}</h1>
+            <NoteCreate
+              cancel={this.cancelCreateNote}
+              createNote={true}
+              dispatch={store.dispatch}
+              isOwner={true}
+              plant={plantCreateNote}
+              postSaveSuccess={this.postSaveSuccessCreateNote}
+              user={user}
+            />
+          </div>
+        </Base>
+      );
+    }
 
     if(!plants.length) {
       return this.renderNoPlants(user);
@@ -82,7 +125,9 @@ export default class Plants extends React.Component {
     // name={user.name}
     const tileElements = plants.map(plant => <PlantItem
         key={plant._id}
-        {...plant}
+        createNote={this.createNote}
+        isOwner={!!user.isLoggedIn && plant.userId === user._id}
+        plant={plant}
       />
     );
 
@@ -96,7 +141,7 @@ export default class Plants extends React.Component {
               <FloatingActionButton
                 title='Add Plant'
               >
-                <EditIcon />
+                <AddIcon />
               </FloatingActionButton>
             </Link>
           </div>

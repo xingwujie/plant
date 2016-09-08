@@ -34,12 +34,15 @@ export default class NoteCreate extends React.Component {
         plantIds: [],
         errors: {}
       },
-      createNote: false
+      createNote: !!this.props.createNote
     });
   }
 
   cancel() {
     this.initState();
+    if(this.props.cancel) {
+      this.props.cancel();
+    }
   }
 
   saveNote(files) {
@@ -63,6 +66,9 @@ export default class NoteCreate extends React.Component {
       } else {
         this.initState();
         this.props.dispatch(actions.createNoteRequest({note, files}));
+        if(this.props.postSaveSuccess) {
+          this.props.postSaveSuccess();
+        }
       }
     });
   }
@@ -123,8 +129,11 @@ export default class NoteCreate extends React.Component {
 }
 
 NoteCreate.propTypes = {
+  cancel: React.PropTypes.func,
+  createNote: React.PropTypes.bool,
   dispatch: React.PropTypes.func.isRequired,
   isOwner: React.PropTypes.bool.isRequired,
   plant: React.PropTypes.object.isRequired,
+  postSaveSuccess: React.PropTypes.func,
   user: React.PropTypes.object.isRequired,
 };
