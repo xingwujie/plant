@@ -11,6 +11,7 @@ process.env.PLANT_FB_SECRET = '<fake-fb-secret>';
 process.env.PLANT_GOOGLE_ID = '<fake-google-id>';
 process.env.PLANT_GOOGLE_SECRET = '<fake-google-secret>';
 process.env.PLANT_TOKEN_SECRET = '<fake-token-secret>';
+process.env.PLANT_IMAGE_COMPLETE = 'fake-image-token';
 
 // from mocha-jsdom https://github.com/rstacruz/mocha-jsdom/blob/master/index.js#L80
 function propagateToGlobal (win) {

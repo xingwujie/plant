@@ -267,4 +267,35 @@ describe('note-api', function() {
     });
   });
 
+  describe('note-api /api/image-complete', () => {
+
+    it('should confirm a complete image', (done) => {
+      const body = {
+        metadata: {
+          userid: '12345',
+          originalname: '987.jpg',
+          noteid: '555'
+        },
+        sizes: [{width: 1500, name: 'lg'}]
+      };
+      const reqOptions = {
+        method: 'PUT',
+        authenticate: false,
+        body,
+        json: true,
+        url: '/api/image-complete?token=fake-image-token'
+      };
+
+      helper.makeRequest(reqOptions, (error, httpMsg, response) => {
+        console.log('response:', response);
+        const {success} = response;
+        assert(!error);
+        assert.equal(httpMsg.statusCode, 200);
+        assert.equal(success, true);
+
+        done();
+      });
+    });
+  });
+
 });
