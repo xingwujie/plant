@@ -36,9 +36,26 @@ export default class NoteRead extends React.Component {
     );
   }
 
-  buildImageUrl(image) {
+  buildImageUrl(size, id, ext) {
     const folder = process.env.NODE_ENV === 'production' ? 'up' : 'test';
-    return `//i.plaaant.com/${folder}/orig/${image.id}.${image.ext}`;
+    return `//i.plaaant.com/${folder}/${size}/${id}${ext && ext.length ? '.' : ''}${ext}`;
+  }
+
+  buildImageSrc(image) {
+    const size = image.sizes && image.sizes.length
+      ? image.sizes[image.sizes.length - 1].name
+      : 'orig';
+    return this.buildImageUrl(size, image.id, image.ext);
+  }
+
+  buildImageSrcSet(image) {
+    if(image.sizes && image.sizes.length) {
+      // <img src="small.jpg" srcset="medium.jpg 1000w, large.jpg 2000w" alt="yah">
+      const items = image.sizes.map(size => `${this.buildImageUrl(size.name, image.id, image.ext)} ${size.width}w `);
+      return items.join(',');
+    } else {
+      return '';
+    }
   }
 
   renderImage(image) {
@@ -46,10 +63,9 @@ export default class NoteRead extends React.Component {
       maxWidth: '100%',
       padding: '1%'
     };
-
     return (
       <div key={image.id}>
-        <img style={imageStyle} src={this.buildImageUrl(image)} />
+        <img style={imageStyle} src={this.buildImageSrc(image)} srcSet={this.buildImageSrcSet(image)} />
       </div>
     );
   }
