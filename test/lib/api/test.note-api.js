@@ -1,6 +1,9 @@
 import * as helper from '../../helper';
+import * as utils from '../../../app/libs/utils';
 import assert from 'assert';
+import async from 'async';
 import constants from '../../../app/libs/constants';
+import mongo from '../../../lib/db/mongo';
 
 const logger = require('../../../lib/logging/logger').create('test.note-api');
 
@@ -270,31 +273,87 @@ describe('note-api', function() {
   describe('note-api /api/image-complete', () => {
 
     it('should confirm a complete image', (done) => {
-      const body = {
-        metadata: {
-          userid: '12345',
-          originalname: '987.jpg',
-          noteid: '555'
-        },
-        sizes: [{width: 1500, name: 'lg'}]
+      const note = {
+        userId: utils.makeMongoId(),
+        images: [{
+          id: utils.makeMongoId(),
+          ext: 'jpg',
+          originalname: 'flower',
+          size: 999
+        }, {
+          id: utils.makeMongoId(),
+          ext: 'jpg',
+          originalname: 'leaf',
+          size: 666
+        }]
       };
-      const reqOptions = {
-        method: 'PUT',
-        authenticate: false,
-        body,
-        json: true,
-        url: '/api/image-complete?token=fake-image-token'
-      };
+      const sizes = [
+        {width:100, name:'thumb'},
+        {width:500, name:'sm'},
+        {width:1000, name:'md'},
+        {width:1500, name:'lg'},
+        {width:2000, name:'xl'}
+      ];
 
-      helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-        console.log('response:', response);
-        const {success} = response;
-        assert(!error);
-        assert.equal(httpMsg.statusCode, 200);
-        assert.equal(success, true);
+      function createNote(data, cb) {
+        mongo.createNote(note, (err, body) => {
+          assert(!err);
+          assert(body);
+          // logger.trace('body', {body});
+          data.createdNote = body;
+          cb(err, data);
+        });
+      }
 
+      function makePutRequest(data, cb) {
+        const putData = {
+          metadata: {
+            noteid: data.createdNote._id,
+            id: note.images[0].id,
+            userid: note.userId
+          },
+          sizes
+        };
+
+        const reqOptions = {
+          method: 'PUT',
+          authenticate: false,
+          body: putData,
+          json: true,
+          url: '/api/image-complete?token=fake-image-token'
+        };
+
+        helper.makeRequest(reqOptions, (error, httpMsg, response) => {
+          console.log('response:', response);
+          const {success} = response;
+          assert(!error);
+          assert.equal(httpMsg.statusCode, 200);
+          assert.equal(success, true);
+
+          cb(null, data);
+        });
+      }
+
+      function getNote(data, cb) {
+        mongo.getNoteById(data.createdNote._id, (err, fetchedNote) => {
+          assert(!err);
+          assert.deepEqual(fetchedNote.images[0].sizes, sizes);
+          assert(!fetchedNote.images[1].sizes);
+          cb(err, data);
+        });
+      }
+
+      async.waterfall([
+        createNote.bind(null, {}),
+        makePutRequest,
+        getNote
+      ], (err, data) => {
+        assert(!err);
+        assert(data);
         done();
       });
+
+
     });
   });
 
