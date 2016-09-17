@@ -66,23 +66,8 @@ function deleteNoteRequest(state, action) {
 // action.payload is a plant object
 function loadPlantSuccess(state, action) {
   const {payload: plant} = action;
-  // TODO: Move this logic into a transformPlants() helper so it can be
-  // used by other methods
-  if(plant.notes && plant.notes.length) {
-    plant.notes = plant.notes.map(n => {
-      return {
-        ...n,
-        date: moment(new Date(n.date))
-      };
-    });
-    plant.notes = plant.notes.sort((a, b) => {
-      if(a.date.isSame(b.date)) {
-        return 0;
-      }
-      return a.date.isAfter(b.date) ? 1 : -1;
-    });
-    plant.notes = plant.notes.map(n => n._id);
-  }
+
+  plant.notes = (plant.notes || []).map(n => n._id);
   plant.plantedDate = plant.plantedDate && moment(new Date(plant.plantedDate));
   plant.purchasedDate = plant.purchasedDate && moment(new Date(plant.purchasedDate));
 
@@ -169,7 +154,7 @@ const reducers = {
   [actions.UPDATE_PLANT_REQUEST]: updatePlantRequest,
 };
 
-export default (state = {}, action) => {
+module.exports = (state = {}, action) => {
   if(reducers[action.type]) {
     return reducers[action.type](state, action);
   }
