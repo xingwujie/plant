@@ -104,7 +104,8 @@ function getMetadata(data, cb) {
 // data is an array with {Key, Metadata}
 function resaveImage(data, cb) {
   logger.trace('resaveImage() start', {data});
-  async.map(data, (item, done) => {
+  // Slow this part down by running in series
+  async.mapSeries(data, (item, done) => {
     const {Key, Metadata} = item;
     const getParams = {Key, Bucket};
     s3.getObject(getParams, (getObjectErr, getObjectResult) => {
@@ -118,7 +119,11 @@ function resaveImage(data, cb) {
         Metadata
       };
       logger.trace('About to put object', {putParams});
-      s3.putObject(putParams, done);
+      s3.putObject(putParams, (err, result) => {
+        logger.trace('PUT complete, wait for 1 second...', {Key});
+        // Pause at this point to let server keep up with Lambda requests
+        setTimeout(() => { done(err, result); }, 1000);
+      });
     });
   }, (asyncMapError, results) => {
     if(asyncMapError) {
