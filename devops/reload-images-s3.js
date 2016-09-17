@@ -1,18 +1,24 @@
 // Utility to reload images on S3 so that the Lambda Function picks them
 // up and processes them again.
 
+require('babel-core/register');
+
+const Logger = require('../lib/logging/logger');
+Logger.setLevel('trace');
+const logger = Logger.create('plant:reload-images');
+
 const _ = require('lodash');
 const async = require('async');
 const AWS = require('aws-sdk');
 const s3 = new AWS.S3();
 const constants = require('../app/libs/constants');
 const mongo = require('../lib/db/mongo');
-const logger = require('../lib/logging/logger').create('reload-images');
 
 const Bucket = 'i.plaaant.com';
-const Prefix = 'test/orig';
+const Prefix = 'up/orig';
 
 function getListOfKeys(cb) {
+  logger.trace('getListOfKeys() start');
   const params = {Bucket, Prefix};
   s3.listObjectsV2(params, (listObjectsErr, objects) => {
     if(listObjectsErr) {
@@ -33,11 +39,14 @@ function getListOfKeys(cb) {
     CommonPrefixes: [],
     KeyCount: 4 }
   */
-    cb(listObjectsErr, objects.Contents.map(content => content.Key));
+    const keys = objects.Contents.map(content => content.Key);
+    logger.trace('Number of keys', {keyCount: keys.length});
+    cb(listObjectsErr, keys);
   });
 }
 
 function getImageIds(keys, cb) {
+  logger.trace('getImageIds() start');
   const filenames = keys.map(key => {
     const parts = key.split('/');
     return {
@@ -58,6 +67,7 @@ function getImageIds(keys, cb) {
 // data is an array. Each object in array:
 //   key, imageId
 function getMetadata(data, cb) {
+  logger.trace('getMetadata() start');
   async.map(data, (item, done) => {
     mongo.getNoteByImageId(item.imageId, (getNoteByImageIdErr, note) => {
       if(getNoteByImageIdErr) {
@@ -73,7 +83,7 @@ function getMetadata(data, cb) {
         logger.error('Image not found in note', {imageId: item.imageId, 'note.images': note.images});
         return done('No image');
       }
-      return cb(null, {
+      return done(null, {
         Key: item.key,
         Metadata: {
           userid: note.userId,
@@ -84,13 +94,16 @@ function getMetadata(data, cb) {
       });
     });
   }, (asyncMapError, results) => {
-    data.dbMeta = results;
-    cb(asyncMapError, data);
+    if(asyncMapError) {
+      logger.error('asyncMapError in getMetadata', {asyncMapError});
+    }
+    cb(asyncMapError, results);
   });
 }
 
 // data is an array with {Key, Metadata}
 function resaveImage(data, cb) {
+  logger.trace('resaveImage() start', {data});
   async.map(data, (item, done) => {
     const {Key, Metadata} = item;
     const getParams = {Key, Bucket};
@@ -99,7 +112,7 @@ function resaveImage(data, cb) {
         return done(getObjectErr);
       }
       const putParams = {
-        Key,
+        Key: Key.replace('up', 'test'),
         Body: getObjectResult.Body,
         Bucket,
         Metadata
@@ -109,14 +122,16 @@ function resaveImage(data, cb) {
     });
   }, (asyncMapError, results) => {
     if(asyncMapError) {
-      logger.error('resaveImage asyn.map', {asyncMapError});
+      logger.error('resaveImage async.map', {asyncMapError});
     }
     return cb(asyncMapError, results);
   });
 }
 
+logger.trace('Start process...');
+
 async.waterfall([
-  getListOfKeys.bind(null, {}),
+  getListOfKeys,
   getImageIds,
   getMetadata,
   resaveImage

@@ -41,7 +41,7 @@
       "env": {
         "NODE_ENV": "development"
       },
-      "externalConsole": false,
+      "console": "internalConsole",
       "sourceMaps": true,
       "outDir": null
     }, {
@@ -74,7 +74,7 @@
         "PLANT_GOOGLE_ID": "google-app-id",
         "PLANT_GOOGLE_SECRET": "google-app-secret"
       },
-      "externalConsole": false,
+      "console": "internalConsole",
       "sourceMaps": true,
       "outDir": null
     }, {
@@ -102,7 +102,28 @@
         "PLANT_GOOGLE_ID": "google-app-id",
         "PLANT_GOOGLE_SECRET": "google-app-secret"
       },
-      "externalConsole": false,
+      "console": "integratedTerminal",
+      "sourceMaps": true,
+      "outDir": null
+    }, {
+      "name": "Reload Images",
+      "type": "node",
+      "request": "launch",
+      "program": "${workspaceRoot}/devops/reload-images-s3.js",
+      "stopOnEntry": false,
+      "args": [],
+      "cwd": "${workspaceRoot}",
+      "preLaunchTask": null,
+      "runtimeExecutable": null,
+      "runtimeArgs": [
+        "--nolazy"
+      ],
+      "env": {
+        "NODE_ENV": "development",
+        "PLANT_DB_URL": "127.0.0.1:27017",
+        "PLANT_DB_NAME": "plant-test"
+      },
+      "console": "internalConsole",
       "sourceMaps": true,
       "outDir": null
     }
