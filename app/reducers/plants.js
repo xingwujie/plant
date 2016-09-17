@@ -3,78 +3,68 @@
 // If a user is logged in then some of the items in the array
 // might be plants belonging to the user.
 
-import moment from 'moment';
-import * as actions from '../actions';
+const _ = require('lodash');
+const moment = require('moment');
+const actions = require('../actions');
+
+/**
+ * This is a helper function for when the action.payload holds a new plant
+ * that needs to replace an existing plant in the state object.
+ * @param {object} state - existing object of plants. Each key is a mongoId
+ * @param {object} action - has type and payload
+ * @returns {object} - new state
+ */
+function replaceInPlace(state, action) {
+  return Object.freeze({
+    ...state,
+    [action.payload._id]: action.payload
+  });
+}
 
 // User clicks save after creating a new plant
 function createPlantRequest(state, action) {
   // payload is an object of new plant being POSTed to server
   // an id has already been assigned to this object
-  return Object.freeze([...state, action.payload]);
+  return replaceInPlace(state, action);
 }
 
-// User clicks save after creating a new plant
 function ajaxPlantFailure(state, action) {
-  const keepers = state.filter(plant => plant._id !== action.payload._id);
-  return Object.freeze([...keepers, action.payload]);
+  return replaceInPlace(state, action);
 }
 
-// User clicks save after update a plant
 function updatePlantRequest(state, action) {
   // payload is an object of plant being PUT to server
-  const keepers = state.filter(plant => plant._id !== action.payload._id);
-  return Object.freeze([...keepers, action.payload]);
-}
-
-/**
- * This reducer called when the user updates a note.
- * It must replace the plant's note with the updated one
- * Multiple plants might have this note in their notes array.
- * @param {array} state - the plant objects loaded
- * @param {object} action - the action.payload is the object holding the updated note
- * @returns {array} state - the updated state
- */
-function updateNoteRequest(state /*, action */) {
-  // const plants = state.map(plant => {
-  //   if((plant.notes || []).find)
-  // });
-  // const split = state.reduce((acc, plant) => {
-  //   plant._id !== action.payload._id
-  // });
-  // return Object.freeze([...keepers, action.payload]);
-  // TODO: Finish this reducer
-  return state;
+  return replaceInPlace(state, action);
 }
 
 // action.payload: <plant-id>
 function deletePlant(state, action) {
   // payload is {id} of plant being DELETEd from server
-  return Object.freeze(state.filter(plant => plant._id !== action.payload));
+  const newState = {...state};
+  delete newState[action.payload];
+  return Object.freeze(newState);
 }
 
-// action.payload: <plant-id>
+// action.payload: <noteId>
+// payload is {id} of note being DELETEd from server
 function deleteNoteRequest(state, action) {
-  // payload is {id} of note being DELETEd from server
-  return Object.freeze(state.map(plant => {
+  const newState = Object.keys(state).reduce((acc, plantId) => {
+    const plant = state[plantId];
     if((plant.notes || []).indexOf(action.payload) >= 0) {
-      const x = Object.freeze({
+      acc[plantId] = Object.freeze({
         ...plant,
         notes: plant.notes.filter(noteId => noteId !== action.payload)
       });
-      return x;
     } else {
-      return plant;
+      acc[plantId] = plant;
     }
-  }));
-}
-
-function loadPlantRequest(state /*, action*/) {
-  return state;
+    return acc;
+  }, {});
+  return Object.freeze(newState);
 }
 
 // action.payload is a plant object
 function loadPlantSuccess(state, action) {
-  const keepers = state.filter(p => p._id !== action.payload._id);
   const {payload: plant} = action;
   // TODO: Move this logic into a transformPlants() helper so it can be
   // used by other methods
@@ -95,44 +85,44 @@ function loadPlantSuccess(state, action) {
   }
   plant.plantedDate = plant.plantedDate && moment(new Date(plant.plantedDate));
   plant.purchasedDate = plant.purchasedDate && moment(new Date(plant.purchasedDate));
-  // BUG: Plant order in UI is lost as a result of operation below.
-  return Object.freeze([...keepers, plant]);
+
+  return replaceInPlace(state, {action: {payload: plant}});
 }
 
 function loadPlantFailure(state, action) {
-  const keepers = state.filter(plant => plant._id !== action.payload._id);
-  return Object.freeze([...keepers, action.payload]);
+  return replaceInPlace(state, Object.freeze(action.payload));
 }
 
-function loadPlantsRequest(state /*, action*/) {
-  // Placeholder. Can put a flag in the state in future indicating that a load is in progress
-  return state;
+/**
+ * Takes an array of objects that have an _id property and changes
+ * it into an object with the _id as the key for each item in the object
+ * @param {array} array - An array to convert
+ * @returns {object} - the array expressed as an object.
+ */
+function arrayToObject(array) {
+  return (array || []).reduce((acc, item) => {
+    if(item) {
+      acc[item._id] = item;
+    }
+    return acc;
+  }, {});
 }
 
 function loadPlantsSuccess(state, action) {
   if(action.payload && action.payload.length > 0) {
-    const ids = action.payload.map(plant => plant._id);
-    const keepers = state.filter(plant => ids.indexOf(plant._id >= 0));
-    return Object.freeze([...keepers, ...action.payload]);
+    const plants = arrayToObject(action.payload);
+    return Object.freeze(Object.assign({}, state, plants));
+  } else {
+    return state;
   }
-  return state;
-}
-
-function loadPlantsFailure(state, action) {
-  console.warn('loadPlantsFailure:', action);
-  return state;
 }
 
 // action.payload:
 // {_id <plant-id>, mode: 'create/update/read'}
 function setPlantMode(state, action) {
-  return Object.freeze(state.map( plant => {
-    if (plant._id === action.payload._id) {
-      return {...plant, mode: action.payload.mode};
-    } else {
-      return plant;
-    }
-  }));
+  const plant = _.cloneDeep(state[action.payload._id]);
+  plant.mode = action.payload.mode;
+  return replaceInPlace(state, plant);
 }
 
 // The action.payload.note is the returned note from the
@@ -147,20 +137,20 @@ function createNoteSuccess(state, action) {
     console.error('No plantIds in createNoteSuccess:', action);
   }
 
-  return Object.freeze(state.map( plant => {
-    if(plantIds.indexOf(plant._id) >= 0) {
-
-      const notes = Object.freeze([...(plant.notes || [])].concat(_id));
-
+  const plants = plantIds.map(plantId => {
+    const plant = state[plantId];
+    if(plant) {
       return Object.freeze({
         ...plant,
-        createNote: false,
-        notes
+        createNote: false, // Is this still needed? Search on createNote
+        notes: (plant.notes || []).concat(_id)
       });
     } else {
-      return plant;
+      return undefined;
     }
-  }));
+  });
+
+  return Object.freeze(Object.assign({}, state, arrayToObject(plants)));
 }
 
 const reducers = {
@@ -172,18 +162,14 @@ const reducers = {
   [actions.DELETE_PLANT_REQUEST]: deletePlant,
   [actions.DELETE_NOTE_REQUEST]: deleteNoteRequest,
   [actions.LOAD_PLANT_FAILURE]: loadPlantFailure,
-  [actions.LOAD_PLANT_REQUEST]: loadPlantRequest,
   [actions.LOAD_PLANT_SUCCESS]: loadPlantSuccess,
-  [actions.LOAD_PLANTS_FAILURE]: loadPlantsFailure,
-  [actions.LOAD_PLANTS_REQUEST]: loadPlantsRequest,
   [actions.LOAD_PLANTS_SUCCESS]: loadPlantsSuccess,
   [actions.SET_PLANT_MODE]: setPlantMode,
   [actions.UPDATE_PLANT_FAILURE]: ajaxPlantFailure,
   [actions.UPDATE_PLANT_REQUEST]: updatePlantRequest,
-  [actions.UPDATE_NOTE_REQUEST]: updateNoteRequest,
 };
 
-export default (state = [], action) => {
+export default (state = {}, action) => {
   if(reducers[action.type]) {
     return reducers[action.type](state, action);
   }

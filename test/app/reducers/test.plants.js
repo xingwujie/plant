@@ -5,15 +5,17 @@ import assert from 'assert';
 describe('/app/reducers/plants', function() {
 
   it('should reduce a create plant request', (done) => {
-    const current = [{
-      _id: '1',
-      name: 'one'
-    }];
+    const current = {
+      '1': {
+        _id: '1',
+        name: 'one'
+      }
+    };
     const payload = {
       _id: '2',
       name: 'two'
     };
-    const expected = [...current, payload];
+    const expected = Object.assign({}, current, {'2': payload});
     const actual = plants(current, actions.createPlantRequest(payload));
 
     // Check
