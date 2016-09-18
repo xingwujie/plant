@@ -67,7 +67,6 @@ function deleteNoteRequest(state, action) {
 function loadPlantSuccess(state, action) {
   const {payload: plant} = action;
 
-  plant.notes = (plant.notes || []).map(n => n._id);
   if(plant.plantedDate) {
     plant.plantedDate = moment(new Date(plant.plantedDate));
   }
@@ -91,7 +90,6 @@ function loadPlantFailure(state, action) {
 function plantArrayToObject(plants) {
   return (plants || []).reduce((acc, plant) => {
     if(plant) {
-      plant.notes = (plant.notes || []).map(n => n._id);
       acc[plant._id] = plant;
     }
     return acc;
@@ -130,11 +128,10 @@ function createNoteSuccess(state, action) {
   const plants = plantIds.map(plantId => {
     const plant = state[plantId];
     if(plant) {
-      return Object.freeze({
+      return {
         ...plant,
-        createNote: false, // Is this still needed? Search on createNote
-        notes: (plant.notes || []).concat(_id)
-      });
+        notes: _.uniq((plant.notes || []).concat(_id))
+      };
     } else {
       return undefined;
     }

@@ -117,7 +117,7 @@ describe('/app/reducers/plants', function() {
     const payload = {
       _id: '3',
       name: 'three',
-      notes: [{_id: 'n1', junk: 'x'}, {_id: 'n2', morejunk: 'xx'}]
+      notes: ['n1', 'n2']
     };
     const expected = Object.assign({}, _.cloneDeep(current), {'3': _.cloneDeep(payload)});
     expected['3'].notes = ['n1', 'n2'];
@@ -143,13 +143,41 @@ describe('/app/reducers/plants', function() {
     const payload = [{
       _id: '3',
       name: 'three',
-      notes: [{_id: 'n1', junk: 'x'}, {_id: 'n2', morejunk: 'xx'}]
+      notes: ['n1', 'n2']
     }];
     const expected = Object.assign({}, _.cloneDeep(current), {'3': _.cloneDeep(payload[0])});
     expected['3'].notes = ['n1', 'n2'];
 
 
     const actual = plants(current, actions.loadPlantsSuccess(payload));
+    assert.deepEqual(actual, expected);
+  });
+
+  it('should handle a create a note success', () => {
+    const current = {
+      'p1': {
+        _id: 'p1',
+        name: 'one',
+        notes: ['n1', 'n2', 'n3']
+      },
+      'p2': {
+        _id: 'p2',
+        name: 'xxx',
+        notes: ['n1', 'n2']
+      }
+    };
+    const payload = {
+      note: {
+        _id: 'n5',
+        plantIds: ['p1', 'p2']
+      }
+    };
+    const expected = _.cloneDeep(current);
+    expected.p1.notes = ['n1', 'n2', 'n3', 'n5'];
+    expected.p2.notes = ['n1', 'n2', 'n5'];
+
+
+    const actual = plants(current, actions.createNoteSuccess(payload));
     assert.deepEqual(actual, expected);
   });
 
