@@ -68,26 +68,31 @@ function loadPlantSuccess(state, action) {
   const {payload: plant} = action;
 
   plant.notes = (plant.notes || []).map(n => n._id);
-  plant.plantedDate = plant.plantedDate && moment(new Date(plant.plantedDate));
-  plant.purchasedDate = plant.purchasedDate && moment(new Date(plant.purchasedDate));
+  if(plant.plantedDate) {
+    plant.plantedDate = moment(new Date(plant.plantedDate));
+  }
+  if(plant.purchasedDate) {
+    plant.purchasedDate = moment(new Date(plant.purchasedDate));
+  }
 
-  return replaceInPlace(state, {action: {payload: plant}});
+  return replaceInPlace(state, {payload: plant});
 }
 
 function loadPlantFailure(state, action) {
-  return replaceInPlace(state, Object.freeze(action.payload));
+  return replaceInPlace(state, Object.freeze(action));
 }
 
 /**
  * Takes an array of objects that have an _id property and changes
  * it into an object with the _id as the key for each item in the object
- * @param {array} array - An array to convert
+ * @param {array} plants - An array to convert
  * @returns {object} - the array expressed as an object.
  */
-function arrayToObject(array) {
-  return (array || []).reduce((acc, item) => {
-    if(item) {
-      acc[item._id] = item;
+function plantArrayToObject(plants) {
+  return (plants || []).reduce((acc, plant) => {
+    if(plant) {
+      plant.notes = (plant.notes || []).map(n => n._id);
+      acc[plant._id] = plant;
     }
     return acc;
   }, {});
@@ -95,7 +100,7 @@ function arrayToObject(array) {
 
 function loadPlantsSuccess(state, action) {
   if(action.payload && action.payload.length > 0) {
-    const plants = arrayToObject(action.payload);
+    const plants = plantArrayToObject(action.payload);
     return Object.freeze(Object.assign({}, state, plants));
   } else {
     return state;
@@ -135,7 +140,7 @@ function createNoteSuccess(state, action) {
     }
   });
 
-  return Object.freeze(Object.assign({}, state, arrayToObject(plants)));
+  return Object.freeze(Object.assign({}, state, plantArrayToObject(plants)));
 }
 
 const reducers = {
