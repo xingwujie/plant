@@ -108,6 +108,9 @@ function loadPlantsSuccess(state, action) {
 // action.payload:
 // {_id <plant-id>, mode: 'create/update/read'}
 function setPlantMode(state, action) {
+  if(!action.payload._id) {
+    return state;
+  }
   const plant = _.cloneDeep(state[action.payload._id]);
   plant.mode = action.payload.mode;
   return replaceInPlace(state, {payload: plant});

@@ -8,6 +8,7 @@ import {isOwner} from '../../libs/auth-helper';
 import {makeMongoId} from '../../libs/utils';
 import * as actions from '../../actions';
 import Base from '../Base';
+import CircularProgress from 'material-ui/CircularProgress';
 import PlantCreateUpdate from './PlantCreateUpdate';
 import PlantRead from './PlantRead';
 import NoteCreate from './NoteCreate';
@@ -44,7 +45,6 @@ export default class Plant extends React.Component {
       plant = plants[_id];
       if(!plant && first) {
         store.dispatch(actions.loadPlant({_id}));
-        plant = {};
       }
     } else {
       plant = {
@@ -98,8 +98,16 @@ export default class Plant extends React.Component {
   render() {
     const {
       isOwner: owner = false,
-      plant = {}
+      plant
     } = this.state || {};
+
+    if(!plant) {
+      return (
+        <Base>
+          <CircularProgress />
+        </Base>
+      );
+    }
 
     const {user, notes} = store.getState();
 
