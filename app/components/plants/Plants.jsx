@@ -119,6 +119,8 @@ export default class Plants extends React.Component {
       return this.renderNoPlants(user);
     }
 
+    const loggedIn = isLoggedIn();
+
     // Don't send the name into PlantItem to skip the subtitle
     // If all the plants are by the same user then don't need the
     // users name. If the plants are from a search result then send
@@ -127,7 +129,7 @@ export default class Plants extends React.Component {
     const tileElements = _.map(plants, plant => <PlantItem
         key={plant._id}
         createNote={this.createNote}
-        isOwner={!!user.isLoggedIn && plant.userId === user._id}
+        isOwner={loggedIn && plant.userId === user._id}
         plant={plant}
       />
     );
@@ -137,15 +139,17 @@ export default class Plants extends React.Component {
         <div>
           {this.renderTitle(user)}
           {tileElements}
-          <div style={{float: 'right'}}>
-            <Link to='/plant'>
-              <FloatingActionButton
-                title='Add Plant'
-              >
-                <AddIcon />
-              </FloatingActionButton>
-            </Link>
-          </div>
+          {loggedIn &&
+            <div style={{float: 'right'}}>
+              <Link to='/plant'>
+                <FloatingActionButton
+                  title='Add Plant'
+                >
+                  <AddIcon />
+                </FloatingActionButton>
+              </Link>
+            </div>
+          }
         </div>
       </Base>
     );
