@@ -158,13 +158,10 @@ function load(store, action) {
 // Get all the notes listed
 // action.payload is an array of noteIds
 function loadNotesRequest(store, action) {
-  console.log('loadNotesRequest:', action.payload);
-  // return;
-
   if(!action.payload || !action.payload.length) {
     console.error('No notes on payload, action:', action);
-    return;
   }
+
   const options = {
     data: {noteIds: action.payload},
     failure: actions.loadNotesFailure,
@@ -172,6 +169,7 @@ function loadNotesRequest(store, action) {
     type: 'POST', // Because we don't know how big the payload will be
     url: '/api/notes',
   };
+
   ajax(store, options);
 }
 

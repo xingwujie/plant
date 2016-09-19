@@ -185,8 +185,8 @@ describe('plant-api-delete', function() {
             logger.trace('plant.notes:', {'plant.notes': plant.notes});
             const noteIds = [notes[1]._id, notes[2]._id];
             logger.trace('noteIds', {noteIds});
-            assert(noteIds.indexOf(plant.notes[0]._id) >= 0);
-            assert(noteIds.indexOf(plant.notes[1]._id) >= 0);
+            assert(noteIds.indexOf(plant.notes[0]) >= 0);
+            assert(noteIds.indexOf(plant.notes[1]) >= 0);
 
             logger.trace('** #9');
             cb(error, plants, notes);

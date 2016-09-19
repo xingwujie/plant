@@ -128,7 +128,7 @@ describe('note-api', function() {
       });
     });
 
-    it('should retrieve the just created note as part of the plant', (done) => {
+    it('should retrieve the just created noteId plant', (done) => {
       const reqOptions = {
         method: 'GET',
         authenticate: false,
@@ -149,7 +149,7 @@ describe('note-api', function() {
         assert.equal(response.title, initialPlant.title);
         assert(response.notes);
         assert.equal(response.notes.length, 1);
-        assert.equal(response.notes[0]._id, noteId);
+        assert(constants.mongoIdRE.test(response.notes[0]));
 
         done();
       });
@@ -185,7 +185,7 @@ describe('note-api', function() {
       });
     });
 
-    it('should retrieve the just updated note as part of a plant request', (done) => {
+    it('should retrieve the just updated noteId as part of a plant request', (done) => {
       const reqOptions = {
         method: 'GET',
         authenticate: false,
@@ -207,8 +207,8 @@ describe('note-api', function() {
         // Check notes
         assert(response.notes);
         assert.equal(response.notes.length, 1);
-        assert.equal(response.notes[0]._id, noteId);
-        assert.equal(response.notes[0].note, updatedNote.note);
+        assert.equal(response.notes[0], noteId);
+        assert(constants.mongoIdRE.test(response.notes[0]));
 
         done();
       });
