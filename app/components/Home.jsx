@@ -1,3 +1,4 @@
+const _ = require('lodash');
 import {Link} from 'react-router';
 import Base from './Base';
 import React from 'react';
@@ -18,9 +19,9 @@ export default class Home extends React.Component {
 
     const {
       user = {},
-      plants = []
+      plants = {}
     } = this.state || {};
-    if(plants.length === 0 && isLoggedIn()) {
+    if(_.isEmpty(plants) && isLoggedIn()) {
       store.dispatch(actions.loadPlants(user._id));
     }
   }
@@ -28,11 +29,15 @@ export default class Home extends React.Component {
   updateState() {
     const {
       user = {},
-      plants = []
+      plants = {}
     } = store.getState();
-    const userPlants = plants.filter((plant) => {
-      return plant.userId === user._id;
-    });
+    const userPlants = Object.keys(plants).reduce((acc, plantId) => {
+      const plant = plants[plantId];
+      if(plant.userId === user._id) {
+        acc[plantId] = plant;
+      }
+      return acc;
+    }, {});
     this.setState({user, userPlants});
   }
 
@@ -62,7 +67,7 @@ export default class Home extends React.Component {
       return null;
     }
 
-    if(!plants || plants.length === 0) {
+    if(_.isEmpty(plants)) {
 
       return (
         <div id='hero'>
@@ -76,10 +81,11 @@ export default class Home extends React.Component {
     );
 
     } else {
+      const numPlants = Object.keys(plants).length;
       return (
         <div id='hero'>
           <div className='home-header'>
-            {`You have ${plants.length} plant${plants.length > 1 ? 's' : ''} in your collection. `}
+            {`You have ${numPlants} plant${numPlants > 1 ? 's' : ''} in your collection. `}
           </div>
           <div className='home-subheader'>
             <Link to={utils.makePlantsUrl(user)}>{'Go to plant collection...'}</Link>

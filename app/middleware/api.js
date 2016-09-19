@@ -72,8 +72,6 @@ function createNoteRequest(store, action, next) {
       type: 'POST',
       url: '/api/note',
       data: action.payload.note,
-      // bind the existing payload to the success action so that we
-      // can get to the plantId to close the create note form.
       success: actions.createNoteSuccess,
       failure: actions.createNoteFailure
     };
@@ -157,6 +155,26 @@ function load(store, action) {
   ajax(store, options);
 }
 
+// Get all the notes listed
+// action.payload is an array of noteIds
+function loadNotesRequest(store, action) {
+  console.log('loadNotesRequest:', action.payload);
+  // return;
+
+  if(!action.payload || !action.payload.length) {
+    console.error('No notes on payload, action:', action);
+    return;
+  }
+  const options = {
+    data: {noteIds: action.payload},
+    failure: actions.loadNotesFailure,
+    success: actions.loadNotesSuccess,
+    type: 'POST', // Because we don't know how big the payload will be
+    url: '/api/notes',
+  };
+  ajax(store, options);
+}
+
 export const apis = {
   [actions.LOGIN_REQUEST]: loginRequest,
   [actions.CREATE_PLANT_REQUEST]: createPlant,
@@ -166,6 +184,7 @@ export const apis = {
   [actions.DELETE_PLANT_REQUEST]: deletePlant,
   [actions.DELETE_NOTE_REQUEST]: deleteNoteRequest,
   [actions.LOAD_PLANT_REQUEST]: loadOne,
+  [actions.LOAD_NOTES_REQUEST]: loadNotesRequest,
   [actions.LOAD_PLANTS_REQUEST]: load,
 };
 

@@ -1,3 +1,4 @@
+import * as actions from '../../actions';
 import CircularProgress from 'material-ui/CircularProgress';
 import React from 'react';
 import NoteRead from './NoteRead';
@@ -10,10 +11,22 @@ export default class NotesRead extends React.Component {
     if(!noteIds.length) {
       return null;
     }
+    const {notes} = this.props;
+
+    // Find unloaded notes
+    const unloaded = noteIds.reduce((acc, noteId) => {
+      if(!notes[noteId]) {
+        acc.push(noteId);
+      }
+      return acc;
+    }, []);
+    if(unloaded.length) {
+      this.props.dispatch(actions.loadNotesRequest(unloaded));
+    }
 
     const sortedIds = noteIds.sort((a, b) => {
-      const noteA = this.props.notes[a];
-      const noteB = this.props.notes[b];
+      const noteA = notes[a];
+      const noteB = notes[b];
       if(noteA && noteB) {
         if(noteA.date.isSame(noteB.date)) {
           return 0;
@@ -33,27 +46,27 @@ export default class NotesRead extends React.Component {
 
     let lastNoteDate;
     const renderedNotes = sortedIds.reduce((acc, noteId) => {
-      const note = this.props.notes[noteId];
+      const note = notes[noteId];
       if(note) {
         const sinceLast = lastNoteDate ? `...and then after ${lastNoteDate.from(note.date, true)}` : '';
         lastNoteDate = note.date;
         if(sinceLast) {
           acc.push(
-            <Paper key={note._id + '-sincelast'} style={paperStyle} zDepth={1}>
+            <Paper key={noteId + '-sincelast'} style={paperStyle} zDepth={1}>
               {sinceLast}
             </Paper>
           );
         }
         acc.push(
           <NoteRead
-            key={note._id}
+            key={noteId}
             {...this.props}
             note={note}
           />
         );
       } else {
         acc.push(
-          <CircularProgress />
+          <CircularProgress key={noteId} />
         );
       }
       return acc;

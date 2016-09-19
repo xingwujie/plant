@@ -115,19 +115,20 @@ function deleteNoteFailure(state /*, action*/) {
   return state;
 }
 
-// action.payload is a plant object
-function loadPlantSuccess(state, action) {
-  const {payload: plant} = action;
-  if(plant.notes && plant.notes.length) {
-    const notes = {...state};
-    plant.notes.forEach(n => {
-      notes[n._id] = {
-        ...n,
-        date: moment(new Date(n.date))
-      };
-    });
-    return Object.freeze(notes);
+// action.payload is an array of notes from the server
+function loadNotesSuccess(state, action) {
+  const notes = action.payload;
+  if(notes && notes.length) {
+
+    const newNotes = notes.reduce((acc, note) => {
+      note.date = moment(new Date(note.date));
+      acc[note._id] = note;
+      return acc;
+    }, {});
+
+    return Object.freeze(Object.assign({}, state, newNotes));
   } else {
+    console.warn('Nothing loaded from server in loadNotesSuccess:', action);
     return state;
   }
 }
@@ -145,7 +146,7 @@ export const reducers = Object.freeze({
   [actions.DELETE_NOTE_SUCCESS]: deleteNoteSuccess,
   [actions.DELETE_NOTE_FAILURE]: deleteNoteFailure,
 
-  [actions.LOAD_PLANT_SUCCESS]: loadPlantSuccess,
+  [actions.LOAD_NOTES_SUCCESS]: loadNotesSuccess,
 
 });
 

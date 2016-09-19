@@ -110,7 +110,7 @@ function loadPlantsSuccess(state, action) {
 function setPlantMode(state, action) {
   const plant = _.cloneDeep(state[action.payload._id]);
   plant.mode = action.payload.mode;
-  return replaceInPlace(state, plant);
+  return replaceInPlace(state, {payload: plant});
 }
 
 // The action.payload.note is the returned note from the

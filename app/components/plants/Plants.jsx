@@ -1,6 +1,7 @@
 // Used to show a list of plants for a user.
 // Url: /plants/<optional-user-id>
 
+const _ = require('lodash');
 import {Link} from 'react-router';
 import Base from '../Base';
 // import PlantActions from '../../actions/PlantActions';
@@ -26,9 +27,9 @@ export default class Plants extends React.Component {
 
     const {
       user = {},
-      plants = []
+      plants = {}
     } = this.state || {};
-    if(plants.length === 0 && isLoggedIn()) {
+    if(_.isEmpty(plants) && isLoggedIn()) {
       store.dispatch(actions.loadPlants(user._id));
     }
   }
@@ -90,7 +91,7 @@ export default class Plants extends React.Component {
   render() {
     var {
       user = {},
-      plants = [],
+      plants = {},
       plantCreateNote
     } = this.state || {};
 
@@ -114,7 +115,7 @@ export default class Plants extends React.Component {
       );
     }
 
-    if(!plants.length) {
+    if(_.isEmpty(plants)) {
       return this.renderNoPlants(user);
     }
 
@@ -123,7 +124,7 @@ export default class Plants extends React.Component {
     // users name. If the plants are from a search result then send
     // in the name:
     // name={user.name}
-    const tileElements = plants.map(plant => <PlantItem
+    const tileElements = _.map(plants, plant => <PlantItem
         key={plant._id}
         createNote={this.createNote}
         isOwner={!!user.isLoggedIn && plant.userId === user._id}

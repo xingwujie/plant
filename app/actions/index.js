@@ -233,6 +233,31 @@ export function loadPlantsFailure(payload) {
   };
 }
 
+export const LOAD_NOTES_REQUEST = 'LOAD_NOTES_REQUEST';
+export const LOAD_NOTES_SUCCESS = 'LOAD_NOTES_SUCCESS';
+export const LOAD_NOTES_FAILURE = 'LOAD_NOTES_FAILURE';
+
+export function loadNotesRequest(payload) {
+  return {
+    type: LOAD_NOTES_REQUEST,
+    payload
+  };
+}
+
+export function loadNotesSuccess(payload) {
+  return {
+    type: LOAD_NOTES_SUCCESS,
+    payload
+  };
+}
+
+export function loadNotesFailure(payload) {
+  return {
+    type: LOAD_NOTES_FAILURE,
+    payload
+  };
+}
+
 export const SET_PLANT_MODE = 'SET_PLANT_MODE';
 export const CANCEL_PLANT_CREATE_MODE = 'CANCEL_PLANT_CREATE_MODE';
 

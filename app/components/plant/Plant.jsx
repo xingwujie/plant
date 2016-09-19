@@ -36,12 +36,12 @@ export default class Plant extends React.Component {
   initState(first, props = this.props || {}) {
     const {
       user = {},
-      plants = []
+      plants = {}
     } = store.getState();
     const _id = _.get(props, 'params.id');
     let plant;
     if(_id) {
-      plant = _.find(plants, p => p._id === _id);
+      plant = plants[_id];
       if(!plant && first) {
         store.dispatch(actions.loadPlant({_id}));
         plant = {};
@@ -102,6 +102,8 @@ export default class Plant extends React.Component {
     } = this.state || {};
 
     const {user, notes} = store.getState();
+
+    console.log('notes in Plant.jsx:', notes);
 
     const mode = plant.mode || this.state.mode || 'read';
 
