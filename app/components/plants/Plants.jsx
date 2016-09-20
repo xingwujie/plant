@@ -5,9 +5,8 @@ const _ = require('lodash');
 import {Link} from 'react-router';
 import Base from '../Base';
 import CircularProgress from 'material-ui/CircularProgress';
-// import PlantActions from '../../actions/PlantActions';
+import InputCombo from '../InputCombo';
 import PlantItem from './PlantItem';
-// import PlantStore from '../../stores/PlantStore';
 import React from 'react';
 import store from '../../store';
 import {isLoggedIn} from '../../libs/auth-helper';
@@ -24,7 +23,8 @@ export default class Plants extends React.Component {
     this.cancelCreateNote = this.cancelCreateNote.bind(this);
     this.createNote = this.createNote.bind(this);
     this.postSaveSuccessCreateNote = this.postSaveSuccessCreateNote.bind(this);
-    this.state = store.getState();
+    this.state = {...store.getState()};
+    this.state.filter = '';
 
     const {
       // plants = {},
@@ -48,7 +48,7 @@ export default class Plants extends React.Component {
   }
 
   componentWillMount() {
-    const state = store.getState();
+    const state = {...store.getState()};
     this.setState(state);
     this.unsubscribe = store.subscribe(this.onChange);
   }
@@ -58,7 +58,7 @@ export default class Plants extends React.Component {
   }
 
   onChange() {
-    const state = store.getState();
+    const state = {...store.getState()};
     this.setState(state);
   }
 
@@ -120,6 +120,7 @@ export default class Plants extends React.Component {
 
   render() {
     var {
+      filter = '',
       plants: allLoadedPlants = {},
       plantCreateNote,
       user: loggedInUser = {},
@@ -132,7 +133,9 @@ export default class Plants extends React.Component {
     if(!user) {
       return (
         <Base>
-          <CircularProgress />
+          <div>
+            <CircularProgress />
+          </div>
         </Base>
       );
     }
@@ -166,25 +169,33 @@ export default class Plants extends React.Component {
     // users name. If the plants are from a search result then send
     // in the name:
     // name={user.name}
-    const tileElements = plantIds.map(plantId => {
+    const tileElements = plantIds.reduce((acc, plantId) => {
       const plant = allLoadedPlants[plantId];
-      if(plant) {
-        return (
+      if(plant && (!filter || (plant.title || '').toLowerCase().indexOf(filter) >= 0)) {
+        acc.push(
           <PlantItem
             key={plant._id}
             createNote={this.createNote}
             isOwner={loggedIn && plant.userId === user._id}
             plant={plant}
-          />);
-      } else {
-        return (<CircularProgress />);
+          />
+        );
       }
-    });
+      return acc;
+    }, []);
+
+    const filterInput = (<InputCombo
+      changeHandler={(e) => this.setState({filter: e.target.value.toLowerCase()})}
+      label='Filter'
+      placeholder={'Type a plant name to filter...'}
+      value={filter}
+    />);
 
     return (
       <Base>
         <div>
           {this.renderTitle(user)}
+          {filterInput}
           {tileElements}
           {this.addPlantButton()}
         </div>
