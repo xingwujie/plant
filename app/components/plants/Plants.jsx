@@ -4,6 +4,7 @@
 const _ = require('lodash');
 import {Link} from 'react-router';
 import Base from '../Base';
+import CircularProgress from 'material-ui/CircularProgress';
 // import PlantActions from '../../actions/PlantActions';
 import PlantItem from './PlantItem';
 // import PlantStore from '../../stores/PlantStore';
@@ -17,8 +18,8 @@ import NoteCreate from '../plant/NoteCreate';
 
 export default class Plants extends React.Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.onChange = this.onChange.bind(this);
     this.cancelCreateNote = this.cancelCreateNote.bind(this);
     this.createNote = this.createNote.bind(this);
@@ -26,11 +27,23 @@ export default class Plants extends React.Component {
     this.state = store.getState();
 
     const {
-      user = {},
-      plants = {}
+      // plants = {},
+      // user = {},
+      users = {},
     } = this.state || {};
-    if(_.isEmpty(plants) && isLoggedIn()) {
-      store.dispatch(actions.loadPlants(user._id));
+
+    // if(_.isEmpty(plants) && isLoggedIn()) {
+    //   store.dispatch(actions.loadPlantsRequest(user._id));
+    // }
+
+    console.log('props:', props);
+    if(props.params && props.params.id) {
+      // This is the user id for this page.
+      const {id: userId} = props.params;
+      if(!users[userId]) {
+        store.dispatch(actions.loadUserRequest(userId));
+        store.dispatch(actions.loadPlantsRequest(userId));
+      }
     }
   }
 
@@ -73,15 +86,32 @@ export default class Plants extends React.Component {
     );
   }
 
+  addPlantButton() {
+    const loggedIn = !!isLoggedIn();
+    if(!loggedIn) {
+      return null;
+    }
+
+    return (
+      <div style={{float: 'right'}}>
+        <Link to='/plant'>
+          <FloatingActionButton
+            title='Add Plant'
+          >
+            <AddIcon />
+          </FloatingActionButton>
+        </Link>
+      </div>);
+  }
+
   renderNoPlants(user) {
     return (
       <Base>
         <div>
           {this.renderTitle(user)}
           <div className='plant-item-list'>
-              <div className='addFirstClassBtn'>
-                <Link className='btn btn-primary' to='/plant'>Add your first plant</Link>
-              </div>
+            <div>{'No plants added yet...'}</div>
+            {this.addPlantButton()}
           </div>
         </div>
       </Base>
@@ -90,13 +120,24 @@ export default class Plants extends React.Component {
 
   render() {
     var {
-      user = {},
-      plants = {},
-      plantCreateNote
+      plants: allLoadedPlants = {},
+      plantCreateNote,
+      user: loggedInUser = {},
+      users = {},
     } = this.state || {};
 
-    if(plantCreateNote) {
-      console.log('plantCreateNote:', plantCreateNote);
+    const loggedIn = !!isLoggedIn();
+
+    const user = users[this.props.params.id];
+    if(!user) {
+      return (
+        <Base>
+          <CircularProgress />
+        </Base>
+      );
+    }
+
+    if(plantCreateNote && loggedIn) {
       return (
         <Base>
           <div>
@@ -108,50 +149,53 @@ export default class Plants extends React.Component {
               isOwner={true}
               plant={plantCreateNote}
               postSaveSuccess={this.postSaveSuccessCreateNote}
-              user={user}
+              user={loggedInUser}
             />
           </div>
         </Base>
       );
     }
 
-    if(_.isEmpty(plants)) {
+    const {plantIds} = user;
+    if(_.isEmpty(plantIds)) {
       return this.renderNoPlants(user);
     }
-
-    const loggedIn = isLoggedIn();
 
     // Don't send the name into PlantItem to skip the subtitle
     // If all the plants are by the same user then don't need the
     // users name. If the plants are from a search result then send
     // in the name:
     // name={user.name}
-    const tileElements = _.map(plants, plant => <PlantItem
-        key={plant._id}
-        createNote={this.createNote}
-        isOwner={loggedIn && plant.userId === user._id}
-        plant={plant}
-      />
-    );
+    const tileElements = plantIds.map(plantId => {
+      const plant = allLoadedPlants[plantId];
+      if(plant) {
+        return (
+          <PlantItem
+            key={plant._id}
+            createNote={this.createNote}
+            isOwner={loggedIn && plant.userId === user._id}
+            plant={plant}
+          />);
+      } else {
+        return (<CircularProgress />);
+      }
+    });
 
     return (
       <Base>
         <div>
           {this.renderTitle(user)}
           {tileElements}
-          {loggedIn &&
-            <div style={{float: 'right'}}>
-              <Link to='/plant'>
-                <FloatingActionButton
-                  title='Add Plant'
-                >
-                  <AddIcon />
-                </FloatingActionButton>
-              </Link>
-            </div>
-          }
+          {this.addPlantButton()}
         </div>
       </Base>
     );
   }
 }
+
+Plants.propTypes = {
+  params:  React.PropTypes.shape({
+    id: React.PropTypes.string.isRequired,
+    slug: React.PropTypes.string.isRequired,
+  }).isRequired,
+};

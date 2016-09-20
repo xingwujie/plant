@@ -22,7 +22,7 @@ export default class Home extends React.Component {
       plants = {}
     } = this.state || {};
     if(_.isEmpty(plants) && isLoggedIn()) {
-      store.dispatch(actions.loadPlants(user._id));
+      store.dispatch(actions.loadPlantsRequest(user._id));
     }
   }
 
@@ -43,7 +43,6 @@ export default class Home extends React.Component {
 
   componentWillMount() {
     this.unsubscribe = store.subscribe(this.onChange);
-    // store.dispatch(actions.loadPlants());
 
     this.updateState();
   }

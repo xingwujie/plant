@@ -2,11 +2,13 @@ import { combineReducers } from 'redux';
 import notes from './notes';
 import plants from './plants';
 import user from './user';
+import users from './users';
 
 const rootReducer = combineReducers({
   notes,
   plants,
   user,
+  users,
 });
 
 export default rootReducer;
@@ -20,8 +22,9 @@ user: {
   token: ''
 },
 
-// Does not exist yet...
-// users: [], // Each user the same as user above but without token
+users: { // Each user the same as user above but without token
+
+},
 
 plants: {
   plantId: {

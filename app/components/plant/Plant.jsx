@@ -44,7 +44,7 @@ export default class Plant extends React.Component {
     if(_id) {
       plant = plants[_id];
       if(!plant && first) {
-        store.dispatch(actions.loadPlant({_id}));
+        store.dispatch(actions.loadPlantRequest({_id}));
       }
     } else {
       plant = {

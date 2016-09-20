@@ -187,7 +187,7 @@ export const LOAD_PLANT_REQUEST = 'LOAD_PLANT_REQUEST';
 export const LOAD_PLANT_SUCCESS = 'LOAD_PLANT_SUCCESS';
 export const LOAD_PLANT_FAILURE = 'LOAD_PLANT_FAILURE';
 
-export function loadPlant(payload) {
+export function loadPlantRequest(payload) {
   return {
     type: LOAD_PLANT_REQUEST,
     payload
@@ -212,7 +212,7 @@ export const LOAD_PLANTS_REQUEST = 'LOAD_PLANTS_REQUEST';
 export const LOAD_PLANTS_SUCCESS = 'LOAD_PLANTS_SUCCESS';
 export const LOAD_PLANTS_FAILURE = 'LOAD_PLANTS_FAILURE';
 
-export function loadPlants(payload) {
+export function loadPlantsRequest(payload) {
   return {
     type: LOAD_PLANTS_REQUEST,
     payload
@@ -254,6 +254,31 @@ export function loadNotesSuccess(payload) {
 export function loadNotesFailure(payload) {
   return {
     type: LOAD_NOTES_FAILURE,
+    payload
+  };
+}
+
+export const LOAD_USER_REQUEST = 'LOAD_USER_REQUEST';
+export const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS';
+export const LOAD_USER_FAILURE = 'LOAD_USER_FAILURE';
+
+export function loadUserRequest(payload) {
+  return {
+    type: LOAD_USER_REQUEST,
+    payload
+  };
+}
+
+export function loadUserSuccess(payload) {
+  return {
+    type: LOAD_USER_SUCCESS,
+    payload
+  };
+}
+
+export function loadUserFailure(payload) {
+  return {
+    type: LOAD_USER_FAILURE,
     payload
   };
 }

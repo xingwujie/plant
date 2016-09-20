@@ -130,10 +130,10 @@ function deleteNoteRequest(store, action, next) {
   next(action);
 }
 
-function loadOne(store, action) {
+function loadPlantRequest(store, action) {
 
   if(!action.payload._id) {
-    console.error('No _id in loadOne', (new Error()).stack);
+    console.error('No _id in loadPlantRequest', (new Error()).stack);
   } else {
     const options = {
       url: `/api/plant/${action.payload._id}`,
@@ -145,12 +145,23 @@ function loadOne(store, action) {
 }
 
 // Get all the plants a user has created
-function load(store, action) {
+function loadPlantsRequest(store, action) {
   const userId = action.payload;
   const options = {
     url: `/api/plants/${userId}`,
     success: actions.loadPlantsSuccess,
     failure: actions.loadPlantsFailure
+  };
+  ajax(store, options);
+}
+
+// Get a specific user
+function loadUserRequest(store, action) {
+  const userId = action.payload;
+  const options = {
+    url: `/api/user/${userId}`,
+    success: actions.loadUserSuccess,
+    failure: actions.loadUserFailure
   };
   ajax(store, options);
 }
@@ -181,9 +192,10 @@ export const apis = {
   [actions.UPDATE_NOTE_REQUEST]: updateNoteRequest,
   [actions.DELETE_PLANT_REQUEST]: deletePlant,
   [actions.DELETE_NOTE_REQUEST]: deleteNoteRequest,
-  [actions.LOAD_PLANT_REQUEST]: loadOne,
+  [actions.LOAD_PLANT_REQUEST]: loadPlantRequest,
   [actions.LOAD_NOTES_REQUEST]: loadNotesRequest,
-  [actions.LOAD_PLANTS_REQUEST]: load,
+  [actions.LOAD_USER_REQUEST]: loadUserRequest,
+  [actions.LOAD_PLANTS_REQUEST]: loadPlantsRequest,
 };
 
 export default store => next => action => {

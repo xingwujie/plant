@@ -23,7 +23,7 @@ export default class PlantRead extends React.Component {
     if(!plant.notes) {
       const {_id} = plant;
       if(_id) {
-        this.props.dispatch(actions.loadPlant({_id}));
+        this.props.dispatch(actions.loadPlantRequest({_id}));
       }
     }
   }
