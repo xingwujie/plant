@@ -38,10 +38,11 @@ export default class NotesRead extends React.Component {
     });
 
     const paperStyle = {
+      backgroundColor: '#ddd',
+      display: 'inline-block',
+      margin: 20,
       padding: 20,
       width: '100%',
-      margin: 20,
-      display: 'inline-block'
     };
 
     let lastNoteDate;
@@ -49,14 +50,14 @@ export default class NotesRead extends React.Component {
       const note = notes[noteId];
       if(note) {
         const sinceLast = lastNoteDate ? `...and then after ${lastNoteDate.from(note.date, true)}` : '';
-        lastNoteDate = note.date;
-        if(sinceLast) {
+        if(sinceLast && !lastNoteDate.isSame(note.date)) {
           acc.push(
             <Paper key={noteId + '-sincelast'} style={paperStyle} zDepth={1}>
               {sinceLast}
             </Paper>
           );
         }
+        lastNoteDate = note.date;
         acc.push(
           <NoteRead
             key={noteId}

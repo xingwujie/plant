@@ -435,9 +435,8 @@ describe('/app/models/note', function() {
       const isNew = false;
 
       noteValidator(note, {isNew}, (err, transformed) => {
-
         assert(err);
-        assert.equal(err.images, 'Images must only have allowed props: id,ext,originalname,size');
+        assert.equal(err.images, 'Images must only have the following allowed props: id,ext,originalname,size,sizes and found these props as well: extra');
         assert.equal(Object.keys(transformed).length, 6);
         assert.equal(transformed._id, note._id);
         assert.equal(transformed.note, note.note);

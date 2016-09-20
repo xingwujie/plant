@@ -67,17 +67,37 @@ validatejs.validators.imagesValidate = (value) => {
     return 'must be valid image objects';
   }
 
-  const allowedProps = ['id', 'ext', 'originalname', 'size'];
+  const allowedProps = ['id', 'ext', 'originalname', 'size', 'sizes'];
 
+  let extraProps;
   const validProps = _.every(value, item => {
     // Make sure no extra keys inserted
-    const emptyObject = _.omit(item, allowedProps);
-    return Object.keys(emptyObject).length === 0;
+    extraProps = _.omit(item, allowedProps);
+    return Object.keys(extraProps).length === 0;
   });
 
   if(!validProps) {
-    return `must only have allowed props: ${allowedProps.join()}`;
+    return `must only have the following allowed props: ${allowedProps.join()} and found these props as well: ${Object.keys(extraProps).join()}`;
   }
+
+  // Check the sizes array if there is one
+  const names = constants.imageSizeNames;
+  const validSizes = _.every(value, item => {
+    if(item.sizes) {
+      return _.every(item.sizes, size => {
+        console.log('size:', size);
+        return names.indexOf(size.name) >= 0 &&
+          typeof size.width === 'number';
+      });
+    } else {
+      return true;
+    }
+  });
+
+  if(!validSizes) {
+    return 'must be valid sizes in the image';
+  }
+
 };
 
 // Don't need an _id if we're creating a document, db will do this.
@@ -102,6 +122,14 @@ export default (attributes, {isNew}, cb) => {
     attributes = {
       ...attributes,
       images: attributes.images.map(image => {
+        if(image.sizes && image.size.length) {
+          image.sizes = image.sizes.map(({name: widthName, width}) => {
+            return {
+              name: widthName,
+              width: parseInt(width, 10)
+            };
+          });
+        }
         return {
           ...image,
           size: parseInt(image.size, 10)

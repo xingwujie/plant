@@ -3,6 +3,7 @@ import Paper from 'material-ui/Paper';
 import React from 'react';
 import EditDeleteButtons from './EditDeleteButtons';
 import NoteUpdate from './NoteUpdate';
+const moment = require('moment');
 
 export default class NoteRead extends React.Component {
 
@@ -95,9 +96,14 @@ export default class NoteRead extends React.Component {
 
     const images = this.renderImages(note);
 
+    const noteDate = note.date.format('DD-MMM-YYYY') +
+      (note.date.isSame(moment(), 'day')
+      ? ' (today)'
+      : ` (${note.date.from(moment().startOf('day'))})`);
+
     return (
       <Paper key={note._id} style={paperStyle} zDepth={1}>
-        <h5>{note.date.format('DD-MMM-YYYY')}{` (${note.date.fromNow()})`}</h5>
+        <h5>{noteDate}</h5>
         <div>{note.note}</div>
         <EditDeleteButtons
           clickEdit={() => this.setState({editMode: true})}
