@@ -28,28 +28,38 @@ export default class PlantItem extends React.Component {
       _id,
     } = plant;
 
+    const floatingActionButtonStyle = {
+      marginLeft: '10px',
+      width: '50px',
+      // 0 = don't grow, 0 = don't shrink, 50px = start at this size
+      flex: '0 0 50px'
+    };
 
     const link = `/plant/${makeSlug(title)}/${_id}`;
+    const renderLink = (
+      <Link
+        style={{margin: '20px'}}
+        to={link}
+      >
+        <span>{title}</span>
+      </Link>
+    );
 
     return (
-      <h4>
+      <div style={{display: 'flex', alignItems: 'center'}}>
         {isOwner &&
-          <span>
+          <div style={floatingActionButtonStyle}>
             <FloatingActionButton
+              mini={true}
               onClick={this.createNote}
               title='Add Note'
             >
               <AddIcon />
             </FloatingActionButton>
-          </span>
+          </div>
         }
-        <Link
-          style={{margin: '20px'}}
-          to={link}
-        >
-          <span>{title}</span>
-        </Link>
-      </h4>
+        {renderLink}
+      </div>
     );
   }
 }

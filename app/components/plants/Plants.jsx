@@ -144,7 +144,7 @@ export default class Plants extends React.Component {
       return (
         <Base>
           <div>
-            <h1 style={{textAlign: 'center'}}>{`Create a Note for ${plantCreateNote.title}`}</h1>
+            <h4 style={{textAlign: 'center'}}>{`Create a Note for ${plantCreateNote.title}`}</h4>
             <NoteCreate
               cancel={this.cancelCreateNote}
               createNote={true}
