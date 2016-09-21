@@ -4,6 +4,7 @@ import React from 'react';
 import EditDeleteButtons from './EditDeleteButtons';
 import NoteUpdate from './NoteUpdate';
 const moment = require('moment');
+import LinkIcon from 'material-ui/svg-icons/content/link';
 
 export default class NoteRead extends React.Component {
 
@@ -103,6 +104,11 @@ export default class NoteRead extends React.Component {
 
     return (
       <Paper key={note._id} style={paperStyle} zDepth={1}>
+        <div id={note._id}>
+          <a href={`#${note._id}`}>
+            <LinkIcon />
+          </a>
+        </div>
         <h5>{noteDate}</h5>
         <div>{note.note}</div>
         <EditDeleteButtons

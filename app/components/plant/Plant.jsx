@@ -110,9 +110,6 @@ export default class Plant extends React.Component {
     }
 
     const {user, notes} = store.getState();
-
-    console.log('notes in Plant.jsx:', notes);
-
     const mode = plant.mode || this.state.mode || 'read';
 
     return (
