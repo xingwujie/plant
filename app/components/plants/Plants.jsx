@@ -93,7 +93,7 @@ export default class Plants extends React.Component {
     }
 
     return (
-      <div style={{float: 'right'}}>
+      <div style={{float: 'right', marginBottom: '60px'}}>
         <Link to='/plant'>
           <FloatingActionButton
             title='Add Plant'
