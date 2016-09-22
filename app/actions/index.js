@@ -303,3 +303,14 @@ export function cancelPlantCreateMode(payload) {
   };
 }
 
+export const FILE_UPLOAD_PROGRESS = 'FILE_UPLOAD_PROGRESS';
+
+// payload should be:
+// {value: 245760, max: 793481}
+export function fileUploadProgress(payload) {
+  return {
+    type: FILE_UPLOAD_PROGRESS,
+    payload
+  };
+}
+

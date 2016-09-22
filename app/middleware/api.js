@@ -51,7 +51,9 @@ function saveFilesRequest(store, action, opts, next) {
     contentType: 'multipart/form-data',
     data,
     failure: opts.mode === 'create' ? actions.createNoteFailure : actions.updateNoteFailure,
+    note: action.payload.note,
     success: opts.mode === 'create' ? actions.createNoteSuccess : actions.updateNoteSuccess,
+    progress: actions.fileUploadProgress,
     type: 'POST',
     url: '/api/upload',
     fileUpload: true, // removed in ajax function

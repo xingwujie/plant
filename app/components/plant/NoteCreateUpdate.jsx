@@ -24,7 +24,7 @@ export default class NoteCreateUpdate extends React.Component {
   }
 
   onDrop(files) {
-    console.log('Received files: ', files);
+    // console.log('Received files: ', files);
     this.props.saveFiles(files);
   }
 
@@ -36,6 +36,20 @@ export default class NoteCreateUpdate extends React.Component {
     const {
       plantNote = {},
     } = this.props || {};
+
+    if(plantNote.fileUploadProgress) {
+      const uploadStyle = {
+        fontSize: '20px'
+      };
+      return (
+        <Paper
+          style={uploadStyle}
+          zDepth={1}
+        >
+          <div>{plantNote.fileUploadProgress}</div>
+        </Paper>
+      );
+    }
 
     const {
       images = []
