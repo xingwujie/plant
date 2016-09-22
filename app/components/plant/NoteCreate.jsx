@@ -33,11 +33,11 @@ export default class NoteCreate extends React.Component {
       errors: {},
     };
 
-    this.props.dispatch(actions.editNoteClick(note));
+    this.props.dispatch(actions.editNoteOpen(note));
   }
 
   cancel() {
-    this.props.dispatch(actions.editNoteCancel());
+    this.props.dispatch(actions.editNoteClose());
   }
 
   saveNote(files) {

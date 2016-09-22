@@ -6,7 +6,7 @@ const actions = require('../actions');
 
 // action.payload:
 // note object
-function editNoteClick(state, action) {
+function editNoteOpen(state, action) {
   const note = Object.freeze(action.payload);
   return Object.freeze({
     ...state,
@@ -16,23 +16,10 @@ function editNoteClick(state, action) {
 
 // action.payload:
 // Empty
-function editNoteRemove(state) {
+function editNoteClose(state) {
   // Just remove note element if editing is canceled
   // or if the note has been saved
   return Object.freeze(_.omit(state, ['note']));
-}
-
-// action.payload:
-// {value: e.loaded, max: e.total, note: options.note}
-function fileUploadProgress(state, action) {
-  const note = Object.freeze({
-    ...state.note,
-    fileUploadProgress: action.payload
-  });
-  return Object.freeze({
-    ...state,
-    note
-  });
 }
 
 // action.payload:
@@ -49,11 +36,11 @@ function editNoteChange(state, action) {
 }
 
 const reducers = {
-  [actions.EDIT_NOTE_CLICK]: editNoteClick,
+  // Init the note prop in the interim state with something
+  // so that the note is editable
+  [actions.EDIT_NOTE_OPEN]: editNoteOpen,
   [actions.EDIT_NOTE_CHANGE]: editNoteChange,
-  [actions.EDIT_NOTE_CANCEL]: editNoteRemove,
-  [actions.EDIT_NOTE_SAVE]: editNoteRemove,
-  [actions.FILE_UPLOAD_PROGRESS]: fileUploadProgress,
+  [actions.EDIT_NOTE_CLOSE]: editNoteClose
 };
 
 module.exports = (state = {}, action) => {

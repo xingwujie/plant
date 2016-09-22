@@ -52,7 +52,6 @@ function upsertNoteSuccess(state, action) {
   const {note = {}} = action.payload;
   const {_id} = note;
   note.date = moment(new Date(note.date));
-  delete note.fileUploadProgress;
 
   return Object.freeze({
     ...state,
@@ -74,7 +73,6 @@ function upsertNoteFailure(state, action) {
     ...action.payload.meta,
     state: 'error'
   };
-  delete note.fileUploadProgress;
 
   return Object.freeze({
     ...state,

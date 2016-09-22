@@ -37,7 +37,7 @@ export default class NoteCreateUpdate extends React.Component {
       plantNote = {},
     } = this.props || {};
 
-    if(plantNote.fileUploadProgress) {
+    if(plantNote.uploadProgress) {
       const uploadStyle = {
         fontSize: '20px'
       };
@@ -46,7 +46,7 @@ export default class NoteCreateUpdate extends React.Component {
           style={uploadStyle}
           zDepth={1}
         >
-          <div>{plantNote.fileUploadProgress}</div>
+          <div>{plantNote.uploadProgress}</div>
         </Paper>
       );
     }

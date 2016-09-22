@@ -53,7 +53,7 @@ function saveFilesRequest(store, action, opts, next) {
     failure: opts.failure,
     note: action.payload.note,
     success: opts.success,
-    progress: actions.fileUploadProgress,
+    progress: actions.editNoteChange,
     type: 'POST',
     url: '/api/upload',
     fileUpload: true, // removed in ajax function
@@ -69,7 +69,7 @@ function saveFilesRequest(store, action, opts, next) {
 function createNoteRequest(store, action, next) {
   function success(ajaxResult) {
     // This will cause the edit note window to close
-    store.dispatch(actions.editNoteSave());
+    store.dispatch(actions.editNoteClose());
     return actions.createNoteSuccess(ajaxResult);
   }
 
@@ -112,7 +112,7 @@ function updatePlant(store, action, next) {
 function updateNoteRequest(store, action, next) {
   function success(ajaxResult) {
     // This will cause the edit note window to close
-    store.dispatch(actions.editNoteSave());
+    store.dispatch(actions.editNoteClose());
     return actions.updateNoteSuccess(ajaxResult);
   }
 

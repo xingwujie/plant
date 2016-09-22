@@ -303,32 +303,20 @@ export function cancelPlantCreateMode(payload) {
   };
 }
 
-export const FILE_UPLOAD_PROGRESS = 'FILE_UPLOAD_PROGRESS';
-
-// payload should be:
-// {value: 245760, max: 793481}
-export function fileUploadProgress(payload) {
-  return {
-    type: FILE_UPLOAD_PROGRESS,
-    payload
-  };
-}
-
-export const EDIT_NOTE_CLICK = 'EDIT_NOTE_CLICK';
-export const EDIT_NOTE_CANCEL = 'EDIT_NOTE_CANCEL';
+export const EDIT_NOTE_OPEN = 'EDIT_NOTE_OPEN';
+export const EDIT_NOTE_CLOSE = 'EDIT_NOTE_CLOSE';
 export const EDIT_NOTE_CHANGE = 'EDIT_NOTE_CHANGE';
-export const EDIT_NOTE_SAVE = 'EDIT_NOTE_SAVE';
 
-export function editNoteClick(payload) {
+export function editNoteOpen(payload) {
   return {
-    type: EDIT_NOTE_CLICK,
+    type: EDIT_NOTE_OPEN,
     payload
   };
 }
 
-export function editNoteCancel(payload) {
+export function editNoteClose(payload) {
   return {
-    type: EDIT_NOTE_CANCEL,
+    type: EDIT_NOTE_CLOSE,
     payload
   };
 }
@@ -336,13 +324,6 @@ export function editNoteCancel(payload) {
 export function editNoteChange(payload) {
   return {
     type: EDIT_NOTE_CHANGE,
-    payload
-  };
-}
-
-export function editNoteSave(payload) {
-  return {
-    type: EDIT_NOTE_SAVE,
     payload
   };
 }

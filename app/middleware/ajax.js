@@ -71,10 +71,10 @@ module.exports = (store, options) => {
 
   function progressHandlingFunction(e){
     if(e.lengthComputable){
-      const progress = {value: e.loaded, max: e.total, note: options.note};
-      console.log('e.lengthComputable:', progress);
+      const uploadProgress = {value: e.loaded, max: e.total, note: options.note};
+      console.log('progressHandlingFunction', {uploadProgress});
       if(options.progress) {
-        store.dispatch(options.progress(progress));
+        store.dispatch(options.progress({uploadProgress}));
       } else {
         console.warn('options does not have progress function in progressHandlingFunction');
       }
