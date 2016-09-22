@@ -1,5 +1,4 @@
-// const _ = require('lodash');
-// const moment = require('moment');
+
 const actions = require('../actions');
 
 // The action.payload is the returned user from the server.

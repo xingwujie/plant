@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux';
+import interim from './interim';
 import notes from './notes';
 import plants from './plants';
 import user from './user';
 import users from './users';
 
 const rootReducer = combineReducers({
+  interim,
   notes,
   plants,
   user,

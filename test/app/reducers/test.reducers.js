@@ -9,7 +9,8 @@ describe('/app/reducers', function() {
       notes: {},
       plants: {},
       user: {},
-      users: {}
+      users: {},
+      interim: {}
     };
     const actual = rootReducer({}, actions.logout());
     assert.deepEqual(actual, expected);

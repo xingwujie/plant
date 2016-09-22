@@ -1,5 +1,6 @@
 // Used to add a note to a plant
 
+const _ = require('lodash');
 import * as actions from '../../actions';
 import moment from 'moment';
 import React from 'react';
@@ -20,33 +21,27 @@ export default class NoteCreate extends React.Component {
     this.cancel = this.cancel.bind(this);
     this.onChange = this.onChange.bind(this);
     this.saveFiles = this.saveFiles.bind(this);
+    this.createNote = this.createNote.bind(this);
   }
 
-  componentWillMount() {
-    this.initState();
-  }
+  createNote() {
+    const note = {
+      _id: utils.makeMongoId(),
+      date: moment().format('MM/DD/YYYY'),
+      note: '',
+      plantIds: [],
+      errors: {},
+    };
 
-  initState() {
-    this.setState({
-      plantNote: {
-        date: moment().format('MM/DD/YYYY'),
-        note: '',
-        plantIds: [],
-        errors: {}
-      },
-      createNote: !!this.props.createNote
-    });
+    this.props.dispatch(actions.editNoteClick(note));
   }
 
   cancel() {
-    this.initState();
-    if(this.props.cancel) {
-      this.props.cancel();
-    }
+    this.props.dispatch(actions.editNoteCancel());
   }
 
   saveNote(files) {
-    const {plantNote} = this.state;
+    const plantNote = _.cloneDeep(this.props.note);
 
     if(plantNote.plantIds.indexOf(this.props.plant._id) === -1) {
       plantNote.plantIds.push(this.props.plant._id);
@@ -60,11 +55,9 @@ export default class NoteCreate extends React.Component {
     validate(plantNote, {isNew: true}, (errors, note) => {
 
       if(errors) {
-        console.error('create: Note validation errors:', errors);
-        plantNote.errors = errors;
-        this.setState({plantNote});
+        console.log('create: Note validation errors:', errors);
+        this.props.dispatch(actions.editNoteChange({errors}));
       } else {
-        this.initState();
         this.props.dispatch(actions.createNoteRequest({note, files}));
         if(this.props.postSaveSuccess) {
           this.props.postSaveSuccess();
@@ -84,24 +77,22 @@ export default class NoteCreate extends React.Component {
   }
 
   onChange(e) {
-    const {plantNote} = this.state;
-    plantNote[e.target.name] = e.target.value;
-    this.setState({plantNote});
+    this.props.dispatch(actions.editNoteChange({
+      [e.target.name]: e.target.value
+    }));
   }
 
   render() {
     const {
-      isOwner
+      isOwner,
+      note
     } = this.props || {};
 
     if(!isOwner) {
       return null;
     }
 
-    const {
-      plantNote,
-      createNote = false
-    } = this.state || {};
+    const createNote = !!note;
 
     return (
       <div>
@@ -109,7 +100,7 @@ export default class NoteCreate extends React.Component {
           <NoteCreateUpdate
             cancel={this.cancel}
             onChange={this.onChange}
-            plantNote={plantNote}
+            plantNote={note}
             save={this.save}
             saveFiles={this.saveFiles}
           />
@@ -119,7 +110,7 @@ export default class NoteCreate extends React.Component {
             <Divider />
             <RaisedButton
               label='Create Note'
-              onClick={() => this.setState({createNote: true})}
+              onClick={this.createNote}
             />
           </div>
         }
@@ -136,4 +127,5 @@ NoteCreate.propTypes = {
   plant: React.PropTypes.object.isRequired,
   postSaveSuccess: React.PropTypes.func,
   user: React.PropTypes.object.isRequired,
+  note: React.PropTypes.object,
 };

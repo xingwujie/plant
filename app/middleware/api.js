@@ -50,9 +50,9 @@ function saveFilesRequest(store, action, opts, next) {
   const options = {
     contentType: 'multipart/form-data',
     data,
-    failure: opts.mode === 'create' ? actions.createNoteFailure : actions.updateNoteFailure,
+    failure: opts.failure,
     note: action.payload.note,
-    success: opts.mode === 'create' ? actions.createNoteSuccess : actions.updateNoteSuccess,
+    success: opts.success,
     progress: actions.fileUploadProgress,
     type: 'POST',
     url: '/api/upload',
@@ -67,15 +67,30 @@ function saveFilesRequest(store, action, opts, next) {
 // files: An optional array of files
 // note: The note being created
 function createNoteRequest(store, action, next) {
+  function success(ajaxResult) {
+    // This will cause the edit note window to close
+    store.dispatch(actions.editNoteSave());
+    return actions.createNoteSuccess(ajaxResult);
+  }
+
+  function failure(ajaxResult) {
+    store.dispatch(actions.editNoteChange({
+      errors: {
+        general: ajaxResult.toString()
+      }
+    }));
+    return actions.createNoteFailure(ajaxResult);
+  }
+  const opts = { success, failure };
   if(action.payload.files && action.payload.files.length) {
-    saveFilesRequest(store, action, {mode: 'create'}, next);
+    saveFilesRequest(store, action, opts, next);
   } else {
     const options = {
       type: 'POST',
       url: '/api/note',
       data: action.payload.note,
-      success: actions.createNoteSuccess,
-      failure: actions.createNoteFailure
+      success,
+      failure
     };
     ajax(store, options);
     next(action);
@@ -95,15 +110,31 @@ function updatePlant(store, action, next) {
 }
 
 function updateNoteRequest(store, action, next) {
+  function success(ajaxResult) {
+    // This will cause the edit note window to close
+    store.dispatch(actions.editNoteSave());
+    return actions.updateNoteSuccess(ajaxResult);
+  }
+
+  function failure(ajaxResult) {
+    store.dispatch(actions.editNoteChange({
+      errors: {
+        general: ajaxResult.toString()
+      }
+    }));
+    return actions.updateNoteFailure(ajaxResult);
+  }
+  const opts = { success, failure };
+
   if(action.payload.files && action.payload.files.length) {
-    saveFilesRequest(store, action, {mode: 'update'}, next);
+    saveFilesRequest(store, action, opts, next);
   } else {
     const options = {
       type: 'PUT',
       url: '/api/note',
       data: action.payload.note,
-      success: actions.updateNoteSuccess,
-      failure: actions.updateNoteFailure,
+      success,
+      failure,
     };
     ajax(store, options);
     return next(action);

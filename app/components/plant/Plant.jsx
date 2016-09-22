@@ -37,7 +37,8 @@ export default class Plant extends React.Component {
   initState(first, props = this.props || {}) {
     const {
       user = {},
-      plants = {}
+      plants = {},
+      interim = {}
     } = store.getState();
     const _id = _.get(props, 'params.id');
     let plant;
@@ -64,6 +65,7 @@ export default class Plant extends React.Component {
 
     this.setState({
       isOwner: owner,
+      interim,
       plant,
       user
     });
@@ -98,6 +100,7 @@ export default class Plant extends React.Component {
   render() {
     const {
       isOwner: owner = false,
+      interim,
       plant
     } = this.state || {};
 
@@ -130,6 +133,7 @@ export default class Plant extends React.Component {
                   isOwner={owner}
                   plant={plant}
                   user={user}
+                  note={interim.note}
                 />
               }
             </div>

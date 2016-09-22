@@ -130,18 +130,6 @@ function loadNotesSuccess(state, action) {
   }
 }
 
-// action.payload:
-// {value: e.loaded, max: e.total, note: options.note}
-function fileUploadProgress(state, action) {
-  const {note, loaded, max} = action.payload;
-  const currentNote = _.cloneDeep(state[note._id]);
-  currentNote.fileUploadProgress = (Math.round(loaded * 1000 / max) / 10) + ' %';
-  return Object.freeze({
-    ...state,
-    [note._id]: Object.freeze(currentNote)
-  });
-}
-
 export const reducers = Object.freeze({
   [actions.CREATE_NOTE_REQUEST]: upsertNoteRequest,
   [actions.CREATE_NOTE_SUCCESS]: upsertNoteSuccess,
@@ -157,7 +145,6 @@ export const reducers = Object.freeze({
 
   [actions.LOAD_NOTES_SUCCESS]: loadNotesSuccess,
 
-  [actions.FILE_UPLOAD_PROGRESS]: fileUploadProgress,
 });
 
 export default (state = {}, action) => {

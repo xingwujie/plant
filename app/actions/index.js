@@ -314,3 +314,35 @@ export function fileUploadProgress(payload) {
   };
 }
 
+export const EDIT_NOTE_CLICK = 'EDIT_NOTE_CLICK';
+export const EDIT_NOTE_CANCEL = 'EDIT_NOTE_CANCEL';
+export const EDIT_NOTE_CHANGE = 'EDIT_NOTE_CHANGE';
+export const EDIT_NOTE_SAVE = 'EDIT_NOTE_SAVE';
+
+export function editNoteClick(payload) {
+  return {
+    type: EDIT_NOTE_CLICK,
+    payload
+  };
+}
+
+export function editNoteCancel(payload) {
+  return {
+    type: EDIT_NOTE_CANCEL,
+    payload
+  };
+}
+
+export function editNoteChange(payload) {
+  return {
+    type: EDIT_NOTE_CHANGE,
+    payload
+  };
+}
+
+export function editNoteSave(payload) {
+  return {
+    type: EDIT_NOTE_SAVE,
+    payload
+  };
+}
