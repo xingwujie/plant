@@ -122,6 +122,7 @@ export default class Plant extends React.Component {
             <div>
               <PlantRead
                 dispatch={store.dispatch}
+                interim={interim}
                 isOwner={owner}
                 plant={plant}
                 user={user}

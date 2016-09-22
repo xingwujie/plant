@@ -1,5 +1,6 @@
-// Used to add a note to a plant
+// Used to update a note in a plant
 
+const _ = require('lodash');
 import * as actions from '../../actions';
 import React from 'react';
 import validators from '../../models';
@@ -18,27 +19,12 @@ export default class NoteUpdate extends React.Component {
     this.saveFiles = this.saveFiles.bind(this);
   }
 
-  componentWillMount() {
-    this.initState();
-  }
-
-  initState() {
-    const {note} = this.props;
-    this.setState({
-      plantNote: {
-        ...note,
-        date: note.date.format('MM/DD/YYYY')
-      }
-    });
-  }
-
   cancel() {
-    this.initState();
-    this.props.cancel();
+    this.props.dispatch(actions.editNoteClose());
   }
 
   saveNote(files) {
-    const {plantNote} = this.state;
+    const plantNote = _.cloneDeep(this.props.note);
 
     if(plantNote.plantIds.indexOf(this.props.plant._id) === -1) {
       plantNote.plantIds.push(this.props.plant._id);
@@ -47,13 +33,10 @@ export default class NoteUpdate extends React.Component {
     validate(plantNote, {isNew: false}, (errors, note) => {
 
       if(errors) {
-        console.error('update: Note validation errors:', errors);
-        plantNote.errors = errors;
-        this.setState({plantNote});
+        console.log('update: Note validation errors:', errors);
+        this.props.dispatch(actions.editNoteChange({errors}));
       } else {
-        this.initState();
         this.props.dispatch(actions.updateNoteRequest({note, files}));
-        this.props.cancel();
       }
     });
   }
@@ -69,29 +52,26 @@ export default class NoteUpdate extends React.Component {
   }
 
   onChange(e) {
-    const {plantNote} = this.state;
-    plantNote[e.target.name] = e.target.value;
-    this.setState({plantNote});
+    this.props.dispatch(actions.editNoteChange({
+      [e.target.name]: e.target.value
+    }));
   }
 
   render() {
     const {
-      isOwner
+      isOwner,
+      note
     } = this.props || {};
 
     if(!isOwner) {
       return null;
     }
 
-    const {
-      plantNote
-    } = this.state || {};
-
     return (
       <NoteCreateUpdate
         cancel={this.cancel}
         onChange={this.onChange}
-        plantNote={plantNote}
+        plantNote={note}
         save={this.save}
         saveFiles={this.saveFiles}
       />

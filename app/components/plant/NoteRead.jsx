@@ -12,6 +12,7 @@ export default class NoteRead extends React.Component {
     super(props);
     this.checkDelete = this.checkDelete.bind(this);
     this.confirmDelete = this.confirmDelete.bind(this);
+    this.editNote = this.editNote.bind(this);
   }
 
   checkDelete() {
@@ -29,10 +30,10 @@ export default class NoteRead extends React.Component {
   renderEdit() {
     return (
       <NoteUpdate
-        cancel={() => this.setState({editMode: false})}
+        cancel={() => this.props.dispatch(actions.editNoteClose())}
         dispatch={this.props.dispatch}
         isOwner={this.props.isOwner}
-        note={this.props.note}
+        note={this.props.interim.note}
         plant={this.props.plant}
       />
     );
@@ -78,6 +79,14 @@ export default class NoteRead extends React.Component {
     });
   }
 
+  editNote() {
+    this.props.dispatch(actions.editNoteOpen({
+      ...this.props.note,
+      date: this.props.note.date.format('MM/DD/YYYY'),
+      isNew: false
+    }));
+  }
+
   renderRead() {
     const paperStyle = {
       padding: 20,
@@ -112,12 +121,12 @@ export default class NoteRead extends React.Component {
         <h5>{noteDate}</h5>
         <div>{note.note}</div>
         <EditDeleteButtons
-          clickEdit={() => this.setState({editMode: true})}
           clickDelete={this.checkDelete}
+          clickEdit={this.editNote}
           confirmDelete={this.confirmDelete.bind(note._id)}
-          showDeleteConfirmation={showDeleteConfirmation}
-          showButtons={isOwner}
           deleteTitle={''}
+          showButtons={isOwner}
+          showDeleteConfirmation={showDeleteConfirmation}
         />
         {!!images.length && images}
       </Paper>
@@ -126,10 +135,10 @@ export default class NoteRead extends React.Component {
 
   render() {
     const {
-      editMode = false
-    } = this.state || {};
+      note
+    } = this.props.interim;
 
-    return editMode
+    return note && note._id === this.props.note._id
       ? this.renderEdit()
       : this.renderRead();
   }
@@ -138,8 +147,8 @@ export default class NoteRead extends React.Component {
 
 NoteRead.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
+  interim: React.PropTypes.object.isRequired,
   isOwner: React.PropTypes.bool.isRequired,
   note: React.PropTypes.object.isRequired,
   plant: React.PropTypes.object.isRequired,
-  // sinceLast: React.PropTypes.string.isRequired,
 };

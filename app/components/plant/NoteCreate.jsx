@@ -28,6 +28,7 @@ export default class NoteCreate extends React.Component {
     const note = {
       _id: utils.makeMongoId(),
       date: moment().format('MM/DD/YYYY'),
+      isNew: true,
       note: '',
       plantIds: [],
       errors: {},
@@ -92,7 +93,7 @@ export default class NoteCreate extends React.Component {
       return null;
     }
 
-    const createNote = !!note;
+    const createNote = !!note && note.isNew;
 
     return (
       <div>

@@ -118,10 +118,11 @@ export default class PlantRead extends React.Component {
             </Paper>
             <NotesRead
               dispatch={this.props.dispatch}
+              interim={this.props.interim}
+              isOwner={isOwner}
               notes={this.props.notes}
               plant={plant}
               user={user}
-              isOwner={isOwner}
             />
           </div>
         }
@@ -132,6 +133,7 @@ export default class PlantRead extends React.Component {
 
 PlantRead.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
+  interim: React.PropTypes.object.isRequired,
   isOwner: React.PropTypes.bool.isRequired,
   notes: React.PropTypes.object.isRequired,
   plant: React.PropTypes.object.isRequired,
