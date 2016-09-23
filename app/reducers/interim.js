@@ -1,7 +1,7 @@
 // The most difficult part of creating this module was naming it.
 // "interim" is the least worst of all the bad names I came up with.
 
-const _ = require('lodash');
+const omit = require('lodash/omit');
 const actions = require('../actions');
 
 // action.payload:
@@ -19,7 +19,7 @@ function editNoteOpen(state, action) {
 function editNoteClose(state) {
   // Just remove note element if editing is canceled
   // or if the note has been saved
-  return Object.freeze(_.omit(state, ['note']));
+  return Object.freeze(omit(state, ['note']));
 }
 
 // action.payload:

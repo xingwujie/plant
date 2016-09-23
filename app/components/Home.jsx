@@ -1,4 +1,4 @@
-const _ = require('lodash');
+const isEmpty = require('lodash/isEmpty');
 import {Link} from 'react-router';
 import Base from './Base';
 import React from 'react';
@@ -21,7 +21,7 @@ export default class Home extends React.Component {
       user = {},
       plants = {}
     } = this.state || {};
-    if(_.isEmpty(plants) && isLoggedIn()) {
+    if(isEmpty(plants) && isLoggedIn()) {
       store.dispatch(actions.loadPlantsRequest(user._id));
     }
   }
@@ -66,7 +66,7 @@ export default class Home extends React.Component {
       return null;
     }
 
-    if(_.isEmpty(plants)) {
+    if(isEmpty(plants)) {
 
       return (
         <div id='hero'>

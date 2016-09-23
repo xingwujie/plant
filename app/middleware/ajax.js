@@ -1,4 +1,6 @@
-import _ from 'lodash';
+import isArray from 'lodash/isArray';
+import isObject from 'lodash/isObject';
+import isFunction from 'lodash/isFunction';
 import $ from 'jquery';
 import moment from 'moment';
 
@@ -23,11 +25,11 @@ function demomentize(obj) {
     return {};
   }
 
-  if(_.isArray(obj)) {
+  if(isArray(obj)) {
     return obj.map(demomentize);
   }
 
-  if(_.isObject(obj)) {
+  if(isObject(obj)) {
     if(moment.isMoment(obj)) {
       return obj.format(dateFormat);
     }
@@ -35,7 +37,7 @@ function demomentize(obj) {
       if(moment.isMoment(obj[key])) {
         obj[key] = obj[key].format(dateFormat);
       }
-      if(_.isObject(obj[key])) { // Includes arrays
+      if(isObject(obj[key])) { // Includes arrays
         obj[key] = demomentize(obj[key]);
       }
     });
@@ -46,7 +48,7 @@ function demomentize(obj) {
 
 module.exports = (store, options) => {
 
-  if(!options.url || !_.isFunction(options.success) || !_.isFunction(options.failure)) {
+  if(!options.url || !isFunction(options.success) || !isFunction(options.failure)) {
     console.error('Invalid options for ajax:', options);
   }
 

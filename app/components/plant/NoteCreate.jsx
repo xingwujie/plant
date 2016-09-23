@@ -1,6 +1,6 @@
 // Used to add a note to a plant
 
-const _ = require('lodash');
+const cloneDeep = require('lodash/cloneDeep');
 import * as actions from '../../actions';
 import moment from 'moment';
 import React from 'react';
@@ -42,7 +42,7 @@ export default class NoteCreate extends React.Component {
   }
 
   saveNote(files) {
-    const plantNote = _.cloneDeep(this.props.note);
+    const plantNote = cloneDeep(this.props.note);
 
     if(plantNote.plantIds.indexOf(this.props.plant._id) === -1) {
       plantNote.plantIds.push(this.props.plant._id);

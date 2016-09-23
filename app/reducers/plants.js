@@ -3,7 +3,8 @@
 // If a user is logged in then some of the items in the array
 // might be plants belonging to the user.
 
-const _ = require('lodash');
+import cloneDeep from 'lodash/cloneDeep';
+import uniq from 'lodash/uniq';
 const moment = require('moment');
 const actions = require('../actions');
 
@@ -111,7 +112,7 @@ function setPlantMode(state, action) {
   if(!action.payload._id) {
     return state;
   }
-  const plant = _.cloneDeep(state[action.payload._id]);
+  const plant = cloneDeep(state[action.payload._id]);
   plant.mode = action.payload.mode;
   return replaceInPlace(state, {payload: plant});
 }
@@ -133,7 +134,7 @@ function createNoteSuccess(state, action) {
     if(plant) {
       return {
         ...plant,
-        notes: _.uniq((plant.notes || []).concat(_id))
+        notes: uniq((plant.notes || []).concat(_id))
       };
     } else {
       return undefined;

@@ -3,7 +3,6 @@
 // Url: /plant/slug/<plant-id>
 // Unless Create then Url: /plant
 
-import _ from 'lodash';
 import {isOwner} from '../../libs/auth-helper';
 import {makeMongoId} from '../../libs/utils';
 import * as actions from '../../actions';
@@ -40,7 +39,7 @@ export default class Plant extends React.Component {
       plants = {},
       interim = {}
     } = store.getState();
-    const _id = _.get(props, 'params.id');
+    const {id: _id} = props.params || {};
     let plant;
     if(_id) {
       plant = plants[_id];

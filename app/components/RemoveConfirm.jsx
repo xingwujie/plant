@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import React from 'react';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ClearIcon from 'material-ui/svg-icons/content/clear';
@@ -21,7 +20,7 @@ export default class RemoveConfirm extends React.Component {
   }
 
   render() {
-    const title = _.get(this.props, 'title', '');
+    const {title = ''} = this.props || {};
 
     return (
       <div style={{textAlign: 'right'}}>
@@ -36,7 +35,6 @@ export default class RemoveConfirm extends React.Component {
         </FloatingActionButton>
         <FloatingActionButton
           onClick={this.reallyDelete}
-          primary={true}
           style={{marginLeft: '10px'}}
           title={`Delete ${title}`}
         >
@@ -49,4 +47,5 @@ export default class RemoveConfirm extends React.Component {
 
 RemoveConfirm.propTypes = {
   confirmFn: React.PropTypes.func.isRequired,
+  title: React.PropTypes.string,
 };

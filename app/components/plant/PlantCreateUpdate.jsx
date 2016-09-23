@@ -2,7 +2,7 @@
 // Url Create: /plant
 // Url Update: /plant/<slug>/<plant-id>
 
-import _ from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import {makeSlug} from '../../libs/utils';
 import validators from '../../models';
 import * as actions from '../../actions';
@@ -197,7 +197,7 @@ export default class PlantCreateUpdate extends React.Component {
         />
         <Divider />
 
-        {!_.isEmpty(errors) &&
+        {!isEmpty(errors) &&
           <div>
             <p className='text-danger col-xs-12'>{'There were errors. Please check your input.'}</p>
             <Divider />

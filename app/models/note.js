@@ -1,4 +1,7 @@
-import _ from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import omit from 'lodash/omit';
+import isArray from 'lodash/isArray';
+import every from 'lodash/every';
 import {makeMongoId} from '../libs/utils';
 import constants from '../libs/constants';
 import validatejs from 'validate.js';
@@ -17,17 +20,17 @@ validatejs.validators.plantIdsValidate = (value, options /*, key, attributes */)
     return 'is required';
   }
 
-  if(!_.isArray(value)) {
+  if(!isArray(value)) {
     return 'must be an array';
   }
 
-  const minarray = _.get(options, 'length.minimum');
+  const minarray = options && options.length && options.length.minimum;
   if(minarray && value.length < minarray) {
     return `must have at least ${minarray} on plant associated`;
   }
 
   // Only mongoId values of x length
-  const validInner = _.every(value, item => {
+  const validInner = every(value, item => {
     return item && item.length === 24 && constants.mongoIdRE.test(item);
   });
 
@@ -48,12 +51,12 @@ validatejs.validators.imagesValidate = (value) => {
     return;
   }
 
-  if(!_.isArray(value)) {
+  if(!isArray(value)) {
     return 'must be an array';
   }
 
   // Only uuid values of x length
-  const validImageObject = _.every(value, item => {
+  const validImageObject = every(value, item => {
     return item
       && constants.mongoIdRE.test(item.id)
       && typeof item.ext === 'string'
@@ -70,9 +73,9 @@ validatejs.validators.imagesValidate = (value) => {
   const allowedProps = ['id', 'ext', 'originalname', 'size', 'sizes'];
 
   let extraProps;
-  const validProps = _.every(value, item => {
+  const validProps = every(value, item => {
     // Make sure no extra keys inserted
-    extraProps = _.omit(item, allowedProps);
+    extraProps = omit(item, allowedProps);
     return Object.keys(extraProps).length === 0;
   });
 
@@ -82,9 +85,9 @@ validatejs.validators.imagesValidate = (value) => {
 
   // Check the sizes array if there is one
   const names = constants.imageSizeNames;
-  const validSizes = _.every(value, item => {
+  const validSizes = every(value, item => {
     if(item.sizes) {
-      return _.every(item.sizes, size => {
+      return every(item.sizes, size => {
         console.log('size:', size);
         return names.indexOf(size.name) >= 0 &&
           typeof size.width === 'number';
@@ -118,7 +121,7 @@ export default (attributes, {isNew}, cb) => {
     attributes = {...attributes, _id: makeMongoId()};
   }
 
-  if(_.isArray(attributes.images)) {
+  if(isArray(attributes.images)) {
     attributes = {
       ...attributes,
       images: attributes.images.map(image => {
@@ -139,7 +142,7 @@ export default (attributes, {isNew}, cb) => {
   }
 
   // debug('attributes:', attributes);
-  const cleaned = validatejs.cleanAttributes(_.clone(attributes), constraints);
+  const cleaned = validatejs.cleanAttributes(cloneDeep(attributes), constraints);
   // debug('cleaned:', cleaned);
   const transformed = transform(cleaned);
   // debug('transformed:', transformed);

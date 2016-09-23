@@ -1,6 +1,6 @@
 // Used to update a note in a plant
 
-const _ = require('lodash');
+const cloneDeep = require('lodash/cloneDeep');
 import * as actions from '../../actions';
 import React from 'react';
 import validators from '../../models';
@@ -24,7 +24,7 @@ export default class NoteUpdate extends React.Component {
   }
 
   saveNote(files) {
-    const plantNote = _.cloneDeep(this.props.note);
+    const plantNote = cloneDeep(this.props.note);
 
     if(plantNote.plantIds.indexOf(this.props.plant._id) === -1) {
       plantNote.plantIds.push(this.props.plant._id);

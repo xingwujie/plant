@@ -1,6 +1,6 @@
 // Used to add a note to a plant
 
-import _ from 'lodash';
+import isEmpty from 'lodash/isEmpty';
 import moment from 'moment';
 import Paper from 'material-ui/Paper';
 import React from 'react';
@@ -131,7 +131,7 @@ export default class NoteCreateUpdate extends React.Component {
           value={note}
         />
 
-        {!_.isEmpty(errors) &&
+        {!isEmpty(errors) &&
           <div>
             <p className='text-danger col-xs-12'>{'There were errors. Please check your input.'}</p>
           </div>

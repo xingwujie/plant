@@ -1,7 +1,7 @@
 // Used to show a list of plants for a user.
 // Url: /plants/<optional-user-id>
 
-const _ = require('lodash');
+const isEmpty = require('lodash/isEmpty');
 import {Link} from 'react-router';
 import Base from '../Base';
 import CircularProgress from 'material-ui/CircularProgress';
@@ -32,7 +32,7 @@ export default class Plants extends React.Component {
       users = {},
     } = this.state || {};
 
-    // if(_.isEmpty(plants) && isLoggedIn()) {
+    // if(isEmpty(plants) && isLoggedIn()) {
     //   store.dispatch(actions.loadPlantsRequest(user._id));
     // }
 
@@ -160,7 +160,7 @@ export default class Plants extends React.Component {
     }
 
     const {plantIds} = user;
-    if(_.isEmpty(plantIds)) {
+    if(isEmpty(plantIds)) {
       return this.renderNoPlants(user);
     }
 

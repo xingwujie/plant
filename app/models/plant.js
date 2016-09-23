@@ -1,4 +1,8 @@
-import _ from 'lodash';
+import cloneDeep from 'lodash/cloneDeep';
+import trim from 'lodash/trim';
+import isArray from 'lodash/isArray';
+import uniq from 'lodash/uniq';
+import every from 'lodash/every';
 import {makeMongoId} from '../libs/utils';
 import constants from '../libs/constants';
 import validatejs from 'validate.js';
@@ -30,7 +34,7 @@ validatejs.validators.tagValidate = (value, /*options, key, attributes */) => {
     return null;
   }
 
-  if(!_.isArray(value)) {
+  if(!isArray(value)) {
     return 'must be an array';
   }
 
@@ -48,7 +52,7 @@ validatejs.validators.tagValidate = (value, /*options, key, attributes */) => {
   }
 
   // Only a to z and '-'
-  if(!_.every(value, item => {return validRegex.test(item); })) {
+  if(!every(value, item => {return validRegex.test(item); })) {
     return 'can only have alphabetic characters and a dash';
   }
 
@@ -61,13 +65,13 @@ validatejs.validators.tagValidate = (value, /*options, key, attributes */) => {
 // 1. Lowercase elements of array
 // 2. Apply unique to array which might reduce length of array
 function transform(attributes) {
-  if(attributes.tags && _.isArray(attributes.tags)) {
-    attributes.tags = _.uniq(attributes.tags.map(tag => { return tag.toLowerCase(); }));
+  if(attributes.tags && isArray(attributes.tags)) {
+    attributes.tags = uniq(attributes.tags.map(tag => { return tag.toLowerCase(); }));
   }
 
   // If any amounts are preceded by a $ sign then trim that.
   if(attributes.price && typeof attributes.price === 'string') {
-    attributes.price = +_.trim(attributes.price, '$');
+    attributes.price = +trim(attributes.price, '$');
   }
 
   return attributes;
@@ -96,7 +100,7 @@ export default (attributes, {isNew}, cb) => {
   }
 
   // debug('attributes:', attributes);
-  const cleaned = validatejs.cleanAttributes(_.clone(attributes), constraints);
+  const cleaned = validatejs.cleanAttributes(cloneDeep(attributes), constraints);
   // debug('cleaned:', cleaned);
   const transformed = transform(cleaned);
   // debug('transformed:', transformed);

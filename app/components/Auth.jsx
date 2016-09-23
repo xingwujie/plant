@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import Base from './Base';
 import React from 'react';
 import store from '../store';
@@ -33,7 +32,7 @@ export default class Auth extends React.Component {
   }
 
   componentDidUpdate() {
-    const jwt = _.get(this, 'state.jwt', '');
+    const {jwt = ''} = this.state || {};
     if(jwt) {
       const returnurl = localStorage.getItem('returnurl');
       if(returnurl) {

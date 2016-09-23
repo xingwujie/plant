@@ -19,7 +19,7 @@ Object of notes:
 }
 */
 
-import _ from 'lodash';
+import omit from 'lodash/omit';
 import * as actions from '../actions';
 import moment from 'moment';
 
@@ -87,7 +87,7 @@ function upsertNoteFailure(state, action) {
  * @returns {object} state - the new object of notes
  */
 function deleteNoteRequest(state, action) {
-  return Object.freeze(_.omit(state, [action.payload]));
+  return Object.freeze(omit(state, [action.payload]));
 }
 
 /**

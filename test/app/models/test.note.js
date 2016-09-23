@@ -95,7 +95,7 @@ describe('/app/models/note', function() {
       note: 'some text',
       userId: makeMongoId(),
     };
-    const noteCopy = _.clone(note);
+    const noteCopy = _.cloneDeep(note);
 
     const isNew = true;
     noteValidator(note, {isNew}, (err, transformed) => {
@@ -106,7 +106,7 @@ describe('/app/models/note', function() {
       assert(constants.mongoIdRE.test(transformed._id));
       assert.equal(transformed.note, note.note);
       assert.equal(transformed.userId, note.userId);
-      assert.equal(transformed.plantIds, note.plantIds);
+      assert.deepEqual(transformed.plantIds, note.plantIds);
       assert.deepEqual(noteCopy, note);
       done();
     });
