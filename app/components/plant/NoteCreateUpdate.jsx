@@ -8,6 +8,7 @@ import TextField from 'material-ui/TextField';
 import CancelSaveButtons from './CancelSaveButtons';
 import Dropzone from 'react-dropzone';
 import LinearProgress from 'material-ui/LinearProgress';
+import CircularProgress from 'material-ui/CircularProgress';
 
 export default class NoteCreateUpdate extends React.Component {
   constructor(props) {
@@ -58,8 +59,18 @@ export default class NoteCreateUpdate extends React.Component {
           style={paperStyle}
           zDepth={1}
         >
-          <h1 style={{fontSize: 'xx-large'}}>{progress}</h1>
-          <LinearProgress style={linearProgressStyle} mode='determinate' value={value} max={max} />
+          {value !== max &&
+            <div>
+              <h1 style={{fontSize: 'xx-large'}}>{progress}</h1>
+              <LinearProgress style={linearProgressStyle} mode='determinate' value={value} max={max} />
+            </div>
+          }
+          {value === max &&
+            <div style={{display: 'flex', fontSize: 'xx-large', justifyContent: 'space-between'}}>
+              <h1>{'Upload complete... Finishing up... Hang on...'}</h1>
+              <CircularProgress />
+            </div>
+          }
         </Paper>
       );
     }
