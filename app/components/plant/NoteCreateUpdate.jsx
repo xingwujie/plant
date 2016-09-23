@@ -7,6 +7,7 @@ import React from 'react';
 import TextField from 'material-ui/TextField';
 import CancelSaveButtons from './CancelSaveButtons';
 import Dropzone from 'react-dropzone';
+import LinearProgress from 'material-ui/LinearProgress';
 
 export default class NoteCreateUpdate extends React.Component {
   constructor(props) {
@@ -33,20 +34,32 @@ export default class NoteCreateUpdate extends React.Component {
   }
 
   render() {
+    const paperStyle = {
+      padding: 20,
+      width: '100%',
+      margin: 20,
+      textAlign: 'center',
+      display: 'inline-block',
+    };
+
     const {
       plantNote = {},
     } = this.props || {};
 
     if(plantNote.uploadProgress) {
-      const uploadStyle = {
-        fontSize: '20px'
+      const linearProgressStyle = {
+        width: '100%',
+        height: '20px'
       };
+      const {value, max} = plantNote.uploadProgress;
+      const progress = `Upload progress ${Math.round(value * 100 / max)} %`;
       return (
         <Paper
-          style={uploadStyle}
+          style={paperStyle}
           zDepth={1}
         >
-          <div>{plantNote.uploadProgress}</div>
+          <h1 style={{fontSize: 'xx-large'}}>{progress}</h1>
+          <LinearProgress style={linearProgressStyle} mode='determinate' value={value} max={max} />
         </Paper>
       );
     }
@@ -63,14 +76,6 @@ export default class NoteCreateUpdate extends React.Component {
 
     const textAreaStyle = {
       textAlign: 'left'
-    };
-
-    const paperStyle = {
-      padding: 20,
-      width: '100%',
-      margin: 20,
-      textAlign: 'center',
-      display: 'inline-block',
     };
 
     const underlineStyle = {
