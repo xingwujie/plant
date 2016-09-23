@@ -1,6 +1,8 @@
-import RaisedButton from 'material-ui/RaisedButton';
 import _ from 'lodash';
 import React from 'react';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ClearIcon from 'material-ui/svg-icons/content/clear';
+import DeleteForeverIcon from 'material-ui/svg-icons/action/delete-forever';
 
 export default class RemoveConfirm extends React.Component {
 
@@ -24,16 +26,22 @@ export default class RemoveConfirm extends React.Component {
     return (
       <div style={{textAlign: 'right'}}>
         <strong className='lead'>{'Really delete? (This cannot be undone.)'}</strong>
-        <RaisedButton
-          label='Cancel'
+        <FloatingActionButton
           onClick={this.cancelDelete}
+          secondary={true}
           style={{marginLeft: '10px'}}
-        />
-        <RaisedButton
-          label={`Delete ${title}`}
+          title='Cancel'
+        >
+          <ClearIcon />
+        </FloatingActionButton>
+        <FloatingActionButton
           onClick={this.reallyDelete}
+          primary={true}
           style={{marginLeft: '10px'}}
-        />
+          title={`Delete ${title}`}
+        >
+          <DeleteForeverIcon />
+        </FloatingActionButton>
       </div>
     );
   }

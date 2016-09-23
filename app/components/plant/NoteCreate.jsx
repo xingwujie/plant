@@ -6,8 +6,8 @@ import moment from 'moment';
 import React from 'react';
 import validators from '../../models';
 import NoteCreateUpdate from './NoteCreateUpdate';
-import Divider from 'material-ui/Divider';
-import RaisedButton from 'material-ui/RaisedButton';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import AddIcon from 'material-ui/svg-icons/content/add';
 import * as utils from '../../libs/utils';
 
 const validate = validators.note;
@@ -108,11 +108,13 @@ export default class NoteCreate extends React.Component {
         }
         {!createNote &&
           <div style={{textAlign: 'right'}}>
-            <Divider />
-            <RaisedButton
-              label='Create Note'
+            <FloatingActionButton
               onClick={this.createNote}
-            />
+              secondary={true}
+              title='Create Note'
+            >
+              <AddIcon />
+            </FloatingActionButton>
           </div>
         }
       </div>
