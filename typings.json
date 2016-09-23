@@ -4,16 +4,16 @@
     "debug": "registry:npm/debug#2.0.0+20160723033700",
     "mongodb": "registry:npm/mongodb#2.1.0+20160721204323",
     "react": "registry:npm/react#15.0.1+20160601175240",
-    "react-dom": "registry:npm/react-dom#15.0.1+20160705210405"
+    "react-dom": "registry:npm/react-dom#15.0.1+20160826174104"
   },
   "globalDependencies": {
     "async": "registry:dt/async#2.0.1+20160804113311",
-    "aws-sdk": "registry:dt/aws-sdk#0.0.0+20160811005841",
+    "aws-sdk": "registry:dt/aws-sdk#0.0.0+20160922141848",
     "express": "registry:dt/express#4.0.0+20160708185218",
-    "lodash": "registry:dt/lodash#4.14.0+20160802150749",
+    "lodash": "registry:dt/lodash#4.14.0+20160919145112",
     "mocha": "registry:dt/mocha#2.2.5+20160720003353",
     "moment": "registry:dt/moment#2.11.1+20160829143156",
-    "node": "registry:dt/node#6.0.0+20160807145350",
+    "node": "registry:dt/node#6.0.0+20160921192128",
     "webpack": "registry:dt/webpack#1.12.9+20160724112410"
   }
 }
