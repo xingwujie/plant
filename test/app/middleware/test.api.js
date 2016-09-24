@@ -39,7 +39,7 @@ describe('/app/middleware/api', function() {
 
   });
 
-  it('should check that createNoteRequest calls saveNoteRequest when files is present', () => {
+  it('should check that upsertNoteRequest calls saveNoteRequest when files is present', () => {
     const store = {};
     const next = () => {};
     let callCounter = 0;
@@ -59,7 +59,7 @@ describe('/app/middleware/api', function() {
         note: {_id: '123'},
         files: [{}]
       },
-      type: actions.CREATE_NOTE_REQUEST
+      type: actions.UPSERT_NOTE_REQUEST
     };
 
     api.default(store)(next)(action);

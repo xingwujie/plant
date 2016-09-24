@@ -58,27 +58,27 @@ export function createPlantFailure(payload) {
   };
 }
 
-export const CREATE_NOTE_REQUEST = 'CREATE_NOTE_REQUEST';
-export const CREATE_NOTE_SUCCESS = 'CREATE_NOTE_SUCCESS';
-export const CREATE_NOTE_FAILURE = 'CREATE_NOTE_FAILURE';
+export const UPSERT_NOTE_REQUEST = 'UPSERT_NOTE_REQUEST';
+export const UPSERT_NOTE_SUCCESS = 'UPSERT_NOTE_SUCCESS';
+export const UPSERT_NOTE_FAILURE = 'UPSERT_NOTE_FAILURE';
 
-export function createNoteRequest(payload) {
+export function upsertNoteRequest(payload) {
   return {
-    type: CREATE_NOTE_REQUEST,
+    type: UPSERT_NOTE_REQUEST,
     payload
   };
 }
 
-export function createNoteSuccess(payload) {
+export function upsertNoteSuccess(payload) {
   return {
-    type: CREATE_NOTE_SUCCESS,
+    type: UPSERT_NOTE_SUCCESS,
     payload
   };
 }
 
-export function createNoteFailure(payload) {
+export function upsertNoteFailure(payload) {
   return {
-    type: CREATE_NOTE_FAILURE,
+    type: UPSERT_NOTE_FAILURE,
     payload
   };
 }
@@ -104,31 +104,6 @@ export function updatePlantSuccess(payload) {
 export function updatePlantFailure(payload) {
   return {
     type: UPDATE_PLANT_FAILURE,
-    payload
-  };
-}
-
-export const UPDATE_NOTE_REQUEST = 'UPDATE_NOTE_REQUEST';
-export const UPDATE_NOTE_SUCCESS = 'UPDATE_NOTE_SUCCESS';
-export const UPDATE_NOTE_FAILURE = 'UPDATE_NOTE_FAILURE';
-
-export function updateNoteRequest(payload) {
-  return {
-    type: UPDATE_NOTE_REQUEST,
-    payload
-  };
-}
-
-export function updateNoteSuccess(payload) {
-  return {
-    type: UPDATE_NOTE_SUCCESS,
-    payload
-  };
-}
-
-export function updateNoteFailure(payload) {
-  return {
-    type: UPDATE_NOTE_FAILURE,
     payload
   };
 }

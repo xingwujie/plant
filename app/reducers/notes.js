@@ -129,13 +129,9 @@ function loadNotesSuccess(state, action) {
 }
 
 export const reducers = Object.freeze({
-  [actions.CREATE_NOTE_REQUEST]: upsertNoteRequest,
-  [actions.CREATE_NOTE_SUCCESS]: upsertNoteSuccess,
-  [actions.CREATE_NOTE_FAILURE]: upsertNoteFailure,
-
-  [actions.UPDATE_NOTE_REQUEST]: upsertNoteRequest,
-  [actions.UPDATE_NOTE_SUCCESS]: upsertNoteSuccess,
-  [actions.UPDATE_NOTE_FAILURE]: upsertNoteFailure,
+  [actions.UPSERT_NOTE_REQUEST]: upsertNoteRequest,
+  [actions.UPSERT_NOTE_SUCCESS]: upsertNoteSuccess,
+  [actions.UPSERT_NOTE_FAILURE]: upsertNoteFailure,
 
   [actions.DELETE_NOTE_REQUEST]: deleteNoteRequest,
   [actions.DELETE_NOTE_SUCCESS]: deleteNoteSuccess,

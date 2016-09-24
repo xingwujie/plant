@@ -66,11 +66,11 @@ function saveFilesRequest(store, action, opts, next) {
 // action.payload is an object with two properties
 // files: An optional array of files
 // note: The note being created
-function createNoteRequest(store, action, next) {
+function upsertNoteRequest(store, action, next) {
   function success(ajaxResult) {
     // This will cause the edit note window to close
     store.dispatch(actions.editNoteClose());
-    return actions.createNoteSuccess(ajaxResult);
+    return actions.upsertNoteSuccess(ajaxResult);
   }
 
   function failure(ajaxResult) {
@@ -79,9 +79,10 @@ function createNoteRequest(store, action, next) {
         general: ajaxResult.toString()
       }
     }));
-    return actions.createNoteFailure(ajaxResult);
+    return actions.upsertNoteFailure(ajaxResult);
   }
   const opts = { success, failure };
+
   if(action.payload.files && action.payload.files.length) {
     saveFilesRequest(store, action, opts, next);
   } else {
@@ -107,38 +108,6 @@ function updatePlant(store, action, next) {
   };
   ajax(store, options);
   return next(action);
-}
-
-function updateNoteRequest(store, action, next) {
-  function success(ajaxResult) {
-    // This will cause the edit note window to close
-    store.dispatch(actions.editNoteClose());
-    return actions.updateNoteSuccess(ajaxResult);
-  }
-
-  function failure(ajaxResult) {
-    store.dispatch(actions.editNoteChange({
-      errors: {
-        general: ajaxResult.toString()
-      }
-    }));
-    return actions.updateNoteFailure(ajaxResult);
-  }
-  const opts = { success, failure };
-
-  if(action.payload.files && action.payload.files.length) {
-    saveFilesRequest(store, action, opts, next);
-  } else {
-    const options = {
-      type: 'PUT',
-      url: '/api/note',
-      data: action.payload.note,
-      success,
-      failure,
-    };
-    ajax(store, options);
-    return next(action);
-  }
 }
 
 function deletePlant(store, action, next) {
@@ -220,9 +189,8 @@ function loadNotesRequest(store, action) {
 export const apis = {
   [actions.LOGIN_REQUEST]: loginRequest,
   [actions.CREATE_PLANT_REQUEST]: createPlant,
-  [actions.CREATE_NOTE_REQUEST]: createNoteRequest,
+  [actions.UPSERT_NOTE_REQUEST]: upsertNoteRequest,
   [actions.UPDATE_PLANT_REQUEST]: updatePlant,
-  [actions.UPDATE_NOTE_REQUEST]: updateNoteRequest,
   [actions.DELETE_PLANT_REQUEST]: deletePlant,
   [actions.DELETE_NOTE_REQUEST]: deleteNoteRequest,
   [actions.LOAD_PLANT_REQUEST]: loadPlantRequest,

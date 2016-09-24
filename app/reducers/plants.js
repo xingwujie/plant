@@ -119,14 +119,14 @@ function setPlantMode(state, action) {
 
 // The action.payload.note is the returned note from the
 // server.
-function createNoteSuccess(state, action) {
+function upsertNoteSuccess(state, action) {
   const {
     _id,
     plantIds = []
   } = action.payload.note;
 
   if(!plantIds.length) {
-    console.error('No plantIds in createNoteSuccess:', action);
+    console.error('No plantIds in upsertNoteSuccess:', action);
   }
 
   const plants = plantIds.map(plantId => {
@@ -146,7 +146,7 @@ function createNoteSuccess(state, action) {
 
 const reducers = {
   [actions.CANCEL_PLANT_CREATE_MODE]: deletePlant,
-  [actions.CREATE_NOTE_SUCCESS]: createNoteSuccess,
+  [actions.UPSERT_NOTE_SUCCESS]: upsertNoteSuccess,
   [actions.CREATE_PLANT_FAILURE]: ajaxPlantFailure,
   [actions.CREATE_PLANT_REQUEST]: createPlantRequest,
   [actions.DELETE_PLANT_FAILURE]: ajaxPlantFailure,

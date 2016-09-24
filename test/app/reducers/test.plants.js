@@ -177,7 +177,7 @@ describe('/app/reducers/plants', function() {
     expected.p2.notes = ['n1', 'n2', 'n5'];
 
 
-    const actual = plants(current, actions.createNoteSuccess(payload));
+    const actual = plants(current, actions.upsertNoteSuccess(payload));
     assert.deepEqual(actual, expected);
   });
 
