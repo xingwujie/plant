@@ -164,25 +164,42 @@ export default class Plants extends React.Component {
       return this.renderNoPlants(user);
     }
 
+    const filteredPlantIds = filter
+      ? plantIds.filter(plantId => {
+        const plant = allLoadedPlants[plantId];
+        return !plant || (plant.title || '').toLowerCase().indexOf(filter) >= 0;
+      })
+      : plantIds;
+
+    const sortedPlantIds = filteredPlantIds.sort((a, b) => {
+      const plantA = allLoadedPlants[a];
+      const plantB = allLoadedPlants[b];
+      if(plantA && plantB) {
+        if(plantA.title === plantB.title) {
+          return 0;
+        }
+        return plantA.title > plantB.title ? 1 : -1;
+      } else {
+        return 0;
+      }
+    });
+
     // Don't send the name into PlantItem to skip the subtitle
     // If all the plants are by the same user then don't need the
     // users name. If the plants are from a search result then send
     // in the name:
     // name={user.name}
-    const tileElements = plantIds.reduce((acc, plantId) => {
+    const tileElements = sortedPlantIds.map(plantId => {
       const plant = allLoadedPlants[plantId];
-      if(plant && (!filter || (plant.title || '').toLowerCase().indexOf(filter) >= 0)) {
-        acc.push(
-          <PlantItem
-            key={plant._id}
-            createNote={this.createNote}
-            isOwner={loggedIn && plant.userId === user._id}
-            plant={plant}
-          />
-        );
-      }
-      return acc;
-    }, []);
+      return (
+        <PlantItem
+          key={plant._id}
+          createNote={this.createNote}
+          isOwner={loggedIn && plant.userId === user._id}
+          plant={plant}
+        />
+      );
+    });
 
     const filterInput = (<InputCombo
       changeHandler={(e) => this.setState({filter: e.target.value.toLowerCase()})}
