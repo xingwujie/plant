@@ -97,6 +97,7 @@ function plantArrayToObject(plants) {
   }, {});
 }
 
+// action.payload is an array of plant objects
 function loadPlantsSuccess(state, action) {
   if(action.payload && action.payload.length > 0) {
     const plants = plantArrayToObject(action.payload);

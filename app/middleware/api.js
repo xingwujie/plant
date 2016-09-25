@@ -199,17 +199,17 @@ function loadNotesRequest(store, action) {
 }
 
 export const apis = {
-  [actions.LOGIN_REQUEST]: loginRequest,
   [actions.CREATE_PLANT_REQUEST]: createPlant,
-  [actions.UPSERT_NOTE_REQUEST]: upsertNoteRequest,
-  [actions.UPDATE_PLANT_REQUEST]: updatePlant,
-  [actions.DELETE_PLANT_REQUEST]: deletePlant,
   [actions.DELETE_NOTE_REQUEST]: deleteNoteRequest,
-  [actions.LOAD_PLANT_REQUEST]: loadPlantRequest,
+  [actions.DELETE_PLANT_REQUEST]: deletePlant,
   [actions.LOAD_NOTES_REQUEST]: loadNotesRequest,
+  [actions.LOAD_PLANT_REQUEST]: loadPlantRequest,
+  [actions.LOAD_PLANTS_REQUEST]: loadPlantsRequest,
   [actions.LOAD_USER_REQUEST]: loadUserRequest,
   [actions.LOAD_USERS_REQUEST]: loadUsersRequest,
-  [actions.LOAD_PLANTS_REQUEST]: loadPlantsRequest,
+  [actions.LOGIN_REQUEST]: loginRequest,
+  [actions.UPDATE_PLANT_REQUEST]: updatePlant,
+  [actions.UPSERT_NOTE_REQUEST]: upsertNoteRequest,
 };
 
 export default store => next => action => {

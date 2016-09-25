@@ -25,21 +25,16 @@ export default class Plants extends React.Component {
     this.state.filter = '';
 
     const {
-      // plants = {},
-      // user = {},
       users = {},
     } = this.state || {};
 
-    // if(isEmpty(plants) && isLoggedIn()) {
-    //   store.dispatch(actions.loadPlantsRequest(user._id));
-    // }
-
-    console.log('props:', props);
     if(props.params && props.params.id) {
       // This is the user id for this page.
       const {id: userId} = props.params;
       if(!users[userId]) {
         store.dispatch(actions.loadUserRequest(userId));
+      }
+      if(!users[userId] || !users[userId].plantIds) {
         store.dispatch(actions.loadPlantsRequest(userId));
       }
     }

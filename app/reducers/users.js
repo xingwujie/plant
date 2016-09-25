@@ -1,5 +1,6 @@
 
 const actions = require('../actions');
+const cloneDeep = require('lodash/cloneDeep');
 
 // The action.payload is the returned user from the server.
 function loadUserSuccess(state, action) {
@@ -47,10 +48,32 @@ function createPlantRequest(state, action) {
   }
 }
 
+// action.payload is an array of plant objects
+function loadPlantsSuccess(state, action) {
+  if(action.payload && action.payload.length > 0) {
+    const users = action.payload.reduce((acc, plant) => {
+      const user = state[plant.userId];
+      if(user) {
+        acc[user._id] = acc[user._id] || cloneDeep(user);
+        acc[user._id].plantIds = acc[user._id].plantIds || [];
+        if(acc[user._id].plantIds.indexOf(plant._id) === -1) {
+          acc[user._id].plantIds.push(plant._id);
+        }
+      }
+      return acc;
+    }, {});
+
+    return Object.freeze(Object.assign({}, state, users));
+  } else {
+    return state;
+  }
+}
+
 const reducers = {
   [actions.CREATE_PLANT_REQUEST]: createPlantRequest,
   [actions.LOAD_USER_SUCCESS]: loadUserSuccess,
   [actions.LOAD_USERS_SUCCESS]: loadUsersSuccess,
+  [actions.LOAD_PLANTS_SUCCESS]: loadPlantsSuccess,
 };
 
 module.exports = (state = {}, action) => {
