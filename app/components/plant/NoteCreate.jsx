@@ -25,6 +25,7 @@ export default class NoteCreate extends React.Component {
   }
 
   createNote() {
+    const {plant} = this.props;
     const note = {
       _id: utils.makeMongoId(),
       date: moment().format('MM/DD/YYYY'),
@@ -34,7 +35,7 @@ export default class NoteCreate extends React.Component {
       errors: {},
     };
 
-    this.props.dispatch(actions.editNoteOpen(note));
+    this.props.dispatch(actions.editNoteOpen({note, plant}));
   }
 
   cancel() {

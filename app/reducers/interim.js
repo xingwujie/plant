@@ -5,7 +5,7 @@ const omit = require('lodash/omit');
 const actions = require('../actions');
 
 // action.payload:
-// note object
+// {note, plant}
 function editNoteOpen(state, action) {
   const note = Object.freeze(action.payload);
   return Object.freeze({
@@ -24,14 +24,22 @@ function editNoteClose(state) {
 
 // action.payload:
 // {note-key: note-value, ...}
+// state:
+//   note:
+//     note,
+//     plant
 function editNoteChange(state, action) {
   const note = Object.freeze({
-    ...state.note,
+    ...state.note.note,
     ...action.payload
   });
+
   return Object.freeze({
     ...state,
-    note
+    note: {
+      note,
+      plant: state.note.plant
+    }
   });
 }
 
@@ -55,9 +63,14 @@ module.exports = (state = {}, action) => {
 This state is WIP
 {
   note: {
-    id: 'some-mongo-id',
-    mode: 'new/update',
-    fileUploadStatus: 'some string percent or object ??'
+    note: {
+      id: 'some-mongo-id',
+      mode: 'new/update',
+      fileUploadStatus: 'some string percent or object ??'
+    },
+    plant: {
+      // expected props for a plant
+    }
   }
 }
 */

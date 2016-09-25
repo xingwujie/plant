@@ -33,7 +33,7 @@ export default class NoteRead extends React.Component {
         cancel={() => this.props.dispatch(actions.editNoteClose())}
         dispatch={this.props.dispatch}
         isOwner={this.props.isOwner}
-        note={this.props.interim.note}
+        note={this.props.interim.note.note}
         plant={this.props.plant}
       />
     );
@@ -80,11 +80,13 @@ export default class NoteRead extends React.Component {
   }
 
   editNote() {
-    this.props.dispatch(actions.editNoteOpen({
+    const note = {
       ...this.props.note,
       date: this.props.note.date.format('MM/DD/YYYY'),
-      isNew: false
-    }));
+      isNew: false // TODO: is this still needed?
+    };
+    const {plant} = this.props;
+    this.props.dispatch(actions.editNoteOpen({plant, note}));
   }
 
   renderRead() {
@@ -134,9 +136,7 @@ export default class NoteRead extends React.Component {
   }
 
   render() {
-    const {
-      note
-    } = this.props.interim;
+    const note = this.props.interim && this.props.interim.note && this.props.interim.note.note;
 
     return note && note._id === this.props.note._id
       ? this.renderEdit()
@@ -147,7 +147,12 @@ export default class NoteRead extends React.Component {
 
 NoteRead.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
-  interim: React.PropTypes.object.isRequired,
+  interim: React.PropTypes.shape({
+    note: React.PropTypes.shape({
+      note: React.PropTypes.object.isRequired,
+      plant: React.PropTypes.object.isRequired,
+    })
+  }).isRequired,
   isOwner: React.PropTypes.bool.isRequired,
   note: React.PropTypes.object.isRequired,
   plant: React.PropTypes.object.isRequired,

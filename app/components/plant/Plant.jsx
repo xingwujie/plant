@@ -114,6 +114,8 @@ export default class Plant extends React.Component {
     const {user, notes} = store.getState();
     const mode = plant.mode || this.state.mode || 'read';
 
+    const note = interim && interim.note && interim.note.note;
+
     return (
       <Base>
         <div>
@@ -133,7 +135,7 @@ export default class Plant extends React.Component {
                   isOwner={owner}
                   plant={plant}
                   user={user}
-                  note={interim.note}
+                  note={note}
                 />
               }
             </div>

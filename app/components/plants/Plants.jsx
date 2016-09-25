@@ -189,17 +189,20 @@ export default class Plants extends React.Component {
     // users name. If the plants are from a search result then send
     // in the name:
     // name={user.name}
-    const tileElements = sortedPlantIds.map(plantId => {
+    const tileElements = sortedPlantIds.reduce((acc, plantId) => {
       const plant = allLoadedPlants[plantId];
-      return (
-        <PlantItem
-          key={plant._id}
-          createNote={this.createNote}
-          isOwner={loggedIn && plant.userId === user._id}
-          plant={plant}
-        />
-      );
-    });
+      if(plant) {
+        acc.push(
+          <PlantItem
+            key={plant._id}
+            createNote={this.createNote}
+            isOwner={loggedIn && plant.userId === user._id}
+            plant={plant}
+          />
+        );
+      }
+      return acc;
+    }, []);
 
     const filterInput = (<InputCombo
       changeHandler={(e) => this.setState({filter: e.target.value.toLowerCase()})}
