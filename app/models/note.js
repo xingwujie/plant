@@ -106,7 +106,7 @@ validatejs.validators.imagesValidate = (value) => {
 // Don't need an _id if we're creating a document, db will do this.
 // Don't need a userId if we're in the client, this will get added on the server
 // to prevent tampering with the logged in user.
-export default (attributes, {isNew}, cb) => {
+export default (attributes, cb) => {
 
   const constraints = {
     _id: {format: constants.mongoIdRE, presence: true},
@@ -114,12 +114,10 @@ export default (attributes, {isNew}, cb) => {
     images: {imagesValidate: {}},
     plantIds: {plantIdsValidate: {length: {minimum: 1}}},
     note: {length: {minimum: 1, maximum: 5000}, presence: true},
-    userId: {format: constants.mongoIdRE, presence: true},
   };
 
-  if(isNew && !attributes._id) {
-    attributes = {...attributes, _id: makeMongoId()};
-  }
+  attributes = cloneDeep(attributes);
+  attributes._id = attributes._id || makeMongoId();
 
   if(isArray(attributes.images)) {
     attributes = {

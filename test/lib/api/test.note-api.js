@@ -164,7 +164,7 @@ describe('note-api', function() {
       };
 
       const reqOptions = {
-        method: 'PUT',
+        method: 'POST',
         authenticate: true,
         body: updatedNote,
         json: true,
@@ -296,7 +296,7 @@ describe('note-api', function() {
       ];
 
       function createNote(data, cb) {
-        mongo.createNote(note, (err, body) => {
+        mongo.upsertNote(note, (err, body) => {
           assert(!err);
           assert(body);
           // logger.trace('body', {body});
