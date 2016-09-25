@@ -1,5 +1,6 @@
 // Used to add a note to a plant
 
+const cloneDeep = require('lodash/cloneDeep');
 import isEmpty from 'lodash/isEmpty';
 import moment from 'moment';
 import Paper from 'material-ui/Paper';
@@ -10,6 +11,10 @@ import Dropzone from 'react-dropzone';
 import LinearProgress from 'material-ui/LinearProgress';
 import CircularProgress from 'material-ui/CircularProgress';
 const actions = require('../../actions');
+import * as utils from '../../libs/utils';
+
+import validators from '../../models';
+const validate = validators.note;
 
 export default class NoteCreateUpdate extends React.Component {
   constructor(props) {
@@ -17,6 +22,9 @@ export default class NoteCreateUpdate extends React.Component {
     this.cancel = this.cancel.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onDrop = this.onDrop.bind(this);
+    this.save = this.save.bind(this);
+    this.saveFiles = this.saveFiles.bind(this);
+
   }
 
   cancel() {
@@ -40,11 +48,44 @@ export default class NoteCreateUpdate extends React.Component {
 
   onDrop(files) {
     // console.log('Received files: ', files);
-    this.props.saveFiles(files);
+    this.saveFiles(files);
   }
 
   onOpenClick() {
     this.refs.dropzone.open();
+  }
+
+  saveNote(files) {
+    const plantNote = cloneDeep(this.props.plantNote);
+
+    if(plantNote.plantIds.indexOf(this.props.plant._id) === -1) {
+      plantNote.plantIds.push(this.props.plant._id);
+    }
+
+    plantNote._id = plantNote._id || utils.makeMongoId();
+
+    validate(plantNote, (errors, note) => {
+
+      if(errors) {
+        console.log('create: Note validation errors:', errors);
+        this.props.dispatch(actions.editNoteChange({errors}));
+      } else {
+        this.props.dispatch(actions.upsertNoteRequest({note, files}));
+        if(this.props.postSaveSuccess) {
+          this.props.postSaveSuccess();
+        }
+      }
+    });
+  }
+
+  saveFiles(files) {
+    this.saveNote(files);
+  }
+
+  save(e) {
+    this.saveNote();
+    e.preventDefault();
+    e.stopPropagation();
   }
 
   render() {
@@ -168,7 +209,7 @@ export default class NoteCreateUpdate extends React.Component {
 
         <CancelSaveButtons
           clickAddPhoto={this.onOpenClick.bind(this)}
-          clickSave={this.props.save}
+          clickSave={this.save}
           clickCancel={this.cancel}
           showButtons={true}
         />
@@ -200,11 +241,11 @@ export default class NoteCreateUpdate extends React.Component {
 NoteCreateUpdate.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
   images: React.PropTypes.array,
+  plant: React.PropTypes.object.isRequired,
   plantNote:  React.PropTypes.shape({
     date: React.PropTypes.string.isRequired,
     errors: React.PropTypes.object,
     note: React.PropTypes.string.isRequired,
   }),
-  save: React.PropTypes.func.isRequired,
-  saveFiles: React.PropTypes.func.isRequired,
+  postSaveSuccess: React.PropTypes.func,
 };
