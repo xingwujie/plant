@@ -11,5 +11,5 @@ export function isOwner(object) {
 
 export function isLoggedIn() {
   const {user} = store.getState();
-  return user && user.isLoggedIn;
+  return !!(user && user.isLoggedIn);
 }

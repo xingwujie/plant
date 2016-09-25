@@ -2,6 +2,9 @@ import React from 'react';
 import store from '../store';
 import * as actions from '../actions';
 import * as utils from '../libs/utils';
+import {isLoggedIn} from '../libs/auth-helper';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import AddIcon from 'material-ui/svg-icons/content/add';
 
 import {Link} from 'react-router';
 
@@ -37,6 +40,7 @@ export default class Navbar extends React.Component {
     } = this.state || {};
     const displayName = user.name || '';
 
+    const loggedIn = isLoggedIn();
 
     return (
       <nav className='navbar navbar-default'>
@@ -49,11 +53,20 @@ export default class Navbar extends React.Component {
               <span className='icon-bar' />
             </button>
             <Link to={'/'} className='navbar-brand'>Plant</Link>
+            {loggedIn &&
+              <Link to={'/plant'}>
+                <FloatingActionButton
+                  title='Add Plant' mini={true} style={{marginTop: '5px'}}
+                >
+                  <AddIcon />
+                </FloatingActionButton>
+              </Link>
+            }
           </div>
 
           <div className='collapse navbar-collapse' id='plant-navbar-collapse'>
             <ul className='nav navbar-nav navbar-right'>
-              {displayName &&
+              {loggedIn &&
                 <li className='dropdown'>
                   <a href='#' className='dropdown-toggle'
                     data-toggle='dropdown' role='button'
@@ -70,7 +83,7 @@ export default class Navbar extends React.Component {
                   </ul>
                 </li>
               }
-              {displayName &&
+              {loggedIn &&
                 <li className='dropdown'>
                   <a href='#' className='dropdown-toggle'
                     data-toggle='dropdown' role='button'
@@ -87,7 +100,7 @@ export default class Navbar extends React.Component {
                   </ul>
                 </li>
               }
-              {!displayName &&
+              {!loggedIn &&
                 <li>
                   <Link to='/login'>Login</Link>
                 </li>
