@@ -32,7 +32,10 @@ export default class Plants extends React.Component {
       // This is the user id for this page.
       const {id: userId} = props.params;
       if(!users[userId]) {
-        store.dispatch(actions.loadUserRequest(userId));
+        // For now load all the users if one is missing
+        // instead of the single user.
+        // store.dispatch(actions.loadUserRequest(userId));
+        store.dispatch(actions.loadUsersRequest());
       }
       if(!users[userId] || !users[userId].plantIds) {
         store.dispatch(actions.loadPlantsRequest(userId));
