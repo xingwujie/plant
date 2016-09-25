@@ -257,6 +257,30 @@ export function loadUserFailure(payload) {
     payload
   };
 }
+export const LOAD_USERS_REQUEST = 'LOAD_USERS_REQUEST';
+export const LOAD_USERS_SUCCESS = 'LOAD_USERS_SUCCESS';
+export const LOAD_USERS_FAILURE = 'LOAD_USERS_FAILURE';
+
+export function loadUsersRequest(payload) {
+  return {
+    type: LOAD_USERS_REQUEST,
+    payload
+  };
+}
+
+export function loadUsersSuccess(payload) {
+  return {
+    type: LOAD_USERS_SUCCESS,
+    payload
+  };
+}
+
+export function loadUsersFailure(payload) {
+  return {
+    type: LOAD_USERS_FAILURE,
+    payload
+  };
+}
 
 export const SET_PLANT_MODE = 'SET_PLANT_MODE';
 export const CANCEL_PLANT_CREATE_MODE = 'CANCEL_PLANT_CREATE_MODE';

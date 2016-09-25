@@ -168,6 +168,18 @@ function loadUserRequest(store, action) {
   ajax(store, options);
 }
 
+// Load all the users.
+// At some point in the future we'll want paging but for now grab all of them
+// action.payload at this point is undefined
+function loadUsersRequest(store) {
+  const options = {
+    url: '/api/users',
+    success: actions.loadUsersSuccess,
+    failure: actions.loadUsersFailure
+  };
+  ajax(store, options);
+}
+
 // Get all the notes listed
 // action.payload is an array of noteIds
 function loadNotesRequest(store, action) {
@@ -196,6 +208,7 @@ export const apis = {
   [actions.LOAD_PLANT_REQUEST]: loadPlantRequest,
   [actions.LOAD_NOTES_REQUEST]: loadNotesRequest,
   [actions.LOAD_USER_REQUEST]: loadUserRequest,
+  [actions.LOAD_USERS_REQUEST]: loadUsersRequest,
   [actions.LOAD_PLANTS_REQUEST]: loadPlantsRequest,
 };
 

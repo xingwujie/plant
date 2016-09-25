@@ -9,6 +9,19 @@ function loadUserSuccess(state, action) {
   });
 }
 
+// The action.payload are the returned users from the server.
+function loadUsersSuccess(state, action) {
+  console.log('loadUsersSuccess:', action);
+  const users = (action.payload || []).reduce((acc, user) => {
+    acc[user._id] = user;
+    return acc;
+  }, {});
+  return Object.freeze({
+    ...state,
+    ...users
+  });
+}
+
 // User clicks save after creating a new plant
 // action.payload is a plant object created in the browser
 // Some of the fields:
@@ -37,6 +50,7 @@ function createPlantRequest(state, action) {
 const reducers = {
   [actions.CREATE_PLANT_REQUEST]: createPlantRequest,
   [actions.LOAD_USER_SUCCESS]: loadUserSuccess,
+  [actions.LOAD_USERS_SUCCESS]: loadUsersSuccess,
 };
 
 module.exports = (state = {}, action) => {

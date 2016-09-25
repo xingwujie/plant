@@ -71,21 +71,28 @@ export default class Plants extends React.Component {
   }
 
   addPlantButton() {
-    const loggedIn = !!isLoggedIn();
-    if(!loggedIn) {
+    var {
+      user: loggedInUser = {},
+      users = {},
+    } = this.state || {};
+    const user = users[this.props.params.id];
+    const isOwner = user && (loggedInUser._id === user._id);
+
+    if(isOwner) {
+      return (
+        <div style={{float: 'right', marginBottom: '60px'}}>
+          <Link to='/plant'>
+            <FloatingActionButton
+              title='Add Plant'
+            >
+              <AddIcon />
+            </FloatingActionButton>
+          </Link>
+        </div>);
+    } else {
       return null;
     }
 
-    return (
-      <div style={{float: 'right', marginBottom: '60px'}}>
-        <Link to='/plant'>
-          <FloatingActionButton
-            title='Add Plant'
-          >
-            <AddIcon />
-          </FloatingActionButton>
-        </Link>
-      </div>);
   }
 
   renderNoPlants(user) {
@@ -126,6 +133,9 @@ export default class Plants extends React.Component {
     const note = interim && interim.note && interim.note.note;
     const plantCreateNote = interim && interim.note && interim.note.plant;
     const createNote = !!note && note.isNew;
+
+    // console.log('user:', user);
+    // console.log('allLoadedPlants:', allLoadedPlants);
 
     if(createNote && loggedIn) {
       return (

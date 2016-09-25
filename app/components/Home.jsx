@@ -7,6 +7,8 @@ import {isLoggedIn} from '../libs/auth-helper';
 import * as actions from '../actions';
 import * as utils from '../libs/utils';
 
+const {makeSlug} = utils;
+
 export default class Home extends React.Component {
   static contextTypes = {
     router: React.PropTypes.object.isRequired
@@ -18,18 +20,23 @@ export default class Home extends React.Component {
     this.state = store.getState();
 
     const {
+      plants = {},
       user = {},
-      plants = {}
+      users = {},
     } = this.state || {};
     if(isEmpty(plants) && isLoggedIn()) {
       store.dispatch(actions.loadPlantsRequest(user._id));
+    }
+    if(isEmpty(users)) {
+      store.dispatch(actions.loadUsersRequest());
     }
   }
 
   updateState() {
     const {
       user = {},
-      plants = {}
+      plants = {},
+      users = {}
     } = store.getState();
     const userPlants = Object.keys(plants).reduce((acc, plantId) => {
       const plant = plants[plantId];
@@ -38,7 +45,7 @@ export default class Home extends React.Component {
       }
       return acc;
     }, {});
-    this.setState({user, userPlants});
+    this.setState({user, users, userPlants});
   }
 
   componentWillMount() {
@@ -55,44 +62,71 @@ export default class Home extends React.Component {
     this.updateState();
   }
 
-
-  renderUserPlants() {
-    const {
-      user = {},
-      userPlants: plants = {}
-    } = this.state;
-    if(!user.isLoggedIn) {
-      console.warn('user not logged in:', user);
-      return null;
-    }
-
-    if(isEmpty(plants)) {
-
-      return (
-        <div id='hero'>
-          <div className='home-header'>
-            {'Ready to add your first Plant or Tree?'}
-          </div>
-          <div className='home-subheader'>
-            <Link to='/plant'>{'Let\'s Do It'}</Link>
-          </div>
-        </div>
+  renderUser(user) {
+    console.log('renderUser', user);
+    const {_id, name: userName} = user;
+    const link = `/plants/${makeSlug(userName)}/${_id}`;
+    return (
+      <div key={_id} style={{display: 'flex', alignItems: 'center'}}>
+        <Link
+          style={{margin: '20px'}}
+          to={link}
+        >
+          <span>{userName}</span>
+        </Link>
+      </div>
     );
+  }
 
+  renderUsers() {
+    const {
+      users = {},
+    } = this.state;
+    const userIds = Object.keys(users);
+    if(userIds.length) {
+      return userIds.map(userId => this.renderUser(users[userId]));
     } else {
-      const numPlants = Object.keys(plants).length;
-      return (
-        <div id='hero'>
-          <div className='home-header'>
-            {`You have ${numPlants} plant${numPlants > 1 ? 's' : ''} in your collection. `}
-          </div>
-          <div className='home-subheader'>
-            <Link to={utils.makePlantsUrl(user)}>{'Go to plant collection...'}</Link>
-          </div>
-        </div>
-      );
+      return this.anonHome();
     }
   }
+
+  // renderUserPlants() {
+  //   const {
+  //     user = {},
+  //     userPlants: plants = {}
+  //   } = this.state;
+  //   if(!user.isLoggedIn) {
+  //     console.warn('user not logged in:', user);
+  //     return null;
+  //   }
+
+  //   if(isEmpty(plants)) {
+
+  //     return (
+  //       <div id='hero'>
+  //         <div className='home-header'>
+  //           {'Ready to add your first Plant or Tree?'}
+  //         </div>
+  //         <div className='home-subheader'>
+  //           <Link to='/plant'>{'Let\'s Do It'}</Link>
+  //         </div>
+  //       </div>
+  //     );
+
+  //   } else {
+  //     const numPlants = Object.keys(plants).length;
+  //     return (
+  //       <div id='hero'>
+  //         <div className='home-header'>
+  //           {`You have ${numPlants} plant${numPlants > 1 ? 's' : ''} in your collection. `}
+  //         </div>
+  //         <div className='home-subheader'>
+  //           <Link to={utils.makePlantsUrl(user)}>{'Go to plant collection...'}</Link>
+  //         </div>
+  //       </div>
+  //     );
+  //   }
+  // }
 
   anonHome() {
     return (<div id='hero'>
@@ -107,9 +141,8 @@ export default class Home extends React.Component {
   render() {
     return (
       <Base>
-        <div className='home-content'>
-          {this.renderUserPlants()}
-          {!isLoggedIn() && this.anonHome()}
+        <div>
+          {this.renderUsers()}
         </div>
       </Base>
     );
