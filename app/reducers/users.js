@@ -9,7 +9,33 @@ function loadUserSuccess(state, action) {
   });
 }
 
+// User clicks save after creating a new plant
+// action.payload is a plant object created in the browser
+// Some of the fields:
+// _id
+// title
+// userId
+function createPlantRequest(state, action) {
+  // payload is an object of new plant being POSTed to server
+  // an _id has already been assigned to this object
+  const plant = action.payload;
+  const user = state[plant.userId];
+  if(user) {
+    return Object.freeze({
+      ...state,
+      [user._id]: {
+        ...user,
+        plantIds: [...(user.plantIds || [])].concat(plant._id)
+      }
+    });
+  } else {
+    console.warn(`No user found in users createPlantRequest reducer ${plant.userId}`);
+    return state;
+  }
+}
+
 const reducers = {
+  [actions.CREATE_PLANT_REQUEST]: createPlantRequest,
   [actions.LOAD_USER_SUCCESS]: loadUserSuccess,
 };
 
@@ -20,3 +46,9 @@ module.exports = (state = {}, action) => {
 
   return state;
 };
+
+// This state is an object with userId's as keys and each value is an object with:
+// _id
+// createdAt
+// name
+// plantIds: [plantId1, ...]
