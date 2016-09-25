@@ -83,6 +83,6 @@ PlantItem.propTypes = {
     _id: React.PropTypes.string.isRequired,
     // imageUrl: React.PropTypes.string,
     // name: React.PropTypes.string,
-    title: React.PropTypes.string
+    title: React.PropTypes.string.isRequired
   }).isRequired
 };

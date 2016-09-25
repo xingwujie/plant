@@ -67,11 +67,11 @@ export default class Plants extends React.Component {
 
   addPlantButton() {
     var {
-      user: loggedInUser = {},
+      user: authUser = {},
       users = {},
     } = this.state || {};
     const user = users[this.props.params.id];
-    const isOwner = user && (loggedInUser._id === user._id);
+    const isOwner = user && (authUser._id === user._id);
 
     if(isOwner) {
       return (
@@ -105,11 +105,11 @@ export default class Plants extends React.Component {
   }
 
   render() {
-    var {
+    const {
       filter = '',
       plants: allLoadedPlants = {},
       interim = {},
-      user: loggedInUser = {},
+      user: authUser = {},
       users = {},
     } = this.state || {};
 
@@ -143,7 +143,7 @@ export default class Plants extends React.Component {
               note={note}
               plant={plantCreateNote}
               postSaveSuccess={this.postSaveSuccessCreateNote}
-              user={loggedInUser}
+              user={authUser}
             />
           </div>
         </Base>
@@ -182,13 +182,14 @@ export default class Plants extends React.Component {
     // name={user.name}
     const tileElements = sortedPlantIds.reduce((acc, plantId) => {
       const plant = allLoadedPlants[plantId];
+      console.log('plant.userId vs user._id:', plant.userId, user._id);
       if(plant) {
         acc.push(
           <PlantItem
             key={plant._id}
             dispatch={store.dispatch}
             createNote={this.createNote}
-            isOwner={loggedIn && plant.userId === user._id}
+            isOwner={loggedIn && plant.userId === authUser._id}
             plant={plant}
           />
         );
