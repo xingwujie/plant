@@ -9,11 +9,17 @@ import CancelSaveButtons from './CancelSaveButtons';
 import Dropzone from 'react-dropzone';
 import LinearProgress from 'material-ui/LinearProgress';
 import CircularProgress from 'material-ui/CircularProgress';
+const actions = require('../../actions');
 
 export default class NoteCreateUpdate extends React.Component {
   constructor(props) {
     super(props);
+    this.cancel = this.cancel.bind(this);
     this.onDrop = this.onDrop.bind(this);
+  }
+
+  cancel() {
+    this.props.dispatch(actions.editNoteClose());
   }
 
   componentWillMount() {
@@ -156,7 +162,7 @@ export default class NoteCreateUpdate extends React.Component {
         <CancelSaveButtons
           clickAddPhoto={this.onOpenClick.bind(this)}
           clickSave={this.props.save}
-          clickCancel={this.props.cancel}
+          clickCancel={this.cancel}
           showButtons={true}
         />
 
@@ -185,8 +191,8 @@ export default class NoteCreateUpdate extends React.Component {
 }
 
 NoteCreateUpdate.propTypes = {
-  // addPhoto: React.PropTypes.func,
-  cancel: React.PropTypes.func.isRequired,
+  dispatch: React.PropTypes.func.isRequired,
+  images: React.PropTypes.array,
   onChange: React.PropTypes.func.isRequired,
   plantNote:  React.PropTypes.shape({
     date: React.PropTypes.string.isRequired,
@@ -195,5 +201,4 @@ NoteCreateUpdate.propTypes = {
   }),
   save: React.PropTypes.func.isRequired,
   saveFiles: React.PropTypes.func.isRequired,
-  images: React.PropTypes.array,
 };

@@ -14,13 +14,8 @@ export default class NoteUpdate extends React.Component {
     super(props);
 
     this.save = this.save.bind(this);
-    this.cancel = this.cancel.bind(this);
     this.onChange = this.onChange.bind(this);
     this.saveFiles = this.saveFiles.bind(this);
-  }
-
-  cancel() {
-    this.props.dispatch(actions.editNoteClose());
   }
 
   saveNote(files) {
@@ -69,7 +64,7 @@ export default class NoteUpdate extends React.Component {
 
     return (
       <NoteCreateUpdate
-        cancel={this.cancel}
+        dispatch={this.props.dispatch}
         onChange={this.onChange}
         plantNote={note}
         save={this.save}
@@ -80,7 +75,6 @@ export default class NoteUpdate extends React.Component {
 }
 
 NoteUpdate.propTypes = {
-  cancel: React.PropTypes.func.isRequired,
   dispatch: React.PropTypes.func.isRequired,
   isOwner: React.PropTypes.bool.isRequired,
   note: React.PropTypes.object.isRequired,
