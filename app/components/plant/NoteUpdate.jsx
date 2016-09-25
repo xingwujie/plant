@@ -14,7 +14,6 @@ export default class NoteUpdate extends React.Component {
     super(props);
 
     this.save = this.save.bind(this);
-    this.onChange = this.onChange.bind(this);
     this.saveFiles = this.saveFiles.bind(this);
   }
 
@@ -46,12 +45,6 @@ export default class NoteUpdate extends React.Component {
     e.stopPropagation();
   }
 
-  onChange(e) {
-    this.props.dispatch(actions.editNoteChange({
-      [e.target.name]: e.target.value
-    }));
-  }
-
   render() {
     const {
       isOwner,
@@ -65,7 +58,6 @@ export default class NoteUpdate extends React.Component {
     return (
       <NoteCreateUpdate
         dispatch={this.props.dispatch}
-        onChange={this.onChange}
         plantNote={note}
         save={this.save}
         saveFiles={this.saveFiles}

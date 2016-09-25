@@ -15,6 +15,7 @@ export default class NoteCreateUpdate extends React.Component {
   constructor(props) {
     super(props);
     this.cancel = this.cancel.bind(this);
+    this.onChange = this.onChange.bind(this);
     this.onDrop = this.onDrop.bind(this);
   }
 
@@ -29,6 +30,12 @@ export default class NoteCreateUpdate extends React.Component {
   initState() {
     const {images = []} = this.props;
     this.setState({images});
+  }
+
+  onChange(e) {
+    this.props.dispatch(actions.editNoteChange({
+      [e.target.name]: e.target.value
+    }));
   }
 
   onDrop(files) {
@@ -135,7 +142,7 @@ export default class NoteCreateUpdate extends React.Component {
           fullWidth={true}
           hintText={'MM/DD/YYYY'}
           name='date'
-          onChange={this.props.onChange}
+          onChange={this.onChange}
           style={textFieldStyle}
           underlineStyle={underlineStyle}
           value={date}
@@ -148,7 +155,7 @@ export default class NoteCreateUpdate extends React.Component {
           hintText='What has happened since your last note?'
           multiLine={true}
           name='note'
-          onChange={this.props.onChange}
+          onChange={this.onChange}
           style={textAreaStyle}
           value={note}
         />
@@ -193,7 +200,6 @@ export default class NoteCreateUpdate extends React.Component {
 NoteCreateUpdate.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
   images: React.PropTypes.array,
-  onChange: React.PropTypes.func.isRequired,
   plantNote:  React.PropTypes.shape({
     date: React.PropTypes.string.isRequired,
     errors: React.PropTypes.object,
