@@ -5,6 +5,9 @@ import {makeSlug} from '../../libs/utils';
 import React from 'react';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import AddIcon from 'material-ui/svg-icons/content/add';
+const utils = require('../../libs/utils');
+const moment = require('moment');
+const actions = require('../../actions');
 
 export default class PlantItem extends React.Component {
 
@@ -14,7 +17,16 @@ export default class PlantItem extends React.Component {
   }
 
   createNote() {
-    this.props.createNote(this.props.plant);
+    const {plant} = this.props;
+    const note = {
+      _id: utils.makeMongoId(),
+      date: moment().format('MM/DD/YYYY'),
+      isNew: true,
+      note: '',
+      plantIds: [plant._id],
+      errors: {},
+    };
+    this.props.dispatch(actions.editNoteOpen({note, plant}));
   }
 
   render() {
@@ -65,7 +77,7 @@ export default class PlantItem extends React.Component {
 }
 
 PlantItem.propTypes = {
-  createNote: React.PropTypes.func.isRequired,
+  dispatch: React.PropTypes.func.isRequired,
   isOwner: React.PropTypes.bool.isRequired,
   plant:  React.PropTypes.shape({
     _id: React.PropTypes.string.isRequired,

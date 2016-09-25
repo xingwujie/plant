@@ -20,8 +20,6 @@ export default class Plants extends React.Component {
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
-    this.cancelCreateNote = this.cancelCreateNote.bind(this);
-    this.createNote = this.createNote.bind(this);
     this.postSaveSuccessCreateNote = this.postSaveSuccessCreateNote.bind(this);
     this.state = {...store.getState()};
     this.state.filter = '';
@@ -62,22 +60,8 @@ export default class Plants extends React.Component {
     this.setState(state);
   }
 
-  createNote(plant) {
-    this.setState({
-      plantCreateNote: plant
-    });
-  }
-
   postSaveSuccessCreateNote() {
-    this.setState({
-      plantCreateNote: null
-    });
-  }
-
-  cancelCreateNote() {
-    this.setState({
-      plantCreateNote: null
-    });
+    store.dispatch(actions.editNoteClose());
   }
 
   renderTitle(user) {
@@ -122,7 +106,7 @@ export default class Plants extends React.Component {
     var {
       filter = '',
       plants: allLoadedPlants = {},
-      plantCreateNote,
+      interim = {},
       user: loggedInUser = {},
       users = {},
     } = this.state || {};
@@ -139,17 +123,19 @@ export default class Plants extends React.Component {
         </Base>
       );
     }
+    const note = interim && interim.note && interim.note.note;
+    const plantCreateNote = interim && interim.note && interim.note.plant;
+    const createNote = !!note && note.isNew;
 
-    if(plantCreateNote && loggedIn) {
+    if(createNote && loggedIn) {
       return (
         <Base>
           <div>
             <h4 style={{textAlign: 'center'}}>{`Create a Note for ${plantCreateNote.title}`}</h4>
             <NoteCreate
-              cancel={this.cancelCreateNote}
-              createNote={true}
               dispatch={store.dispatch}
               isOwner={true}
+              note={note}
               plant={plantCreateNote}
               postSaveSuccess={this.postSaveSuccessCreateNote}
               user={loggedInUser}
@@ -195,6 +181,7 @@ export default class Plants extends React.Component {
         acc.push(
           <PlantItem
             key={plant._id}
+            dispatch={store.dispatch}
             createNote={this.createNote}
             isOwner={loggedIn && plant.userId === user._id}
             plant={plant}

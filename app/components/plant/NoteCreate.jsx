@@ -68,11 +68,10 @@ export default class NoteCreate extends React.Component {
 }
 
 NoteCreate.propTypes = {
-  createNote: React.PropTypes.bool,
   dispatch: React.PropTypes.func.isRequired,
   isOwner: React.PropTypes.bool.isRequired,
+  note: React.PropTypes.object,
   plant: React.PropTypes.object.isRequired,
   postSaveSuccess: React.PropTypes.func,
   user: React.PropTypes.object.isRequired,
-  note: React.PropTypes.object,
 };
