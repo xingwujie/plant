@@ -53,13 +53,13 @@ export default class NoteCreate extends React.Component {
     plantNote.userId = this.props.user._id;
     plantNote._id = utils.makeMongoId();
 
-    validate(plantNote, {isNew: true}, (errors, note) => {
+    validate(plantNote, (errors, note) => {
 
       if(errors) {
         console.log('create: Note validation errors:', errors);
         this.props.dispatch(actions.editNoteChange({errors}));
       } else {
-        this.props.dispatch(actions.createNoteRequest({note, files}));
+        this.props.dispatch(actions.upsertNoteRequest({note, files}));
         if(this.props.postSaveSuccess) {
           this.props.postSaveSuccess();
         }

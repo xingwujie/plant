@@ -30,13 +30,13 @@ export default class NoteUpdate extends React.Component {
       plantNote.plantIds.push(this.props.plant._id);
     }
 
-    validate(plantNote, {isNew: false}, (errors, note) => {
+    validate(plantNote, (errors, note) => {
 
       if(errors) {
         console.log('update: Note validation errors:', errors);
         this.props.dispatch(actions.editNoteChange({errors}));
       } else {
-        this.props.dispatch(actions.updateNoteRequest({note, files}));
+        this.props.dispatch(actions.upsertNoteRequest({note, files}));
       }
     });
   }
