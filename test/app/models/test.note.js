@@ -46,7 +46,6 @@ describe('/app/models/note', function() {
       assert.equal(err._id, ' id is invalid');
       assert.equal(err.date, 'Date must be a valid date');
       assert.equal(err.plantIds, 'Plant ids must be MongoIds');
-      assert.equal(err.note, 'Note can\'t be blank');
       assert.deepEqual(noteCopy, note);
       done();
     });

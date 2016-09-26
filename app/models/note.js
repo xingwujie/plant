@@ -113,7 +113,7 @@ export default (attributes, cb) => {
     date: {datetime: true, presence: true},
     images: {imagesValidate: {}},
     plantIds: {plantIdsValidate: {length: {minimum: 1}}},
-    note: {length: {minimum: 1, maximum: 5000}, presence: true},
+    note: {length: {minimum: 1, maximum: 5000}, presence: false},
   };
 
   attributes = cloneDeep(attributes);

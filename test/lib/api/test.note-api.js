@@ -59,26 +59,6 @@ describe('note-api', function() {
       });
     });
 
-    it('should fail server validation if note is missing', (done) => {
-      const reqOptions = {
-        method: 'POST',
-        authenticate: true,
-        body: {...initialNote, note: ''},
-        json: true,
-        url: '/api/note'
-      };
-      helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-        // response should look like:
-        // { plantIds: [ 'Plant ids must be an array' ], note: [ 'Note can\'t be blank' ] }
-        assert(!error);
-        assert.equal(httpMsg.statusCode, 400);
-        assert(response);
-        assert.equal(response.note[0], 'Note can\'t be blank');
-
-        done();
-      });
-    });
-
     it('should fail server validation if plantIds are missing', (done) => {
       const reqOptions = {
         method: 'POST',
