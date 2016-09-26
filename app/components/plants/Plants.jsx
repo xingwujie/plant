@@ -185,7 +185,6 @@ export default class Plants extends React.Component {
     // name={user.name}
     const tileElements = sortedPlantIds.reduce((acc, plantId) => {
       const plant = allLoadedPlants[plantId];
-      console.log('plant.userId vs user._id:', plant.userId, user._id);
       if(plant) {
         acc.push(
           <PlantItem

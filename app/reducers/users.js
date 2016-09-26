@@ -69,11 +69,21 @@ function loadPlantsSuccess(state, action) {
   }
 }
 
+// action.payload: <plant-id>
+function deletePlantRequest(state /*, action*/) {
+  // payload is {id} of plant being DELETEd from server
+  // TODO: Remove this plantId from user.
+  // Update the DELETE_PLANT_REQUEST action so that it sends the whole plant object
+  // so we can get the userId off the object to make this function simple.
+  return state;
+}
+
 const reducers = {
   [actions.CREATE_PLANT_REQUEST]: createPlantRequest,
+  [actions.DELETE_PLANT_REQUEST]: deletePlantRequest,
+  [actions.LOAD_PLANTS_SUCCESS]: loadPlantsSuccess,
   [actions.LOAD_USER_SUCCESS]: loadUserSuccess,
   [actions.LOAD_USERS_SUCCESS]: loadUsersSuccess,
-  [actions.LOAD_PLANTS_SUCCESS]: loadPlantsSuccess,
 };
 
 module.exports = (state = {}, action) => {
