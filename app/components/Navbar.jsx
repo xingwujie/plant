@@ -67,20 +67,8 @@ export default class Navbar extends React.Component {
           <div className='collapse navbar-collapse' id='plant-navbar-collapse'>
             <ul className='nav navbar-nav navbar-right'>
               {loggedIn &&
-                <li className='dropdown'>
-                  <a href='#' className='dropdown-toggle'
-                    data-toggle='dropdown' role='button'
-                    aria-haspopup='true' aria-expanded='false'
-                    title='My Yard'>My Yard <span className='caret' />
-                  </a>
-                  <ul className='dropdown-menu'>
-                    <li>
-                      <Link to={utils.makePlantsUrl(user)} title='My Plants'>My Plants</Link>
-                    </li>
-                    <li>
-                      <Link to={'/plant'} title='add plant'>Add Plant</Link>
-                    </li>
-                  </ul>
+                <li>
+                  <Link to={utils.makePlantsUrl(user)} title='My Plants'>My Plants</Link>
                 </li>
               }
               {loggedIn &&
