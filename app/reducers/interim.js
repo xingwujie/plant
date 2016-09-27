@@ -59,6 +59,8 @@ module.exports = (state = {}, action) => {
   return state;
 };
 
+module.exports.reducers = reducers;
+
 /*
 This state is WIP
 {
