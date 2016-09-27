@@ -70,4 +70,25 @@ describe('/app/libs/utils', function() {
       }
     });
   });
+
+  describe('intToDate()', () => {
+    it('should create a Date from an Integer', () => {
+      function compareDates(act, exp) {
+        assert.equal(act.toString(), exp.toString());
+      }
+
+      let actual = utils.intToDate(20160101);
+      let expected = new Date(2016, 0, 1);
+      compareDates(actual, expected);
+
+      actual = utils.intToDate(20160229);
+      expected = new Date(2016, 1, 29);
+      compareDates(actual, expected);
+
+      actual = utils.intToDate(20161231);
+      expected = new Date(2016, 11, 31);
+      compareDates(actual, expected);
+    });
+  });
+
 });

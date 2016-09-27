@@ -63,4 +63,11 @@ export function dateToInt(date) {
   }
 }
 
+export function intToDate(date) {
+  const year = Math.round(date / 10000);
+  const month = Math.round( (date - year * 10000) / 100);
+  const day = Math.round( (date - (year * 10000 + month * 100)));
+  return new Date(year, month - 1, day);
+}
+
 // TODO: Move this file to a /shared/ folder.
