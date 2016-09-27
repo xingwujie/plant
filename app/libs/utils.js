@@ -1,4 +1,5 @@
 import slug from 'slug';
+const isDate = require('lodash/isDate');
 
 // bson is currently not being explicitly installed in the project because
 // mongodb depends on mongodb-core which depends on bson. The Npm 3 installer
@@ -40,6 +41,26 @@ export function makePlantsUrl(user = {}) {
   } = user;
 
   return `/plants/${makeSlug(userName)}/${_id}`;
+}
+
+/**
+ * Convert a date like object to an Integer
+ * @param {object} date - could be object, string or Integer
+ * @returns {Integer} - a date in the form YYYYMMDD
+ */
+export function dateToInt(date) {
+  if(isDate(date)) {
+    return date.getFullYear() * 10000 +
+      (date.getMonth() + 1) * 100 +
+      date.getDate();
+  } else if (typeof date === 'string') {
+    return dateToInt(new Date(date));
+  } else if (typeof date === 'number') {
+    return date;
+  } else {
+    console.error('Unable to convert in dateToInt:', date);
+    throw new Error(`dateToInt(${date})`);
+  }
 }
 
 // TODO: Move this file to a /shared/ folder.
