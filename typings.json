@@ -10,6 +10,7 @@
     "async": "registry:dt/async#2.0.1+20160804113311",
     "aws-sdk": "registry:dt/aws-sdk#0.0.0+20160922141848",
     "express": "registry:dt/express#4.0.0+20160708185218",
+    "immutable": "registry:dt/immutable#3.8.1+20160608070634",
     "lodash": "registry:dt/lodash#4.14.0+20160919145112",
     "mocha": "registry:dt/mocha#2.2.5+20160720003353",
     "moment": "registry:dt/moment#2.11.1+20160829143156",

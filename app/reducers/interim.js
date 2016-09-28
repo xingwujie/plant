@@ -1,17 +1,14 @@
 // The most difficult part of creating this module was naming it.
 // "interim" is the least worst of all the bad names I came up with.
 
-const omit = require('lodash/omit');
 const actions = require('../actions');
+const Immutable = require('immutable');
+const {Map} = Immutable; // eslint-disable-line no-shadow
 
 // action.payload:
 // {note, plant}
 function editNoteOpen(state, action) {
-  const note = Object.freeze(action.payload);
-  return Object.freeze({
-    ...state,
-    note
-  });
+  return state.set('note', Immutable.fromJS(action.payload));
 }
 
 // action.payload:
@@ -19,7 +16,7 @@ function editNoteOpen(state, action) {
 function editNoteClose(state) {
   // Just remove note element if editing is canceled
   // or if the note has been saved
-  return Object.freeze(omit(state, ['note']));
+  return state.delete('note');
 }
 
 // action.payload:
@@ -29,18 +26,7 @@ function editNoteClose(state) {
 //     note,
 //     plant
 function editNoteChange(state, action) {
-  const note = Object.freeze({
-    ...state.note.note,
-    ...action.payload
-  });
-
-  return Object.freeze({
-    ...state,
-    note: {
-      note,
-      plant: state.note.plant
-    }
-  });
+  return state.mergeDeep({note: {note: action.payload}});
 }
 
 const reducers = {
@@ -51,7 +37,7 @@ const reducers = {
   [actions.EDIT_NOTE_CLOSE]: editNoteClose
 };
 
-module.exports = (state = {}, action) => {
+module.exports = (state = new Map(), action) => {
   if(reducers[action.type]) {
     return reducers[action.type](state, action);
   }

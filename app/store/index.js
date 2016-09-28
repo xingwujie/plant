@@ -5,9 +5,9 @@ import logger from '../middleware/logger';
 import {setupSubscribe as userSubscribe} from './user';
 
 // Add the api to the pipeline/chain
-let createStoreWithMiddleware = applyMiddleware(logger, api)(createStore);
+const createStoreWithMiddleware = applyMiddleware(logger, api)(createStore);
 
-let store = createStoreWithMiddleware(reducers);
+const store = createStoreWithMiddleware(reducers);
 
 userSubscribe(store);
 

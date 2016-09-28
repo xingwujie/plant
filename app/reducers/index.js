@@ -1,4 +1,4 @@
-import { combineReducers } from 'redux';
+import { combineReducers } from 'redux-immutable';
 import interim from './interim';
 import notes from './notes';
 import plants from './plants';
