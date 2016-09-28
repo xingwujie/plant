@@ -1,4 +1,5 @@
 import {initialState} from '../store/user';
+const Immutable = require('immutable');
 
 import {
   LOGIN_REQUEST,
@@ -7,13 +8,13 @@ import {
   LOGOUT} from '../actions';
 
 function loginRequest() {
-  return Object.freeze({
+  return Immutable.fromJS({
     status:'fetching'
   });
 }
 
 function loginSuccess(state, action) {
-  return Object.freeze({
+  return Immutable.fromJS({
     status:'success',
     isLoggedIn: true,
     ...action.payload
@@ -21,7 +22,7 @@ function loginSuccess(state, action) {
 }
 
 function loginFailure(state, action) {
-  return Object.freeze({
+  return Immutable.fromJS({
     status:'failed',
     isLoggedIn: false,
     ...action.payload
@@ -29,7 +30,7 @@ function loginFailure(state, action) {
 }
 
 function logout() {
-  return Object.freeze({});
+  return Immutable.fromJS({});
 }
 
 const reducers = {

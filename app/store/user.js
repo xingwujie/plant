@@ -2,21 +2,18 @@
 
 // 1. Listen to state changes.
 // 2. If the user object has changed then write to localStorage
+const Immutable = require('immutable');
 
 let user;
 export function setupSubscribe(store) {
   let currentValue = user;
 
-  function select(state) {
-    return state.user;
-  }
-
   function handleChange() {
     let previousValue = currentValue;
-    currentValue = select(store.getState());
+    currentValue = store.getState().get('user');
 
-    if (previousValue !== currentValue) {
-      localStorage.setItem('user', JSON.stringify(currentValue));
+    if (!previousValue.equals(currentValue)) {
+      localStorage.setItem('user', JSON.stringify(currentValue.toJS()));
     }
   }
 
@@ -34,5 +31,5 @@ export function initialState() {
     user = user || {};
   }
 
-  return user;
+  return Immutable.fromJS(user);
 }

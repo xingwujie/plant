@@ -1,48 +1,54 @@
 import user from '../../../app/reducers/user';
 import * as actions from '../../../app/actions';
 import assert from 'assert';
+const Immutable = require('immutable');
+
+function checkReducer(actionName, state, payload, expected) {
+  const action = actions[actionName](payload);
+  const actual = user(state, action);
+  // The following line provides useful debug info which the one after does not
+  assert.deepEqual(actual.toJS(), expected.toJS());
+  assert(Immutable.is(actual, expected));
+}
 
 describe('/app/reducers/user', function() {
 
-  it('should reduce a logout action', (done) => {
-    const expected = {};
-    const actual = user({}, actions.logout());
-    assert.deepEqual(actual, expected);
-    done();
+  it('should reduce a logout action', () => {
+    const state = Immutable.fromJS({});
+    const payload = {};
+    const expected = Immutable.fromJS({});
+    checkReducer('logout', state, payload, expected);
   });
 
-  it('should reduce a login request', (done) => {
+  it('should reduce a login request', () => {
+    const state = Immutable.fromJS({});
     const payload = {one: 1, two: 2};
-    const expected = {
+    const expected = Immutable.fromJS({
       status: 'fetching'
-    };
-    const actual = user({}, actions.loginRequest(payload));
-    assert.deepEqual(actual, expected);
-    done();
+    });
+    checkReducer('loginRequest', state, payload, expected);
   });
 
-  it('should reduce a login success', (done) => {
+  it('should reduce a login success', () => {
+    const state = Immutable.fromJS({});
     const payload = {one: 1, two: 2};
-    const expected = {
+    const expected = Immutable.fromJS({
       status: 'success',
       isLoggedIn: true,
       ...payload
-    };
-    const actual = user({}, actions.loginSuccess(payload));
-    assert.deepEqual(actual, expected);
-    done();
+    });
+    checkReducer('loginSuccess', state, payload, expected);
   });
 
-  it('should reduce a login failure', (done) => {
+  it('should reduce a login failure', () => {
+    const state = Immutable.fromJS({});
     const payload = {one: 1, two: 2};
-    const expected = {
+    const expected = Immutable.fromJS({
       status: 'failed',
       isLoggedIn: false,
       ...payload
-    };
-    const actual = user({}, actions.loginFailure(payload));
-    assert.deepEqual(actual, expected);
-    done();
+    });
+    checkReducer('loginFailure', state, payload, expected);
   });
 
 });
