@@ -1,6 +1,7 @@
-import rootReducer from '../../../app/reducers';
-import * as actions from '../../../app/actions';
-import assert from 'assert';
+const rootReducer = require('../../../app/reducers').default;
+const actions = require('../../../app/actions');
+const assert = require('assert');
+const Immutable = require('immutable');
 
 describe('/app/reducers', function() {
 
@@ -12,8 +13,8 @@ describe('/app/reducers', function() {
       users: {},
       interim: {}
     };
-    const actual = rootReducer({}, actions.logout());
-    assert.deepEqual(actual, expected);
+    const actual = rootReducer(new Immutable.Map(), actions.logout());
+    assert.deepEqual(actual.toJS(), expected);
     done();
   });
 
