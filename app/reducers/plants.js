@@ -3,10 +3,8 @@
 // If a user is logged in then some of the items in the array
 // might be plants belonging to the user.
 
-import cloneDeep from 'lodash/cloneDeep';
-import uniq from 'lodash/uniq';
-const moment = require('moment');
 const actions = require('../actions');
+const Immutable = require('immutable');
 
 /**
  * This is a helper function for when the action.payload holds a new plant
@@ -16,8 +14,7 @@ const actions = require('../actions');
  * @returns {object} - new state
  */
 function replaceInPlace(state, action) {
-  return Object.freeze({
-    ...state,
+  return state.mergeDeep({
     [action.payload._id]: action.payload
   });
 }
@@ -40,68 +37,48 @@ function updatePlantRequest(state, action) {
 
 // action.payload: <plant-id>
 function deletePlant(state, action) {
-  // payload is {id} of plant being DELETEd from server
-  const newState = {...state};
-  delete newState[action.payload];
-  return Object.freeze(newState);
+  // payload is _id of plant being DELETEd from server
+  return state.delete(action.payload);
 }
 
 // action.payload: <noteId>
 // payload is {id} of note being DELETEd from server
+// Need to remove this note from the notes array in all plants
 function deleteNoteRequest(state, action) {
-  const newState = Object.keys(state).reduce((acc, plantId) => {
-    const plant = state[plantId];
-    if((plant.notes || []).indexOf(action.payload) >= 0) {
-      acc[plantId] = Object.freeze({
-        ...plant,
-        notes: plant.notes.filter(noteId => noteId !== action.payload)
-      });
+  return state.map(plant => {
+    const noteIds = plant.get('notes');
+    if(noteIds && noteIds.size) {
+      const index = noteIds.indexOf(action.payload);
+      if(index !== -1) {
+        const a = noteIds.splice(index, 1);
+        return plant.set('notes', a);
+      } else {
+        return plant;
+      }
     } else {
-      acc[plantId] = plant;
+      return plant;
     }
-    return acc;
-  }, {});
-  return Object.freeze(newState);
+  });
 }
 
 // action.payload is a plant object
 function loadPlantSuccess(state, action) {
-  const {payload: plant} = action;
-
-  if(plant.plantedDate) {
-    plant.plantedDate = moment(new Date(plant.plantedDate));
-  }
-  if(plant.purchasedDate) {
-    plant.purchasedDate = moment(new Date(plant.purchasedDate));
-  }
-
-  return replaceInPlace(state, {payload: plant});
+  return replaceInPlace(state, action);
 }
 
 function loadPlantFailure(state, action) {
-  return replaceInPlace(state, Object.freeze(action));
-}
-
-/**
- * Takes an array of objects that have an _id property and changes
- * it into an object with the _id as the key for each item in the object
- * @param {array} plants - An array to convert
- * @returns {object} - the array expressed as an object.
- */
-function plantArrayToObject(plants) {
-  return (plants || []).reduce((acc, plant) => {
-    if(plant) {
-      acc[plant._id] = plant;
-    }
-    return acc;
-  }, {});
+  return replaceInPlace(state, action);
 }
 
 // action.payload is an array of plant objects
 function loadPlantsSuccess(state, action) {
   if(action.payload && action.payload.length > 0) {
-    const plants = plantArrayToObject(action.payload);
-    return Object.freeze(Object.assign({}, state, plants));
+    // const plants = plantArrayToObject(action.payload);
+    // return Object.freeze(Object.assign({}, state, plants));
+    return state.mergeDeep(action.payload.reduce((acc, plant) => {
+      acc[plant._id] = plant;
+      return acc;
+    }, {}));
   } else {
     return state;
   }
@@ -110,12 +87,12 @@ function loadPlantsSuccess(state, action) {
 // action.payload:
 // {_id <plant-id>, mode: 'create/update/read'}
 function setPlantMode(state, action) {
-  if(!action.payload._id) {
+  const {_id, mode} = action.payload;
+  if(!_id) {
     return state;
   }
-  const plant = cloneDeep(state[action.payload._id]);
-  plant.mode = action.payload.mode;
-  return replaceInPlace(state, {payload: plant});
+  const plant = {[_id]: {mode}};
+  return state.mergeDeep(plant);
 }
 
 // The action.payload.note is the returned note from the
@@ -128,21 +105,21 @@ function upsertNoteSuccess(state, action) {
 
   if(!plantIds.length) {
     console.error('No plantIds in upsertNoteSuccess:', action);
+    return state;
   }
 
-  const plants = plantIds.map(plantId => {
-    const plant = state[plantId];
-    if(plant) {
-      return {
-        ...plant,
-        notes: uniq((plant.notes || []).concat(_id))
-      };
+  return state.map((plant, plantId) => {
+    if(plantIds.indexOf(plantId) === -1) {
+      return plant;
+    }
+    const noteIds = plant.get('notes');
+    const index = noteIds.indexOf(_id);
+    if(index === -1) {
+      return plant.set('notes', noteIds.push(_id));
     } else {
-      return undefined;
+      return plant;
     }
   });
-
-  return Object.freeze(Object.assign({}, state, plantArrayToObject(plants)));
 }
 
 const reducers = {
@@ -161,7 +138,7 @@ const reducers = {
   [actions.UPDATE_PLANT_REQUEST]: updatePlantRequest,
 };
 
-module.exports = (state = {}, action) => {
+module.exports = (state = new Immutable.Map(), action) => {
   if(reducers[action.type]) {
     return reducers[action.type](state, action);
   }
