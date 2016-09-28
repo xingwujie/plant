@@ -19,9 +19,8 @@ Object of notes:
 }
 */
 
-import omit from 'lodash/omit';
-import * as actions from '../actions';
-import moment from 'moment';
+const actions = require('../actions');
+const Immutable = require('immutable');
 
 /**
  * Raised when a save event is triggered for a note.
@@ -29,33 +28,14 @@ import moment from 'moment';
  * @param {object} action - action.payload.note holds new note
  * @returns {object} state - the new object of notes
  */
-function upsertNoteRequest(state, action) {
-  const {_id, date} = action.payload.note || {};
-
-  return Object.freeze({
-    ...state,
-    [_id]: Object.freeze({
-      ...action.payload.note,
-      date: moment(new Date(date))
-    })
-  });
-}
-
-/**
- * Response from server with success for note create
- * @param {object} state - existing object of notes
- * @param {object} action - action.payload holds new note
- * @returns {object} state - the new object of notes
- */
-function upsertNoteSuccess(state, action) {
-  console.log('upsertNoteSuccess:', action);
-  const {note = {}} = action.payload;
-  const {_id} = note;
-  note.date = moment(new Date(note.date));
-
-  return Object.freeze({
-    ...state,
-    [_id]: Object.freeze(note)
+function upsertNoteRequestSuccess(state, action) {
+  const {_id} = action.payload.note || {};
+  if(!_id) {
+    console.error('No _id in note in upsertNoteRequestSuccess', action.payload);
+    return state;
+  }
+  return state.mergeDeep({
+    [_id]: action.payload.note
   });
 }
 
@@ -65,29 +45,18 @@ function upsertNoteSuccess(state, action) {
  * @param {object} action - action.payload holds new note
  * @returns {object} state - the new object of notes
  */
-function upsertNoteFailure(state, action) {
-  const {_id} = action.payload || {};
-  const note = {...state[_id]};
-  note.meta = {
-    ...note.meta,
-    ...action.payload.meta,
-    state: 'error'
-  };
-
-  return Object.freeze({
-    ...state,
-    [_id]: Object.freeze(note)
-  });
+function upsertNoteFailure(state) {
+  return state;
 }
 
 /**
  *
  * @param {object} state - existing object of notes
- * @param {object} action - action.payload holds new note
+ * @param {object} action - action.payload holds _id of note being deleted
  * @returns {object} state - the new object of notes
  */
 function deleteNoteRequest(state, action) {
-  return Object.freeze(omit(state, [action.payload]));
+  return state.delete(action.payload);
 }
 
 /**
@@ -116,21 +85,20 @@ function loadNotesSuccess(state, action) {
   if(notes && notes.length) {
 
     const newNotes = notes.reduce((acc, note) => {
-      note.date = moment(new Date(note.date));
       acc[note._id] = note;
       return acc;
     }, {});
 
-    return Object.freeze(Object.assign({}, state, newNotes));
+    return state.mergeDeep(newNotes);
   } else {
     console.warn('Nothing loaded from server in loadNotesSuccess:', action);
     return state;
   }
 }
 
-export const reducers = Object.freeze({
-  [actions.UPSERT_NOTE_REQUEST]: upsertNoteRequest,
-  [actions.UPSERT_NOTE_SUCCESS]: upsertNoteSuccess,
+const reducers = Object.freeze({
+  [actions.UPSERT_NOTE_REQUEST]: upsertNoteRequestSuccess,
+  [actions.UPSERT_NOTE_SUCCESS]: upsertNoteRequestSuccess,
   [actions.UPSERT_NOTE_FAILURE]: upsertNoteFailure,
 
   [actions.DELETE_NOTE_REQUEST]: deleteNoteRequest,
@@ -141,10 +109,12 @@ export const reducers = Object.freeze({
 
 });
 
-export default (state = {}, action) => {
+module.exports = (state = new Immutable.Map(), action) => {
   if(reducers[action.type]) {
     return reducers[action.type](state, action);
   }
 
   return state;
 };
+
+module.exports.reducers = reducers;

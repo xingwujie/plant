@@ -3,7 +3,6 @@
 
 const actions = require('../actions');
 const Immutable = require('immutable');
-const {Map} = Immutable; // eslint-disable-line no-shadow
 
 // action.payload:
 // {note, plant}
@@ -37,7 +36,7 @@ const reducers = {
   [actions.EDIT_NOTE_CLOSE]: editNoteClose
 };
 
-module.exports = (state = new Map(), action) => {
+module.exports = (state = new Immutable.Map(), action) => {
   if(reducers[action.type]) {
     return reducers[action.type](state, action);
   }
