@@ -21,7 +21,7 @@ export default class Plants extends React.Component {
     super(props);
     this.onChange = this.onChange.bind(this);
     this.postSaveSuccessCreateNote = this.postSaveSuccessCreateNote.bind(this);
-    this.state = {...store.getState()};
+    this.state = {...store.getState().toJS()};
     this.state.filter = '';
 
     const {
@@ -44,7 +44,7 @@ export default class Plants extends React.Component {
   }
 
   componentWillMount() {
-    const state = {...store.getState()};
+    const state = {...store.getState().toJS()};
     this.setState(state);
     this.unsubscribe = store.subscribe(this.onChange);
   }
@@ -54,7 +54,7 @@ export default class Plants extends React.Component {
   }
 
   onChange() {
-    const state = {...store.getState()};
+    const state = {...store.getState().toJS()};
     this.setState(state);
   }
 

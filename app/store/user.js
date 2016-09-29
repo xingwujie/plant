@@ -4,7 +4,7 @@
 // 2. If the user object has changed then write to localStorage
 const Immutable = require('immutable');
 
-let user;
+let user = Immutable.Map();
 export function setupSubscribe(store) {
   let currentValue = user;
 

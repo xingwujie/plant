@@ -8,7 +8,7 @@ import moment from 'moment';
 // const debug = d('plant:ajax');
 
 function setJwtHeader(store, request) {
-  const {user} = store.getState();
+  const {user} = store.getState().toJS();
   if(user && user.jwt) {
     request.setRequestHeader('Authorization', 'Bearer ' + user.jwt);
   }

@@ -38,7 +38,7 @@ export default class Plant extends React.Component {
       user = {},
       plants = {},
       interim = {}
-    } = store.getState();
+    } = store.getState().toJS();
     const {id: _id} = props.params || {};
     let plant;
     if(_id) {
@@ -111,7 +111,7 @@ export default class Plant extends React.Component {
       );
     }
 
-    const {user, notes} = store.getState();
+    const {user, notes} = store.getState().toJS();
     const mode = plant.mode || this.state.mode || 'read';
 
     const note = interim && interim.note && interim.note.note;

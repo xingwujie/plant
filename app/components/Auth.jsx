@@ -28,7 +28,7 @@ export default class Auth extends React.Component {
   }
 
   onChange(){
-    this.setState(store.getState().user);
+    this.setState(store.getState().toJS().user);
   }
 
   componentDidUpdate() {

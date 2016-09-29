@@ -17,7 +17,7 @@ export default class Home extends React.Component {
   constructor() {
     super();
     this.onChange = this.onChange.bind(this);
-    this.state = store.getState();
+    this.state = store.getState().toJS();
 
     const {
       plants = {},
@@ -37,7 +37,7 @@ export default class Home extends React.Component {
       user = {},
       plants = {},
       users = {}
-    } = store.getState();
+    } = store.getState().toJS();
     const userPlants = Object.keys(plants).reduce((acc, plantId) => {
       const plant = plants[plantId];
       if(plant.userId === user._id) {
