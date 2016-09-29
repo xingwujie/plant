@@ -5,7 +5,9 @@ const Immutable = require('immutable');
 // The action.payload is the returned user from the server.
 function loadUserSuccess(state, action) {
   const user = action.payload;
-  user.plantIds = Immutable.Set(user.plantIds || []);
+  if(user.plantIds && user.plantIds.length) {
+    user.plantIds = Immutable.Set(user.plantIds);
+  }
   return state.mergeDeep({
     [user._id]: user
   });
@@ -14,7 +16,9 @@ function loadUserSuccess(state, action) {
 // The action.payload are the returned users from the server.
 function loadUsersSuccess(state, action) {
   const users = (action.payload || []).reduce((acc, user) => {
-    user.plantIds = Immutable.Set(user.plantIds || []);
+    if(user.plantIds && user.plantIds.length) {
+      user.plantIds = Immutable.Set(user.plantIds);
+    }
     acc[user._id] = user;
     return acc;
   }, {});

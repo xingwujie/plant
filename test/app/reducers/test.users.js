@@ -17,7 +17,7 @@ describe('/app/reducers/users', function() {
     const state = Immutable.fromJS({});
     const payload = {_id: '1', name: 'john'};
     const expected = Immutable.fromJS({
-      '1': {_id: '1', name: 'john', plantIds: Immutable.Set()}
+      '1': {_id: '1', name: 'john'}
     });
     checkReducer('loadUserSuccess', state, payload, expected);
   });
@@ -26,7 +26,7 @@ describe('/app/reducers/users', function() {
     const state = Immutable.fromJS({});
     const payload = [{_id: '1', name: 'john'}];
     const expected = Immutable.fromJS({
-      '1': {_id: '1', name: 'john', plantIds: Immutable.Set()}
+      '1': {_id: '1', name: 'john'}
     });
     checkReducer('loadUsersSuccess', state, payload, expected);
   });
