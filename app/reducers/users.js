@@ -1,29 +1,30 @@
 
 const actions = require('../actions');
-const cloneDeep = require('lodash/cloneDeep');
+const Immutable = require('immutable');
 
 // The action.payload is the returned user from the server.
 function loadUserSuccess(state, action) {
-  return Object.freeze({
-    ...state,
-    [action.payload._id]: action.payload
+  const user = action.payload;
+  user.plantIds = Immutable.Set(user.plantIds || []);
+  return state.mergeDeep({
+    [user._id]: user
   });
 }
 
 // The action.payload are the returned users from the server.
 function loadUsersSuccess(state, action) {
-  console.log('loadUsersSuccess:', action);
   const users = (action.payload || []).reduce((acc, user) => {
+    user.plantIds = Immutable.Set(user.plantIds || []);
     acc[user._id] = user;
     return acc;
   }, {});
-  return Object.freeze({
-    ...state,
+  return state.mergeDeep({
     ...users
   });
 }
 
-// User clicks save after creating a new plant
+// User clicks save after creating a new plant, we need to
+// add this to the list of plants owned by this user.
 // action.payload is a plant object created in the browser
 // Some of the fields:
 // _id
@@ -33,37 +34,48 @@ function createPlantRequest(state, action) {
   // payload is an object of new plant being POSTed to server
   // an _id has already been assigned to this object
   const plant = action.payload;
-  const user = state[plant.userId];
+  const user = state.get(plant.userId);
   if(user) {
-    return Object.freeze({
-      ...state,
-      [user._id]: {
-        ...user,
-        plantIds: [...(user.plantIds || [])].concat(plant._id)
-      }
-    });
+    const plantIds = user.get('plantIds', Immutable.Set()).add(plant._id);
+    return state.set(plant.userId, user.set('plantIds', plantIds));
   } else {
     console.warn(`No user found in users createPlantRequest reducer ${plant.userId}`);
     return state;
   }
 }
 
+// If a bunch of plants are loaded then check that the plant
+// is on the user's plantIds list
 // action.payload is an array of plant objects
 function loadPlantsSuccess(state, action) {
   if(action.payload && action.payload.length > 0) {
+
+    // Create an object with users:
+    // {'u1': {plantIds: ['p1', p2]}, 'u2': {...}}
     const users = action.payload.reduce((acc, plant) => {
-      const user = state[plant.userId];
-      if(user) {
-        acc[user._id] = acc[user._id] || cloneDeep(user);
-        acc[user._id].plantIds = acc[user._id].plantIds || [];
-        if(acc[user._id].plantIds.indexOf(plant._id) === -1) {
-          acc[user._id].plantIds.push(plant._id);
-        }
+      if(state.get(plant.userId)) {
+        acc[plant.userId] = acc[plant.userId] || { plantIds: Immutable.Set() };
+        acc[plant.userId].plantIds = acc[plant.userId].plantIds.add(plant._id);
       }
       return acc;
     }, {});
 
-    return Object.freeze(Object.assign({}, state, users));
+    console.log('users:', users);
+
+    // import { List } from 'immutable'
+    // const isList = List.isList
+    const isSet = Immutable.Set.isSet;
+    function merger(a, b) {
+      if (isSet(a) && isSet(b)) {
+        return a.union(b);
+      } else if(a && a.mergeWith) {
+        return a.mergeWith(merger, b);
+      } else {
+        return b;
+      }
+    }
+
+    return state.mergeDeepWith(merger, users);
   } else {
     return state;
   }
@@ -86,7 +98,7 @@ const reducers = {
   [actions.LOAD_USERS_SUCCESS]: loadUsersSuccess,
 };
 
-module.exports = (state = {}, action) => {
+module.exports = (state = new Immutable.Map(), action) => {
   if(reducers[action.type]) {
     return reducers[action.type](state, action);
   }
