@@ -4,9 +4,9 @@
 // 2. If the user object has changed then write to localStorage
 const Immutable = require('immutable');
 
-let user = Immutable.Map();
+let user;
 export function setupSubscribe(store) {
-  let currentValue = user;
+  let currentValue = user || Immutable.Map();
 
   function handleChange() {
     let previousValue = currentValue;
@@ -28,8 +28,8 @@ export function initialState() {
       user = JSON.parse(localStorage.getItem('user'));
     } catch(e) {
     }
-    user = user || {};
+    user = Immutable.fromJS(user || {});
   }
 
-  return Immutable.fromJS(user);
+  return user;
 }
