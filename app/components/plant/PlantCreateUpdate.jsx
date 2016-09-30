@@ -12,7 +12,6 @@ import Paper from 'material-ui/Paper';
 import CancelSaveButtons from './CancelSaveButtons';
 import React from 'react';
 import TextField from 'material-ui/TextField';
-import moment from 'moment';
 import * as utils from '../../libs/utils';
 
 const validate = validators.plant;
@@ -170,8 +169,7 @@ export default class PlantCreateUpdate extends React.Component {
           error={errors.purchasedDate}
           extraClasses='col-sm-4'
           label='Purchase Date'
-          value={purchasedDate}
-          value={purchasedDate && moment.isMoment(purchasedDate) ? purchasedDate.format(dateFormat) : purchasedDate}
+          value={purchasedDate && utils.intToMoment(purchasedDate).format(dateFormat)}
           placeholder={dateFormat}
           changeHandler={this.handleChange.bind(this, 'purchasedDate')}
         />
@@ -181,7 +179,7 @@ export default class PlantCreateUpdate extends React.Component {
           error={errors.plantedDate}
           extraClasses='col-sm-4'
           label='Planted Date'
-          value={plantedDate && moment.isMoment(plantedDate) ? plantedDate.format(dateFormat) : plantedDate}
+          value={plantedDate && utils.intToMoment(plantedDate).format(dateFormat)}
           placeholder={dateFormat}
           changeHandler={this.handleChange.bind(this, 'plantedDate')}
         />

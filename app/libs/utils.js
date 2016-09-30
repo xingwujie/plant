@@ -1,5 +1,6 @@
-import slug from 'slug';
+const slug = require('slug');
 const isDate = require('lodash/isDate');
+const moment = require('moment');
 
 // bson is currently not being explicitly installed in the project because
 // mongodb depends on mongodb-core which depends on bson. The Npm 3 installer
@@ -9,7 +10,7 @@ const isDate = require('lodash/isDate');
 // 1. Fixes a problem that Webpack has when bundling this module and chaining
 //    from mongodb down to bson and,
 // 2. Reduces the size of the bundle that gets generated for the browser.
-import bson from 'bson';
+const bson = require('bson');
 const {ObjectID} = bson;
 
 export function makeMongoId() {
@@ -68,6 +69,10 @@ export function intToDate(date) {
   const month = Math.round( (date - year * 10000) / 100);
   const day = Math.round( (date - (year * 10000 + month * 100)));
   return new Date(year, month - 1, day);
+}
+
+export function intToMoment(date) {
+  return moment(intToDate(date));
 }
 
 // TODO: Move this file to a /shared/ folder.

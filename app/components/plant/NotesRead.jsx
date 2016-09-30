@@ -3,6 +3,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 import React from 'react';
 import NoteRead from './NoteRead';
 import Paper from 'material-ui/Paper';
+const utils = require('../../libs/utils');
 
 export default class NotesRead extends React.Component {
 
@@ -28,10 +29,10 @@ export default class NotesRead extends React.Component {
       const noteA = notes[a];
       const noteB = notes[b];
       if(noteA && noteB) {
-        if(noteA.date.isSame(noteB.date)) {
+        if(noteA.date === noteB.date) {
           return 0;
         }
-        return noteA.date.isAfter(noteB.date) ? 1 : -1;
+        return noteA.date > noteB.date ? 1 : -1;
       } else {
         return 0;
       }
@@ -49,15 +50,16 @@ export default class NotesRead extends React.Component {
     const renderedNotes = sortedIds.reduce((acc, noteId) => {
       const note = notes[noteId];
       if(note) {
-        const sinceLast = lastNoteDate ? `...and then after ${lastNoteDate.from(note.date, true)}` : '';
-        if(sinceLast && !lastNoteDate.isSame(note.date)) {
+        const currentNoteDate = utils.intToMoment(note.date);
+        const sinceLast = lastNoteDate ? `...and then after ${lastNoteDate.from(currentNoteDate, true)}` : '';
+        if(sinceLast && !lastNoteDate.isSame(currentNoteDate)) {
           acc.push(
             <Paper key={noteId + '-sincelast'} style={paperStyle} zDepth={1}>
               {sinceLast}
             </Paper>
           );
         }
-        lastNoteDate = note.date;
+        lastNoteDate = currentNoteDate;
         acc.push(
           <NoteRead
             key={noteId}

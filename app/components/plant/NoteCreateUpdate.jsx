@@ -245,7 +245,7 @@ NoteCreateUpdate.propTypes = {
   plantNote:  React.PropTypes.shape({
     date: React.PropTypes.string.isRequired,
     errors: React.PropTypes.object,
-    note: React.PropTypes.string.isRequired,
+    note: React.PropTypes.string,
   }),
   postSaveSuccess: React.PropTypes.func,
 };

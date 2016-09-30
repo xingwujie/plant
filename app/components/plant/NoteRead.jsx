@@ -5,6 +5,7 @@ import EditDeleteButtons from './EditDeleteButtons';
 import NoteUpdate from './NoteUpdate';
 const moment = require('moment');
 import LinkIcon from 'material-ui/svg-icons/content/link';
+const utils = require('../../libs/utils');
 
 export default class NoteRead extends React.Component {
 
@@ -82,7 +83,7 @@ export default class NoteRead extends React.Component {
   editNote() {
     const note = {
       ...this.props.note,
-      date: this.props.note.date.format('MM/DD/YYYY'),
+      date: utils.intToMoment(this.props.note.date).format('MM/DD/YYYY'),
       isNew: false // TODO: is this still needed?
     };
     const {plant} = this.props;
@@ -108,10 +109,12 @@ export default class NoteRead extends React.Component {
 
     const images = this.renderImages(note);
 
-    const noteDate = note.date.format('DD-MMM-YYYY') +
-      (note.date.isSame(moment(), 'day')
+    const date = utils.intToMoment(note.date);
+
+    const noteDate = date.format('DD-MMM-YYYY') +
+      (date.isSame(moment(), 'day')
       ? ' (today)'
-      : ` (${note.date.from(moment().startOf('day'))})`);
+      : ` (${date.from(moment().startOf('day'))})`);
 
     return (
       <Paper key={note._id} style={paperStyle} zDepth={1}>

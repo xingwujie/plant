@@ -3,7 +3,6 @@ import EditDeleteButtons from './EditDeleteButtons';
 import NotesRead from './NotesRead';
 import Paper from 'material-ui/Paper';
 import React from 'react';
-import moment from 'moment';
 import * as utils from '../../libs/utils';
 
 export default class PlantRead extends React.Component {
@@ -65,8 +64,9 @@ export default class PlantRead extends React.Component {
         return null;
       }
       let renderText;
-      if(title.name === 'plantedDate' && moment.isMoment(plant[title.name])) {
-        renderText = `Planted ${plant[title.name].fromNow()}`;
+      if(title.name === 'plantedDate' && plant[title.name]) {
+        const date = utils.intToMoment(plant[title.name]);
+        renderText = `Planted ${date.fromNow()}`;
       } else {
         renderText = `${title.text ? title.text + ': ' : ''}${plant[title.name]}`;
       }
