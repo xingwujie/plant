@@ -11,7 +11,7 @@ Object of notes:
       errors: 'an array of errors'
     },
     _id: 'mongoId - same as key'
-    date: 'moment object',
+    date: 20160101 - a number,
     note: 'string',
     plantIds: 'an array of strings',
     userId: 'mongoId - identifies user'

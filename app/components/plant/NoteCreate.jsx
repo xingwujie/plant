@@ -1,7 +1,6 @@
 // Used to add a note to a plant
 
 import * as actions from '../../actions';
-import moment from 'moment';
 import React from 'react';
 import NoteCreateUpdate from './NoteCreateUpdate';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
@@ -20,7 +19,7 @@ export default class NoteCreate extends React.Component {
     const {plant} = this.props;
     const note = {
       _id: utils.makeMongoId(),
-      date: moment().format('MM/DD/YYYY'),
+      date: utils.dateToInt(new Date()),
       isNew: true,
       note: '',
       plantIds: [],

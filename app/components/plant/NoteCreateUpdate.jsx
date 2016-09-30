@@ -2,7 +2,6 @@
 
 const cloneDeep = require('lodash/cloneDeep');
 import isEmpty from 'lodash/isEmpty';
-import moment from 'moment';
 import Paper from 'material-ui/Paper';
 import React from 'react';
 import TextField from 'material-ui/TextField';
@@ -134,7 +133,7 @@ export default class NoteCreateUpdate extends React.Component {
     } = this.state || {};
 
     const {
-      date = moment.format('MM/DD/YYYY'),
+      date = utils.dateToInt(new Date()),
       errors = {},
       note = ''
     } = plantNote;
@@ -243,7 +242,7 @@ NoteCreateUpdate.propTypes = {
   images: React.PropTypes.array,
   plant: React.PropTypes.object.isRequired,
   plantNote:  React.PropTypes.shape({
-    date: React.PropTypes.string.isRequired,
+    date: React.PropTypes.number.isRequired,
     errors: React.PropTypes.object,
     note: React.PropTypes.string,
   }),
