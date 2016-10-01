@@ -1,8 +1,5 @@
-import isArray from 'lodash/isArray';
-import isObject from 'lodash/isObject';
 import isFunction from 'lodash/isFunction';
 import $ from 'jquery';
-import moment from 'moment';
 
 // import d from 'debug';
 // const debug = d('plant:ajax');
@@ -17,34 +14,6 @@ function setJwtHeader(store, request) {
 function jqueryAjax(options) {
   return $.ajax(options);
 };
-
-const dateFormat = 'MM/DD/YYYY';
-
-function demomentize(obj) {
-  if(!obj) {
-    return {};
-  }
-
-  if(isArray(obj)) {
-    return obj.map(demomentize);
-  }
-
-  if(isObject(obj)) {
-    if(moment.isMoment(obj)) {
-      return obj.format(dateFormat);
-    }
-    Object.keys(obj).forEach( key => {
-      if(moment.isMoment(obj[key])) {
-        obj[key] = obj[key].format(dateFormat);
-      }
-      if(isObject(obj[key])) { // Includes arrays
-        obj[key] = demomentize(obj[key]);
-      }
-    });
-  }
-
-  return obj;
-}
 
 module.exports = (store, options) => {
 
@@ -90,7 +59,6 @@ module.exports = (store, options) => {
     ajaxOptions.contentType = false;
     ajaxOptions.processData = false;
     ajaxOptions.cache = false;
-    ajaxOptions.data = options.data;
     // ajaxOptions.uploadProgess = (e, position, total, percentComplete) => {
     //   console.log('uploadProgess', e, position, total, percentComplete);
     // };
@@ -109,9 +77,8 @@ module.exports = (store, options) => {
       }
       return xhr;
     };
-  } else {
-    ajaxOptions.data = demomentize(options.data);
   }
+  ajaxOptions.data = options.data;
 
   jqueryAjax(ajaxOptions);
 
