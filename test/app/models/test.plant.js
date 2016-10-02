@@ -1,11 +1,10 @@
-import _ from 'lodash';
-import validators from '../../../app/models';
-import assert from 'assert';
+const _ = require('lodash');
+const validators = require('../../../app/models');
+const assert = require('assert');
 
 const plantValidator = validators.plant;
 
-import d from 'debug';
-const debug = d('plant:test.plant');
+const logger = require('../../../lib/logging/logger').create('plant:test.plant');
 
 describe('/app/models/plant', function() {
 
@@ -35,9 +34,9 @@ describe('/app/models/plant', function() {
       botanicalName: 'Botanical Name',
       commonName: 'Common Name',
       description: 'Description',
-      plantedDate: '12/15/2012',
+      plantedDate: 20121215,
       price: 25.99,
-      purchasedDate: '12/15/2012',
+      purchasedDate: 20121215,
       tags: ['citrus', 'north-east'],
       title: 'Title',
       userId: 'cf885bf372488977ae0d6476',
@@ -47,10 +46,10 @@ describe('/app/models/plant', function() {
     const isNew = false;
 
     plantValidator(plant, {isNew}, (err, transformed) => {
-      // debug(err);
+
       assert(!err);
       assert.deepEqual(Object.keys(transformed), Object.keys(plant));
-      debug('transformed:', transformed);
+      logger.trace('transformed:', {transformed});
       assert.deepEqual(transformed, plant);
       assert.deepEqual(plantCopy, plant);
       done();
@@ -64,9 +63,9 @@ describe('/app/models/plant', function() {
       botanicalName: _.repeat('Botanical Name is too long', 50),
       commonName: true, // Not a string
       description: 500, // Not a string
-      plantedDate: '12/12/12', // Year is not 4 digits
+      plantedDate: 121212, // Year is not 4 digits
       price: 'Not a number',
-      purchasedDate: '55/55/55', // Invalid date
+      purchasedDate: 20161313, // Invalid month
       tags: ['citrus', 'north-east', 'north', 'west', 'south', 'east'], // Tags not unique
       title: {}, // Not a string
       userId: 123, // Not a MongoId
@@ -77,7 +76,6 @@ describe('/app/models/plant', function() {
 
     plantValidator(plant, {isNew}, (err /*, transformed*/) => {
       assert(err);
-      // debug(err);
 
       assert.equal(err._id, ' id is invalid');
       assert.equal(err.botanicalName, 'Botanical name is too long (maximum is 100 characters)');
@@ -107,8 +105,6 @@ describe('/app/models/plant', function() {
     const isNew = false;
 
     plantValidator(plant, {isNew}, (err, transformed) => {
-      // debug('err:', err);
-      // debug('transformed:', transformed);
 
       assert(!err);
       assert.equal(Object.keys(transformed).length, 3);
@@ -152,8 +148,6 @@ describe('/app/models/plant', function() {
     const isNew = false;
 
     plantValidator(plant, {isNew}, (err, transformed) => {
-      // debug('err:', err);
-      // debug('transformed:', transformed);
 
       assert(err);
       assert.equal(err.userId, 'User id can\'t be blank');
@@ -172,9 +166,9 @@ describe('/app/models/plant', function() {
       botanicalName: 'Botanical Name',
       commonName: 'Common Name',
       description: 'Description',
-      plantedDate: '12/15/12',
+      plantedDate: 20121215,
       price: 25.99,
-      purchasedDate: '12/15/12',
+      purchasedDate: 20121215,
       tags: ['citrus', '01234567890012345678901'],
       title: 'Title',
       userId: 'cf885bf372488977ae0d6476',
@@ -184,7 +178,7 @@ describe('/app/models/plant', function() {
     const isNew = false;
 
     plantValidator(plant, {isNew}, (err, transformed) => {
-      // debug(err);
+
       assert(err);
       assert.equal(err.tags, 'Tags cannot be more than 20 characters');
       assert.deepEqual(Object.keys(transformed), Object.keys(plant));
@@ -200,9 +194,9 @@ describe('/app/models/plant', function() {
       botanicalName: 'Botanical Name',
       commonName: 'Common Name',
       description: 'Description',
-      plantedDate: '12/15/12',
+      plantedDate: 20121215,
       price: 25.99,
-      purchasedDate: '12/15/12',
+      purchasedDate: 20121215,
       tags: 'citrus',
       title: 'Title',
       userId: 'cf885bf372488977ae0d6476',
@@ -212,7 +206,7 @@ describe('/app/models/plant', function() {
     const isNew = false;
 
     plantValidator(plant, {isNew}, (err, transformed) => {
-      // debug(err);
+
       assert(err);
       assert.equal(err.tags, 'Tags must be an array');
       assert.deepEqual(Object.keys(transformed), Object.keys(plant));
@@ -228,9 +222,9 @@ describe('/app/models/plant', function() {
       botanicalName: 'Botanical Name',
       commonName: 'Common Name',
       description: 'Description',
-      plantedDate: '12/15/12',
+      plantedDate: 20121215,
       price: 25.99,
-      purchasedDate: '12/15/12',
+      purchasedDate: 20121215,
       tags: ['cit&rus'],
       title: 'Title',
       userId: 'cf885bf372488977ae0d6476',
@@ -240,7 +234,7 @@ describe('/app/models/plant', function() {
     const isNew = false;
 
     plantValidator(plant, {isNew}, (err, transformed) => {
-      // debug(err);
+
       assert(err);
       assert.equal(err.tags, 'Tags can only have alphabetic characters and a dash');
       assert.deepEqual(Object.keys(transformed), Object.keys(plant));
@@ -256,9 +250,9 @@ describe('/app/models/plant', function() {
       botanicalName: 'Botanical Name',
       commonName: 'Common Name',
       description: 'Description',
-      plantedDate: '12/15/2012',
+      plantedDate: 20121215,
       price: 25.99,
-      purchasedDate: '12/15/2012',
+      purchasedDate: 20121215,
       tags: ['CITRUS', 'North-West', 'upPer'],
       title: 'Title',
       userId: 'cf885bf372488977ae0d6476',

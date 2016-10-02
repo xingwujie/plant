@@ -55,15 +55,16 @@ export default class NoteCreateUpdate extends React.Component {
   }
 
   saveNote(files) {
-    const plantNote = cloneDeep(this.props.plantNote);
+    const interimNote = cloneDeep(this.props.interimNote);
 
-    if(plantNote.plantIds.indexOf(this.props.plant._id) === -1) {
-      plantNote.plantIds.push(this.props.plant._id);
+    if(interimNote.plantIds.indexOf(this.props.plant._id) === -1) {
+      interimNote.plantIds.push(this.props.plant._id);
     }
 
-    plantNote._id = plantNote._id || utils.makeMongoId();
+    interimNote._id = interimNote._id || utils.makeMongoId();
+    interimNote.date = utils.dateToInt(interimNote.date);
 
-    validate(plantNote, (errors, note) => {
+    validate(interimNote, (errors, note) => {
 
       if(errors) {
         console.log('create: Note validation errors:', errors);
@@ -97,15 +98,15 @@ export default class NoteCreateUpdate extends React.Component {
     };
 
     const {
-      plantNote = {},
+      interimNote = {},
     } = this.props || {};
 
-    if(plantNote.uploadProgress) {
+    if(interimNote.uploadProgress) {
       const linearProgressStyle = {
         width: '100%',
         height: '20px'
       };
-      const {value, max} = plantNote.uploadProgress;
+      const {value, max} = interimNote.uploadProgress;
       const progress = `Upload progress ${Math.round(value * 100 / max)} %`;
       return (
         <Paper
@@ -136,7 +137,7 @@ export default class NoteCreateUpdate extends React.Component {
       date = utils.dateToInt(new Date()),
       errors = {},
       note = ''
-    } = plantNote;
+    } = interimNote;
 
     const textAreaStyle = {
       textAlign: 'left'
@@ -241,8 +242,8 @@ NoteCreateUpdate.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
   images: React.PropTypes.array,
   plant: React.PropTypes.object.isRequired,
-  plantNote:  React.PropTypes.shape({
-    date: React.PropTypes.number.isRequired,
+  interimNote:  React.PropTypes.shape({
+    date: React.PropTypes.string.isRequired,
     errors: React.PropTypes.object,
     note: React.PropTypes.string,
   }),

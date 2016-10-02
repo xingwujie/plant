@@ -7,6 +7,7 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import AddIcon from 'material-ui/svg-icons/content/add';
 const utils = require('../../libs/utils');
 const actions = require('../../actions');
+const moment = require('moment');
 
 export default class PlantItem extends React.Component {
 
@@ -19,7 +20,7 @@ export default class PlantItem extends React.Component {
     const {plant} = this.props;
     const note = {
       _id: utils.makeMongoId(),
-      date: utils.dateToInt(new Date()),
+      date: moment().format('MM/DD/YYYY'),
       isNew: true,
       note: '',
       plantIds: [plant._id],

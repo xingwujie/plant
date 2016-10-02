@@ -128,9 +128,9 @@ export default class Plants extends React.Component {
         </Base>
       );
     }
-    const note = interim && interim.note && interim.note.note;
+    const interimNote = interim && interim.note && interim.note.note;
     const plantCreateNote = interim && interim.note && interim.note.plant;
-    const createNote = !!note && note.isNew;
+    const createNote = !!interimNote && interimNote.isNew;
 
     // console.log('user:', user);
     // console.log('allLoadedPlants:', allLoadedPlants);
@@ -143,7 +143,7 @@ export default class Plants extends React.Component {
             <NoteCreate
               dispatch={store.dispatch}
               isOwner={true}
-              note={note}
+              interimNote={interimNote}
               plant={plantCreateNote}
               postSaveSuccess={this.postSaveSuccessCreateNote}
               user={authUser}

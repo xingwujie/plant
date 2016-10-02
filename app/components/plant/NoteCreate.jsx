@@ -6,6 +6,7 @@ import NoteCreateUpdate from './NoteCreateUpdate';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import AddIcon from 'material-ui/svg-icons/content/add';
 import * as utils from '../../libs/utils';
+const moment = require('moment');
 
 export default class NoteCreate extends React.Component {
 
@@ -19,7 +20,7 @@ export default class NoteCreate extends React.Component {
     const {plant} = this.props;
     const note = {
       _id: utils.makeMongoId(),
-      date: utils.dateToInt(new Date()),
+      date: moment().format('MM/DD/YYYY'),
       isNew: true,
       note: '',
       plantIds: [],
@@ -32,21 +33,21 @@ export default class NoteCreate extends React.Component {
   render() {
     const {
       isOwner,
-      note
+      interimNote
     } = this.props || {};
 
     if(!isOwner) {
       return null;
     }
 
-    const createNote = !!note && note.isNew;
+    const createNote = !!interimNote && interimNote.isNew;
 
     return (
       <div>
         {createNote &&
           <NoteCreateUpdate
             dispatch={this.props.dispatch}
-            plantNote={note}
+            interimNote={interimNote}
             plant={this.props.plant}
           />
         }
@@ -69,7 +70,7 @@ export default class NoteCreate extends React.Component {
 NoteCreate.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
   isOwner: React.PropTypes.bool.isRequired,
-  note: React.PropTypes.object,
+  interimNote: React.PropTypes.object,
   plant: React.PropTypes.object.isRequired,
   postSaveSuccess: React.PropTypes.func,
   user: React.PropTypes.object.isRequired,

@@ -110,7 +110,7 @@ export default (attributes, cb) => {
 
   const constraints = {
     _id: {format: constants.mongoIdRE, presence: true},
-    date: {datetime: true, presence: true},
+    date: {intDateValidate: {presence: true}},
     images: {imagesValidate: {}},
     plantIds: {plantIdsValidate: {length: {minimum: 1}}},
     note: {length: {minimum: 1, maximum: 5000}, presence: false},

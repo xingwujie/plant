@@ -14,7 +14,7 @@ describe('/app/models/note', function() {
   it('should pass minimum validation', (done) => {
     const note = {
       _id: makeMongoId(),
-      date: new Date(),
+      date: 20160101,
       plantIds: [makeMongoId()],
       note: 'some text',
       userId: makeMongoId(),
@@ -33,7 +33,7 @@ describe('/app/models/note', function() {
     // All items in note should be invalid
     const note = {
       _id: '0e55d91cb33d42', // Not a MongoId
-      date: 'Note a Date',
+      date: 'Not a Number',
       plantIds: ['9ec5c8ffcf885bf'], // Not a MongoId in array
       note: {}, // not a string
     };
@@ -44,7 +44,7 @@ describe('/app/models/note', function() {
       assert(err);
 
       assert.equal(err._id, ' id is invalid');
-      assert.equal(err.date, 'Date must be a valid date');
+      assert.equal(err.date, 'Date must be a number');
       assert.equal(err.plantIds, 'Plant ids must be MongoIds');
       assert.deepEqual(noteCopy, note);
       done();
@@ -54,7 +54,7 @@ describe('/app/models/note', function() {
   it('should strip out props not in the schema', (done) => {
     const note = {
       _id: makeMongoId(),
-      date: new Date(),
+      date: 20160101,
       plantIds: [makeMongoId()],
       note: 'some text',
       fakeName1: 'Common Name',
@@ -80,7 +80,7 @@ describe('/app/models/note', function() {
 
   it('should add _id if it is a new record', (done) => {
     const note = {
-      date: new Date(),
+      date: 20160101,
       plantIds: [makeMongoId()],
       note: 'some text',
     };
@@ -103,7 +103,7 @@ describe('/app/models/note', function() {
   it('should fail if plantIds is empty', (done) => {
     const note = {
       _id: makeMongoId(),
-      date: new Date(),
+      date: 20160101,
       plantIds: [],
       note: 'some text',
     };
@@ -125,7 +125,7 @@ describe('/app/models/note', function() {
   it('should fail if plantIds is missing', (done) => {
     const note = {
       _id: makeMongoId(),
-      date: new Date(),
+      date: 20160101,
       note: 'some text',
     };
     const noteCopy = _.clone(note);
@@ -146,7 +146,7 @@ describe('/app/models/note', function() {
   it('should fail if plantIds is not an array', (done) => {
     const note = {
       _id: makeMongoId(),
-      date: new Date(),
+      date: 20160101,
       note: 'some text',
       plantIds: makeMongoId(),
     };
@@ -176,7 +176,7 @@ describe('/app/models/note', function() {
     it('should pass with an empty images array', (done) => {
       const note = {
         _id: makeMongoId(),
-        date: new Date(),
+        date: 20160101,
         images: [],
         note: 'some text',
         plantIds: [makeMongoId()],
@@ -199,7 +199,7 @@ describe('/app/models/note', function() {
     it('should pass with valid images', (done) => {
       const note = {
         _id: makeMongoId(),
-        date: new Date(),
+        date: 20160101,
         images: [image],
         note: 'some text',
         plantIds: [makeMongoId()],
@@ -220,7 +220,7 @@ describe('/app/models/note', function() {
     it('should fail if images is not an array', (done) => {
       const note = {
         _id: makeMongoId(),
-        date: new Date(),
+        date: 20160101,
         images: makeMongoId(),
         note: 'some text',
         plantIds: [makeMongoId()],
@@ -243,7 +243,7 @@ describe('/app/models/note', function() {
     it('should fail if images id is not a mongoId', (done) => {
       const note = {
         _id: makeMongoId(),
-        date: new Date(),
+        date: 20160101,
         images: [{...image, id: 123}],
         note: 'some text',
         plantIds: [makeMongoId()],
@@ -266,7 +266,7 @@ describe('/app/models/note', function() {
     it('should fail if images ext is not a string', (done) => {
       const note = {
         _id: makeMongoId(),
-        date: new Date(),
+        date: 20160101,
         images: [{...image, ext: 123}],
         note: 'some text',
         plantIds: [makeMongoId()],
@@ -289,7 +289,7 @@ describe('/app/models/note', function() {
     it('should fail if images originalname is not a string', (done) => {
       const note = {
         _id: makeMongoId(),
-        date: new Date(),
+        date: 20160101,
         images: [{...image, originalname: 123}],
         note: 'some text',
         plantIds: [makeMongoId()],
@@ -312,7 +312,7 @@ describe('/app/models/note', function() {
     it('should convert image size if it is a string number', (done) => {
       const note = {
         _id: makeMongoId(),
-        date: new Date(),
+        date: 20160101,
         images: [{...image, size: '123'}],
         note: 'some text',
         plantIds: [makeMongoId()],
@@ -334,7 +334,7 @@ describe('/app/models/note', function() {
     it('should fail if images ext is longer than 20', (done) => {
       const note = {
         _id: makeMongoId(),
-        date: new Date(),
+        date: 20160101,
         images: [{...image, ext: '123456789012345678901'}],
         note: 'some text',
         plantIds: [makeMongoId()],
@@ -357,7 +357,7 @@ describe('/app/models/note', function() {
     it('should fail if images has extra props', (done) => {
       const note = {
         _id: makeMongoId(),
-        date: new Date(),
+        date: 20160101,
         images: [{...image, extra: 'jpg'}],
         note: 'some text',
         plantIds: [makeMongoId()],
