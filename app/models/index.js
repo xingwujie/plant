@@ -19,8 +19,8 @@ const plant = require('./plant');
 // Validate an integeter date. Should be in the range of
 // something like 17000101 to 20201231. Not sure why we'd
 // have dates beyond the current day...
-validatejs.validators.intDateValidate = (value, options) => {
-  if(isNaN(value)) {
+validatejs.validators.intDateValidate = (value, options) => { // eslint-disable-line complexity
+  if(Number.isNaN(value)) {
     console.warn(`Date validate expected ${value} to not be NaN`);
     return 'must be a valid date in the format MM/DD/YYYY';
   }
