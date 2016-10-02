@@ -1,10 +1,9 @@
-import mongo from '../../../../lib/db/mongo';
-import assert from 'assert';
-import constants from '../../../../app/libs/constants';
-import * as helper from '../../../helper';
+const mongo = require('../../../../lib/db/mongo');
+const assert = require('assert');
+const constants = require('../../../../app/libs/constants');
+const helper = require('../../../helper');
 
-import d from 'debug';
-const debug = d('plant:test.mongo');
+// const logger = require('../../../../lib/logging/logger').create('test.mongo-index');
 
 describe('/lib/db/mongo/', function() {
   this.timeout(10000);
@@ -14,7 +13,6 @@ describe('/lib/db/mongo/', function() {
   before('should create a user account by starting the server', (done) => {
     helper.startServerAuthenticated((err, data) => {
       assert(!err);
-      debug('createUser result:', data.user);
       fbUser = data.user;
       userId = fbUser._id;
       assert(userId);
@@ -44,10 +42,7 @@ describe('/lib/db/mongo/', function() {
           id: fbUser.facebook.id
         },
       };
-      debug('before user:', user);
       mongo.findOrCreateUser(user, (err, body) => {
-        debug('body:', body);
-        debug('fbUser:', fbUser);
         assert(!err);
         assert(body);
         assert(body._id);
@@ -64,22 +59,21 @@ describe('/lib/db/mongo/', function() {
   describe('plant', () => {
     const plant = {
       name: 'Plant Name',
-      plantedOn: new Date(2015, 7, 1)
+      plantedOn: 20150701
     };
     let plantId;
 
     it('should create a plant', (done) => {
       plant.userId = userId;
-      debug('plant:', plant);
       assert.equal(typeof plant.userId, 'string');
       mongo.createPlant(plant, (createPlantErr, body) => {
-        debug('createPlantErr:', createPlantErr);
         assert(!createPlantErr);
         assert(body);
         assert(body._id);
         assert.equal(typeof body._id, 'string');
         assert.equal(typeof body.userId, 'string');
         assert.equal(typeof plant.userId, 'object');
+        assert.equal(typeof plant.plantedOn, 'number');
 
         // To be used in next test...
         plantId = body._id;
@@ -91,16 +85,10 @@ describe('/lib/db/mongo/', function() {
     it('should get an existing plant', (done) => {
 
       mongo.getPlantById(plantId, (err, result) => {
-        debug('getPlantById result:', result);
         assert.equal(typeof result.userId, 'string');
         assert(!err);
         assert.equal(result.name, plant.name);
-        const plantedOn = new Date(result.plantedOn);
-        assert.equal(plantedOn.getTime(), plant.plantedOn.getTime());
-        debug('result.userId:', result.userId);
-        debug('plant.userId:', plant.userId);
-        debug('typeof result.userId:', typeof result.userId);
-        debug('typeof plant.userId:', typeof plant.userId);
+        assert.equal(result.plantedOn, plant.plantedOn);
         assert.equal(result.userId, plant.userId.toString());
         done();
       });
@@ -116,8 +104,6 @@ describe('/lib/db/mongo/', function() {
       };
 
       mongo.updatePlant(plantUpdate, (err, result) => {
-        debug('update with Set err:', err);
-        debug('update with Set result:', result);
         assert(!err);
         assert.equal(result.ok, 1);
         // Mongo 2.x does not return nModified which is what Travis uses so do not check this

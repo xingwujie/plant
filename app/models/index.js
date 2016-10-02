@@ -54,6 +54,6 @@ validatejs.validators.intDateValidate = (value, options) => {
 
 };
 
-export default {
+module.exports = {
   note, plant
 };

@@ -81,9 +81,9 @@ describe('/app/models/plant', function() {
       assert.equal(err.botanicalName, 'Botanical name is too long (maximum is 100 characters)');
       assert.equal(err.commonName, 'Common name has an incorrect length');
       assert.equal(err.description, 'Description has an incorrect length');
-      assert.equal(err.plantedDate, 'Planted date must be a valid date');
+      assert.equal(err.plantedDate, 'Planted date must be after 1st Jan 1700');
       assert.equal(err.price, 'Price is not a number');
-      assert.equal(err.purchasedDate, 'Purchased date must be a valid date');
+      assert.equal(err.purchasedDate, 'Purchased date must have a valid month, value found was 13');
       assert.equal(err.tags, 'Tags can have a maximum of 5 tags');
       assert.equal(err.title, 'Title can\'t be blank');
       assert.equal(err.userId, 'User id is invalid');

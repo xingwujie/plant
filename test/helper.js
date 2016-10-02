@@ -192,7 +192,7 @@ export function createNote(plantIds, noteOverride = {}, cb) {
   assert(_.isArray(plantIds));
   const noteTemplate = {
     note: 'This is a note',
-    date: new Date(),
+    date: 20160101,
     plantIds,
     ...noteOverride
   };

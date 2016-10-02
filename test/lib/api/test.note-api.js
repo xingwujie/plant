@@ -25,7 +25,7 @@ describe('note-api', function() {
 
   const initialNote = {
     note: 'This is a note',
-    date: new Date()
+    date: 20160101
   };
   let noteId;
 
