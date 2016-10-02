@@ -34,7 +34,7 @@ export default class NoteRead extends React.Component {
         cancel={() => this.props.dispatch(actions.editNoteClose())}
         dispatch={this.props.dispatch}
         isOwner={this.props.isOwner}
-        note={this.props.interim.note.note}
+        interimNote={this.props.interim.note.note}
         plant={this.props.plant}
       />
     );
@@ -83,7 +83,7 @@ export default class NoteRead extends React.Component {
   editNote() {
     const note = {
       ...this.props.note,
-      date: utils.intToMoment(this.props.note.date).format('MM/DD/YYYY'),
+      date: utils.intToString(this.props.note.date),
       isNew: false // TODO: is this still needed?
     };
     const {plant} = this.props;

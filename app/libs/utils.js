@@ -13,11 +13,11 @@ const moment = require('moment');
 const bson = require('bson');
 const {ObjectID} = bson;
 
-export function makeMongoId() {
+function makeMongoId() {
   return new ObjectID().toString();
 }
 
-export function makeSlug(text) {
+function makeSlug(text) {
   if(!text) {
     console.warn('text is falsey in makeSlug:', text);
     return '';
@@ -35,7 +35,7 @@ export function makeSlug(text) {
   });
 }
 
-export function makePlantsUrl(user = {}) {
+function makePlantsUrl(user = {}) {
   const {
     name: userName = '',
     _id = ''
@@ -49,8 +49,10 @@ export function makePlantsUrl(user = {}) {
  * @param {object} date - could be object, string or Integer
  * @returns {Integer} - a date in the form YYYYMMDD
  */
-export function dateToInt(date) {
-  if(isDate(date)) {
+function dateToInt(date) {
+  if(moment.isMoment(date)) {
+    return dateToInt(date.toDate());
+  } else if(isDate(date)) {
     return date.getFullYear() * 10000 +
       (date.getMonth() + 1) * 100 +
       date.getDate();
@@ -64,15 +66,29 @@ export function dateToInt(date) {
   }
 }
 
-export function intToDate(date) {
+function intToDate(date) {
   const year = Math.round(date / 10000);
   const month = Math.round( (date - year * 10000) / 100);
   const day = Math.round( (date - (year * 10000 + month * 100)));
   return new Date(year, month - 1, day);
 }
 
-export function intToMoment(date) {
+function intToMoment(date) {
   return moment(intToDate(date));
 }
+
+function intToString(date) {
+  return intToMoment(date).format('MM/DD/YYYY');
+}
+
+module.exports = {
+  dateToInt,
+  intToDate,
+  intToMoment,
+  intToString,
+  makeMongoId,
+  makePlantsUrl,
+  makeSlug,
+};
 
 // TODO: Move this file to a /shared/ folder.

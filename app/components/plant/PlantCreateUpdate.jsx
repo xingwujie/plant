@@ -14,6 +14,7 @@ import React from 'react';
 import TextField from 'material-ui/TextField';
 import * as utils from '../../libs/utils';
 
+const cloneDeep = require('lodash/cloneDeep');
 const validate = validators.plant;
 
 export default class PlantCreateUpdate extends React.Component {
@@ -31,7 +32,7 @@ export default class PlantCreateUpdate extends React.Component {
     const pageTitle = this.props.plant.mode === 'edit'
       ? `Edit ${this.props.plant.title}`
       : 'Add New Plant';
-    this.setState({
+    const plant = {
       title: '',
       botanicalName: '',
       commonName: '',
@@ -42,7 +43,14 @@ export default class PlantCreateUpdate extends React.Component {
       errors: {},
       ...this.props.plant,
       pageTitle
-    });
+    };
+    if(plant.purchasedDate) {
+      plant.purchasedDate = utils.intToString(plant.purchasedDate);
+    }
+    if(plant.plantedDate) {
+      plant.plantedDate = utils.intToString(plant.plantedDate);
+    }
+    this.setState(plant);
   }
 
   cancel() {
@@ -60,7 +68,16 @@ export default class PlantCreateUpdate extends React.Component {
 
   save(e) {
     const isNew = this.props.plant.mode === 'create';
-    validate(this.state, {isNew}, (err, transformed) => {
+    const plant = cloneDeep(this.state);
+    if(plant.purchasedDate) {
+      plant.purchasedDate = utils.dateToInt(plant.purchasedDate);
+    }
+    if(plant.plantedDate) {
+      plant.plantedDate = utils.dateToInt(plant.plantedDate);
+    }
+    // console.log('PlantCreateUpdate.sve plant:', plant);
+
+    validate(plant, {isNew}, (err, transformed) => {
       if(err) {
         this.setState({errors: err});
       } else {
@@ -69,6 +86,10 @@ export default class PlantCreateUpdate extends React.Component {
         } else {
           this.props.dispatch(actions.updatePlantRequest(transformed));
         }
+        this.props.dispatch(actions.setPlantMode({
+          _id: this.props.plant._id,
+          mode: 'read'
+        }));
         this.context.router.push(`/plant/${makeSlug(transformed.title)}/${transformed._id}`);
       }
     });
@@ -169,7 +190,7 @@ export default class PlantCreateUpdate extends React.Component {
           error={errors.purchasedDate}
           extraClasses='col-sm-4'
           label='Purchase Date'
-          value={purchasedDate && utils.intToMoment(purchasedDate).format(dateFormat)}
+          value={purchasedDate}
           placeholder={dateFormat}
           changeHandler={this.handleChange.bind(this, 'purchasedDate')}
         />
@@ -179,7 +200,7 @@ export default class PlantCreateUpdate extends React.Component {
           error={errors.plantedDate}
           extraClasses='col-sm-4'
           label='Planted Date'
-          value={plantedDate && utils.intToMoment(plantedDate).format(dateFormat)}
+          value={plantedDate}
           placeholder={dateFormat}
           changeHandler={this.handleChange.bind(this, 'plantedDate')}
         />

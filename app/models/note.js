@@ -1,10 +1,10 @@
-import cloneDeep from 'lodash/cloneDeep';
-import omit from 'lodash/omit';
-import isArray from 'lodash/isArray';
-import every from 'lodash/every';
-import {makeMongoId} from '../libs/utils';
-import constants from '../libs/constants';
-import validatejs from 'validate.js';
+const cloneDeep = require('lodash/cloneDeep');
+const omit = require('lodash/omit');
+const isArray = require('lodash/isArray');
+const every = require('lodash/every');
+const {makeMongoId} = require('../libs/utils');
+const constants = require('../libs/constants');
+const validatejs = require('validate.js');
 
 // import d from 'debug';
 // const debug = d('plant:test.plant');
@@ -106,7 +106,7 @@ validatejs.validators.imagesValidate = (value) => {
 // Don't need an _id if we're creating a document, db will do this.
 // Don't need a userId if we're in the client, this will get added on the server
 // to prevent tampering with the logged in user.
-export default (attributes, cb) => {
+module.exports = (attributes, cb) => {
 
   const constraints = {
     _id: {format: constants.mongoIdRE, presence: true},

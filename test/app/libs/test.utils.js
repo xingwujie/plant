@@ -1,16 +1,13 @@
-import _ from 'lodash';
-import * as utils from '../../../app/libs/utils';
-import constants from '../../../app/libs/constants';
-import assert from 'assert';
-
-// import d from 'debug';
-// const debug = d('plant:test.utils');
+const _ = require('lodash');
+const utils = require('../../../app/libs/utils');
+const constants = require('../../../app/libs/constants');
+const assert = require('assert');
+const moment = require('moment');
 
 describe('/app/libs/utils', function() {
 
   it('should create a mongo id', () => {
     const mongoId = utils.makeMongoId();
-    // debug('mongoId:', mongoId);
     assert.equal(mongoId.length, 24);
     assert(!_.includes(mongoId, '-'));
     assert(typeof mongoId === 'string');
@@ -18,6 +15,17 @@ describe('/app/libs/utils', function() {
   });
 
   describe('dateToInt()', () => {
+    it('should create an Integer date from moment object', () => {
+      let actual = utils.dateToInt(moment(new Date('1/1/2016')));
+      assert.equal(actual, 20160101);
+
+      actual = utils.dateToInt(moment(new Date('2/29/2016')));
+      assert.equal(actual, 20160229);
+
+      actual = utils.dateToInt(moment(new Date('12/31/2016')));
+      assert.equal(actual, 20161231);
+    });
+
     it('should create an Integer date from date object', () => {
       let actual = utils.dateToInt(new Date('1/1/2016'));
       assert.equal(actual, 20160101);
@@ -38,6 +46,9 @@ describe('/app/libs/utils', function() {
 
       actual = utils.dateToInt('12/31/2016');
       assert.equal(actual, 20161231);
+
+      actual = utils.dateToInt('13/02/1987');
+      assert(_.isNaN(actual));
     });
 
     it('should create an Integer date from a string', () => {

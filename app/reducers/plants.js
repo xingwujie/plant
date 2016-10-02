@@ -124,18 +124,18 @@ function upsertNoteSuccess(state, action) {
 
 const reducers = {
   [actions.CANCEL_PLANT_CREATE_MODE]: deletePlant,
-  [actions.UPSERT_NOTE_SUCCESS]: upsertNoteSuccess,
   [actions.CREATE_PLANT_FAILURE]: ajaxPlantFailure,
   [actions.CREATE_PLANT_REQUEST]: createPlantRequest,
+  [actions.DELETE_NOTE_REQUEST]: deleteNoteRequest,
   [actions.DELETE_PLANT_FAILURE]: ajaxPlantFailure,
   [actions.DELETE_PLANT_REQUEST]: deletePlant,
-  [actions.DELETE_NOTE_REQUEST]: deleteNoteRequest,
   [actions.LOAD_PLANT_FAILURE]: loadPlantFailure,
   [actions.LOAD_PLANT_SUCCESS]: loadPlantSuccess,
   [actions.LOAD_PLANTS_SUCCESS]: loadPlantsSuccess,
   [actions.SET_PLANT_MODE]: setPlantMode,
   [actions.UPDATE_PLANT_FAILURE]: ajaxPlantFailure,
   [actions.UPDATE_PLANT_REQUEST]: updatePlantRequest,
+  [actions.UPSERT_NOTE_SUCCESS]: upsertNoteSuccess,
 };
 
 module.exports = (state = new Immutable.Map(), action) => {

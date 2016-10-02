@@ -12,7 +12,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 const actions = require('../../actions');
 import * as utils from '../../libs/utils';
 
-import validators from '../../models';
+const validators = require('../../models');
 const validate = validators.note;
 
 export default class NoteCreateUpdate extends React.Component {
@@ -134,7 +134,7 @@ export default class NoteCreateUpdate extends React.Component {
     } = this.state || {};
 
     const {
-      date = utils.dateToInt(new Date()),
+      date = '',
       errors = {},
       note = ''
     } = interimNote;

@@ -1,11 +1,11 @@
-import cloneDeep from 'lodash/cloneDeep';
-import trim from 'lodash/trim';
-import isArray from 'lodash/isArray';
-import uniq from 'lodash/uniq';
-import every from 'lodash/every';
-import {makeMongoId} from '../libs/utils';
-import constants from '../libs/constants';
-import validatejs from 'validate.js';
+const cloneDeep = require('lodash/cloneDeep');
+const trim = require('lodash/trim');
+const isArray = require('lodash/isArray');
+const uniq = require('lodash/uniq');
+const every = require('lodash/every');
+const {makeMongoId} = require('../libs/utils');
+const constants = require('../libs/constants');
+const validatejs = require('validate.js');
 
 // import d from 'debug';
 // const debug = d('plant:model.plant');
@@ -80,7 +80,7 @@ function transform(attributes) {
 // Don't need an _id if we're creating a document, db will do this.
 // Don't need a userId if we're in the client, this will get added on the server
 // to prevent tampering with the logged in user.
-export default (attributes, {isNew}, cb) => {
+module.exports = (attributes, {isNew}, cb) => {
 
   const constraints = {
     _id: {format: constants.mongoIdRE, presence: true},
