@@ -106,15 +106,15 @@ export default class PlantCreateUpdate extends React.Component {
 
   render() {
     const {
-      title,
-      botanicalName,
-      commonName,
-      description,
-      purchasedDate,
-      plantedDate,
-      price,
+      title = '',
+      botanicalName = '',
+      commonName = '',
+      description = '',
+      purchasedDate = '',
+      plantedDate = '',
+      price = '',
       errors = {},
-      pageTitle
+      pageTitle = ''
     } = this.state || {};
 
     const paperStyle = {
