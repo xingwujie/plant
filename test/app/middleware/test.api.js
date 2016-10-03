@@ -1,7 +1,7 @@
 const _ = require('lodash');
-import * as actions from '../../../app/actions';
-import assert from 'assert';
-import proxyquire from 'proxyquire';
+const actions = require('../../../app/actions');
+const assert = require('assert');
+const proxyquire = require('proxyquire');
 
 let ajax = () => {};
 const mockAjax = (store, options) => {

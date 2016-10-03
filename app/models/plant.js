@@ -7,9 +7,6 @@ const {makeMongoId} = require('../libs/utils');
 const constants = require('../libs/constants');
 const validatejs = require('validate.js');
 
-// import d from 'debug';
-// const debug = d('plant:model.plant');
-
 //  The validator receives the following arguments:
 //     value - The value exactly how it looks in the attribute object.
 //     options - The options for the validator. Guaranteed to not be null or undefined.

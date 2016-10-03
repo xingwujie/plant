@@ -1,8 +1,7 @@
-import Helper from '../../../../lib/db/mongo/helper';
-import assert from 'assert';
+const Helper = require('../../../../lib/db/mongo/helper');
+const assert = require('assert');
 
-import d from 'debug';
-const debug = d('plant:test.mongo-helper');
+const logger = require('../../../../lib/logging/logger').create('test.mongo-helper');
 
 describe('/lib/db/mongo/helper', function() {
   this.timeout(10000);
@@ -16,7 +15,7 @@ describe('/lib/db/mongo/helper', function() {
         four: false
       };
       const rDoc = Helper.removeEmpty(doc);
-      debug('rDoc:', rDoc);
+      logger.trace('rDoc:', {rDoc});
       assert.deepEqual(rDoc, {
         one: 'one',
         three: 0,

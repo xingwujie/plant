@@ -6,9 +6,6 @@ const {makeMongoId} = require('../libs/utils');
 const constants = require('../libs/constants');
 const validatejs = require('validate.js');
 
-// import d from 'debug';
-// const debug = d('plant:test.plant');
-
 validatejs.validators.plantIdsValidate = (value, options /*, key, attributes */) => {
   // plantId array rules:
   // 1. is present

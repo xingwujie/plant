@@ -1,6 +1,6 @@
 const _ = require('lodash');
-import assert from 'assert';
-import proxyquire from 'proxyquire';
+const assert = require('assert');
+const proxyquire = require('proxyquire');
 
 // const logger = require('../../../lib/logging/logger').create('test.ajax');
 

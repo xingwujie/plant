@@ -1,9 +1,9 @@
-import * as helper from '../../helper';
-import * as utils from '../../../app/libs/utils';
-import assert from 'assert';
-import async from 'async';
-import constants from '../../../app/libs/constants';
-import mongo from '../../../lib/db/mongo';
+const helper = require('../../helper');
+const utils = require('../../../app/libs/utils');
+const assert = require('assert');
+const async = require('async');
+const constants = require('../../../app/libs/constants');
+const mongo = require('../../../lib/db/mongo');
 
 const logger = require('../../../lib/logging/logger').create('test.note-api');
 

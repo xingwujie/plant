@@ -1,7 +1,7 @@
-import * as utils from '../../../../app/libs/utils';
-import assert from 'assert';
-import async from 'async';
-import mongo from '../../../../lib/db/mongo';
+const utils = require('../../../../app/libs/utils');
+const assert = require('assert');
+const async = require('async');
+const mongo = require('../../../../lib/db/mongo');
 
 // const logger = require('../../../../lib/logging/logger').create('test:mongo-update');
 

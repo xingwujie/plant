@@ -1,8 +1,8 @@
 const _ = require('lodash');
-import validators from '../../../app/models';
-import constants from '../../../app/libs/constants';
-import * as utils from '../../../app/libs/utils';
-import assert from 'assert';
+const validators = require('../../../app/models');
+const constants = require('../../../app/libs/constants');
+const utils = require('../../../app/libs/utils');
+const assert = require('assert');
 
 const {makeMongoId} = utils;
 const noteValidator = validators.note;

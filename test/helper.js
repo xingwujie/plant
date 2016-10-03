@@ -1,12 +1,12 @@
 const _ = require('lodash');
-import assert from 'assert';
-import async from 'async';
-import constants from '../app/libs/constants';
-import FakePassport from './fake-passport';
-import mongo from '../lib/db/mongo';
-import proxyquire from 'proxyquire';
-import request from 'request';
-import {makeMongoId} from '../app/libs/utils';
+const assert = require('assert');
+const async = require('async');
+const constants = require('../app/libs/constants');
+const FakePassport = require('./fake-passport');
+const mongo = require('../lib/db/mongo');
+const proxyquire = require('proxyquire');
+const request = require('request');
+const {makeMongoId} = require('../app/libs/utils');
 
 const logger = require('../lib/logging/logger').create('test.helper');
 

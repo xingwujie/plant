@@ -1,9 +1,6 @@
 // const _ = require('lodash');
-import * as actions from '../../../app/actions';
-import assert from 'assert';
-// import d from 'debug';
-
-// const debug = d('plant:test.actions');
+const actions = require('../../../app/actions');
+const assert = require('assert');
 
 describe('/app/actions', function() {
 

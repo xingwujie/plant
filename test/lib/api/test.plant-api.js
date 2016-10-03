@@ -1,9 +1,8 @@
-import * as helper from '../../helper';
-import assert from 'assert';
-import constants from '../../../app/libs/constants';
+const helper = require('../../helper');
+const assert = require('assert');
+const constants = require('../../../app/libs/constants');
 
-// import d from 'debug';
-// const debug = d('plant:test.plant-api');
+// const logger = require('../../../lib/logging/logger').create('test.plant-api');
 
 describe('plant-api', function() {
   this.timeout(10000);

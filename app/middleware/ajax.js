@@ -1,8 +1,7 @@
 import isFunction from 'lodash/isFunction';
 import $ from 'jquery';
 
-// import d from 'debug';
-// const debug = d('plant:ajax');
+// const logger = require('../../../lib/logging/logger').create('test.ajax');
 
 function setJwtHeader(store, request) {
   const {user} = store.getState().toJS();

@@ -1,6 +1,6 @@
-import user from '../../../app/reducers/user';
-import * as actions from '../../../app/actions';
-import assert from 'assert';
+const user = require('../../../app/reducers/user').default;
+const actions = require('../../../app/actions');
+const assert = require('assert');
 const Immutable = require('immutable');
 
 function checkReducer(actionName, state, payload, expected) {

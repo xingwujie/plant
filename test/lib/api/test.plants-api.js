@@ -1,8 +1,7 @@
-import * as helper from '../../helper';
-import assert from 'assert';
+const helper = require('../../helper');
+const assert = require('assert');
 
-import d from 'debug';
-const debug = d('plant:test.plants-api');
+const logger = require('../../../lib/logging/logger').create('test.plants-api');
 
 describe('plants-api', function() {
   this.timeout(10000);
@@ -38,7 +37,7 @@ describe('plants-api', function() {
       };
 
       helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-        debug('response:', response);
+        logger.trace('response:', {response});
         // response should look like:
         // ?
         assert(!error);
