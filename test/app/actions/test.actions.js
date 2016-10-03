@@ -1,4 +1,4 @@
-// import _ from 'lodash';
+// const _ = require('lodash');
 import * as actions from '../../../app/actions';
 import assert from 'assert';
 // import d from 'debug';

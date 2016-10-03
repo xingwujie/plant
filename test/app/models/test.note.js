@@ -1,4 +1,4 @@
-import _ from 'lodash';
+const _ = require('lodash');
 import validators from '../../../app/models';
 import constants from '../../../app/libs/constants';
 import * as utils from '../../../app/libs/utils';

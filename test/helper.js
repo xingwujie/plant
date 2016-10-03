@@ -1,4 +1,4 @@
-import _ from 'lodash';
+const _ = require('lodash');
 import assert from 'assert';
 import async from 'async';
 import constants from '../app/libs/constants';
@@ -112,7 +112,7 @@ export function startServerAuthenticated(cb) {
     if(waterfallData.app) {
       return done(null, waterfallData);
     }
-    waterfallData.server.default((err, application) => {
+    waterfallData.server((err, application) => {
       assert(!err);
 
       waterfallData.app = application;

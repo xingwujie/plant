@@ -1,4 +1,4 @@
-import _ from 'lodash';
+const _ = require('lodash');
 import assert from 'assert';
 import proxyquire from 'proxyquire';
 
