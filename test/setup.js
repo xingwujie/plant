@@ -1,5 +1,5 @@
 require('node-version-checker');
-var jsdom = require('jsdom');
+const jsdom = require('jsdom');
 
 const Logger = require('../lib/logging/logger');
 Logger.setLevel('trace');

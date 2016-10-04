@@ -1,15 +1,15 @@
 // Used to show each plant on a user's plant list page.
 // Url: /plants/<optional-user-id>
-import {Link} from 'react-router';
-import {makeSlug} from '../../libs/utils';
-import React from 'react';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import AddIcon from 'material-ui/svg-icons/content/add';
+const {Link} = require('react-router');
+const {makeSlug} = require('../../libs/utils');
+const React = require('react');
+const FloatingActionButton = require('material-ui/FloatingActionButton').default;
+const AddIcon = require('material-ui/svg-icons/content/add').default;
 const utils = require('../../libs/utils');
 const actions = require('../../actions');
 const moment = require('moment');
 
-export default class PlantItem extends React.Component {
+class PlantItem extends React.Component {
 
   constructor() {
     super();
@@ -86,3 +86,5 @@ PlantItem.propTypes = {
     title: React.PropTypes.string.isRequired
   }).isRequired
 };
+
+module.exports = PlantItem;

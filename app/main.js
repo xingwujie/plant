@@ -1,25 +1,25 @@
-import 'jquery';
-import 'bootstrap';
-import 'bootstrap.css';
-import './stylesheets/main.css';
+require('jquery');
+require('bootstrap');
+require('bootstrap.css');
+require('./stylesheets/main.css');
 
-import {browserHistory, Router, Route, IndexRoute} from 'react-router';
-import {deepOrange500} from 'material-ui/styles/colors';
-import App from './components/App';
-import Auth from './components/Auth';
-import DebugSettings from './components/DebugSettings';
-import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import Help from './components/Help';
-import Home from './components/Home';
-import injectTapEventPlugin from 'react-tap-event-plugin';
-import Login from './components/auth/Login';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import Plant from './components/plant/Plant';
-import Plants from './components/plants/Plants';
-import Privacy from './components/info/Privacy';
-import Profile from './components/Profile';
-import React from 'react';
-import ReactDOM from 'react-dom';
+const {browserHistory, Router, Route, IndexRoute} = require('react-router');
+const {deepOrange500} = require('material-ui/styles/colors');
+const App = require('./components/App');
+const Auth = require('./components/Auth');
+const DebugSettings = require('./components/DebugSettings');
+const getMuiTheme = require('material-ui/styles/getMuiTheme').default;
+const Help = require('./components/Help');
+const Home = require('./components/Home');
+const injectTapEventPlugin = require('react-tap-event-plugin');
+const Login = require('./components/auth/Login');
+const MuiThemeProvider = require('material-ui/styles/MuiThemeProvider').default;
+const Plant = require('./components/plant/Plant');
+const Plants = require('./components/plants/Plants');
+const Privacy = require('./components/info/Privacy');
+const Profile = require('./components/Profile');
+const React = require('react');
+const ReactDOM = require('react-dom');
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -49,6 +49,8 @@ var routes = (
 function render() {
   let content = document.createElement('div');
   document.body.appendChild(content);
+
+  console.log('MuiThemeProvider:', MuiThemeProvider);
 
   ReactDOM.render((
     <MuiThemeProvider muiTheme={muiTheme}>

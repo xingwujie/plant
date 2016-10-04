@@ -5,7 +5,7 @@ This module needs to be able to get local weather history.
 A function in this module would typically be called something like this:
 
 ```javascript
-import weather from 'weather';
+const weather = require('weather');
 
 weather.get({
   long: 15,

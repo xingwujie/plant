@@ -1,9 +1,9 @@
-import React from 'react';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ClearIcon from 'material-ui/svg-icons/content/clear';
-import DeleteForeverIcon from 'material-ui/svg-icons/action/delete-forever';
+const React = require('react');
+const FloatingActionButton = require('material-ui/FloatingActionButton').default;
+const ClearIcon = require('material-ui/svg-icons/content/clear').default;
+const DeleteForeverIcon = require('material-ui/svg-icons/action/delete-forever').default;
 
-export default class RemoveConfirm extends React.Component {
+class RemoveConfirm extends React.Component {
 
   constructor(props) {
     super(props);
@@ -49,3 +49,5 @@ RemoveConfirm.propTypes = {
   confirmFn: React.PropTypes.func.isRequired,
   title: React.PropTypes.string,
 };
+
+module.exports = RemoveConfirm;

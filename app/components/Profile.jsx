@@ -1,12 +1,12 @@
-import Base from './Base';
-import React from 'react';
+const Base = require('./Base');
+const React = require('react');
 
 // Responsible for:
 // 1. Current user: /profile
 // 2. Other user: /profile/slug/<id>
 // Only implmenting #1 for now.
 
-export default class Profile extends React.Component {
+class Profile extends React.Component {
 
   render() {
     return (
@@ -18,3 +18,5 @@ export default class Profile extends React.Component {
     );
   }
 }
+
+module.exports = Profile;

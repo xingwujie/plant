@@ -32,7 +32,7 @@ describe('/app/middleware/api', function() {
     Object.keys(api.apis).forEach(key => {
       const action = {payload: {_id: '123'}};
 
-      api.default(store)(next)({...action, type: key});
+      api(store)(next)({...action, type: key});
     });
 
     assert.equal(callCounter, Object.keys(api.apis).length);
@@ -62,7 +62,7 @@ describe('/app/middleware/api', function() {
       type: actions.UPSERT_NOTE_REQUEST
     };
 
-    api.default(store)(next)(action);
+    api(store)(next)(action);
 
     assert.equal(callCounter, 1);
   });
@@ -77,7 +77,7 @@ describe('/app/middleware/api', function() {
       nextCalled = true;
     };
 
-    api.default(store)(next)({...action, type: 'Does not exist'});
+    api(store)(next)({...action, type: 'Does not exist'});
 
     assert(nextCalled);
   });

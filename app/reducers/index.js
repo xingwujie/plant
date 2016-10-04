@@ -1,19 +1,17 @@
-import { combineReducers } from 'redux-immutable';
-import interim from './interim';
-import notes from './notes';
-import plants from './plants';
-import user from './user';
-import users from './users';
+const { combineReducers } = require('redux-immutable');
+const interim = require('./interim');
+const notes = require('./notes');
+const plants = require('./plants');
+const user = require('./user');
+const users = require('./users');
 
-const rootReducer = combineReducers({
+module.exports = combineReducers({
   interim,
   notes,
   plants,
   user,
   users,
 });
-
-export default rootReducer;
 
 /*
 State Shapes:

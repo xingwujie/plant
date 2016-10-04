@@ -1,11 +1,11 @@
-import * as actions from '../../actions';
-import CircularProgress from 'material-ui/CircularProgress';
-import React from 'react';
-import NoteRead from './NoteRead';
-import Paper from 'material-ui/Paper';
+const actions = require('../../actions');
+const CircularProgress = require('material-ui/CircularProgress').default;
+const React = require('react');
+const NoteRead = require('./NoteRead');
+const Paper = require('material-ui/Paper').default;
 const utils = require('../../libs/utils');
 
-export default class NotesRead extends React.Component {
+class NotesRead extends React.Component {
 
   render() {
     const noteIds = [...(this.props.plant && this.props.plant.notes || [])];
@@ -96,3 +96,5 @@ NotesRead.propTypes = {
   notes: React.PropTypes.object.isRequired,
   plant: React.PropTypes.object.isRequired,
 };
+
+module.exports = NotesRead;

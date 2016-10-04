@@ -1,14 +1,14 @@
 // Used to add a note to a plant
 
-import * as actions from '../../actions';
-import React from 'react';
-import NoteCreateUpdate from './NoteCreateUpdate';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import AddIcon from 'material-ui/svg-icons/content/add';
-import * as utils from '../../libs/utils';
+const actions = require('../../actions');
+const React = require('react');
+const NoteCreateUpdate = require('./NoteCreateUpdate');
+const FloatingActionButton = require('material-ui/FloatingActionButton').default;
+const AddIcon = require('material-ui/svg-icons/content/add').default;
+const utils = require('../../libs/utils');
 const moment = require('moment');
 
-export default class NoteCreate extends React.Component {
+class NoteCreate extends React.Component {
 
   constructor(props) {
     super(props);
@@ -75,3 +75,5 @@ NoteCreate.propTypes = {
   postSaveSuccess: React.PropTypes.func,
   user: React.PropTypes.object.isRequired,
 };
+
+module.exports = NoteCreate;

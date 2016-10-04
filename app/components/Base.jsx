@@ -1,8 +1,8 @@
-import Navbar from './Navbar';
-import React from 'react';
-import Footer from './Footer';
+const Navbar = require('./Navbar');
+const React = require('react');
+const Footer = require('./Footer');
 
-export default class Base extends React.Component {
+class Base extends React.Component {
 
   render() {
     return (
@@ -20,3 +20,5 @@ export default class Base extends React.Component {
 Base.propTypes = {
   children: React.PropTypes.object,
 };
+
+module.exports = Base;

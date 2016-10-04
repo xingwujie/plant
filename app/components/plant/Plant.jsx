@@ -3,25 +3,25 @@
 // Url: /plant/slug/<plant-id>
 // Unless Create then Url: /plant
 
-import {isOwner} from '../../libs/auth-helper';
-import {makeMongoId} from '../../libs/utils';
-import * as actions from '../../actions';
-import Base from '../Base';
-import CircularProgress from 'material-ui/CircularProgress';
-import PlantCreateUpdate from './PlantCreateUpdate';
-import PlantRead from './PlantRead';
-import NoteCreate from './NoteCreate';
-import React from 'react';
-import store from '../../store';
+const {isOwner} = require('../../libs/auth-helper');
+const {makeMongoId} = require('../../libs/utils');
+const actions = require('../../actions');
+const Base = require('../Base');
+const CircularProgress = require('material-ui/CircularProgress').default;
+const PlantCreateUpdate = require('./PlantCreateUpdate');
+const PlantRead = require('./PlantRead');
+const NoteCreate = require('./NoteCreate');
+const React = require('react');
+const store = require('../../store');
 
 
 // const lifecycleLogOptions = {
 //   names: ['props', 'nextProps', 'nextState', 'prevProps', 'prevState']
 // };
-// import ReactLogLifecycle from 'react-log-lifecycle';
-// export default class Plant extends ReactLogLifecycle {
+// const ReactLogLifecycle from 'react-log-lifecycle';
+// class Plant extends ReactLogLifecycle {
 
-export default class Plant extends React.Component {
+class Plant extends React.Component {
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   };
@@ -153,3 +153,5 @@ export default class Plant extends React.Component {
     );
   }
 }
+
+module.exports = Plant;

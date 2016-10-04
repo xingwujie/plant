@@ -1,4 +1,4 @@
-import store from '../store';
+const store = require('../store');
 
 export function isOwner(object) {
   const {user} = store.getState().toJS();

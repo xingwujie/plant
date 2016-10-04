@@ -2,20 +2,20 @@
 // Url: /plants/<optional-user-id>
 
 const isEmpty = require('lodash/isEmpty');
-import {Link} from 'react-router';
-import Base from '../Base';
-import CircularProgress from 'material-ui/CircularProgress';
-import InputCombo from '../InputCombo';
-import PlantItem from './PlantItem';
-import React from 'react';
-import store from '../../store';
-import {isLoggedIn} from '../../libs/auth-helper';
-import * as actions from '../../actions';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import AddIcon from 'material-ui/svg-icons/content/add';
-import NoteCreate from '../plant/NoteCreate';
+const {Link} = require('react-router');
+const Base = require('../Base');
+const CircularProgress = require('material-ui/CircularProgress').default;
+const InputCombo = require('../InputCombo');
+const PlantItem = require('./PlantItem');
+const React = require('react');
+const store = require('../../store');
+const {isLoggedIn} = require('../../libs/auth-helper');
+const actions = require('../../actions');
+const FloatingActionButton = require('material-ui/FloatingActionButton').default;
+const AddIcon = require('material-ui/svg-icons/content/add').default;
+const NoteCreate = require('../plant/NoteCreate');
 
-export default class Plants extends React.Component {
+class Plants extends React.Component {
 
   constructor(props) {
     super(props);
@@ -225,3 +225,5 @@ Plants.propTypes = {
     slug: React.PropTypes.string.isRequired,
   }).isRequired,
 };
+
+module.exports = Plants;

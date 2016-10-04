@@ -1,4 +1,4 @@
-const rootReducer = require('../../../app/reducers').default;
+const rootReducer = require('../../../app/reducers');
 const actions = require('../../../app/actions');
 const assert = require('assert');
 const Immutable = require('immutable');

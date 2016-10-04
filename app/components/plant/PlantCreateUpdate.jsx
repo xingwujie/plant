@@ -2,22 +2,22 @@
 // Url Create: /plant
 // Url Update: /plant/<slug>/<plant-id>
 
-import isEmpty from 'lodash/isEmpty';
-import {makeSlug} from '../../libs/utils';
-import validators from '../../models';
-import * as actions from '../../actions';
-import Divider from 'material-ui/Divider';
-import InputCombo from '../InputCombo';
-import Paper from 'material-ui/Paper';
-import CancelSaveButtons from './CancelSaveButtons';
-import React from 'react';
-import TextField from 'material-ui/TextField';
-import * as utils from '../../libs/utils';
+const isEmpty = require('lodash/isEmpty');
+const {makeSlug} = require('../../libs/utils');
+const validators = require('../../models');
+const actions = require('../../actions');
+const Divider = require('material-ui/Divider').default;
+const InputCombo = require('../InputCombo');
+const Paper = require('material-ui/Paper').default;
+const CancelSaveButtons = require('./CancelSaveButtons');
+const React = require('react');
+const TextField = require('material-ui/TextField').default;
+const utils = require('../../libs/utils');
 
 const cloneDeep = require('lodash/cloneDeep');
 const validate = validators.plant;
 
-export default class PlantCreateUpdate extends React.Component {
+class PlantCreateUpdate extends React.Component {
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   };
@@ -240,3 +240,5 @@ PlantCreateUpdate.propTypes = {
   plant: React.PropTypes.object.isRequired,
   user: React.PropTypes.object.isRequired,
 };
+
+module.exports = PlantCreateUpdate;

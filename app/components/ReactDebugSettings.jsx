@@ -1,6 +1,6 @@
-import React from 'react';
+const React = require('react');
 
-export default class DebugSettings extends React.Component {
+class DebugSettings extends React.Component {
   constructor() {
     super();
     this.clickCheck = this.clickCheck.bind(this);
@@ -53,3 +53,5 @@ export default class DebugSettings extends React.Component {
     );
   }
 }
+
+module.exports = DebugSettings;

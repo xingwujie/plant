@@ -1,21 +1,21 @@
 // Used to add a note to a plant
 
 const cloneDeep = require('lodash/cloneDeep');
-import isEmpty from 'lodash/isEmpty';
-import Paper from 'material-ui/Paper';
-import React from 'react';
-import TextField from 'material-ui/TextField';
-import CancelSaveButtons from './CancelSaveButtons';
-import Dropzone from 'react-dropzone';
-import LinearProgress from 'material-ui/LinearProgress';
-import CircularProgress from 'material-ui/CircularProgress';
+const isEmpty = require('lodash/isEmpty');
+const Paper = require('material-ui/Paper').default;
+const React = require('react');
+const TextField = require('material-ui/TextField').default;
+const CancelSaveButtons = require('./CancelSaveButtons');
+const Dropzone = require('react-dropzone');
+const LinearProgress = require('material-ui/LinearProgress').default;
+const CircularProgress = require('material-ui/CircularProgress').default;
 const actions = require('../../actions');
-import * as utils from '../../libs/utils';
+const utils = require('../../libs/utils');
 
 const validators = require('../../models');
 const validate = validators.note;
 
-export default class NoteCreateUpdate extends React.Component {
+class NoteCreateUpdate extends React.Component {
   constructor(props) {
     super(props);
     this.cancel = this.cancel.bind(this);
@@ -249,3 +249,5 @@ NoteCreateUpdate.propTypes = {
   }),
   postSaveSuccess: React.PropTypes.func,
 };
+
+module.exports = NoteCreateUpdate;

@@ -1,10 +1,10 @@
-import React from 'react';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ClearIcon from 'material-ui/svg-icons/content/clear';
-import DoneIcon from 'material-ui/svg-icons/action/done';
-import AddPhotoIcon from 'material-ui/svg-icons/image/add-a-photo';
+const React = require('react');
+const FloatingActionButton = require('material-ui/FloatingActionButton').default;
+const ClearIcon = require('material-ui/svg-icons/content/clear').default;
+const DoneIcon = require('material-ui/svg-icons/action/done').default;
+const AddPhotoIcon = require('material-ui/svg-icons/image/add-a-photo').default;
 
-export default class CancelSaveButtons extends React.Component {
+class CancelSaveButtons extends React.Component {
 
   render() {
 
@@ -61,3 +61,5 @@ CancelSaveButtons.propTypes = {
   clickSave: React.PropTypes.func.isRequired,
   showButtons: React.PropTypes.bool.isRequired,
 };
+
+module.exports = CancelSaveButtons;

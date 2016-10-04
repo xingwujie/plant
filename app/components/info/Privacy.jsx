@@ -1,8 +1,8 @@
-import Base from '../Base';
-import React from 'react';
-import Paper from 'material-ui/Paper';
+const Base = require('../Base');
+const React = require('react');
+const Paper = require('material-ui/Paper').default;
 
-export default class Privacy extends React.Component {
+class Privacy extends React.Component {
   render() {
     const paperStyle = {
       padding: 20,
@@ -199,3 +199,5 @@ export default class Privacy extends React.Component {
     );
   }
 }
+
+module.exports = Privacy;

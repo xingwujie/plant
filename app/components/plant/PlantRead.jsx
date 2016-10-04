@@ -1,11 +1,11 @@
-import * as actions from '../../actions';
-import EditDeleteButtons from './EditDeleteButtons';
-import NotesRead from './NotesRead';
-import Paper from 'material-ui/Paper';
-import React from 'react';
-import * as utils from '../../libs/utils';
+const actions = require('../../actions');
+const EditDeleteButtons = require('./EditDeleteButtons');
+const NotesRead = require('./NotesRead');
+const Paper = require('material-ui/Paper').default;
+const React = require('react');
+const utils = require('../../libs/utils');
 
-export default class PlantRead extends React.Component {
+class PlantRead extends React.Component {
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   };
@@ -144,3 +144,5 @@ PlantRead.propTypes = {
   plant: React.PropTypes.object.isRequired,
   user: React.PropTypes.object.isRequired,
 };
+
+module.exports = PlantRead;

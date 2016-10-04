@@ -1,9 +1,9 @@
 // Used to update a note in a plant
 
-import React from 'react';
-import NoteCreateUpdate from './NoteCreateUpdate';
+const React = require('react');
+const NoteCreateUpdate = require('./NoteCreateUpdate');
 
-export default class NoteUpdate extends React.Component {
+class NoteUpdate extends React.Component {
 
   render() {
     const {
@@ -31,3 +31,5 @@ NoteUpdate.propTypes = {
   interimNote: React.PropTypes.object.isRequired,
   plant: React.PropTypes.object.isRequired,
 };
+
+module.exports = NoteUpdate;

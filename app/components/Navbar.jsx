@@ -1,14 +1,14 @@
-import React from 'react';
-import store from '../store';
-import * as actions from '../actions';
-import * as utils from '../libs/utils';
-import {isLoggedIn} from '../libs/auth-helper';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import AddIcon from 'material-ui/svg-icons/content/add';
+const React = require('react');
+const store = require('../store');
+const actions = require('../actions');
+const utils = require('../libs/utils');
+const {isLoggedIn} = require('../libs/auth-helper');
+const FloatingActionButton = require('material-ui/FloatingActionButton').default;
+const AddIcon = require('material-ui/svg-icons/content/add').default;
 
-import {Link} from 'react-router';
+const {Link} = require('react-router');
 
-export default class Navbar extends React.Component {
+class Navbar extends React.Component {
   constructor() {
     super();
     this.onChange = this.onChange.bind(this);
@@ -103,3 +103,5 @@ export default class Navbar extends React.Component {
     );
   }
 }
+
+module.exports = Navbar;

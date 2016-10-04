@@ -1,5 +1,5 @@
-import isFunction from 'lodash/isFunction';
-import $ from 'jquery';
+const isFunction = require('lodash/isFunction');
+const $ = require('jquery');
 
 // const logger = require('../../../lib/logging/logger').create('test.ajax');
 

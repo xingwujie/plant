@@ -1,4 +1,4 @@
-const user = require('../../../app/reducers/user').default;
+const user = require('../../../app/reducers/user');
 const actions = require('../../../app/actions');
 const assert = require('assert');
 const Immutable = require('immutable');

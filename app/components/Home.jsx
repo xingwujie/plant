@@ -1,15 +1,15 @@
 const isEmpty = require('lodash/isEmpty');
-import {Link} from 'react-router';
-import Base from './Base';
-import React from 'react';
-import store from '../store';
-import {isLoggedIn} from '../libs/auth-helper';
-import * as actions from '../actions';
-import * as utils from '../libs/utils';
+const {Link} = require('react-router');
+const Base = require('./Base');
+const React = require('react');
+const store = require('../store');
+const {isLoggedIn} = require('../libs/auth-helper');
+const actions = require('../actions');
+const utils = require('../libs/utils');
 
 const {makeSlug} = utils;
 
-export default class Home extends React.Component {
+class Home extends React.Component {
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   };
@@ -110,3 +110,5 @@ export default class Home extends React.Component {
     );
   }
 }
+
+module.exports = Home;

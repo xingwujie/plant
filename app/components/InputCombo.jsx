@@ -1,7 +1,7 @@
-import React from 'react';
-import TextField from 'material-ui/TextField';
+const React = require('react');
+const TextField = require('material-ui/TextField').default;
 
-export default class InputCombo extends React.Component {
+class InputCombo extends React.Component {
 
   constructor(props) {
     super(props);
@@ -38,3 +38,5 @@ export default class InputCombo extends React.Component {
     );
   }
 }
+
+module.exports = InputCombo;

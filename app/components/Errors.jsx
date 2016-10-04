@@ -1,7 +1,7 @@
 
-import React from 'react';
+const React = require('react');
 
-export default class Errors extends React.Component {
+class Errors extends React.Component {
 
   constructor(props) {
     super(props);
@@ -28,3 +28,5 @@ export default class Errors extends React.Component {
 Errors.propTypes = {
   errors: React.PropTypes.array,
 };
+
+module.exports = Errors;

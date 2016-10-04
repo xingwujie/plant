@@ -1,7 +1,7 @@
-import Base from './Base';
-import React from 'react';
+const Base = require('./Base');
+const React = require('react');
 
-export default class Help extends React.Component {
+class Help extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -17,3 +17,5 @@ export default class Help extends React.Component {
     );
   }
 }
+
+module.exports = Help;

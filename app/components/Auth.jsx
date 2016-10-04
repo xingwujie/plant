@@ -1,9 +1,9 @@
-import Base from './Base';
-import React from 'react';
-import store from '../store';
-import * as actions from '../actions';
+const Base = require('./Base');
+const React = require('react');
+const store = require('../store');
+const actions = require('../actions');
 
-export default class Auth extends React.Component {
+class Auth extends React.Component {
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   };
@@ -52,8 +52,10 @@ export default class Auth extends React.Component {
       </Base>
     );
   }
-}
+};
 
 Auth.propTypes = {
   location: React.PropTypes.object,
 };
+
+module.exports = Auth;

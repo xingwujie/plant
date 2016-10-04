@@ -1,11 +1,11 @@
-import {initialState} from '../store/user';
+const {initialState} = require('../store/user');
 const Immutable = require('immutable');
 
-import {
+const {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
-  LOGOUT} from '../actions';
+  LOGOUT} = require('../actions');
 
 function loginRequest() {
   return Immutable.fromJS({
@@ -41,7 +41,7 @@ const reducers = {
 };
 
 // The login reducer
-export default (state, action) => {
+module.exports = (state, action) => {
   if(reducers[action.type]) {
     return reducers[action.type](state, action);
   }

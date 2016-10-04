@@ -1,8 +1,8 @@
-import React from 'react';
-import Divider from 'material-ui/Divider';
-import {Link} from 'react-router';
+const React = require('react');
+const Divider = require('material-ui/Divider').default;
+const {Link} = require('react-router');
 
-export default class Footer extends React.Component {
+class Footer extends React.Component {
   render() {
     const style = {
       backgroundColor: '#efefef',
@@ -21,3 +21,5 @@ export default class Footer extends React.Component {
     );
   }
 }
+
+module.exports = Footer;

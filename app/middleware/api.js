@@ -1,7 +1,7 @@
 // This file is responsible for making the Ajax calls to
 // the server as part of the store's dispatch(action) call.
 
-import * as actions from '../actions';
+const actions = require('../actions');
 const ajax = require('./ajax');
 
 function loginRequest(store, action) {
@@ -198,7 +198,7 @@ function loadNotesRequest(store, action) {
   ajax(store, options);
 }
 
-export const apis = {
+const apis = {
   [actions.CREATE_PLANT_REQUEST]: createPlant,
   [actions.DELETE_NOTE_REQUEST]: deleteNoteRequest,
   [actions.DELETE_PLANT_REQUEST]: deletePlant,
@@ -212,10 +212,12 @@ export const apis = {
   [actions.UPSERT_NOTE_REQUEST]: upsertNoteRequest,
 };
 
-export default store => next => action => {
+module.exports = store => next => action => {
   if(apis[action.type]) {
     return apis[action.type](store, action, next);
   }
 
   return next(action);
 };
+
+module.exports.apis = apis;

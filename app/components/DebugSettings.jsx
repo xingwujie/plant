@@ -1,9 +1,8 @@
-import Base from './Base';
-import React from 'react';
-import ReactDebugSettings from './ReactDebugSettings';
+const Base = require('./Base');
+const React = require('react');
+const ReactDebugSettings = require('./ReactDebugSettings');
 
-export default class DebugSettings extends React.Component {
-
+class DebugSettings extends React.Component {
 
   render() {
     const settings = [{
@@ -17,3 +16,5 @@ export default class DebugSettings extends React.Component {
     );
   }
 }
+
+module.exports = DebugSettings;

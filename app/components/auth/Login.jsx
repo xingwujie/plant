@@ -1,7 +1,7 @@
-import Base from '../Base';
-import React from 'react';
+const Base = require('../Base');
+const React = require('react');
 
-export default class Login extends React.Component {
+class Login extends React.Component {
 
   render() {
     const devLogin = process.env.NODE_ENV !== 'production';
@@ -29,3 +29,5 @@ export default class Login extends React.Component {
     );
   }
 }
+
+module.exports = Login;

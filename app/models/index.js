@@ -1,4 +1,3 @@
-// import moment from 'moment';
 const validatejs = require('validate.js');
 const note = require('./note');
 const plant = require('./plant');

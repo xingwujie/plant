@@ -1,13 +1,13 @@
-import * as actions from '../../actions';
-import Paper from 'material-ui/Paper';
-import React from 'react';
-import EditDeleteButtons from './EditDeleteButtons';
-import NoteUpdate from './NoteUpdate';
+const actions = require('../../actions');
+const Paper = require('material-ui/Paper').default;
+const React = require('react');
+const EditDeleteButtons = require('./EditDeleteButtons');
+const NoteUpdate = require('./NoteUpdate');
 const moment = require('moment');
-import LinkIcon from 'material-ui/svg-icons/content/link';
+const LinkIcon = require('material-ui/svg-icons/content/link').default;
 const utils = require('../../libs/utils');
 
-export default class NoteRead extends React.Component {
+class NoteRead extends React.Component {
 
   constructor(props) {
     super(props);
@@ -160,3 +160,5 @@ NoteRead.propTypes = {
   note: React.PropTypes.object.isRequired,
   plant: React.PropTypes.object.isRequired,
 };
+
+module.exports = NoteRead;

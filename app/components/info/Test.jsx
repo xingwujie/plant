@@ -1,9 +1,9 @@
-// import Base from '../Base';
-// import React from 'react';
-// import Paper from 'material-ui/Paper';
-// import Modernizr from 'modernizr';
+// const Base = require('../Base');
+// const React = require('react');
+// const Paper from 'material-ui/Paper';
+// const Modernizr from 'modernizr';
 
-// export default class Test extends React.Component {
+// class Test extends React.Component {
 //   render() {
 //     const paperStyle = {
 //       padding: 20,

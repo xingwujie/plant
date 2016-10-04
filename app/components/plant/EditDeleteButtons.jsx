@@ -1,10 +1,10 @@
-import React from 'react';
-import RemoveConfirm from '../RemoveConfirm';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import EditIcon from 'material-ui/svg-icons/editor/mode-edit';
-import DeleteIcon from 'material-ui/svg-icons/action/delete';
+const React = require('react');
+const RemoveConfirm = require('../RemoveConfirm');
+const FloatingActionButton = require('material-ui/FloatingActionButton').default;
+const EditIcon = require('material-ui/svg-icons/editor/mode-edit').default;
+const DeleteIcon = require('material-ui/svg-icons/action/delete').default;
 
-export default class EditDeleteButtons extends React.Component {
+class EditDeleteButtons extends React.Component {
 
   render() {
 
@@ -54,3 +54,5 @@ EditDeleteButtons.propTypes = {
   showButtons: React.PropTypes.bool.isRequired,
   showDeleteConfirmation: React.PropTypes.bool.isRequired,
 };
+
+module.exports = EditDeleteButtons;

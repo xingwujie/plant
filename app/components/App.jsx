@@ -1,6 +1,6 @@
-import React from 'react';
+const React = require('react');
 
-export default class App extends React.Component {
+class App extends React.Component {
 
   render() {
     return (
@@ -14,3 +14,5 @@ export default class App extends React.Component {
 App.propTypes = {
   children: React.PropTypes.object,
 };
+
+module.exports = App;
