@@ -1,7 +1,7 @@
 // Utility to reload images on S3 so that the Lambda Function picks them
 // up and processes them again.
 
-require('babel-core/register');
+// require('babel-core/register');
 
 const Logger = require('../lib/logging/logger');
 Logger.setLevel('trace');

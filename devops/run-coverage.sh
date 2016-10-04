@@ -18,4 +18,4 @@ export PLANT_DB_NAME=plant-test
 
 babel-node ./node_modules/istanbul/lib/cli cover node_modules/mocha/bin/_mocha -- --require test/setup.js test/**/*.js --recursive
 
-# node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha -- --require babel-core/register --require test/setup.js test/**/*.js --recursive
+# node_modules/.bin/istanbul cover node_modules/mocha/bin/_mocha -- --require test/setup.js test/**/*.js --recursive
