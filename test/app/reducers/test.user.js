@@ -32,22 +32,22 @@ describe('/app/reducers/user', function() {
   it('should reduce a login success', () => {
     const state = Immutable.fromJS({});
     const payload = {one: 1, two: 2};
-    const expected = Immutable.fromJS({
+    const expected = Immutable.fromJS(Object.assign({}, {
       status: 'success',
-      isLoggedIn: true,
-      ...payload
-    });
+      isLoggedIn: true},
+      payload)
+    );
     checkReducer('loginSuccess', state, payload, expected);
   });
 
   it('should reduce a login failure', () => {
     const state = Immutable.fromJS({});
     const payload = {one: 1, two: 2};
-    const expected = Immutable.fromJS({
+    const expected = Immutable.fromJS(Object.assign({}, {
       status: 'failed',
-      isLoggedIn: false,
-      ...payload
-    });
+      isLoggedIn: false},
+      payload)
+    );
     checkReducer('loginFailure', state, payload, expected);
   });
 

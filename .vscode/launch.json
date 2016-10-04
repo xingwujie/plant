@@ -22,7 +22,7 @@
         "PLANT_FB_ID": "facebook-app-id",
         "PLANT_FB_SECRET": "facebook-app-secret"
       },
-      "externalConsole": false,
+      "console": "integratedTerminal",
       "sourceMaps": true,
       "outDir": null
     }, {
@@ -53,8 +53,6 @@
       "args": [
         "./test/**/*.js",
         "--recursive",
-        "--compilers",
-        "js:babel-register",
         "--require",
         "./test/setup.js"
       ],

@@ -244,7 +244,7 @@ describe('/app/models/note', function() {
       const note = {
         _id: makeMongoId(),
         date: 20160101,
-        images: [{...image, id: 123}],
+        images: [Object.assign({}, image, {id: 123})],
         note: 'some text',
         plantIds: [makeMongoId()],
       };
@@ -267,7 +267,7 @@ describe('/app/models/note', function() {
       const note = {
         _id: makeMongoId(),
         date: 20160101,
-        images: [{...image, ext: 123}],
+        images: [Object.assign({}, image, {id: 123})],
         note: 'some text',
         plantIds: [makeMongoId()],
       };
@@ -290,7 +290,7 @@ describe('/app/models/note', function() {
       const note = {
         _id: makeMongoId(),
         date: 20160101,
-        images: [{...image, originalname: 123}],
+        images: [Object.assign({}, image, {originalname: 123})],
         note: 'some text',
         plantIds: [makeMongoId()],
       };
@@ -313,7 +313,7 @@ describe('/app/models/note', function() {
       const note = {
         _id: makeMongoId(),
         date: 20160101,
-        images: [{...image, size: '123'}],
+        images: [Object.assign({}, image, {size: 123})],
         note: 'some text',
         plantIds: [makeMongoId()],
       };
@@ -335,7 +335,7 @@ describe('/app/models/note', function() {
       const note = {
         _id: makeMongoId(),
         date: 20160101,
-        images: [{...image, ext: '123456789012345678901'}],
+        images: [Object.assign({}, image, {ext: '123456789012345678901'})],
         note: 'some text',
         plantIds: [makeMongoId()],
       };
@@ -358,7 +358,7 @@ describe('/app/models/note', function() {
       const note = {
         _id: makeMongoId(),
         date: 20160101,
-        images: [{...image, extra: 'jpg'}],
+        images: [Object.assign({}, image, {extra: 'jpg'})],
         note: 'some text',
         plantIds: [makeMongoId()],
       };

@@ -63,7 +63,7 @@ describe('note-api', function() {
       const reqOptions = {
         method: 'POST',
         authenticate: true,
-        body: {...initialNote, plantIds: []},
+        body: Object.assign({}, initialNote, {plantIds: []}),
         json: true,
         url: '/api/note'
       };
@@ -137,11 +137,12 @@ describe('note-api', function() {
 
     let updatedNote;
     it('should update the just created note', (done) => {
-      updatedNote = {
-        ...initialNote,
-        note: 'A New Note',
-        _id: noteId
-      };
+      updatedNote = Object.assign({},
+        initialNote, {
+          note: 'A New Note',
+          _id: noteId
+        }
+      );
 
       const reqOptions = {
         method: 'POST',
@@ -155,7 +156,7 @@ describe('note-api', function() {
         // response should look like:
         // { ok: 1, nModified: 1, n: 1 }
         // Mongo 2.x does not return nModified which is what Travis uses so do not check this
-        logger.trace('*********** response:', {updatedNote, reqOptions, response});
+        // logger.trace('*********** response:', {updatedNote, reqOptions, response});
         assert(!error);
         assert.equal(httpMsg.statusCode, 200);
         assert(response);

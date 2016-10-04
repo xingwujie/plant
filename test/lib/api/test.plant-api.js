@@ -45,7 +45,7 @@ describe('plant-api', function() {
     const reqOptions = {
       method: 'POST',
       authenticate: true,
-      body: {...initialPlant, title: ''},
+      body: Object.assign({}, initialPlant, {title: ''}),
       json: true,
       url: '/api/plant'
     };
@@ -133,11 +133,11 @@ describe('plant-api', function() {
 
   let updatedPlant;
   it('should update the just created plant', (done) => {
-    updatedPlant = {
-      ...initialPlant,
-      title: 'A New Title',
+    updatedPlant = Object.assign({},
+      initialPlant,
+      {title: 'A New Title',
       _id: plantId
-    };
+    });
 
     const reqOptions = {
       method: 'PUT',

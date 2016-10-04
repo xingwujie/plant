@@ -117,9 +117,9 @@ module.exports = (attributes, cb) => {
   attributes._id = attributes._id || makeMongoId();
 
   if(isArray(attributes.images)) {
-    attributes = {
-      ...attributes,
-      images: attributes.images.map(image => {
+    attributes = Object.assign({},
+      attributes,
+      {images: attributes.images.map(image => {
         if(image.sizes && image.size.length) {
           image.sizes = image.sizes.map(({name: widthName, width}) => {
             return {
@@ -128,12 +128,12 @@ module.exports = (attributes, cb) => {
             };
           });
         }
-        return {
-          ...image,
-          size: parseInt(image.size, 10)
-        };
-      })
-    };
+        return Object.assign({},
+          image,
+          {size: parseInt(image.size, 10)
+        });
+      })}
+    );
   }
 
   // debug('attributes:', attributes);

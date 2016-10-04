@@ -22,9 +22,7 @@ function loadUsersSuccess(state, action) {
     acc[user._id] = user;
     return acc;
   }, {});
-  return state.mergeDeep({
-    ...users
-  });
+  return state.mergeDeep(users);
 }
 
 // User clicks save after creating a new plant, we need to

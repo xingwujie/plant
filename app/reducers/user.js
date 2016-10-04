@@ -14,19 +14,19 @@ function loginRequest() {
 }
 
 function loginSuccess(state, action) {
-  return Immutable.fromJS({
+  return Immutable.fromJS(Object.assign({}, {
     status:'success',
-    isLoggedIn: true,
-    ...action.payload
-  });
+    isLoggedIn: true},
+    action.payload)
+  );
 }
 
 function loginFailure(state, action) {
-  return Immutable.fromJS({
+  return Immutable.fromJS(Object.assign({}, {
     status:'failed',
-    isLoggedIn: false,
-    ...action.payload
-  });
+    isLoggedIn: false},
+    action.payload)
+  );
 }
 
 function logout() {

@@ -25,19 +25,19 @@ function makeRequest(opts, cb) {
     ? {Authorization: 'Bearer ' + jwt }
     : {};
 
-  const headers = {
-    ...(opts.headers || {}),
-    ...auth
-  };
+  const headers = Object.assign({},
+    opts.headers || {},
+    auth
+  );
 
   const followRedirect = opts.followRedirect || false;
 
-  const options = {
-    ...opts,
-    url: getUrl(opts.url),
-    headers,
-    followRedirect
-  };
+  const options = Object.assign({},
+    opts,
+    {url: getUrl(opts.url)},
+    {headers},
+    {followRedirect}
+  );
 
   // cb will get (error, httpMsg, response);
   request(options, cb);
@@ -160,7 +160,7 @@ function createPlants(numPlants, userId, cb) {
     const reqOptions = {
       method: 'POST',
       authenticate: true,
-      body: {...plantTemplate, title: `${plantTemplate.title} ${count}`},
+      body: Object.assign({}, plantTemplate, {title: `${plantTemplate.title} ${count}`}),
       json: true,
       url: '/api/plant'
     };
@@ -190,12 +190,12 @@ function createPlants(numPlants, userId, cb) {
 
 function createNote(plantIds, noteOverride = {}, cb) {
   assert(_.isArray(plantIds));
-  const noteTemplate = {
+  const noteTemplate = Object.assign({
     note: 'This is a note',
-    date: 20160101,
-    plantIds,
-    ...noteOverride
-  };
+    date: 20160101},
+    {plantIds},
+    noteOverride
+  );
 
   const reqOptions = {
     method: 'POST',

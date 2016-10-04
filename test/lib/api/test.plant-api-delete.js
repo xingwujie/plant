@@ -93,7 +93,7 @@ describe('plant-api-delete', function() {
         //    Update Note #1
         (plants, notes, cb) => {
           logger.trace('** #3');
-          const updatedNote = {...notes[0], x: 'random'};
+          const updatedNote = Object.assign({}, notes[0], {x: 'random'});
           mongo.upsertNote(updatedNote, (err, note) => {
             logger.trace('updateNote error', {err});
             assert(!err);
