@@ -5,7 +5,7 @@
 const Immutable = require('immutable');
 
 let user;
-export function setupSubscribe(store) {
+function setupSubscribe(store) {
   let currentValue = user || Immutable.Map();
 
   function handleChange() {
@@ -22,7 +22,7 @@ export function setupSubscribe(store) {
   store.subscribe(handleChange);
 }
 
-export function initialState() {
+function initialState() {
   if(!user) {
     try {
       user = JSON.parse(localStorage.getItem('user'));
@@ -33,3 +33,8 @@ export function initialState() {
 
   return user;
 }
+
+module.exports = {
+  initialState,
+  setupSubscribe,
+};

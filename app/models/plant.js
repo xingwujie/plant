@@ -55,8 +55,6 @@ validatejs.validators.tagValidate = (value, /*options, key, attributes */) => {
 
 };
 
-// export const fieldNames = Object.keys(constraints);
-
 // Intentionally mutates object
 // Transform:
 // 1. Lowercase elements of array

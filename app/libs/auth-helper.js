@@ -1,6 +1,6 @@
 const store = require('../store');
 
-export function isOwner(object) {
+function isOwner(object) {
   const {user} = store.getState().toJS();
 
   const owner = user && user.jwt && user._id && object &&
@@ -9,7 +9,12 @@ export function isOwner(object) {
   return owner;
 }
 
-export function isLoggedIn() {
+function isLoggedIn() {
   const {user} = store.getState().toJS();
   return !!(user && user.isLoggedIn);
 }
+
+module.exports = {
+  isLoggedIn,
+  isOwner,
+};

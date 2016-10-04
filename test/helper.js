@@ -10,7 +10,7 @@ const {makeMongoId} = require('../app/libs/utils');
 
 const logger = require('../lib/logging/logger').create('test.helper');
 
-export function getUrl(url) {
+function getUrl(url) {
   if(_.startsWith(url, 'http')) {
     return url;
   }
@@ -19,7 +19,7 @@ export function getUrl(url) {
 }
 
 let jwt;
-export function makeRequest(opts, cb) {
+function makeRequest(opts, cb) {
 
   const auth = opts.authenticate
     ? {Authorization: 'Bearer ' + jwt }
@@ -45,7 +45,7 @@ export function makeRequest(opts, cb) {
 
 const data = {};
 
-export function startServerAuthenticated(cb) {
+function startServerAuthenticated(cb) {
   function emptyDatabase(done) {
     mongo.GetDb((dbGetError, db) => {
       assert(!dbGetError);
@@ -150,7 +150,7 @@ export function startServerAuthenticated(cb) {
   });
 };
 
-export function createPlants(numPlants, userId, cb) {
+function createPlants(numPlants, userId, cb) {
   const plantTemplate = {
     title: 'Plant Title',
     userId
@@ -188,7 +188,7 @@ export function createPlants(numPlants, userId, cb) {
 
 }
 
-export function createNote(plantIds, noteOverride = {}, cb) {
+function createNote(plantIds, noteOverride = {}, cb) {
   assert(_.isArray(plantIds));
   const noteTemplate = {
     note: 'This is a note',
@@ -215,6 +215,12 @@ export function createNote(plantIds, noteOverride = {}, cb) {
 
     cb(null, response);
   });
-
-
 }
+
+module.exports = {
+  createNote,
+  createPlants,
+  getUrl,
+  makeRequest,
+  startServerAuthenticated,
+};
