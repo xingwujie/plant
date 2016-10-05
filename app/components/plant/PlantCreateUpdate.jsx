@@ -35,9 +35,9 @@ class PlantCreateUpdate extends React.Component {
 
   componentWillMount() {
     const {interimPlant} = this.props;
-    const pageTitle = interimPlant._id
-      ? `Edit ${interimPlant.title}`
-      : 'Add New Plant';
+    const pageTitle = interimPlant.isNew
+      ? 'Add New Plant'
+      : `Edit ${interimPlant.title}`;
     this.setState({pageTitle});
   }
 
@@ -49,7 +49,7 @@ class PlantCreateUpdate extends React.Component {
 
   save(e) {
     const {interimPlant} = this.props;
-    const isNew = !!interimPlant._id;
+    const {isNew = false} = interimPlant;
     const plant = cloneDeep(interimPlant);
     if(plant.purchasedDate) {
       plant.purchasedDate = utils.dateToInt(plant.purchasedDate);

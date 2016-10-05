@@ -5,6 +5,7 @@ const utils = require('../libs/utils');
 const {isLoggedIn} = require('../libs/auth-helper');
 const FloatingActionButton = require('material-ui/FloatingActionButton').default;
 const AddIcon = require('material-ui/svg-icons/content/add').default;
+const Immutable = require('immutable');
 
 const {Link} = require('react-router');
 
@@ -17,17 +18,19 @@ class Navbar extends React.Component {
 
   componentWillMount() {
     this.unsubscribe = store.subscribe(this.onChange);
-    const {user = {}} = store.getState().toJS();
-    this.setState({user});
+    const user = store.getState().get('user', Immutable.Map()).toJS();
+    const interimMap = store.getState().get('interim');
+    this.setState({user, interimMap});
   }
 
   componentWillUnmount() {
     this.unsubscribe();
   }
 
-  onChange(){
-    const {user = {}} = store.getState().toJS();
-    this.setState({user});
+  onChange() {
+    const user = store.getState().get('user', Immutable.Map()).toJS();
+    const interimMap = store.getState().get('interim');
+    this.setState({user, interimMap});
   }
 
   logout() {
@@ -36,11 +39,13 @@ class Navbar extends React.Component {
 
   render() {
     const {
-      user = {}
+      user = {},
+      interimMap
     } = this.state || {};
     const displayName = user.name || '';
 
     const loggedIn = isLoggedIn();
+    const notEditing = !interimMap.size;
 
     return (
       <nav className='navbar navbar-default'>
@@ -53,7 +58,7 @@ class Navbar extends React.Component {
               <span className='icon-bar' />
             </button>
             <Link to={'/'} className='navbar-brand'>Plant</Link>
-            {loggedIn &&
+            {loggedIn && notEditing &&
               <Link to={'/plant'}>
                 <FloatingActionButton
                   title='Add Plant' mini={true} style={{marginTop: '5px'}}

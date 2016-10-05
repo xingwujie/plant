@@ -29,7 +29,7 @@ class PlantRead extends React.Component {
 
   edit() {
     const {plant} = this.props;
-    this.props.dispatch(actions.editPlantOpen({plant}));
+    this.props.dispatch(actions.editPlantOpen({plant, meta: {isNew: false}}));
   }
 
   checkDelete() {

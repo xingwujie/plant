@@ -4,6 +4,7 @@
 // Unless Create then Url: /plant
 
 const {isOwner} = require('../../libs/auth-helper');
+const {makeMongoId} = require('../../libs/utils');
 const actions = require('../../actions');
 const Base = require('../Base');
 const CircularProgress = require('material-ui/CircularProgress').default;
@@ -13,20 +14,12 @@ const NoteCreate = require('./NoteCreate');
 const React = require('react');
 const store = require('../../store');
 
-
-// const lifecycleLogOptions = {
-//   names: ['props', 'nextProps', 'nextState', 'prevProps', 'prevState']
-// };
-// const ReactLogLifecycle from 'react-log-lifecycle';
-// class Plant extends ReactLogLifecycle {
-
 class Plant extends React.Component {
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   };
 
   constructor(props) {
-    // super(props, lifecycleLogOptions);
     super(props);
     this.onChange = this.onChange.bind(this);
   }
@@ -41,6 +34,13 @@ class Plant extends React.Component {
       if(!plant && first) {
         store.dispatch(actions.loadPlantRequest({_id}));
       }
+    } else {
+      store.dispatch(actions.editPlantOpen({
+        plant: {
+          _id: makeMongoId(),
+          isNew: true
+        }
+      }));
     }
   }
 
@@ -63,7 +63,7 @@ class Plant extends React.Component {
 
   onChange() {
     this.forceUpdate();
-    this.initState(false);
+    // this.initState(false);
   }
 
   componentWillUnmount() {
