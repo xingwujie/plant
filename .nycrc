@@ -1,0 +1,26 @@
+{
+  "lines": 38,
+  "statements": 30,
+  "functions": 26,
+  "branches":35,
+  "exclude": [
+    "server.js",
+    "webpack.config.js",
+    "devops/**",
+    "node_modules/**",
+    "test/**",
+    ".vscode/**",
+    "build/**"
+  ],
+  "reporter": [
+    "lcov",
+    "text-summary"
+  ],
+  "extension": [
+    ".js",
+    ".jsx"
+  ],
+  "cache": true,
+  "all": true,
+  "check-coverage": true
+}

@@ -35,3 +35,5 @@ local-only/
 .well-known/
 
 typings/
+
+.nyc_output/
