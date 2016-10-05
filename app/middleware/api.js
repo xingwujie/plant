@@ -15,13 +15,27 @@ function loginRequest(store, action) {
 }
 
 function createPlant(store, action, next) {
+  function success(ajaxResult) {
+    // This will cause the edit note window to close
+    store.dispatch(actions.editPlantClose());
+    return actions.createPlantSuccess(ajaxResult);
+  }
+
+  function failure(ajaxResult) {
+    store.dispatch(actions.editPlantChange({
+      errors: {
+        general: ajaxResult.toString()
+      }
+    }));
+    return actions.createPlantFailure(ajaxResult);
+  }
 
   const options = {
     type: 'POST',
     url: '/api/plant',
     data: action.payload,
-    success: actions.createPlantSuccess,
-    failure: actions.createPlantFailure
+    success,
+    failure
   };
   ajax(store, options);
   next(action);
@@ -99,12 +113,27 @@ function upsertNoteRequest(store, action, next) {
 }
 
 function updatePlant(store, action, next) {
+  function success(ajaxResult) {
+    // This will cause the edit note window to close
+    store.dispatch(actions.editPlantClose());
+    return actions.updatePlantSuccess(ajaxResult);
+  }
+
+  function failure(ajaxResult) {
+    store.dispatch(actions.editPlantChange({
+      errors: {
+        general: ajaxResult.toString()
+      }
+    }));
+    return actions.updatePlantFailure(ajaxResult);
+  }
+
   const options = {
     type: 'PUT',
     url: '/api/plant',
     data: action.payload,
-    success: actions.updatePlantSuccess,
-    failure: actions.updatePlantFailure,
+    success,
+    failure,
   };
   ajax(store, options);
   return next(action);

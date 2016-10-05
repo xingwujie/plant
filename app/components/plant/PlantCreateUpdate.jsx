@@ -24,51 +24,33 @@ class PlantCreateUpdate extends React.Component {
 
   constructor(props) {
     super(props);
-    this.save = this.save.bind(this);
     this.cancel = this.cancel.bind(this);
-  }
-
-  componentWillMount() {
-    const pageTitle = this.props.plant.mode === 'edit'
-      ? `Edit ${this.props.plant.title}`
-      : 'Add New Plant';
-    const plant = {
-      title: '',
-      botanicalName: '',
-      commonName: '',
-      description: '',
-      purchasedDate: '',
-      plantedDate: '',
-      price: '',
-      errors: {},
-      ...this.props.plant,
-      pageTitle
-    };
-    if(plant.purchasedDate) {
-      plant.purchasedDate = utils.intToString(plant.purchasedDate);
-    }
-    if(plant.plantedDate) {
-      plant.plantedDate = utils.intToString(plant.plantedDate);
-    }
-    this.setState(plant);
+    this.onChange = this.onChange.bind(this);
+    this.save = this.save.bind(this);
   }
 
   cancel() {
-    if(this.props.plant.mode === 'edit') {
-      this.props.dispatch(actions.setPlantMode({
-        _id: this.props.plant._id,
-        mode: 'read'
-      }));
-    } else {
-      // Transition to /plants/:slug/:id
-      const plantUrl = utils.makePlantsUrl(this.props.user);
-      this.context.router.push(plantUrl);
-    }
+    this.props.dispatch(actions.editPlantClose());
+  }
+
+  componentWillMount() {
+    const {interimPlant} = this.props;
+    const pageTitle = interimPlant._id
+      ? `Edit ${interimPlant.title}`
+      : 'Add New Plant';
+    this.setState({pageTitle});
+  }
+
+  onChange(e) {
+    this.props.dispatch(actions.editPlantChange({
+      [e.target.name]: e.target.value
+    }));
   }
 
   save(e) {
-    const isNew = this.props.plant.mode === 'create';
-    const plant = cloneDeep(this.state);
+    const {interimPlant} = this.props;
+    const isNew = !!interimPlant._id;
+    const plant = cloneDeep(interimPlant);
     if(plant.purchasedDate) {
       plant.purchasedDate = utils.dateToInt(plant.purchasedDate);
     }
@@ -77,31 +59,21 @@ class PlantCreateUpdate extends React.Component {
     }
     // console.log('PlantCreateUpdate.sve plant:', plant);
 
-    validate(plant, {isNew}, (err, transformed) => {
-      if(err) {
-        this.setState({errors: err});
+    validate(plant, {isNew}, (errors, transformed) => {
+      if(errors) {
+        this.props.dispatch(actions.editPlantChange({errors}));
       } else {
         if(isNew) {
           this.props.dispatch(actions.createPlantRequest(transformed));
         } else {
           this.props.dispatch(actions.updatePlantRequest(transformed));
         }
-        this.props.dispatch(actions.setPlantMode({
-          _id: this.props.plant._id,
-          mode: 'read'
-        }));
+        this.props.dispatch(actions.editPlantClose());
         this.context.router.push(`/plant/${makeSlug(transformed.title)}/${transformed._id}`);
       }
     });
     e.preventDefault();
     e.stopPropagation();
-  }
-
-  handleChange(propName, e) {
-    var change = {
-      [propName]: e.target.value
-    };
-    this.setState(change);
   }
 
   render() {
@@ -113,7 +85,10 @@ class PlantCreateUpdate extends React.Component {
       purchasedDate = '',
       plantedDate = '',
       price = '',
-      errors = {},
+      errors = {}
+    } = this.props.interimPlant;
+
+    const {
       pageTitle = ''
     } = this.state || {};
 
@@ -149,7 +124,8 @@ class PlantCreateUpdate extends React.Component {
           label='Title'
           value={title}
           placeholder={'How do you refer to this plant? (e.g. Washington Navel)'}
-          changeHandler={this.handleChange.bind(this, 'title')}
+          name='title'
+          changeHandler={this.onChange}
         />
         <Divider />
 
@@ -159,7 +135,8 @@ class PlantCreateUpdate extends React.Component {
           value={botanicalName}
           extraClasses='col-sm-6'
           placeholder={'e.g. Citrus sinensis \'Washington Navel\''}
-          changeHandler={this.handleChange.bind(this, 'botanicalName')}
+          name='botanicalName'
+          changeHandler={this.onChange}
         />
         <Divider />
 
@@ -169,7 +146,8 @@ class PlantCreateUpdate extends React.Component {
           extraClasses='col-sm-6'
           value={commonName}
           placeholder={'e.g. Washington Navel Orange'}
-          changeHandler={this.handleChange.bind(this, 'commonName')}
+          name='commonName'
+          changeHandler={this.onChange}
         />
         <Divider />
 
@@ -179,7 +157,8 @@ class PlantCreateUpdate extends React.Component {
           fullWidth={true}
           hintText={'Describe this plant and/or the location in your yard'}
           multiLine={true}
-          onChange={this.handleChange.bind(this, 'description')}
+          name='description'
+          onChange={this.onChange}
           style={textAreaStyle}
           underlineStyle={underlineStyle}
           value={description}
@@ -192,7 +171,8 @@ class PlantCreateUpdate extends React.Component {
           label='Purchase Date'
           value={purchasedDate}
           placeholder={dateFormat}
-          changeHandler={this.handleChange.bind(this, 'purchasedDate')}
+          name='purchasedDate'
+          changeHandler={this.onChange}
         />
         <Divider />
 
@@ -202,7 +182,8 @@ class PlantCreateUpdate extends React.Component {
           label='Planted Date'
           value={plantedDate}
           placeholder={dateFormat}
-          changeHandler={this.handleChange.bind(this, 'plantedDate')}
+          name='plantedDate'
+          changeHandler={this.onChange}
         />
         <Divider />
 
@@ -212,7 +193,8 @@ class PlantCreateUpdate extends React.Component {
           label='Price'
           value={price}
           placeholder={'$9.99'}
-          changeHandler={this.handleChange.bind(this, 'price')}
+          name='price'
+          changeHandler={this.onChange}
         />
         <Divider />
 
@@ -236,8 +218,7 @@ class PlantCreateUpdate extends React.Component {
 
 PlantCreateUpdate.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
-  mode: React.PropTypes.string.isRequired,
-  plant: React.PropTypes.object.isRequired,
+  interimPlant: React.PropTypes.object.isRequired,
   user: React.PropTypes.object.isRequired,
 };
 

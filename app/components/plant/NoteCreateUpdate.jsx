@@ -23,7 +23,6 @@ class NoteCreateUpdate extends React.Component {
     this.onDrop = this.onDrop.bind(this);
     this.save = this.save.bind(this);
     this.saveFiles = this.saveFiles.bind(this);
-
   }
 
   cancel() {
@@ -246,7 +245,7 @@ NoteCreateUpdate.propTypes = {
     date: React.PropTypes.string.isRequired,
     errors: React.PropTypes.object,
     note: React.PropTypes.string,
-  }),
+  }).isRequired,
   postSaveSuccess: React.PropTypes.func,
 };
 

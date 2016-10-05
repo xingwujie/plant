@@ -285,15 +285,6 @@ function loadUsersFailure(payload) {
 const SET_PLANT_MODE = 'SET_PLANT_MODE';
 const CANCEL_PLANT_CREATE_MODE = 'CANCEL_PLANT_CREATE_MODE';
 
-// payload should be:
-// { _id: <plant-id>, mode: 'read/create/update'}
-function setPlantMode(payload) {
-  return {
-    type: SET_PLANT_MODE,
-    payload
-  };
-}
-
 // payload: <plant-id>
 function cancelPlantCreateMode(payload) {
   return {
@@ -327,6 +318,31 @@ function editNoteChange(payload) {
   };
 }
 
+const EDIT_PLANT_OPEN = 'EDIT_PLANT_OPEN';
+const EDIT_PLANT_CLOSE = 'EDIT_PLANT_CLOSE';
+const EDIT_PLANT_CHANGE = 'EDIT_PLANT_CHANGE';
+
+function editPlantOpen(payload) {
+  return {
+    type: EDIT_PLANT_OPEN,
+    payload
+  };
+}
+
+function editPlantClose(payload) {
+  return {
+    type: EDIT_PLANT_CLOSE,
+    payload
+  };
+}
+
+function editPlantChange(payload) {
+  return {
+    type: EDIT_PLANT_CHANGE,
+    payload
+  };
+}
+
 module.exports = {
   CANCEL_PLANT_CREATE_MODE,
   CREATE_PLANT_FAILURE,
@@ -341,6 +357,9 @@ module.exports = {
   EDIT_NOTE_CHANGE,
   EDIT_NOTE_CLOSE,
   EDIT_NOTE_OPEN,
+  EDIT_PLANT_CHANGE,
+  EDIT_PLANT_CLOSE,
+  EDIT_PLANT_OPEN,
   LOAD_NOTES_FAILURE,
   LOAD_NOTES_REQUEST,
   LOAD_NOTES_SUCCESS,
@@ -380,6 +399,9 @@ module.exports = {
   editNoteChange,
   editNoteClose,
   editNoteOpen,
+  editPlantChange,
+  editPlantClose,
+  editPlantOpen,
   loadNotesFailure,
   loadNotesRequest,
   loadNotesSuccess,
@@ -399,7 +421,6 @@ module.exports = {
   loginRequest,
   loginSuccess,
   logout,
-  setPlantMode,
   updatePlantFailure,
   updatePlantRequest,
   updatePlantSuccess,

@@ -4,7 +4,6 @@
 // Unless Create then Url: /plant
 
 const {isOwner} = require('../../libs/auth-helper');
-const {makeMongoId} = require('../../libs/utils');
 const actions = require('../../actions');
 const Base = require('../Base');
 const CircularProgress = require('material-ui/CircularProgress').default;
@@ -30,45 +29,19 @@ class Plant extends React.Component {
     // super(props, lifecycleLogOptions);
     super(props);
     this.onChange = this.onChange.bind(this);
-    this.state = {};
   }
 
   initState(first, props = this.props || {}) {
-    const {
-      user = {},
-      plants = {},
-      interim = {}
-    } = store.getState().toJS();
+    const plants = store.getState().get('plants');
+
     const {id: _id} = props.params || {};
     let plant;
     if(_id) {
-      plant = plants[_id];
+      plant = plants.get(_id);
       if(!plant && first) {
         store.dispatch(actions.loadPlantRequest({_id}));
       }
-    } else {
-      plant = {
-        _id: makeMongoId(),
-        userId: user._id,
-        mode: 'create'
-      };
     }
-    const owner = plant && isOwner(plant, user);
-
-    if(!owner && plant && plant.mode !== 'read') {
-      store.dispatch(actions.setPlantMode({
-        _id: plant._id,
-        mode: 'read'
-      }));
-    }
-
-    this.setState({
-      isOwner: owner,
-      interim,
-      plant,
-      user
-    });
-
   }
 
   componentWillMount() {
@@ -82,13 +55,14 @@ class Plant extends React.Component {
 - not called in cycle #1
 - this.props is old props
 - parameter to this function is nextProps
-- can call this.setState() here (will not trigger addition render)
+- can call this.setState() here (will not trigger additional render)
 */
   componentWillReceiveProps(nextProps) {
     this.initState(true, nextProps);
   }
 
   onChange() {
+    this.forceUpdate();
     this.initState(false);
   }
 
@@ -96,14 +70,36 @@ class Plant extends React.Component {
     this.unsubscribe();
   }
 
-  render() {
-    const {
-      isOwner: owner = false,
-      interim,
-      plant
-    } = this.state || {};
+  fromStore(key) {
+    if(store.getState().has(key)) {
+      return store.getState().get(key).toJS();
+    } else {
+      return null;
+    }
+  }
 
-    if(!plant) {
+  render() {
+    const user = this.fromStore('user') || {};
+
+    const plants = store.getState().get('plants');
+
+    const {params} = this.props;
+
+    const immutablePlant = plants.get(params && params.id);
+    const plant = immutablePlant ? immutablePlant.toJS() : null;
+
+    const owner = plant && isOwner(plant, user);
+
+    const immutableInterim = store.getState().getIn(['interim']);
+    const interim = immutableInterim ? immutableInterim.toJS() : null;
+
+    const immutableInterimNote = immutableInterim.getIn(['note', 'note']);
+    const interimNote = immutableInterimNote ? immutableInterimNote.toJS() : null;
+
+    const immutableInterimPlant = immutableInterim.getIn(['plant', 'plant']);
+    const interimPlant = immutableInterimPlant ? immutableInterimPlant.toJS() : null;
+
+    if(!plant && !interimPlant) {
       return (
         <Base>
           <CircularProgress />
@@ -111,16 +107,18 @@ class Plant extends React.Component {
       );
     }
 
-    const {user, notes} = store.getState().toJS();
-    const mode = plant.mode || this.state.mode || 'read';
-
-    const interimNote = interim && interim.note && interim.note.note;
+    const notes = this.fromStore('notes');
 
     return (
       <Base>
         <div>
-          {mode === 'read' &&
-            <div>
+          {interimPlant
+            ? <PlantCreateUpdate
+              dispatch={store.dispatch}
+              interimPlant={interimPlant}
+              user={user}
+            />
+            : <div>
               <PlantRead
                 dispatch={store.dispatch}
                 interim={interim}
@@ -140,18 +138,16 @@ class Plant extends React.Component {
               }
             </div>
           }
-          {(mode === 'edit' || mode === 'create') &&
-            <PlantCreateUpdate
-              dispatch={store.dispatch}
-              mode={mode}
-              plant={plant}
-              user={user}
-            />
-          }
         </div>
       </Base>
     );
   }
 }
+
+Plant.propTypes = {
+  params: React.PropTypes.shape({
+    id: React.PropTypes.string
+  })
+};
 
 module.exports = Plant;

@@ -28,10 +28,8 @@ class PlantRead extends React.Component {
   }
 
   edit() {
-    this.props.dispatch(actions.setPlantMode({
-      _id: this.props.plant._id,
-      mode: 'edit'
-    }));
+    const {plant} = this.props;
+    this.props.dispatch(actions.editPlantOpen({plant}));
   }
 
   checkDelete() {

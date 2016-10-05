@@ -28,12 +28,39 @@ function editNoteChange(state, action) {
   return state.mergeDeep({note: {note: action.payload}});
 }
 
+// action.payload:
+// {plant}
+function editPlantOpen(state, action) {
+  return state.set('plant', Immutable.fromJS(action.payload));
+}
+
+// action.payload:
+// Empty
+function editPlantClose(state) {
+  // Just remove plant element if editing is canceled
+  // or if the plant has been saved
+  return state.delete('plant');
+}
+
+// action.payload:
+// {plant-key: plant-value, ...}
+// state:
+//   plant:
+//     plant,
+//     plant
+function editPlantChange(state, action) {
+  return state.mergeDeep({plant: {plant: action.payload}});
+}
+
 const reducers = {
   // Init the note prop in the interim state with something
   // so that the note is editable
   [actions.EDIT_NOTE_OPEN]: editNoteOpen,
   [actions.EDIT_NOTE_CHANGE]: editNoteChange,
-  [actions.EDIT_NOTE_CLOSE]: editNoteClose
+  [actions.EDIT_NOTE_CLOSE]: editNoteClose,
+  [actions.EDIT_PLANT_OPEN]: editPlantOpen,
+  [actions.EDIT_PLANT_CHANGE]: editPlantChange,
+  [actions.EDIT_PLANT_CLOSE]: editPlantClose,
 };
 
 module.exports = (state = new Immutable.Map(), action) => {

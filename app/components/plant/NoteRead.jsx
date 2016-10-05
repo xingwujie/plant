@@ -31,7 +31,6 @@ class NoteRead extends React.Component {
   renderEdit() {
     return (
       <NoteUpdate
-        cancel={() => this.props.dispatch(actions.editNoteClose())}
         dispatch={this.props.dispatch}
         isOwner={this.props.isOwner}
         interimNote={this.props.interim.note.note}

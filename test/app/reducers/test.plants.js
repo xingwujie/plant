@@ -153,25 +153,6 @@ describe('/app/reducers/plants', function() {
     assert.deepEqual(actual.toJS(), expected);
   });
 
-  it('should set the plant mode', () => {
-    const current = Immutable.fromJS({
-      '1': {
-        _id: '1',
-        name: 'one',
-        notes: ['n1', 'n2', 'n3']
-      }
-    });
-    const payload = {
-      _id: '1',
-      mode: 'update'
-    };
-    const expected = current.toJS();
-    expected['1'].mode = 'update';
-
-    const actual = plants(current, actions.setPlantMode(payload));
-    assert.deepEqual(actual.toJS(), expected);
-  });
-
   it('should handle a create a note success', () => {
     const current = Immutable.fromJS({
       'p1': {

@@ -84,17 +84,6 @@ function loadPlantsSuccess(state, action) {
   }
 }
 
-// action.payload:
-// {_id <plant-id>, mode: 'create/update/read'}
-function setPlantMode(state, action) {
-  const {_id, mode} = action.payload;
-  if(!_id) {
-    return state;
-  }
-  const plant = {[_id]: {mode}};
-  return state.mergeDeep(plant);
-}
-
 // The action.payload.note is the returned note from the
 // server.
 function upsertNoteSuccess(state, action) {
@@ -132,7 +121,6 @@ const reducers = {
   [actions.LOAD_PLANT_FAILURE]: loadPlantFailure,
   [actions.LOAD_PLANT_SUCCESS]: loadPlantSuccess,
   [actions.LOAD_PLANTS_SUCCESS]: loadPlantsSuccess,
-  [actions.SET_PLANT_MODE]: setPlantMode,
   [actions.UPDATE_PLANT_FAILURE]: ajaxPlantFailure,
   [actions.UPDATE_PLANT_REQUEST]: updatePlantRequest,
   [actions.UPSERT_NOTE_SUCCESS]: upsertNoteSuccess,
