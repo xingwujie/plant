@@ -33,6 +33,10 @@ class NoteCreateUpdate extends React.Component {
     this.initState();
   }
 
+  componentWillUnmount() {
+    this.props.dispatch(actions.editNoteClose());
+  }
+
   initState() {
     const {images = []} = this.props;
     this.setState({images});

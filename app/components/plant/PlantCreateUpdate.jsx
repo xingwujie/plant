@@ -33,6 +33,10 @@ class PlantCreateUpdate extends React.Component {
     this.props.dispatch(actions.editPlantClose());
   }
 
+  componentWillUnmount() {
+    this.props.dispatch(actions.editPlantClose());
+  }
+
   componentWillMount() {
     const {interimPlant} = this.props;
     const pageTitle = interimPlant.isNew

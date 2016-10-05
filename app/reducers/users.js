@@ -62,8 +62,6 @@ function loadPlantsSuccess(state, action) {
       return acc;
     }, {});
 
-    console.log('users:', users);
-
     // const isList = List.isList
     const isSet = Immutable.Set.isSet;
     function merger(a, b) {

@@ -63,7 +63,6 @@ class Home extends React.Component {
   }
 
   renderUser(user) {
-    console.log('renderUser', user);
     const {_id, name: userName} = user;
     const link = `/plants/${makeSlug(userName)}/${_id}`;
     return (
