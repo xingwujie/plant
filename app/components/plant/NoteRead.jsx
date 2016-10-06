@@ -6,6 +6,7 @@ const NoteUpdate = require('./NoteUpdate');
 const moment = require('moment');
 const LinkIcon = require('material-ui/svg-icons/content/link').default;
 const utils = require('../../libs/utils');
+const Markdown = require('../utils/Markdown');
 
 class NoteRead extends React.Component {
 
@@ -123,7 +124,7 @@ class NoteRead extends React.Component {
           </a>
         </div>
         <h5>{noteDate}</h5>
-        <div>{note.note}</div>
+        <Markdown markdown={note.note} />
         <EditDeleteButtons
           clickDelete={this.checkDelete}
           clickEdit={this.editNote}
