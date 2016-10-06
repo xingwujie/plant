@@ -11,7 +11,6 @@ const InputCombo = require('../InputCombo');
 const Paper = require('material-ui/Paper').default;
 const CancelSaveButtons = require('./CancelSaveButtons');
 const React = require('react');
-const TextField = require('material-ui/TextField').default;
 const utils = require('../../libs/utils');
 
 const cloneDeep = require('lodash/cloneDeep');
@@ -62,9 +61,11 @@ class PlantCreateUpdate extends React.Component {
       plant.plantedDate = utils.dateToInt(plant.plantedDate);
     }
     // console.log('PlantCreateUpdate.sve plant:', plant);
+    plant.userId = this.props.user._id;
 
     validate(plant, {isNew}, (errors, transformed) => {
       if(errors) {
+        console.log('Validation errors:', errors);
         this.props.dispatch(actions.editPlantChange({errors}));
       } else {
         if(isNew) {
@@ -104,16 +105,7 @@ class PlantCreateUpdate extends React.Component {
       display: 'inline-block',
     };
 
-    const underlineStyle = {
-      display: 'none',
-    };
-
-    const textFieldStyle = {
-      marginLeft: 20
-    };
-
     const textAreaStyle = {
-      ...textFieldStyle,
       textAlign: 'left'
     };
 
@@ -134,49 +126,47 @@ class PlantCreateUpdate extends React.Component {
         <Divider />
 
         <InputCombo
-          error={errors.botanicalName}
-          label='Botanical Name'
-          value={botanicalName}
-          extraClasses='col-sm-6'
-          placeholder={'e.g. Citrus sinensis \'Washington Navel\''}
-          name='botanicalName'
           changeHandler={this.onChange}
+          error={errors.botanicalName}
+          extraClasses='col-sm-6'
+          label='Botanical Name'
+          name='botanicalName'
+          placeholder={'e.g. Citrus sinensis \'Washington Navel\''}
+          value={botanicalName}
         />
         <Divider />
 
         <InputCombo
-          error={errors.commonName}
-          label='Common Name'
-          extraClasses='col-sm-6'
-          value={commonName}
-          placeholder={'e.g. Washington Navel Orange'}
-          name='commonName'
           changeHandler={this.onChange}
+          error={errors.commonName}
+          extraClasses='col-sm-6'
+          label='Common Name'
+          name='commonName'
+          placeholder={'e.g. Washington Navel Orange'}
+          value={commonName}
         />
         <Divider />
 
-        <TextField
-          errorText={errors.description}
-          floatingLabelText='Description'
-          fullWidth={true}
-          hintText={'Describe this plant and/or the location in your yard'}
+        <InputCombo
+          changeHandler={this.onChange}
+          error={errors.description}
+          label='Description'
           multiLine={true}
           name='description'
-          onChange={this.onChange}
+          placeholder={'Describe this plant and/or the location in your yard'}
           style={textAreaStyle}
-          underlineStyle={underlineStyle}
           value={description}
         />
         <Divider />
 
         <InputCombo
+          changeHandler={this.onChange}
           error={errors.purchasedDate}
           extraClasses='col-sm-4'
           label='Purchase Date'
-          value={purchasedDate}
-          placeholder={dateFormat}
           name='purchasedDate'
-          changeHandler={this.onChange}
+          placeholder={dateFormat}
+          value={purchasedDate}
         />
         <Divider />
 

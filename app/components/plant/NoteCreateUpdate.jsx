@@ -4,9 +4,9 @@ const cloneDeep = require('lodash/cloneDeep');
 const isEmpty = require('lodash/isEmpty');
 const Paper = require('material-ui/Paper').default;
 const React = require('react');
-const TextField = require('material-ui/TextField').default;
 const CancelSaveButtons = require('./CancelSaveButtons');
 const Dropzone = require('react-dropzone');
+const InputCombo = require('../InputCombo');
 const LinearProgress = require('material-ui/LinearProgress').default;
 const CircularProgress = require('material-ui/CircularProgress').default;
 const actions = require('../../actions');
@@ -146,10 +146,6 @@ class NoteCreateUpdate extends React.Component {
       textAlign: 'left'
     };
 
-    const underlineStyle = {
-      display: 'none',
-    };
-
     const textFieldStyle = {
       marginLeft: 20,
       textAlign: 'left'
@@ -180,26 +176,23 @@ class NoteCreateUpdate extends React.Component {
         zDepth={1}
       >
 
-        <TextField
-          errorText={errors.date}
+        <InputCombo
+          changeHandler={this.onChange}
+          error={errors.date}
           floatingLabelText='Date'
-          fullWidth={true}
-          hintText={'MM/DD/YYYY'}
           name='date'
-          onChange={this.onChange}
+          placeholder={'MM/DD/YYYY'}
           style={textFieldStyle}
-          underlineStyle={underlineStyle}
           value={date}
         />
 
-        <TextField
-          errorText={errors.note}
+        <InputCombo
+          changeHandler={this.onChange}
+          error={errors.note}
           floatingLabelText='Note'
-          fullWidth={true}
-          hintText='What has happened since your last note?'
           multiLine={true}
           name='note'
-          onChange={this.onChange}
+          placeholder='What has happened since your last note?'
           style={textAreaStyle}
           value={note}
         />

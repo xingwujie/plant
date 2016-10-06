@@ -204,6 +204,7 @@ class Plants extends React.Component {
       label='Filter'
       placeholder={'Type a plant name to filter...'}
       value={filter}
+      name='filter'
     />);
 
     return (

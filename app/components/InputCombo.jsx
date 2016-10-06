@@ -9,34 +9,52 @@ class InputCombo extends React.Component {
 
   render() {
     let {
+      changeHandler,
       error,
+      fullWidth = true,
       label,
-      value,
+      multiLine = false,
+      name: namo,
       placeholder,
-      changeHandler
+      value,
+      style = {}
     } = this.props || {};
 
     const underlineStyle = {
       display: 'none',
     };
 
-    const style = {
+    const styler = Object.assign({
       marginLeft: 20
-    };
+    }, style);
 
     return (
       <TextField
         errorText={error}
         floatingLabelText={label}
+        fullWidth={fullWidth}
         hintText={placeholder}
+        multiLine={multiLine}
+        name={namo}
         onChange={changeHandler}
-        style={style}
+        style={styler}
         underlineStyle={underlineStyle}
         value={value}
-        fullWidth={true}
       />
     );
   }
 }
+
+InputCombo.propTypes = {
+  changeHandler: React.PropTypes.func.isRequired,
+  error: React.PropTypes.string,
+  fullWidth: React.PropTypes.bool,
+  label: React.PropTypes.string,
+  multiLine: React.PropTypes.bool,
+  name: React.PropTypes.string.isRequired, // eslint-disable-line no-dupe-keys
+  placeholder: React.PropTypes.string,
+  style: React.PropTypes.object,
+  value: React.PropTypes.any.isRequired,
+};
 
 module.exports = InputCombo;
