@@ -19,6 +19,7 @@ class NoteUpdate extends React.Component {
       <NoteCreateUpdate
         dispatch={this.props.dispatch}
         plant={this.props.plant}
+        plants={this.props.plants}
         interimNote={interimNote}
       />
     );
@@ -30,6 +31,8 @@ NoteUpdate.propTypes = {
   isOwner: React.PropTypes.bool.isRequired,
   interimNote: React.PropTypes.object.isRequired,
   plant: React.PropTypes.object.isRequired,
+  plants: React.PropTypes.object.isRequired, // Immutable.js Map
+  user: React.PropTypes.object.isRequired, // Immutable.js Map
 };
 
 module.exports = NoteUpdate;

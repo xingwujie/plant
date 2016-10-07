@@ -36,6 +36,7 @@ class NoteRead extends React.Component {
         isOwner={this.props.isOwner}
         interimNote={this.props.interim.note.note}
         plant={this.props.plant}
+        plants={this.props.plants}
       />
     );
   }
@@ -84,7 +85,7 @@ class NoteRead extends React.Component {
     const note = {
       ...this.props.note,
       date: utils.intToString(this.props.note.date),
-      isNew: false // TODO: is this still needed?
+      isNew: false
     };
     const {plant} = this.props;
     this.props.dispatch(actions.editNoteOpen({plant, note}));
@@ -159,6 +160,7 @@ NoteRead.propTypes = {
   isOwner: React.PropTypes.bool.isRequired,
   note: React.PropTypes.object.isRequired,
   plant: React.PropTypes.object.isRequired,
+  plants: React.PropTypes.object.isRequired, // Immutable.js Map
 };
 
 module.exports = NoteRead;

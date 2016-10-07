@@ -11,6 +11,7 @@ const LinearProgress = require('material-ui/LinearProgress').default;
 const CircularProgress = require('material-ui/CircularProgress').default;
 const actions = require('../../actions');
 const utils = require('../../libs/utils');
+const NoteAssocPlant = require('./NoteAssocPlant');
 
 const validators = require('../../models');
 const validate = validators.note;
@@ -139,7 +140,8 @@ class NoteCreateUpdate extends React.Component {
     const {
       date = '',
       errors = {},
-      note = ''
+      note = '',
+      plantIds
     } = interimNote;
 
     const textAreaStyle = {
@@ -229,6 +231,12 @@ class NoteCreateUpdate extends React.Component {
           })
         }
 
+        <NoteAssocPlant
+          dispatch={this.props.dispatch}
+          plantIds={plantIds}
+          plants={this.props.plants.filter(plant => plant.get('userId') === this.props.user.get('_id'))}
+        />
+
       </Paper>
     );
   }
@@ -237,13 +245,16 @@ class NoteCreateUpdate extends React.Component {
 NoteCreateUpdate.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
   images: React.PropTypes.array,
-  plant: React.PropTypes.object.isRequired,
   interimNote:  React.PropTypes.shape({
     date: React.PropTypes.string.isRequired,
     errors: React.PropTypes.object,
     note: React.PropTypes.string,
+    plantIds: React.PropTypes.array.isRequired,
   }).isRequired,
+  plant: React.PropTypes.object.isRequired,
+  plants: React.PropTypes.object.isRequired, // Immutable.js Map
   postSaveSuccess: React.PropTypes.func,
+  user: React.PropTypes.object.isRequired,
 };
 
 module.exports = NoteCreateUpdate;

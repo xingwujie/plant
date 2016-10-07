@@ -122,6 +122,7 @@ class PlantRead extends React.Component {
               isOwner={isOwner}
               notes={this.props.notes}
               plant={plant}
+              plants={this.props.plants}
               user={user}
             />
           </div>
@@ -142,6 +143,7 @@ PlantRead.propTypes = {
   isOwner: React.PropTypes.bool.isRequired,
   notes: React.PropTypes.object.isRequired,
   plant: React.PropTypes.object.isRequired,
+  plants: React.PropTypes.object.isRequired, // Immutable.js Map
   user: React.PropTypes.object.isRequired,
 };
 

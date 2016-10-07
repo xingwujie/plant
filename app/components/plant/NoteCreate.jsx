@@ -23,8 +23,9 @@ class NoteCreate extends React.Component {
       date: moment().format('MM/DD/YYYY'),
       isNew: true,
       note: '',
-      plantIds: [],
+      plantIds: [plant._id],
       errors: {},
+      plants: this.props.plants.filter(p => p.userId === this.props.user.get('_id'))
     };
 
     this.props.dispatch(actions.editNoteOpen({note, plant}));
@@ -49,6 +50,8 @@ class NoteCreate extends React.Component {
             dispatch={this.props.dispatch}
             interimNote={interimNote}
             plant={this.props.plant}
+            plants={this.props.plants}
+            user={this.props.user}
           />
         }
         {!createNote &&
@@ -72,8 +75,9 @@ NoteCreate.propTypes = {
   isOwner: React.PropTypes.bool.isRequired,
   interimNote: React.PropTypes.object,
   plant: React.PropTypes.object.isRequired,
+  plants: React.PropTypes.object.isRequired, // Immutable.js Map
   postSaveSuccess: React.PropTypes.func,
-  user: React.PropTypes.object.isRequired,
+  user: React.PropTypes.object.isRequired, // Immutable.js Map
 };
 
 module.exports = NoteCreate;

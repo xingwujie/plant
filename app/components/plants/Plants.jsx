@@ -145,8 +145,9 @@ class Plants extends React.Component {
               isOwner={true}
               interimNote={interimNote}
               plant={plantCreateNote}
+              plants={store.getState().get('plants')}
               postSaveSuccess={this.postSaveSuccessCreateNote}
-              user={authUser}
+              user={store.getState().get('user')}
             />
           </div>
         </Base>

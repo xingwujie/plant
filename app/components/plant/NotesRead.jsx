@@ -95,6 +95,7 @@ NotesRead.propTypes = {
   isOwner: React.PropTypes.bool.isRequired,
   notes: React.PropTypes.object.isRequired,
   plant: React.PropTypes.object.isRequired,
+  plants: React.PropTypes.object.isRequired, // Immutable.js Map
 };
 
 module.exports = NotesRead;

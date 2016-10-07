@@ -124,6 +124,7 @@ class Plant extends React.Component {
                 interim={interim}
                 isOwner={owner}
                 plant={plant}
+                plants={store.getState().get('plants')}
                 user={user}
                 notes={notes}
               />
@@ -132,7 +133,8 @@ class Plant extends React.Component {
                   dispatch={store.dispatch}
                   isOwner={owner}
                   plant={plant}
-                  user={user}
+                  plants={store.getState().get('plants')}
+                  user={store.getState().get('user')}
                   interimNote={interimNote}
                 />
               }
