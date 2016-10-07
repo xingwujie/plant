@@ -12,7 +12,6 @@ class NoteAssocPlant extends React.Component {
     this.state = {
       expanded: false
     };
-    this.toggle = this.toggle.bind(this);
     this.expand = this.expand.bind(this);
   }
 
@@ -29,6 +28,16 @@ class NoteAssocPlant extends React.Component {
     this.setState({expanded});
   }
 
+  renderPlantButton(plant, primary) {
+    return <RaisedButton
+      key={plant._id}
+      label={plant.title}
+      style={{paddint: '5px'}}
+      onClick={this.toggle.bind(this, plant._id)}
+      primary={primary}
+    />;
+  }
+
   render() {
     const {expanded} = this.state;
     const {plantIds, plants} = this.props;
@@ -39,27 +48,21 @@ class NoteAssocPlant extends React.Component {
         console.warn(`Missing plant for plantId ${plantId}`);
         return null;
       }
-
-      return <RaisedButton
-        key={plantId}
-        label={plant.get('title')}
-        primary={true}
-      />;
+      return this.renderPlantButton(plant.toJS(), true);
     });
 
     const uncheckedPlants = expanded
-      ? plants.reduce((acc, plant) => {
-        if(plantIds.indexOf(plant.get('_id') >= 0)) {
-          acc.push(<RaisedButton
-            key={plant.get('_id')}
-            label={plant.get('title')}
-          />);
-          return acc;
+      ? plants.reduce((acc, immutablePlant) => {
+        const plant = immutablePlant.toJS();
+        if(plantIds.indexOf(plant._id) === -1) {
+          acc.push(this.renderPlantButton(plant, false));
         }
+        return acc;
       }, [])
       : null;
 
     const arrow = <FloatingActionButton
+      mini={true}
       onClick={this.expand}
       secondary={true}
       title='Expand/Collapse Unchecked Plants'
@@ -72,7 +75,7 @@ class NoteAssocPlant extends React.Component {
 
 
     return (
-      <div>
+      <div style={{float: 'left'}}>
         {'Associated plants:'}
         {checkedPlants}
         {uncheckedPlants}
