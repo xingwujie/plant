@@ -35,11 +35,9 @@ function makeSlug(text) {
   });
 }
 
-function makePlantsUrl(user = {}) {
-  const {
-    name: userName = '',
-    _id = ''
-  } = user;
+function makePlantsUrl(user) {
+  const userName = user.get('name');
+  const _id = user.get('_id');
 
   return `/plants/${makeSlug(userName)}/${_id}`;
 }

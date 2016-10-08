@@ -18,9 +18,10 @@ class NoteUpdate extends React.Component {
     return (
       <NoteCreateUpdate
         dispatch={this.props.dispatch}
+        interimNote={interimNote}
         plant={this.props.plant}
         plants={this.props.plants}
-        interimNote={interimNote}
+        user={this.props.user}
       />
     );
   }
@@ -28,11 +29,13 @@ class NoteUpdate extends React.Component {
 
 NoteUpdate.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
-  isOwner: React.PropTypes.bool.isRequired,
   interimNote: React.PropTypes.object.isRequired,
+  isOwner: React.PropTypes.bool.isRequired,
   plant: React.PropTypes.object.isRequired,
   plants: React.PropTypes.object.isRequired, // Immutable.js Map
-  user: React.PropTypes.object.isRequired, // Immutable.js Map
+  user: React.PropTypes.shape({ // Immutable.js Map
+    get: React.PropTypes.func.isRequired,
+  }).isRequired
 };
 
 module.exports = NoteUpdate;

@@ -18,7 +18,7 @@ class Navbar extends React.Component {
 
   componentWillMount() {
     this.unsubscribe = store.subscribe(this.onChange);
-    const user = store.getState().get('user', Immutable.Map()).toJS();
+    const user = store.getState().get('user', Immutable.Map());
     const interimMap = store.getState().get('interim');
     this.setState({user, interimMap});
   }
@@ -28,7 +28,7 @@ class Navbar extends React.Component {
   }
 
   onChange() {
-    const user = store.getState().get('user', Immutable.Map()).toJS();
+    const user = store.getState().get('user', Immutable.Map());
     const interimMap = store.getState().get('interim');
     this.setState({user, interimMap});
   }
@@ -42,7 +42,7 @@ class Navbar extends React.Component {
       user = {},
       interimMap
     } = this.state || {};
-    const displayName = user.name || '';
+    const displayName = user.get('name', '');
 
     const loggedIn = isLoggedIn();
     const notEditing = !interimMap.size;

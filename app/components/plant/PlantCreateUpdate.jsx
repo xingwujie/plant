@@ -61,7 +61,7 @@ class PlantCreateUpdate extends React.Component {
       plant.plantedDate = utils.dateToInt(plant.plantedDate);
     }
     // console.log('PlantCreateUpdate.sve plant:', plant);
-    plant.userId = this.props.user._id;
+    plant.userId = this.props.user.get('_id');
 
     validate(plant, {isNew}, (errors, transformed) => {
       if(errors) {
@@ -213,7 +213,9 @@ class PlantCreateUpdate extends React.Component {
 PlantCreateUpdate.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
   interimPlant: React.PropTypes.object.isRequired,
-  user: React.PropTypes.object.isRequired,
+  user: React.PropTypes.shape({ // Immutable.js Map
+    get: React.PropTypes.func.isRequired,
+  }).isRequired
 };
 
 module.exports = PlantCreateUpdate;

@@ -77,7 +77,9 @@ NoteCreate.propTypes = {
   plant: React.PropTypes.object.isRequired,
   plants: React.PropTypes.object.isRequired, // Immutable.js Map
   postSaveSuccess: React.PropTypes.func,
-  user: React.PropTypes.object.isRequired, // Immutable.js Map
+  user: React.PropTypes.shape({ // Immutable.js Map
+    get: React.PropTypes.func.isRequired,
+  }).isRequired
 };
 
 module.exports = NoteCreate;

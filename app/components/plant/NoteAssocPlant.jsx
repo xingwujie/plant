@@ -32,7 +32,7 @@ class NoteAssocPlant extends React.Component {
     return <RaisedButton
       key={plant._id}
       label={plant.title}
-      style={{paddint: '5px'}}
+      style={{margin: 12}}
       onClick={this.toggle.bind(this, plant._id)}
       primary={primary}
     />;

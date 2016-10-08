@@ -144,7 +144,9 @@ PlantRead.propTypes = {
   notes: React.PropTypes.object.isRequired,
   plant: React.PropTypes.object.isRequired,
   plants: React.PropTypes.object.isRequired, // Immutable.js Map
-  user: React.PropTypes.object.isRequired,
+  user: React.PropTypes.shape({ // Immutable.js Map
+    get: React.PropTypes.func.isRequired,
+  }).isRequired
 };
 
 module.exports = PlantRead;

@@ -79,7 +79,7 @@ class Plant extends React.Component {
   }
 
   render() {
-    const user = this.fromStore('user') || {};
+    const user = store.getState().get('user');
 
     const plants = store.getState().get('plants');
 
@@ -88,7 +88,7 @@ class Plant extends React.Component {
     const immutablePlant = plants.get(params && params.id);
     const plant = immutablePlant ? immutablePlant.toJS() : null;
 
-    const owner = plant && isOwner(plant, user);
+    const owner = isOwner(plant);
 
     const immutableInterim = store.getState().getIn(['interim']);
     const interim = immutableInterim ? immutableInterim.toJS() : null;
@@ -134,7 +134,7 @@ class Plant extends React.Component {
                   isOwner={owner}
                   plant={plant}
                   plants={store.getState().get('plants')}
-                  user={store.getState().get('user')}
+                  user={user}
                   interimNote={interimNote}
                 />
               }
