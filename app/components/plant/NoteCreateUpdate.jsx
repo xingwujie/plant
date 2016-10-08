@@ -61,10 +61,6 @@ class NoteCreateUpdate extends React.Component {
   saveNote(files) {
     const interimNote = cloneDeep(this.props.interimNote);
 
-    if(interimNote.plantIds.indexOf(this.props.plant._id) === -1) {
-      interimNote.plantIds.push(this.props.plant._id);
-    }
-
     interimNote._id = interimNote._id || utils.makeMongoId();
     interimNote.date = utils.dateToInt(interimNote.date);
 
@@ -233,6 +229,7 @@ class NoteCreateUpdate extends React.Component {
 
         <NoteAssocPlant
           dispatch={this.props.dispatch}
+          error={errors.plantIds}
           plantIds={plantIds}
           plants={this.props.plants.filter(plant => plant.get('userId') === this.props.user.get('_id'))}
         />

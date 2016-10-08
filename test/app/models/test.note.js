@@ -112,7 +112,7 @@ describe('/app/models/note', function() {
     noteValidator(note, (err, transformed) => {
 
       assert(err);
-      assert.equal(err.plantIds, 'Plant ids must have at least 1 on plant associated');
+      assert.equal(err.plantIds, 'You must select at least 1 plant for this note.');
       assert.equal(Object.keys(transformed).length, 4);
       assert.equal(transformed._id, note._id);
       assert.equal(transformed.note, note.note);

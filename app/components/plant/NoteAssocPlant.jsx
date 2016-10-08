@@ -5,6 +5,7 @@ const FloatingActionButton = require('material-ui/FloatingActionButton').default
 const RaisedButton = require('material-ui/RaisedButton').default;
 const ArrowLeft = require('material-ui/svg-icons/hardware/keyboard-arrow-left').default;
 const ArrowRight = require('material-ui/svg-icons/hardware/keyboard-arrow-right').default;
+const Errors = require('../Errors');
 
 class NoteAssocPlant extends React.Component {
   constructor() {
@@ -40,7 +41,7 @@ class NoteAssocPlant extends React.Component {
 
   render() {
     const {expanded} = this.state;
-    const {plantIds, plants} = this.props;
+    const {plantIds, plants, error} = this.props;
 
     const checkedPlants = plantIds.map(plantId => {
       const plant = plants.get(plantId);
@@ -73,13 +74,15 @@ class NoteAssocPlant extends React.Component {
       }
     </FloatingActionButton>;
 
-
     return (
-      <div style={{float: 'left'}}>
-        {'Associated plants:'}
-        {checkedPlants}
-        {uncheckedPlants}
-        {arrow}
+      <div style={{textAlign: 'left'}}>
+        {!!error && <Errors errors={this.props.error} />}
+        <div>
+          {'Associated plants:'}
+          {checkedPlants}
+          {uncheckedPlants}
+          {arrow}
+        </div>
       </div>
     );
   }
@@ -87,6 +90,7 @@ class NoteAssocPlant extends React.Component {
 
 NoteAssocPlant.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
+  error: React.PropTypes.array,
   plantIds: React.PropTypes.array.isRequired,
   plants: React.PropTypes.object.isRequired, // Immutable.js Map
 };

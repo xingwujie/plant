@@ -14,7 +14,7 @@ class Errors extends React.Component {
     }
 
     return (
-      <div className='errors bg-danger col-xs-12 col-sm-8 col-md-6'>
+      <div className='btn btn-danger' style={{margin: 10}}>
         {
           errors.map((error, index) => {
             return (<div key={index}>{error}</div>);

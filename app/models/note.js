@@ -23,7 +23,8 @@ validatejs.validators.plantIdsValidate = (value, options /*, key, attributes */)
 
   const minarray = options && options.length && options.length.minimum;
   if(minarray && value.length < minarray) {
-    return `must have at least ${minarray} on plant associated`;
+    // Leading ^ means don't prepend the variable being validated
+    return `^You must select at least ${minarray} plant for this note.`;
   }
 
   // Only mongoId values of x length

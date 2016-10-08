@@ -73,7 +73,7 @@ describe('note-api', function() {
         assert(!error);
         assert.equal(httpMsg.statusCode, 400);
         assert(response);
-        assert.equal(response.plantIds[0], 'Plant ids must have at least 1 on plant associated');
+        assert.equal(response.plantIds[0], 'You must select at least 1 plant for this note.');
 
         done();
       });
