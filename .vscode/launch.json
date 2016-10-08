@@ -20,7 +20,8 @@
         "PLANT_DB_URL": "127.0.0.1:27017",
         "PLANT_DB_NAME": "plant-development",
         "PLANT_FB_ID": "facebook-app-id",
-        "PLANT_FB_SECRET": "facebook-app-secret"
+        "PLANT_FB_SECRET": "facebook-app-secret",
+        "DEBUG": "plant:*"
       },
       "console": "integratedTerminal",
       "sourceMaps": true,
