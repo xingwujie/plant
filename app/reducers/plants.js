@@ -101,7 +101,7 @@ function upsertNoteSuccess(state, action) {
     if(plantIds.indexOf(plantId) === -1) {
       return plant;
     }
-    const noteIds = plant.get('notes');
+    const noteIds = plant.get('notes', Immutable.List());
     const index = noteIds.indexOf(_id);
     if(index === -1) {
       return plant.set('notes', noteIds.push(_id));

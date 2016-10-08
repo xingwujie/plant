@@ -25,7 +25,14 @@ function editNoteClose(state) {
 //     note,
 //     plant
 function editNoteChange(state, action) {
-  return state.mergeDeep({note: {note: action.payload}});
+  // TODO: Write some tests around this and then see if this specialization
+  // for plantIds can be removed and replaced with an Immutable function because
+  // this will impact other arrays.
+  let merged = state.mergeDeep({note: {note: action.payload}});
+  if(action.payload.plantIds) {
+    merged = merged.setIn(['note', 'note', 'plantIds'], action.payload.plantIds);
+  }
+  return merged;
 }
 
 // action.payload:
