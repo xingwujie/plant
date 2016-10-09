@@ -79,14 +79,67 @@ function intToString(date) {
   return intToMoment(date).format('MM/DD/YYYY');
 }
 
+/**
+ * Filters the plantIds array based on filter
+ * @param {array} plantIds - original plantIds to filter
+ * @param {Immutable.Map} plants - all the plants available to sort
+ * @param {string} filter - optional text to filter title of plant
+ * @returns {array} - an array of filtered plantIds
+ */
+function filterPlants(plantIds, plants, filter) {
+  return filter
+    ? plantIds.filter(plantId => {
+      const plant = plants.get(plantId);
+      return !plant || (plant.get('title') || '').toLowerCase().indexOf(filter) >= 0;
+    })
+    : plantIds;
+}
+
+/**
+ * Sorts the plantIds based on the plant's title
+ * @param {array} plantIds - original plantIds to filter
+ * @param {Immutable.Map} plants - all the plants available to sort
+ * @returns {array} - an array of sorted plantIds
+ */
+function sortPlants(plantIds, plants) {
+  return plantIds.sort((a, b) => {
+    const plantA = plants.get(a);
+    const plantB = plants.get(b);
+    if(plantA && plantB) {
+      if(plantA.get('title') === plantB.get('title')) {
+        return 0;
+      }
+      return plantA.get('title') > plantB.get('title') ? 1 : -1;
+    } else {
+      return 0;
+    }
+  });
+}
+
+/**
+ * Filters the plantIds array and sorts based on the plant's title
+ * @param {array} plantIds - original plantIds to filter
+ * @param {Immutable.Map} plants - all the plants available to sort
+ * @param {string} filter - optional text to filter title of plant
+ * @returns {array} - an array of sorted and filtered plantIds
+ */
+function filterSortPlants(plantIds, plants, filter) {
+  const filteredPlantIds = filterPlants(plantIds, plants, filter);
+
+  return sortPlants(filteredPlantIds, plants);
+}
+
 module.exports = {
   dateToInt,
+  filterPlants,
+  filterSortPlants,
   intToDate,
   intToMoment,
   intToString,
   makeMongoId,
   makePlantsUrl,
   makeSlug,
+  sortPlants
 };
 
 // TODO: Move this file to a /shared/ folder.

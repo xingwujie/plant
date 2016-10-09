@@ -14,6 +14,7 @@ const actions = require('../../actions');
 const FloatingActionButton = require('material-ui/FloatingActionButton').default;
 const AddIcon = require('material-ui/svg-icons/content/add').default;
 const NoteCreate = require('../plant/NoteCreate');
+const utils = require('../../libs/utils');
 
 class Plants extends React.Component {
 
@@ -153,25 +154,7 @@ class Plants extends React.Component {
       return this.renderNoPlants(user);
     }
 
-    const filteredPlantIds = filter
-      ? plantIds.filter(plantId => {
-        const plant = allLoadedPlants[plantId];
-        return !plant || (plant.title || '').toLowerCase().indexOf(filter) >= 0;
-      })
-      : plantIds;
-
-    const sortedPlantIds = filteredPlantIds.sort((a, b) => {
-      const plantA = allLoadedPlants[a];
-      const plantB = allLoadedPlants[b];
-      if(plantA && plantB) {
-        if(plantA.title === plantB.title) {
-          return 0;
-        }
-        return plantA.title > plantB.title ? 1 : -1;
-      } else {
-        return 0;
-      }
-    });
+    const sortedPlantIds = utils.filterSortPlants(plantIds, store.getState().get('plants'), filter);
 
     // Don't send the name into PlantItem to skip the subtitle
     // If all the plants are by the same user then don't need the
