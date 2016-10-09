@@ -34,9 +34,7 @@ function upsertNoteRequestSuccess(state, action) {
     console.error('No _id in note in upsertNoteRequestSuccess', action.payload);
     return state;
   }
-  return state.mergeDeep({
-    [_id]: action.payload.note
-  });
+  return state.set(_id, action.payload.note);
 }
 
 /**

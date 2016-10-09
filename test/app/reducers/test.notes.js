@@ -20,9 +20,7 @@ describe('/app/reducers/notes', function() {
   function checkReducer(actionName, state, payload, expected) {
     const action = actions[actionName](payload);
     const actual = notes(state, action);
-    // The following line provides useful debug info which the one after does not
     assert.deepEqual(actual.toJS(), expected.toJS());
-    assert(Immutable.is(actual, expected));
   }
 
   describe('reduction', () => {
@@ -36,6 +34,15 @@ describe('/app/reducers/notes', function() {
       });
       checkReducer('upsertNoteSuccess', state, payload, expected);
       checkReducer('upsertNoteRequest', state, payload, expected);
+    });
+
+    it('should upsertNoteRequestSuccess with plantIds', () => {
+      const state = Immutable.fromJS({'id1': {_id: 'id1', date: 20160101, plantIds: ['p1', 'p2']}});
+      const payload = {note: {_id: 'id1', date: 20160202, plantIds: ['p2', 'p3']}};
+      const expected = Immutable.fromJS({
+        id1: payload.note
+      });
+      checkReducer('upsertNoteSuccess', state, payload, expected);
     });
 
     it('should loadNotesSuccess', () => {
