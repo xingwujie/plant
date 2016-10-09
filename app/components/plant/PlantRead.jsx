@@ -93,8 +93,6 @@ class PlantRead extends React.Component {
       showDeleteConfirmation = false
     } = this.state || {};
 
-    console.log('isOwner:', isOwner);
-
     return (
       <div>
         {!plant &&
