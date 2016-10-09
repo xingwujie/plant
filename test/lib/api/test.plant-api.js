@@ -56,7 +56,7 @@ describe('plant-api', function() {
       assert(!error);
       assert.equal(httpMsg.statusCode, 400);
       assert(response);
-      assert.equal(response.title[0], 'Title can\'t be blank');
+      assert.equal(response.title, 'Title can\'t be blank');
 
       done();
     });

@@ -129,6 +129,21 @@ function filterSortPlants(plantIds, plants, filter) {
   return sortPlants(filteredPlantIds, plants);
 }
 
+/**
+ * The values of the errors object are arrays. Take the first item out of each array.
+ * @param {object} errors - values are arrays
+ * @returns {object} - first element of value for each key
+ */
+function transformErrors(errors) {
+  if(!errors) {
+    return errors;
+  }
+  return Object.keys(errors).reduce((acc, key) => {
+    acc[key] = errors[key][0];
+    return acc;
+  }, {});
+}
+
 module.exports = {
   dateToInt,
   filterPlants,
@@ -139,7 +154,8 @@ module.exports = {
   makeMongoId,
   makePlantsUrl,
   makeSlug,
-  sortPlants
+  sortPlants,
+  transformErrors,
 };
 
 // TODO: Move this file to a /shared/ folder.

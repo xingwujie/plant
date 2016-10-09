@@ -163,7 +163,7 @@ class PlantCreateUpdate extends React.Component {
           changeHandler={this.onChange}
           error={errors.purchasedDate}
           extraClasses='col-sm-4'
-          label='Purchase Date'
+          label='Acquire Date'
           name='purchasedDate'
           placeholder={dateFormat}
           value={purchasedDate}

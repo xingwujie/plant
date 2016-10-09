@@ -21,7 +21,7 @@ const plant = require('./plant');
 validatejs.validators.intDateValidate = (value, options) => { // eslint-disable-line complexity
   if(Number.isNaN(value)) {
     console.warn(`Date validate expected ${value} to not be NaN`);
-    return 'must be a valid date in the format MM/DD/YYYY';
+    return `^${options.name} must be a valid date in the format MM/DD/YYYY`;
   }
 
   if(!value && !options.presence) {
@@ -30,36 +30,36 @@ validatejs.validators.intDateValidate = (value, options) => { // eslint-disable-
 
   if(typeof value !== 'number') {
     console.warn(`Date validate expected ${value} to be a number`);
-    return 'must be a number';
+    return `^${options.name} must be a number`;
   }
 
   // Don't allow dates before 1 Jan 1700
   if(value < 17000101) {
     console.warn(`Date validation expected ${value} to be above 17000101`);
-    return 'must be after 1st Jan 1700';
+    return `^${options.name} must be after 1st Jan 1700`;
   }
 
   if(value.toString().length !== 8) {
     console.error(`Date validation expected ${value} to have a string length of 8`);
-    return 'must be in format YYYYMMDD';
+    return `^${options.name} must be in format YYYYMMDD`;
   }
 
   const year = Math.round(value / 10000);
   if(year < 1700) {
     console.warn(`Date validate expected ${value} to have a year greater than 1700`);
-    return `must have a valid year, year found was ${year}`;
+    return `^${options.name} must have a valid year, year found was ${year}`;
   }
 
   const month = Math.round(value / 100) - year * 100;
   if(month < 1 || month > 12) {
     console.warn(`Date validate expected ${value} to have a month from 01 to 12`);
-    return `must have a valid month, value found was ${month}`;
+    return `^${options.name} must have a valid month, value found was ${month}`;
   }
 
   const dayOfMonth = Math.round(value) - (year * 10000 + month * 100);
   if(dayOfMonth < 1 || dayOfMonth > 31) {
     console.warn(`Date validate expected ${value} to have a day from 01 to 31`);
-    return `must have a valid day-of-month, value found was ${dayOfMonth}`;
+    return `^${options.name} must have a valid day-of-month, value found was ${dayOfMonth}`;
   }
 
 };

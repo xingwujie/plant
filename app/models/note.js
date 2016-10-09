@@ -5,6 +5,7 @@ const every = require('lodash/every');
 const {makeMongoId} = require('../libs/utils');
 const constants = require('../libs/constants');
 const validatejs = require('validate.js');
+const utils = require('../libs/utils');
 
 validatejs.validators.plantIdsValidate = (value, options /*, key, attributes */) => {
   // plantId array rules:
@@ -108,7 +109,7 @@ module.exports = (attributes, cb) => {
 
   const constraints = {
     _id: {format: constants.mongoIdRE, presence: true},
-    date: {intDateValidate: {presence: true}},
+    date: {intDateValidate: {presence: true, name: 'Date'}},
     images: {imagesValidate: {}},
     plantIds: {plantIdsValidate: {length: {minimum: 1}}},
     note: {length: {minimum: 1, maximum: 5000}, presence: false},
@@ -143,8 +144,6 @@ module.exports = (attributes, cb) => {
   const transformed = transform(cleaned);
   // debug('transformed:', transformed);
   const errors = validatejs.validate(transformed, constraints);
-  const flatErrors = errors && errors.length > 0
-    ? errors.map( (value, key) => {return {[key]: value[0]};} )
-    : errors;
+  const flatErrors = utils.transformErrors(errors);
   cb(flatErrors, transformed);
 };

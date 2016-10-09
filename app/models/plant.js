@@ -6,6 +6,7 @@ const every = require('lodash/every');
 const {makeMongoId} = require('../libs/utils');
 const constants = require('../libs/constants');
 const validatejs = require('validate.js');
+const utils = require('../libs/utils');
 
 //  The validator receives the following arguments:
 //     value - The value exactly how it looks in the attribute object.
@@ -82,9 +83,9 @@ module.exports = (attributes, {isNew}, cb) => {
     botanicalName: {length: {maximum: 100}},
     commonName:  {length: {maximum: 100}},
     description: {length: {maximum: 500}},
-    plantedDate: {intDateValidate: {presence: false}},
+    plantedDate: {intDateValidate: {presence: false, name: 'Planted date'}},
     price: {numericality: {noStrings: true}},
-    purchasedDate: {intDateValidate: {presence: false}},
+    purchasedDate: {intDateValidate: {presence: false, name: 'Acquire date'}},
     tags: {tagValidate: {}},
     title: {length: {minimum: 1, maximum: 100}, presence: true},
     userId: {format: constants.mongoIdRE, presence: true},
@@ -101,8 +102,6 @@ module.exports = (attributes, {isNew}, cb) => {
   // debug('transformed:', transformed);
   const errors = validatejs.validate(transformed, constraints);
   // debug('errors:', errors);
-  const flatErrors = errors && errors.length > 0
-    ? errors.map( (value, key) => {return {[key]: value[0]};} )
-    : errors;
+  const flatErrors = utils.transformErrors(errors);
   cb(flatErrors, transformed);
 };
