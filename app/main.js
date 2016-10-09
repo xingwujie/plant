@@ -50,8 +50,6 @@ function render() {
   let content = document.createElement('div');
   document.body.appendChild(content);
 
-  console.log('MuiThemeProvider:', MuiThemeProvider);
-
   ReactDOM.render((
     <MuiThemeProvider muiTheme={muiTheme}>
       <Router history={browserHistory}>{routes}</Router>
