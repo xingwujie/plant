@@ -2,6 +2,7 @@ const Base = require('./Base');
 const React = require('react');
 const store = require('../store');
 const actions = require('../actions');
+const Immutable = require('immutable');
 
 class Auth extends React.Component {
   static contextTypes = {
@@ -28,11 +29,11 @@ class Auth extends React.Component {
   }
 
   onChange(){
-    this.setState(store.getState().toJS().user);
+    this.setState(store.getState().get('user', Immutable.Map()));
   }
 
   componentDidUpdate() {
-    const {jwt = ''} = this.state || {};
+    const jwt = store.getState().get('user', Immutable.Map()).get('jwt');
     if(jwt) {
       const returnurl = localStorage.getItem('returnurl');
       if(returnurl) {

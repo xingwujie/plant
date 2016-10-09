@@ -14,23 +14,12 @@ class Home extends React.Component {
   constructor() {
     super();
     this.onChange = this.onChange.bind(this);
-    this.state = store.getState().toJS();
+    this.state = store.getState();
   }
 
   updateState() {
-    const {
-      user = {},
-      plants = {},
-      users = {}
-    } = store.getState().toJS();
-    const userPlants = Object.keys(plants).reduce((acc, plantId) => {
-      const plant = plants[plantId];
-      if(plant.userId === user._id) {
-        acc[plantId] = plant;
-      }
-      return acc;
-    }, {});
-    this.setState({user, users, userPlants});
+    const users = store.getState().get('users');
+    this.setState({users});
   }
 
   componentWillMount() {
@@ -48,7 +37,8 @@ class Home extends React.Component {
   }
 
   renderUser(user) {
-    const {_id, name: userName} = user;
+    const _id = user.get('_id');
+    const userName = user.get('name');
     const link = `/plants/${makeSlug(userName)}/${_id}`;
     return (
       <div key={_id} style={{display: 'flex', alignItems: 'center'}}>
@@ -73,12 +63,9 @@ class Home extends React.Component {
   }
 
   renderUsers() {
-    const {
-      users = {},
-    } = this.state;
-    const userIds = Object.keys(users);
-    if(userIds.length) {
-      return userIds.map(userId => this.renderUser(users[userId]));
+    const users = store.getState().get('users');
+    if(users && users.size) {
+      return users.valueSeq().toArray().map(user => this.renderUser(user));
     } else {
       return this.anonHome();
     }
