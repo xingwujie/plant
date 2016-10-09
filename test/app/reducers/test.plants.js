@@ -153,7 +153,7 @@ describe('/app/reducers/plants', function() {
     assert.deepEqual(actual.toJS(), expected);
   });
 
-  it('should handle a create a note success', () => {
+  it('should add a new noteId to the plant\'s notes List', () => {
     const current = Immutable.fromJS({
       'p1': {
         _id: 'p1',
@@ -174,6 +174,33 @@ describe('/app/reducers/plants', function() {
     };
     const expected = current.toJS();
     expected.p1.notes = ['n1', 'n2', 'n3', 'n5'];
+    expected.p2.notes = ['n1', 'n2', 'n5'];
+
+    const actual = plants(current, actions.upsertNoteSuccess(payload));
+    assert.deepEqual(actual.toJS(), expected);
+  });
+
+  it('should remove a removed noteId to the plant\'s notes List', () => {
+    const current = Immutable.fromJS({
+      'p1': {
+        _id: 'p1',
+        name: 'one',
+        notes: ['n1', 'n2', 'n3', 'n5']
+      },
+      'p2': {
+        _id: 'p2',
+        name: 'xxx',
+        notes: ['n1', 'n2']
+      }
+    });
+    const payload = {
+      note: {
+        _id: 'n5',
+        plantIds: ['p2']
+      }
+    };
+    const expected = current.toJS();
+    expected.p1.notes = ['n1', 'n2', 'n3'];
     expected.p2.notes = ['n1', 'n2', 'n5'];
 
     const actual = plants(current, actions.upsertNoteSuccess(payload));

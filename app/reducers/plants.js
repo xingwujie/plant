@@ -98,15 +98,23 @@ function upsertNoteSuccess(state, action) {
   }
 
   return state.map((plant, plantId) => {
-    if(plantIds.indexOf(plantId) === -1) {
-      return plant;
-    }
     const noteIds = plant.get('notes', Immutable.List());
     const index = noteIds.indexOf(_id);
-    if(index === -1) {
-      return plant.set('notes', noteIds.push(_id));
+
+    if(plantIds.indexOf(plantId) === -1) {
+      // Make sure plant does not have the _id in its notes List
+      if(index === -1) {
+        return plant;
+      } else {
+        return plant.set('notes', noteIds.delete(index));
+      }
     } else {
-      return plant;
+      // Make sure the plant had the _id in its notes List
+      if(index === -1) {
+        return plant.set('notes', noteIds.push(_id));
+      } else {
+        return plant;
+      }
     }
   });
 }
