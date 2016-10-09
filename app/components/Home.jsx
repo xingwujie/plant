@@ -1,10 +1,7 @@
-const isEmpty = require('lodash/isEmpty');
 const {Link} = require('react-router');
 const Base = require('./Base');
 const React = require('react');
 const store = require('../store');
-const {isLoggedIn} = require('../libs/auth-helper');
-const actions = require('../actions');
 const utils = require('../libs/utils');
 
 const {makeSlug} = utils;
@@ -18,18 +15,6 @@ class Home extends React.Component {
     super();
     this.onChange = this.onChange.bind(this);
     this.state = store.getState().toJS();
-
-    const {
-      plants = {},
-      user = {},
-      users = {},
-    } = this.state || {};
-    if(isEmpty(plants) && isLoggedIn()) {
-      store.dispatch(actions.loadPlantsRequest(user._id));
-    }
-    if(isEmpty(users)) {
-      store.dispatch(actions.loadUsersRequest());
-    }
   }
 
   updateState() {

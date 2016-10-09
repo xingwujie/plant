@@ -31,12 +31,6 @@ class Plants extends React.Component {
     if(props.params && props.params.id) {
       // This is the user id for this page.
       const {id: userId} = props.params;
-      if(!users[userId]) {
-        // For now load all the users if one is missing
-        // instead of the single user.
-        // store.dispatch(actions.loadUserRequest(userId));
-        store.dispatch(actions.loadUsersRequest());
-      }
       if(!users[userId] || !users[userId].plantIds) {
         store.dispatch(actions.loadPlantsRequest(userId));
       }

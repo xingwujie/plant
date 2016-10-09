@@ -14,6 +14,22 @@ function jqueryAjax(options) {
   return $.ajax(options);
 };
 
+const pending = {};
+
+function callPending(options) {
+  if(options.type === 'GET' && pending[options.url]) {
+    return true;
+  }
+  if(options.type === 'GET') {
+    pending[options.url] = true;
+  }
+  return false;
+}
+
+function clearPending(options) {
+  pending[options.url] = false;
+}
+
 module.exports = (store, options) => {
 
   if(!options.url || !isFunction(options.success) || !isFunction(options.failure)) {
@@ -26,12 +42,14 @@ module.exports = (store, options) => {
     url: options.url,
     // Success: Function( Anything data, String textStatus, jqXHR jqXHR )
     success: (result) => {
+      clearPending(ajaxOptions);
       if(options.success) {
         store.dispatch(options.success(result));
       }
     },
     // Error: Function( jqXHR jqXHR, String textStatus, String errorThrown )
     error: (jqXHR, textStatus, errorThrown) => {
+      clearPending(ajaxOptions);
       console.error(`${ajaxOptions.type} error for ${options.url}`, errorThrown);
       if(options.failure) {
         store.dispatch(options.failure(errorThrown));
@@ -39,7 +57,11 @@ module.exports = (store, options) => {
     }
   };
 
-  function progressHandlingFunction(e){
+  if(callPending(ajaxOptions)) {
+    return;
+  }
+
+  function progressHandlingFunction(e) {
     if(e.lengthComputable){
       const uploadProgress = {value: e.loaded, max: e.total, note: options.note};
       console.log('progressHandlingFunction', {uploadProgress});
