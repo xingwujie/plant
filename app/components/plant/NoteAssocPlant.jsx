@@ -57,7 +57,7 @@ class NoteAssocPlant extends React.Component {
 
   render() {
     const {expanded, filter} = this.state;
-    const {plantIds, plants, error} = this.props;
+    const {plantIds, plants} = this.props;
 
     const checkedPlantIds = utils.filterSortPlants(plantIds, plants, filter);
     const checkedPlants = this.renderPlantButtons(checkedPlantIds, plants, true);
@@ -91,7 +91,7 @@ class NoteAssocPlant extends React.Component {
 
     return (
       <div style={{textAlign: 'left'}}>
-        {!!error && <Errors errors={this.props.error} />}
+        <Errors errors={this.props.error} />
         <div>
           {'Associated plants:'}
           {filterInput}
@@ -106,7 +106,7 @@ class NoteAssocPlant extends React.Component {
 
 NoteAssocPlant.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
-  error: React.PropTypes.array,
+  error: React.PropTypes.string,
   plantIds: React.PropTypes.array.isRequired,
   plants: React.PropTypes.object.isRequired, // Immutable.js Map
 };

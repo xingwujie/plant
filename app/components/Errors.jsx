@@ -8,9 +8,13 @@ class Errors extends React.Component {
   }
 
   render() {
-    const errors = this.props.errors;
+    let {errors} = this.props || {};
     if(!errors || errors.length === 0) {
       return null;
+    }
+
+    if(typeof errors === 'string') {
+      errors = [errors];
     }
 
     return (
