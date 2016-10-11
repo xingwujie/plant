@@ -282,17 +282,6 @@ function loadUsersFailure(payload) {
   };
 }
 
-const SET_PLANT_MODE = 'SET_PLANT_MODE';
-const CANCEL_PLANT_CREATE_MODE = 'CANCEL_PLANT_CREATE_MODE';
-
-// payload: <plant-id>
-function cancelPlantCreateMode(payload) {
-  return {
-    type: CANCEL_PLANT_CREATE_MODE,
-    payload
-  };
-}
-
 const EDIT_NOTE_OPEN = 'EDIT_NOTE_OPEN';
 const EDIT_NOTE_CLOSE = 'EDIT_NOTE_CLOSE';
 const EDIT_NOTE_CHANGE = 'EDIT_NOTE_CHANGE';
@@ -344,7 +333,6 @@ function editPlantChange(payload) {
 }
 
 module.exports = {
-  CANCEL_PLANT_CREATE_MODE,
   CREATE_PLANT_FAILURE,
   CREATE_PLANT_REQUEST,
   CREATE_PLANT_SUCCESS,
@@ -379,14 +367,12 @@ module.exports = {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGOUT,
-  SET_PLANT_MODE,
   UPDATE_PLANT_FAILURE,
   UPDATE_PLANT_REQUEST,
   UPDATE_PLANT_SUCCESS,
   UPSERT_NOTE_FAILURE,
   UPSERT_NOTE_REQUEST,
   UPSERT_NOTE_SUCCESS,
-  cancelPlantCreateMode,
   createPlantFailure,
   createPlantRequest,
   createPlantSuccess,

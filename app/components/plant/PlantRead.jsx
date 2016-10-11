@@ -44,9 +44,14 @@ class PlantRead extends React.Component {
 
   confirmDelete(yes) {
     if(yes) {
-      this.props.dispatch(actions.deletePlantRequest(this.props.plant.get('_id')));
+      const {user, plant} = this.props;
+      const payload = {
+        userId: user.get('_id'),
+        plantId: plant.get('_id')
+      };
+      this.props.dispatch(actions.deletePlantRequest(payload));
       // Transition to /plants/:slug/:id
-      const plantUrl = utils.makePlantsUrl(this.props.user);
+      const plantUrl = utils.makePlantsUrl(user);
       this.context.router.push(plantUrl);
     } else {
       this.setState({showDeleteConfirmation: false});

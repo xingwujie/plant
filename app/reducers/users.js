@@ -80,13 +80,16 @@ function loadPlantsSuccess(state, action) {
   }
 }
 
-// action.payload: <plant-id>
-function deletePlantRequest(state /*, action*/) {
-  // payload is {id} of plant being DELETEd from server
-  // TODO: Remove this plantId from user.
-  // Update the DELETE_PLANT_REQUEST action so that it sends the whole plant object
-  // so we can get the userId off the object to make this function simple.
-  return state;
+// action.payload: {plantId: <plant-id>, userId: <user-id>}
+function deletePlantRequest(state, action) {
+  const {userId, plantId} = action.payload;
+  const plantIds = state.getIn([userId, 'plantIds'], Immutable.List());
+  if(plantIds.has(plantId)) {
+    const pIds = plantIds.filter(pId => pId !== plantId);
+    return state.setIn([userId, 'plantIds'], pIds);
+  } else {
+    return state;
+  }
 }
 
 const reducers = {

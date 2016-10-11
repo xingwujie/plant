@@ -36,9 +36,9 @@ function updatePlantRequest(state, action) {
 }
 
 // action.payload: <plant-id>
-function deletePlant(state, action) {
+function deletePlantRequest(state, action) {
   // payload is _id of plant being DELETEd from server
-  return state.delete(action.payload);
+  return state.delete(action.payload.plantId);
 }
 
 // action.payload: <noteId>
@@ -120,12 +120,11 @@ function upsertNoteSuccess(state, action) {
 }
 
 const reducers = {
-  [actions.CANCEL_PLANT_CREATE_MODE]: deletePlant,
   [actions.CREATE_PLANT_FAILURE]: ajaxPlantFailure,
   [actions.CREATE_PLANT_REQUEST]: createPlantRequest,
   [actions.DELETE_NOTE_REQUEST]: deleteNoteRequest,
   [actions.DELETE_PLANT_FAILURE]: ajaxPlantFailure,
-  [actions.DELETE_PLANT_REQUEST]: deletePlant,
+  [actions.DELETE_PLANT_REQUEST]: deletePlantRequest,
   [actions.LOAD_PLANT_FAILURE]: loadPlantFailure,
   [actions.LOAD_PLANT_SUCCESS]: loadPlantSuccess,
   [actions.LOAD_PLANTS_SUCCESS]: loadPlantsSuccess,
