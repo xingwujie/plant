@@ -3,6 +3,7 @@ const Base = require('./Base');
 const React = require('react');
 const store = require('../store');
 const utils = require('../libs/utils');
+const {isLoggedIn} = require('../libs/auth-helper');
 
 const {makeSlug} = utils;
 
@@ -52,22 +53,36 @@ class Home extends React.Component {
     );
   }
 
-  anonHome() {
+  anonHome(existing) {
+    const elevatorPitch =
+`Plaaant will improve the growth and health of 
+your trees and plants by providing a way to record, 
+measure, compare, and share successes and failures.`;
+
     return (<div id='hero'>
-      <div className='home-header'>Trees and Plants</div>
-      <div className='home-subheader'>Increase your success through tracking</div>
-      <div className='home-subheader'>
-        <div><Link to={'/login'}>{'Login'}</Link>{' to get started'}</div>
-      </div>
+      <div className='home-header'>{elevatorPitch}</div>
+      {!isLoggedIn() &&
+        <div className='home-subheader'>
+          <div><Link to={'/login'}>{'Login'}</Link>{' to get started'}</div>
+        </div>
+      }
+      {existing &&
+        <div style={{cursor: 'pointer'}} className='home-subheader'>
+          <a onClick={() => this.setState({showUsers: true})}>
+            {'Explore...'}
+          </a>
+        </div>
+      }
     </div>);
   }
 
   renderUsers() {
     const users = store.getState().get('users');
-    if(users && users.size) {
+    const {showUsers = false} = this.state || {};
+    if(users && users.size && showUsers) {
       return users.valueSeq().toArray().map(user => this.renderUser(user));
     } else {
-      return this.anonHome();
+      return this.anonHome(users && users.size);
     }
   }
 

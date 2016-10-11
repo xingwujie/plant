@@ -18,7 +18,9 @@ body {
 
 .home-header {
   font-size: xx-large;
-  margin-top: 50px;
+  line-height: 1.2em;
+  margin-bottom: 50px;
+  margin-top: 100px;
 }
 
 .home-subheader {
