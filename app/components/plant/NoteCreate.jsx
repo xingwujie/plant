@@ -23,9 +23,9 @@ class NoteCreate extends React.Component {
       date: moment().format('MM/DD/YYYY'),
       isNew: true,
       note: '',
-      plantIds: [plant._id],
+      plantIds: [plant.get('_id')],
       errors: {},
-      plants: this.props.plants.filter(p => p.userId === this.props.user.get('_id'))
+      plants: this.props.plants.filter(p => p.get('userId') === this.props.user.get('_id'))
     };
 
     this.props.dispatch(actions.editNoteOpen({note, plant}));
@@ -35,13 +35,13 @@ class NoteCreate extends React.Component {
     const {
       isOwner,
       interimNote
-    } = this.props || {};
+    } = this.props;
 
     if(!isOwner) {
       return null;
     }
 
-    const createNote = !!interimNote && interimNote.isNew;
+    const createNote = interimNote.get('isNew');
 
     return (
       <div>
@@ -73,9 +73,16 @@ class NoteCreate extends React.Component {
 NoteCreate.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
   isOwner: React.PropTypes.bool.isRequired,
-  interimNote: React.PropTypes.object,
-  plant: React.PropTypes.object.isRequired,
-  plants: React.PropTypes.object.isRequired, // Immutable.js Map
+  interimNote: React.PropTypes.shape({ // Immutable.js Map
+    get: React.PropTypes.func.isRequired,
+  }).isRequired,
+  plant: React.PropTypes.shape({ // Immutable.js Map
+    get: React.PropTypes.func.isRequired,
+  }).isRequired,
+  plants: React.PropTypes.shape({ // Immutable.js Map
+    get: React.PropTypes.func.isRequired,
+    filter: React.PropTypes.func.isRequired,
+  }).isRequired,
   postSaveSuccess: React.PropTypes.func,
   user: React.PropTypes.shape({ // Immutable.js Map
     get: React.PropTypes.func.isRequired,

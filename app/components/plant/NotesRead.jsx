@@ -4,35 +4,39 @@ const React = require('react');
 const NoteRead = require('./NoteRead');
 const Paper = require('material-ui/Paper').default;
 const utils = require('../../libs/utils');
+const Immutable = require('immutable');
+const List = Immutable.List;
 
 class NotesRead extends React.Component {
 
   render() {
-    const noteIds = [...(this.props.plant && this.props.plant.notes || [])];
-    if(!noteIds.length) {
+    const noteIds = this.props.plant.get('notes', List());
+    if(!List.isList(noteIds)){
+      console.error('Not a List from plant.get notes:', this.props.plant);
+    }
+
+    if(!noteIds.size) {
       return null;
     }
     const {notes} = this.props;
 
     // Find unloaded notes
-    const unloaded = noteIds.reduce((acc, noteId) => {
-      if(!notes[noteId]) {
-        acc.push(noteId);
-      }
-      return acc;
-    }, []);
-    if(unloaded.length) {
-      this.props.dispatch(actions.loadNotesRequest(unloaded));
+    const unloaded = noteIds.filter(noteId => !notes.get(noteId));
+    if(unloaded.size) {
+      console.log('unloaded notes:', unloaded.toJS());
+      this.props.dispatch(actions.loadNotesRequest(unloaded.toJS()));
     }
 
     const sortedIds = noteIds.sort((a, b) => {
-      const noteA = notes[a];
-      const noteB = notes[b];
+      const noteA = notes.get(a);
+      const noteB = notes.get(b);
       if(noteA && noteB) {
-        if(noteA.date === noteB.date) {
+        const dateA = noteA.get('date');
+        const dateB = noteB.get('date');
+        if(dateA === dateB) {
           return 0;
         }
-        return noteA.date > noteB.date ? 1 : -1;
+        return dateA > dateB ? 1 : -1;
       } else {
         return 0;
       }
@@ -48,9 +52,9 @@ class NotesRead extends React.Component {
 
     let lastNoteDate;
     const renderedNotes = sortedIds.reduce((acc, noteId) => {
-      const note = notes[noteId];
+      const note = notes.get(noteId);
       if(note) {
-        const currentNoteDate = utils.intToMoment(note.date);
+        const currentNoteDate = utils.intToMoment(note.get('date'));
         const sinceLast = lastNoteDate ? `...and then after ${lastNoteDate.from(currentNoteDate, true)}` : '';
         if(sinceLast && !lastNoteDate.isSame(currentNoteDate)) {
           acc.push(
@@ -87,15 +91,18 @@ class NotesRead extends React.Component {
 NotesRead.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
   interim: React.PropTypes.shape({
-    note: React.PropTypes.shape({
-      note: React.PropTypes.object.isRequired,
-      plant: React.PropTypes.object.isRequired,
-    })
+    get: React.PropTypes.func.isRequired,
   }).isRequired,
   isOwner: React.PropTypes.bool.isRequired,
-  notes: React.PropTypes.object.isRequired,
-  plant: React.PropTypes.object.isRequired,
-  plants: React.PropTypes.object.isRequired, // Immutable.js Map
+  notes:  React.PropTypes.shape({
+    get: React.PropTypes.func.isRequired,
+  }).isRequired,
+  plant:  React.PropTypes.shape({
+    get: React.PropTypes.func.isRequired,
+  }).isRequired,
+  plants:  React.PropTypes.shape({
+    get: React.PropTypes.func.isRequired,
+  }).isRequired,
   user: React.PropTypes.shape({ // Immutable.js Map
     get: React.PropTypes.func.isRequired,
   }).isRequired

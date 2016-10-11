@@ -4,9 +4,9 @@ const $ = require('jquery');
 // const logger = require('../../../lib/logging/logger').create('test.ajax');
 
 function setJwtHeader(store, request) {
-  const {user} = store.getState().toJS();
-  if(user && user.jwt) {
-    request.setRequestHeader('Authorization', 'Bearer ' + user.jwt);
+  const jwt = store.getState().getIn(['user', 'jwt']);
+  if(jwt) {
+    request.setRequestHeader('Authorization', 'Bearer ' + jwt);
   }
 }
 

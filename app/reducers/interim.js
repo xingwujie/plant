@@ -30,7 +30,7 @@ function editNoteChange(state, action) {
   // this will impact other arrays.
   let merged = state.mergeDeep({note: {note: action.payload}});
   if(action.payload.plantIds) {
-    merged = merged.setIn(['note', 'note', 'plantIds'], action.payload.plantIds);
+    merged = merged.setIn(['note', 'note', 'plantIds'], Immutable.List(action.payload.plantIds));
   }
   return merged;
 }

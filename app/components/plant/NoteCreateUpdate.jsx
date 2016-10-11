@@ -1,7 +1,6 @@
 // Used to add a note to a plant
 
-const cloneDeep = require('lodash/cloneDeep');
-const isEmpty = require('lodash/isEmpty');
+// const isEmpty = require('lodash/isEmpty');
 const Paper = require('material-ui/Paper').default;
 const React = require('react');
 const CancelSaveButtons = require('./CancelSaveButtons');
@@ -12,6 +11,7 @@ const CircularProgress = require('material-ui/CircularProgress').default;
 const actions = require('../../actions');
 const utils = require('../../libs/utils');
 const NoteAssocPlant = require('./NoteAssocPlant');
+const Immutable = require('immutable');
 
 const validators = require('../../models');
 const validate = validators.note;
@@ -50,7 +50,6 @@ class NoteCreateUpdate extends React.Component {
   }
 
   onDrop(files) {
-    // console.log('Received files: ', files);
     this.saveFiles(files);
   }
 
@@ -59,7 +58,7 @@ class NoteCreateUpdate extends React.Component {
   }
 
   saveNote(files) {
-    const interimNote = cloneDeep(this.props.interimNote);
+    const interimNote = this.props.interimNote.toJS();
 
     interimNote._id = interimNote._id || utils.makeMongoId();
     interimNote.date = utils.dateToInt(interimNote.date);
@@ -98,15 +97,17 @@ class NoteCreateUpdate extends React.Component {
     };
 
     const {
-      interimNote = {},
-    } = this.props || {};
+      interimNote,
+    } = this.props;
+    const uploadProgress = interimNote.get('uploadProgress');
 
-    if(interimNote.uploadProgress) {
+    if(uploadProgress) {
       const linearProgressStyle = {
         width: '100%',
         height: '20px'
       };
-      const {value, max} = interimNote.uploadProgress;
+      const value = uploadProgress.get('value');
+      const max = uploadProgress.get('max');
       const progress = `Upload progress ${Math.round(value * 100 / max)} %`;
       return (
         <Paper
@@ -133,12 +134,10 @@ class NoteCreateUpdate extends React.Component {
       images = []
     } = this.state || {};
 
-    const {
-      date = '',
-      errors = {},
-      note = '',
-      plantIds
-    } = interimNote;
+    const date = interimNote.get('date');
+    const errors = interimNote.get('errors', Immutable.Map());
+    const note = interimNote.get('note');
+    const plantIds = interimNote.get('plantIds').toJS();
 
     const textAreaStyle = {
       textAlign: 'left'
@@ -176,7 +175,7 @@ class NoteCreateUpdate extends React.Component {
 
         <InputCombo
           changeHandler={this.onChange}
-          error={errors.date}
+          error={errors.get('date')}
           floatingLabelText='Date'
           name='date'
           placeholder={'MM/DD/YYYY'}
@@ -186,7 +185,7 @@ class NoteCreateUpdate extends React.Component {
 
         <InputCombo
           changeHandler={this.onChange}
-          error={errors.note}
+          error={errors.get('note')}
           floatingLabelText='Note'
           multiLine={true}
           name='note'
@@ -195,7 +194,7 @@ class NoteCreateUpdate extends React.Component {
           value={note}
         />
 
-        {!isEmpty(errors) &&
+        {!!errors.size &&
           <div>
             <p className='text-danger col-xs-12'>{'There were errors. Please check your input.'}</p>
           </div>
@@ -212,8 +211,7 @@ class NoteCreateUpdate extends React.Component {
           activeStyle={dropZoneActiveStyle}
           onDrop={this.onDrop}
           ref='dropzone'
-          style={dropZoneStyle}
-        >
+          style={dropZoneStyle}>
           <div>Drop images here or tap to select images to upload.</div>
         </Dropzone>
 
@@ -229,7 +227,7 @@ class NoteCreateUpdate extends React.Component {
 
         <NoteAssocPlant
           dispatch={this.props.dispatch}
-          error={errors.plantIds}
+          error={errors.get('plantIds')}
           plantIds={plantIds}
           plants={this.props.plants.filter(plant => plant.get('userId') === this.props.user.get('_id'))}
         />
@@ -242,14 +240,17 @@ class NoteCreateUpdate extends React.Component {
 NoteCreateUpdate.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
   images: React.PropTypes.array,
-  interimNote:  React.PropTypes.shape({
-    date: React.PropTypes.string.isRequired,
-    errors: React.PropTypes.object,
-    note: React.PropTypes.string,
-    plantIds: React.PropTypes.array.isRequired,
+  interimNote: React.PropTypes.shape({
+    get: React.PropTypes.func.isRequired,
+    toJS: React.PropTypes.func.isRequired,
   }).isRequired,
-  plant: React.PropTypes.object.isRequired,
-  plants: React.PropTypes.object.isRequired, // Immutable.js Map
+  plant: React.PropTypes.shape({
+    get: React.PropTypes.func.isRequired,
+  }).isRequired,
+  plants: React.PropTypes.shape({
+    get: React.PropTypes.func.isRequired,
+    filter: React.PropTypes.func.isRequired,
+  }).isRequired,
   postSaveSuccess: React.PropTypes.func,
   user: React.PropTypes.shape({ // Immutable.js Map
     get: React.PropTypes.func.isRequired,

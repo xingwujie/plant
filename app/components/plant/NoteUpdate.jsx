@@ -6,19 +6,14 @@ const NoteCreateUpdate = require('./NoteCreateUpdate');
 class NoteUpdate extends React.Component {
 
   render() {
-    const {
-      isOwner,
-      interimNote
-    } = this.props || {};
-
-    if(!isOwner) {
+    if(!this.props.isOwner) {
       return null;
     }
 
     return (
       <NoteCreateUpdate
         dispatch={this.props.dispatch}
-        interimNote={interimNote}
+        interimNote={this.props.interimNote}
         plant={this.props.plant}
         plants={this.props.plants}
         user={this.props.user}
@@ -29,10 +24,16 @@ class NoteUpdate extends React.Component {
 
 NoteUpdate.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
-  interimNote: React.PropTypes.object.isRequired,
+  interimNote: React.PropTypes.shape({
+    get: React.PropTypes.func.isRequired,
+  }).isRequired,
   isOwner: React.PropTypes.bool.isRequired,
-  plant: React.PropTypes.object.isRequired,
-  plants: React.PropTypes.object.isRequired, // Immutable.js Map
+  plant: React.PropTypes.shape({
+    get: React.PropTypes.func.isRequired,
+  }).isRequired,
+  plants: React.PropTypes.shape({
+    get: React.PropTypes.func.isRequired,
+  }).isRequired,
   user: React.PropTypes.shape({ // Immutable.js Map
     get: React.PropTypes.func.isRequired,
   }).isRequired

@@ -33,11 +33,13 @@ class NoteAssocPlant extends React.Component {
   }
 
   renderPlantButton(plant, primary) {
+    const _id = plant.get('_id');
+    const title = plant.get('title');
     return <RaisedButton
-      key={plant._id}
-      label={plant.title}
+      key={_id}
+      label={title}
       style={{margin: 12}}
-      onClick={this.toggle.bind(this, plant._id)}
+      onClick={this.toggle.bind(this, _id)}
       primary={primary}
     />;
   }
@@ -49,7 +51,7 @@ class NoteAssocPlant extends React.Component {
         console.warn(`Missing plant for plantId ${plantId}`);
         return null;
       }
-      return this.renderPlantButton(plant.toJS(), selected);
+      return this.renderPlantButton(plant, selected);
     });
   }
 

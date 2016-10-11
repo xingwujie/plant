@@ -7,6 +7,8 @@ const moment = require('moment');
 const LinkIcon = require('material-ui/svg-icons/content/link').default;
 const utils = require('../../libs/utils');
 const Markdown = require('../utils/Markdown');
+const Immutable = require('immutable');
+const List = Immutable.List;
 
 class NoteRead extends React.Component {
 
@@ -23,7 +25,7 @@ class NoteRead extends React.Component {
 
   confirmDelete(yes) {
     if(yes) {
-      this.props.dispatch(actions.deleteNoteRequest(this.props.note._id));
+      this.props.dispatch(actions.deleteNoteRequest(this.props.note.get('_id')));
     } else {
       this.setState({showDeleteConfirmation: false});
     }
@@ -34,7 +36,7 @@ class NoteRead extends React.Component {
       <NoteUpdate
         dispatch={this.props.dispatch}
         isOwner={this.props.isOwner}
-        interimNote={this.props.interim.note.note}
+        interimNote={this.props.interim.getIn(['note', 'note'])}
         plant={this.props.plant}
         plants={this.props.plants}
         user={this.props.user}
@@ -42,22 +44,26 @@ class NoteRead extends React.Component {
     );
   }
 
-  buildImageUrl(size, id, ext) {
+  buildImageUrl(size, image) {
+    const id = image.get('id');
+    const ext = image.get('ext');
     const folder = process.env.NODE_ENV === 'production' ? 'up' : 'test';
     return `//i.plaaant.com/${folder}/${size}/${id}${ext && ext.length ? '.' : ''}${ext}`;
   }
 
   buildImageSrc(image) {
-    const size = image.sizes && image.sizes.length
-      ? image.sizes[image.sizes.length - 1].name
+    const sizes = image.get('sizes', List()).toJS();
+    const size = sizes && sizes.length
+      ? sizes[sizes.length - 1].name
       : 'orig';
-    return this.buildImageUrl(size, image.id, image.ext);
+    return this.buildImageUrl(size, image);
   }
 
   buildImageSrcSet(image) {
-    if(image.sizes && image.sizes.length) {
+    const sizes = image.get('sizes', List()).toJS();
+    if(sizes && sizes.length) {
       // <img src="small.jpg" srcset="medium.jpg 1000w, large.jpg 2000w" alt="yah">
-      const items = image.sizes.map(size => `${this.buildImageUrl(size.name, image.id, image.ext)} ${size.width}w `);
+      const items = sizes.map(size => `${this.buildImageUrl(size.name, image)} ${size.width}w `);
       return items.join(',');
     } else {
       return '';
@@ -65,27 +71,34 @@ class NoteRead extends React.Component {
   }
 
   renderImage(image) {
+    console.log('NoteRead - renderImage');
     const imageStyle = {
       maxWidth: '100%',
       padding: '1%'
     };
     return (
-      <div key={image.id}>
+      <div key={image.get('id')}>
         <img style={imageStyle} src={this.buildImageSrc(image)} srcSet={this.buildImageSrcSet(image)} />
       </div>
     );
   }
 
   renderImages(note) {
-    return (note.images || []).map(image => {
-      return this.renderImage(image);
-    });
+    console.log('NoteRead - renderImages');
+    const images = note.get('images');
+    if(images && images.size) {
+      return images.map(image => {
+        return this.renderImage(image);
+      });
+    } else {
+      return null;
+    }
   }
 
   editNote() {
     const note = {
-      ...this.props.note,
-      date: utils.intToString(this.props.note.date),
+      ...this.props.note.toJS(),
+      date: utils.intToString(this.props.note.get('date')),
       isNew: false
     };
     const {plant} = this.props;
@@ -93,6 +106,7 @@ class NoteRead extends React.Component {
   }
 
   renderRead() {
+    console.log('NoteRead - renderRead');
     const paperStyle = {
       padding: 20,
       width: '100%',
@@ -111,39 +125,41 @@ class NoteRead extends React.Component {
 
     const images = this.renderImages(note);
 
-    const date = utils.intToMoment(note.date);
+    const date = utils.intToMoment(note.get('date'));
 
     const noteDate = date.format('DD-MMM-YYYY') +
       (date.isSame(moment(), 'day')
       ? ' (today)'
       : ` (${date.from(moment().startOf('day'))})`);
+    const noteId = note.get('_id');
 
     return (
-      <Paper key={note._id} style={paperStyle} zDepth={1}>
-        <div id={note._id}>
-          <a href={`#${note._id}`}>
+      <Paper key={noteId} style={paperStyle} zDepth={1}>
+        <div id={noteId}>
+          <a href={`#${noteId}`}>
             <LinkIcon />
           </a>
         </div>
         <h5>{noteDate}</h5>
-        <Markdown markdown={note.note} />
+        <Markdown markdown={note.get('note')} />
         <EditDeleteButtons
           clickDelete={this.checkDelete}
           clickEdit={this.editNote}
-          confirmDelete={this.confirmDelete.bind(note._id)}
+          confirmDelete={this.confirmDelete.bind(noteId)}
           deleteTitle={''}
           showButtons={isOwner}
           showDeleteConfirmation={showDeleteConfirmation}
         />
-        {!!images.length && images}
+        {images}
       </Paper>
       );
   }
 
   render() {
-    const note = this.props.interim && this.props.interim.note && this.props.interim.note.note;
+    console.log('NoteRead - render');
+    const noteId = this.props.interim.getIn(['note', 'note', '_id']);
 
-    return note && note._id === this.props.note._id
+    return noteId === this.props.note.get('_id')
       ? this.renderEdit()
       : this.renderRead();
   }
@@ -153,15 +169,21 @@ class NoteRead extends React.Component {
 NoteRead.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
   interim: React.PropTypes.shape({
-    note: React.PropTypes.shape({
-      note: React.PropTypes.object.isRequired,
-      plant: React.PropTypes.object.isRequired,
-    })
+    get: React.PropTypes.func.isRequired,
+    getIn: React.PropTypes.func.isRequired,
   }).isRequired,
   isOwner: React.PropTypes.bool.isRequired,
-  note: React.PropTypes.object.isRequired,
-  plant: React.PropTypes.object.isRequired,
-  plants: React.PropTypes.object.isRequired, // Immutable.js Map
+  note: React.PropTypes.shape({
+    get: React.PropTypes.func.isRequired,
+    toJS: React.PropTypes.func.isRequired,
+  }).isRequired,
+  plant: React.PropTypes.shape({
+    get: React.PropTypes.func.isRequired,
+  }).isRequired,
+  plants: React.PropTypes.shape({
+    get: React.PropTypes.func.isRequired,
+    filter: React.PropTypes.func.isRequired,
+  }).isRequired,
   user: React.PropTypes.shape({ // Immutable.js Map
     get: React.PropTypes.func.isRequired,
   }).isRequired

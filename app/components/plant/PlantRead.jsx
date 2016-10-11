@@ -18,9 +18,9 @@ class PlantRead extends React.Component {
   }
 
   componentWillMount() {
-    const {plant = {}} = this.props || {};
-    if(!plant.notes) {
-      const {_id} = plant;
+    const {plant} = this.props;
+    if(!plant.get('notes')) {
+      const _id = plant.get('_id');
       if(_id) {
         this.props.dispatch(actions.loadPlantRequest({_id}));
       }
@@ -38,7 +38,7 @@ class PlantRead extends React.Component {
 
   confirmDelete(yes) {
     if(yes) {
-      this.props.dispatch(actions.deletePlantRequest(this.props.plant._id));
+      this.props.dispatch(actions.deletePlantRequest(this.props.plant.get('_id')));
       // Transition to /plants/:slug/:id
       const plantUrl = utils.makePlantsUrl(this.props.user);
       this.context.router.push(plantUrl);
@@ -58,15 +58,16 @@ class PlantRead extends React.Component {
       return null;
     }
     return titles.map( title => {
-      if(!plant[title.name]) {
+      const value = plant.get(title.name);
+      if(!value) {
         return null;
       }
       let renderText;
-      if(title.name === 'plantedDate' && plant[title.name]) {
-        const date = utils.intToMoment(plant[title.name]);
+      if(title.name === 'plantedDate' && value) {
+        const date = utils.intToMoment(value);
         renderText = `Planted ${date.fromNow()}`;
       } else {
-        renderText = `${title.text ? title.text + ': ' : ''}${plant[title.name]}`;
+        renderText = `${title.text ? title.text + ': ' : ''}${value}`;
       }
       return (<div key={title.name}>
         {renderText}
@@ -95,14 +96,11 @@ class PlantRead extends React.Component {
 
     return (
       <div>
-        {!plant &&
-          <div>{'Plant not found or still loading...'}</div>
-        }
-        {plant &&
+        {plant ?
           <div className='plant'>
             <Paper style={paperStyle} zDepth={1}>
               <h2 className='vcenter' style={{textAlign: 'center'}}>
-                {plant.title}
+                {plant.get('title')}
               </h2>
               {this.renderDetails(plant)}
               <EditDeleteButtons
@@ -111,7 +109,7 @@ class PlantRead extends React.Component {
                 confirmDelete={this.confirmDelete}
                 showDeleteConfirmation={showDeleteConfirmation}
                 showButtons={isOwner}
-                deleteTitle={plant.title || ''}
+                deleteTitle={plant.get('title') || ''}
               />
             </Paper>
             <NotesRead
@@ -124,6 +122,8 @@ class PlantRead extends React.Component {
               user={user}
             />
           </div>
+        :
+          <div>{'Plant not found or still loading...'}</div>
         }
       </div>
     );
@@ -133,15 +133,18 @@ class PlantRead extends React.Component {
 PlantRead.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
   interim: React.PropTypes.shape({
-    note: React.PropTypes.shape({
-      note: React.PropTypes.object.isRequired,
-      plant: React.PropTypes.object.isRequired,
-    })
+    get: React.PropTypes.func.isRequired,
   }).isRequired,
   isOwner: React.PropTypes.bool.isRequired,
-  notes: React.PropTypes.object.isRequired,
-  plant: React.PropTypes.object.isRequired,
-  plants: React.PropTypes.object.isRequired, // Immutable.js Map
+  notes:  React.PropTypes.shape({
+    get: React.PropTypes.func.isRequired,
+  }).isRequired,
+  plant:  React.PropTypes.shape({
+    get: React.PropTypes.func.isRequired,
+  }).isRequired,
+  plants:  React.PropTypes.shape({
+    get: React.PropTypes.func.isRequired,
+  }).isRequired,
   user: React.PropTypes.shape({ // Immutable.js Map
     get: React.PropTypes.func.isRequired,
   }).isRequired

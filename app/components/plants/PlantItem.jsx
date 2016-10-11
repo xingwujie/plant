@@ -23,22 +23,20 @@ class PlantItem extends React.Component {
       date: moment().format('MM/DD/YYYY'),
       isNew: true,
       note: '',
-      plantIds: [plant._id],
+      plantIds: [plant.get('_id')],
       errors: {},
     };
-    this.props.dispatch(actions.editNoteOpen({note, plant}));
+    this.props.dispatch(actions.editNoteOpen({note, plant: plant.toJS()}));
   }
 
   render() {
     const {
       isOwner = false,
-      plant = {}
+      plant
     } = this.props;
 
-    const {
-      title,
-      _id,
-    } = plant;
+    const _id = plant.get('_id');
+    const title = plant.get('title');
 
     const floatingActionButtonStyle = {
       marginLeft: '10px',
@@ -79,11 +77,8 @@ class PlantItem extends React.Component {
 PlantItem.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
   isOwner: React.PropTypes.bool.isRequired,
-  plant:  React.PropTypes.shape({
-    _id: React.PropTypes.string.isRequired,
-    // imageUrl: React.PropTypes.string,
-    // name: React.PropTypes.string,
-    title: React.PropTypes.string.isRequired
+  plant:  React.PropTypes.shape({ // Immutable.js
+    get: React.PropTypes.func.isRequired,
   }).isRequired
 };
 

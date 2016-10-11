@@ -1,7 +1,6 @@
 // Used to show a list of plants for a user.
 // Url: /plants/<optional-user-id>
 
-const isEmpty = require('lodash/isEmpty');
 const {Link} = require('react-router');
 const Base = require('../Base');
 const CircularProgress = require('material-ui/CircularProgress').default;
@@ -15,6 +14,7 @@ const FloatingActionButton = require('material-ui/FloatingActionButton').default
 const AddIcon = require('material-ui/svg-icons/content/add').default;
 const NoteCreate = require('../plant/NoteCreate');
 const utils = require('../../libs/utils');
+const Immutable = require('immutable');
 
 class Plants extends React.Component {
 
@@ -59,7 +59,7 @@ class Plants extends React.Component {
 
   renderTitle(user) {
     return (
-      <h2 style={{textAlign: 'center'}}>{`${user.name} Plant List`}</h2>
+      <h2 style={{textAlign: 'center'}}>{`${user.get('name')} Plant List`}</h2>
     );
   }
 
@@ -105,15 +105,12 @@ class Plants extends React.Component {
   render() {
     const {
       filter = '',
-      plants: allLoadedPlants = {},
-      interim = {},
-      user: authUser = {},
-      users = {},
     } = this.state || {};
+    const users = store.getState().get('users');
 
     const loggedIn = !!isLoggedIn();
 
-    const user = users[this.props.params.id];
+    const user = users.get(this.props.params.id);
     if(!user) {
       return (
         <Base>
@@ -123,24 +120,25 @@ class Plants extends React.Component {
         </Base>
       );
     }
-    const interimNote = interim && interim.note && interim.note.note;
-    const plantCreateNote = interim && interim.note && interim.note.plant;
-    const createNote = !!interimNote && interimNote.isNew;
+    const allLoadedPlants = store.getState().get('plants');
+    const interim = store.getState().get('interim');
+    const authUser = store.getState().get('user');
 
-    // console.log('user:', user);
-    // console.log('allLoadedPlants:', allLoadedPlants);
+    const interimNote = interim.getIn(['note', 'note']);
+    const plantCreateNote = interim.getIn(['note', 'plant']);
+    const createNote = !!interimNote && interimNote.get('isNew');
 
     if(createNote && loggedIn) {
       return (
         <Base>
           <div>
-            <h4 style={{textAlign: 'center'}}>{`Create a Note for ${plantCreateNote.title}`}</h4>
+            <h4 style={{textAlign: 'center'}}>{`Create a Note for ${plantCreateNote.get('title')}`}</h4>
             <NoteCreate
               dispatch={store.dispatch}
               isOwner={true}
               interimNote={interimNote}
               plant={plantCreateNote}
-              plants={store.getState().get('plants')}
+              plants={allLoadedPlants}
               postSaveSuccess={this.postSaveSuccessCreateNote}
               user={store.getState().get('user')}
             />
@@ -149,12 +147,12 @@ class Plants extends React.Component {
       );
     }
 
-    const {plantIds} = user;
-    if(isEmpty(plantIds)) {
+    const plantIds = user.get('plantIds', Immutable.List());
+    if(!plantIds.size) {
       return this.renderNoPlants(user);
     }
 
-    const sortedPlantIds = utils.filterSortPlants(plantIds, store.getState().get('plants'), filter);
+    const sortedPlantIds = utils.filterSortPlants(plantIds, allLoadedPlants, filter);
 
     // Don't send the name into PlantItem to skip the subtitle
     // If all the plants are by the same user then don't need the
@@ -162,14 +160,16 @@ class Plants extends React.Component {
     // in the name:
     // name={user.name}
     const tileElements = sortedPlantIds.reduce((acc, plantId) => {
-      const plant = allLoadedPlants[plantId];
+      const plant = allLoadedPlants.get(plantId);
       if(plant) {
+        const _id = plant.get('_id');
+        const isOwner = loggedIn && plant.get('userId') === authUser.get('_id');
         acc.push(
           <PlantItem
-            key={plant._id}
+            key={_id}
             dispatch={store.dispatch}
             createNote={this.createNote}
-            isOwner={loggedIn && plant.userId === authUser._id}
+            isOwner={isOwner}
             plant={plant}
           />
         );

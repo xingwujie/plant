@@ -13,6 +13,7 @@ const PlantRead = require('./PlantRead');
 const NoteCreate = require('./NoteCreate');
 const React = require('react');
 const store = require('../../store');
+const Immutable = require('immutable');
 
 class Plant extends React.Component {
   static contextTypes = {
@@ -79,25 +80,20 @@ class Plant extends React.Component {
   }
 
   render() {
+    console.log('Plant - render');
     const user = store.getState().get('user');
 
     const plants = store.getState().get('plants');
 
     const {params} = this.props;
 
-    const immutablePlant = plants.get(params && params.id);
-    const plant = immutablePlant ? immutablePlant.toJS() : null;
+    const plant = plants.get(params && params.id, Immutable.Map());
 
-    const owner = isOwner(plant);
+    const owner = isOwner(plant.toJS());
 
-    const immutableInterim = store.getState().getIn(['interim']);
-    const interim = immutableInterim ? immutableInterim.toJS() : null;
-
-    const immutableInterimNote = immutableInterim.getIn(['note', 'note']);
-    const interimNote = immutableInterimNote ? immutableInterimNote.toJS() : null;
-
-    const immutableInterimPlant = immutableInterim.getIn(['plant', 'plant']);
-    const interimPlant = immutableInterimPlant ? immutableInterimPlant.toJS() : null;
+    const interim = store.getState().get('interim');
+    const interimNote = interim.getIn(['note', 'note'], Immutable.Map());
+    const interimPlant = interim.getIn(['plant', 'plant']);
 
     if(!plant && !interimPlant) {
       return (
@@ -107,7 +103,7 @@ class Plant extends React.Component {
       );
     }
 
-    const notes = this.fromStore('notes');
+    const notes = store.getState().get('notes');
 
     return (
       <Base>
@@ -124,16 +120,16 @@ class Plant extends React.Component {
                 interim={interim}
                 isOwner={owner}
                 plant={plant}
-                plants={store.getState().get('plants')}
+                plants={plants}
                 user={user}
                 notes={notes}
               />
-              {plant && plant.title &&
+              {plant && plant.get('title') &&
                 <NoteCreate
                   dispatch={store.dispatch}
                   isOwner={owner}
                   plant={plant}
-                  plants={store.getState().get('plants')}
+                  plants={plants}
                   user={user}
                   interimNote={interimNote}
                 />

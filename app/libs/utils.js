@@ -35,6 +35,11 @@ function makeSlug(text) {
   });
 }
 
+/**
+ * Make a /plants/user-name-slug/id url from user object
+ * @param {Immutable.Map} user - an Immutable.js Map
+ * @returns {string} - a url
+ */
 function makePlantsUrl(user) {
   const userName = user.get('name');
   const _id = user.get('_id');
