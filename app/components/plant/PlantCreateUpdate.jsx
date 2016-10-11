@@ -59,12 +59,12 @@ class PlantCreateUpdate extends React.Component {
     if(plant.plantedDate) {
       plant.plantedDate = utils.dateToInt(plant.plantedDate);
     }
-    // console.log('PlantCreateUpdate.sve plant:', plant);
+
     plant.userId = this.props.user.get('_id');
 
     validate(plant, {isNew}, (errors, transformed) => {
       if(errors) {
-        console.log('Validation errors:', errors);
+        console.warn('Validation errors:', errors);
         this.props.dispatch(actions.editPlantChange({errors}));
       } else {
         if(isNew) {

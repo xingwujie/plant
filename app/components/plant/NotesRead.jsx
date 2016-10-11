@@ -23,7 +23,6 @@ class NotesRead extends React.Component {
     // Find unloaded notes
     const unloaded = noteIds.filter(noteId => !notes.get(noteId));
     if(unloaded.size) {
-      console.log('unloaded notes:', unloaded.toJS());
       this.props.dispatch(actions.loadNotesRequest(unloaded.toJS()));
     }
 

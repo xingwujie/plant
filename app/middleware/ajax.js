@@ -64,7 +64,6 @@ module.exports = (store, options) => {
   function progressHandlingFunction(e) {
     if(e.lengthComputable){
       const uploadProgress = {value: e.loaded, max: e.total, note: options.note};
-      console.log('progressHandlingFunction', {uploadProgress});
       if(options.progress) {
         store.dispatch(options.progress({uploadProgress}));
       } else {
@@ -80,13 +79,6 @@ module.exports = (store, options) => {
     ajaxOptions.contentType = false;
     ajaxOptions.processData = false;
     ajaxOptions.cache = false;
-    // ajaxOptions.uploadProgess = (e, position, total, percentComplete) => {
-    //   console.log('uploadProgess', e, position, total, percentComplete);
-    // };
-    // ajaxOptions.complete = (xhr) => {
-    //   console.log('complete:', xhr);
-    //   // status.html(xhr.responseText);
-    // };
 
     // Custom XMLHttpRequest
     ajaxOptions.xhr = function() {

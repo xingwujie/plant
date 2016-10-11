@@ -71,7 +71,6 @@ class NoteRead extends React.Component {
   }
 
   renderImage(image) {
-    console.log('NoteRead - renderImage');
     const imageStyle = {
       maxWidth: '100%',
       padding: '1%'
@@ -84,7 +83,6 @@ class NoteRead extends React.Component {
   }
 
   renderImages(note) {
-    console.log('NoteRead - renderImages');
     const images = note.get('images');
     if(images && images.size) {
       return images.map(image => {
@@ -106,7 +104,6 @@ class NoteRead extends React.Component {
   }
 
   renderRead() {
-    console.log('NoteRead - renderRead');
     const paperStyle = {
       padding: 20,
       width: '100%',
@@ -156,7 +153,6 @@ class NoteRead extends React.Component {
   }
 
   render() {
-    console.log('NoteRead - render');
     const noteId = this.props.interim.getIn(['note', 'note', '_id']);
 
     return noteId === this.props.note.get('_id')

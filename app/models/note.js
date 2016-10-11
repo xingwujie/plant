@@ -87,7 +87,6 @@ validatejs.validators.imagesValidate = (value) => {
   const validSizes = every(value, item => {
     if(item.sizes) {
       return every(item.sizes, size => {
-        console.log('size:', size);
         return names.indexOf(size.name) >= 0 &&
           typeof size.width === 'number';
       });

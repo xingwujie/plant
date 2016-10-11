@@ -53,8 +53,6 @@ type: "image/jpeg"
 webkitRelativePath:""
 */
 function saveFilesRequest(store, action, opts, next) {
-  // console.log('apis.saveFileRequest action.payload:', action.payload);
-
   const data = new FormData();
   action.payload.files.forEach((file) => {
     data.append('file', file);
@@ -72,7 +70,7 @@ function saveFilesRequest(store, action, opts, next) {
     url: '/api/upload',
     fileUpload: true, // removed in ajax function
   };
-  // console.log('api - saveFilesRequest:', options);
+
   ajax(store, options);
   next(action);
 }

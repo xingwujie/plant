@@ -80,7 +80,6 @@ class Plant extends React.Component {
   }
 
   render() {
-    console.log('Plant - render');
     const user = store.getState().get('user');
 
     const plants = store.getState().get('plants');

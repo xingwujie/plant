@@ -66,7 +66,7 @@ class NoteCreateUpdate extends React.Component {
     validate(interimNote, (errors, note) => {
 
       if(errors) {
-        console.log('create: Note validation errors:', errors);
+        console.warn('create: Note validation errors:', errors);
         this.props.dispatch(actions.editNoteChange({errors}));
       } else {
         this.props.dispatch(actions.upsertNoteRequest({note, files}));

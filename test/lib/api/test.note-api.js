@@ -305,7 +305,6 @@ describe('note-api', function() {
         };
 
         helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-          console.log('response:', response);
           const {success} = response;
           assert(!error);
           assert.equal(httpMsg.statusCode, 200);
