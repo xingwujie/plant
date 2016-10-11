@@ -28,7 +28,13 @@ class PlantRead extends React.Component {
   }
 
   edit() {
-    const {plant} = this.props;
+    const plant = this.props.plant.toJS();
+    if(plant.plantedDate) {
+      plant.plantedDate = utils.intToString(plant.plantedDate);
+    }
+    if(plant.purchasedDate) {
+      plant.purchasedDate = utils.intToString(plant.purchasedDate);
+    }
     this.props.dispatch(actions.editPlantOpen({plant, meta: {isNew: false}}));
   }
 
@@ -141,6 +147,7 @@ PlantRead.propTypes = {
   }).isRequired,
   plant:  React.PropTypes.shape({
     get: React.PropTypes.func.isRequired,
+    toJS: React.PropTypes.func.isRequired,
   }).isRequired,
   plants:  React.PropTypes.shape({
     get: React.PropTypes.func.isRequired,

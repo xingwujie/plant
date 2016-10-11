@@ -12,8 +12,8 @@ const Paper = require('material-ui/Paper').default;
 const CancelSaveButtons = require('./CancelSaveButtons');
 const React = require('react');
 const utils = require('../../libs/utils');
+const Immutable = require('immutable');
 
-const cloneDeep = require('lodash/cloneDeep');
 const validate = validators.plant;
 
 class PlantCreateUpdate extends React.Component {
@@ -38,9 +38,9 @@ class PlantCreateUpdate extends React.Component {
 
   componentWillMount() {
     const {interimPlant} = this.props;
-    const pageTitle = interimPlant.isNew
+    const pageTitle = interimPlant.get('isNew')
       ? 'Add New Plant'
-      : `Edit ${interimPlant.title}`;
+      : `Edit ${interimPlant.get('title')}`;
     this.setState({pageTitle});
   }
 
@@ -51,9 +51,8 @@ class PlantCreateUpdate extends React.Component {
   }
 
   save(e) {
-    const {interimPlant} = this.props;
-    const {isNew = false} = interimPlant;
-    const plant = cloneDeep(interimPlant);
+    const plant = this.props.interimPlant.toJS();
+    const {isNew = false} = plant;
     if(plant.purchasedDate) {
       plant.purchasedDate = utils.dateToInt(plant.purchasedDate);
     }
@@ -82,16 +81,15 @@ class PlantCreateUpdate extends React.Component {
   }
 
   render() {
-    const {
-      title = '',
-      botanicalName = '',
-      commonName = '',
-      description = '',
-      purchasedDate = '',
-      plantedDate = '',
-      price = '',
-      errors = {}
-    } = this.props.interimPlant;
+    const { interimPlant } = this.props;
+    const title = interimPlant.get('title', '');
+    const botanicalName = interimPlant.get('botanicalName', '');
+    const commonName = interimPlant.get('commonName', '');
+    const description = interimPlant.get('description', '');
+    const purchasedDate = interimPlant.get('purchasedDate', '');
+    const plantedDate = interimPlant.get('plantedDate', '');
+    const price = interimPlant.get('price', '');
+    const errors = interimPlant.get('errors', Immutable.Map()).toJS();
 
     const {
       pageTitle = ''
@@ -212,8 +210,11 @@ class PlantCreateUpdate extends React.Component {
 
 PlantCreateUpdate.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
-  interimPlant: React.PropTypes.object.isRequired,
-  user: React.PropTypes.shape({ // Immutable.js Map
+  interimPlant: React.PropTypes.shape({
+    get: React.PropTypes.func.isRequired,
+    toJS: React.PropTypes.func.isRequired,
+  }).isRequired,
+  user: React.PropTypes.shape({
     get: React.PropTypes.func.isRequired,
   }).isRequired
 };
