@@ -5,10 +5,10 @@ const {Link} = require('react-router');
 class Footer extends React.Component {
   render() {
     const style = {
-      backgroundColor: '#efefef',
+      //backgroundColor: '#efefef',
       bottom: 0,
       padding: '10px',
-      position: 'fixed',
+      //position: 'fixed',
       width: '100%',
     };
 

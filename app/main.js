@@ -48,6 +48,7 @@ var routes = (
 
 function render() {
   let content = document.createElement('div');
+  content.className = 'wrapper'; // hang some styles on this top level el
   document.body.appendChild(content);
 
   ReactDOM.render((

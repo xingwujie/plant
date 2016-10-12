@@ -192,6 +192,8 @@ class Plants extends React.Component {
           {filterInput}
           {tileElements}
           {this.addPlantButton()}
+        
+        <div className='clear'>&nbsp;</div>
         </div>
       </Base>
     );
