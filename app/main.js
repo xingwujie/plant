@@ -20,6 +20,7 @@ const Privacy = require('./components/info/Privacy');
 const Profile = require('./components/Profile');
 const React = require('react');
 const ReactDOM = require('react-dom');
+const Terms = require('./components/info/Terms');
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -42,6 +43,7 @@ var routes = (
     <Route path='/plants/:slug/:id' component={Plants}/>
     <Route path='/privacy' component={Privacy}/>
     <Route path='/profile' component={Profile}/>
+    <Route path='/terms' component={Terms}/>
     <Route path='*' component={Help}/>
   </Route>
 );

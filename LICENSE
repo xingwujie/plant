@@ -22,6 +22,7 @@ SOFTWARE.
 
 Exclusions
 
-The Privacy.jsx file and its contents are excluded from the MIT License.
+The Privacy.jsx and Terms.jsx files and their contents are excluded from the MIT License.
+
 (It makes no sense for anybody else to use this file. If you are running this
-software as a website you will need to provide your own privacy policy.)
+software as a website you will need to provide your own policies.)

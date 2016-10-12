@@ -10,6 +10,11 @@ class Login extends React.Component {
       <Base>
         <div id='hero'>
           <div className='home-subheader'>
+            {'By logging in or using the site you agree to our '}
+            <a href='/terms' target='_blank'>{'terms & conditions'}</a>
+            {'.'}
+          </div>
+          <div className='home-subheader'>
             <a href='/auth/facebook'>
               <img src='/img/facebook-login.png' />
             </a>

@@ -5,10 +5,8 @@ const {Link} = require('react-router');
 class Footer extends React.Component {
   render() {
     const style = {
-      //backgroundColor: '#efefef',
       bottom: 0,
       padding: '10px',
-      //position: 'fixed',
       width: '100%',
     };
 
@@ -17,6 +15,7 @@ class Footer extends React.Component {
         <Divider />
         <Link to={'/'}>{'Home'}</Link>
         <Link style={{marginLeft: '10px'}} to={'/privacy'}>{'Privacy'}</Link>
+        <Link style={{marginLeft: '10px'}} to={'/terms'}>{'Terms'}</Link>
       </footer>
     );
   }
