@@ -23,7 +23,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="react-root">
+      <div className='react-root'>
         {this.props.children}
       </div>
     );
