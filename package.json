@@ -4,7 +4,7 @@
     "url": "https://github.com/guyellis/plant/issues"
   },
   "dependencies": {
-    "async": "2.1.0",
+    "async": "2.1.1",
     "aws-sdk": "2.6.7",
     "babel-cli": "6.16.0",
     "babel-core": "6.17.0",
@@ -73,7 +73,7 @@
     "react-tools": "0.13.3",
     "redux-devtools": "3.3.1",
     "style-loader": "0.13.1",
-    "stylelint": "7.4.1",
+    "stylelint": "7.4.2",
     "stylelint-config-standard": "13.0.2",
     "typings": "1.4.0",
     "url-loader": "0.5.7",
