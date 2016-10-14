@@ -1,7 +1,6 @@
 // Used to show a list of plants for a user.
 // Url: /plants/<optional-user-id>
 
-const {Link} = require('react-router');
 const Base = require('../Base');
 const CircularProgress = require('material-ui/CircularProgress').default;
 const InputCombo = require('../InputCombo');
@@ -10,11 +9,10 @@ const React = require('react');
 const store = require('../../store');
 const {isLoggedIn} = require('../../libs/auth-helper');
 const actions = require('../../actions');
-const FloatingActionButton = require('material-ui/FloatingActionButton').default;
-const AddIcon = require('material-ui/svg-icons/content/add').default;
 const NoteCreate = require('../plant/NoteCreate');
 const utils = require('../../libs/utils');
 const Immutable = require('immutable');
+const AddPlantButton = require('../plant/AddPlantButton');
 
 class Plants extends React.Component {
 
@@ -63,40 +61,39 @@ class Plants extends React.Component {
     );
   }
 
-  addPlantButton() {
+  isOwner() {
     var {
       user: authUser = {},
       users = {},
     } = this.state || {};
     const user = users[this.props.params.id];
-    const isOwner = user && (authUser._id === user._id);
+    return user && (authUser._id === user._id);
+  }
 
-    if(isOwner) {
-      return (
-        <div style={{float: 'right', marginBottom: '60px'}}>
-          <Link to='/plant'>
-            <FloatingActionButton
-              title='Add Plant'
-            >
-              <AddIcon />
-            </FloatingActionButton>
-          </Link>
-        </div>);
-    } else {
-      return null;
-    }
-
+  addPlantButton() {
+    console.log('Plants.addPlantsButton');
+    return (
+      <div style={{float: 'right', marginBottom: '60px'}}>
+        <AddPlantButton
+          show={this.isOwner()}
+        />
+      </div>
+    );
   }
 
   renderNoPlants(user) {
+    console.log('Plants.renderNoPlants');
     return (
       <Base>
         <div>
           {this.renderTitle(user)}
-          <div className='plant-item-list'>
-            <div>{'No plants added yet...'}</div>
-            {this.addPlantButton()}
-          </div>
+          <h3 style={{textAlign: 'center'}}>
+            <div style={{marginTop: '100px'}}>{'No plants added yet...'}</div>
+            <AddPlantButton
+              show={this.isOwner()}
+              style={{marginTop: '10px'}}
+            />
+          </h3>
         </div>
       </Base>
     );

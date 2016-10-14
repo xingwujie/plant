@@ -137,10 +137,10 @@ function updatePlant(store, action, next) {
   return next(action);
 }
 
-function deletePlant(store, action, next) {
+function deletePlantRequest(store, action, next) {
   const options = {
     type: 'DELETE',
-    url: `/api/plant/${action.payload}`,
+    url: `/api/plant/${action.payload.plantId}`,
     success: actions.deletePlantSuccess,
     failure: actions.deletePlantFailure
   };
@@ -228,7 +228,7 @@ function loadNotesRequest(store, action) {
 const apis = {
   [actions.CREATE_PLANT_REQUEST]: createPlant,
   [actions.DELETE_NOTE_REQUEST]: deleteNoteRequest,
-  [actions.DELETE_PLANT_REQUEST]: deletePlant,
+  [actions.DELETE_PLANT_REQUEST]: deletePlantRequest,
   [actions.LOAD_NOTES_REQUEST]: loadNotesRequest,
   [actions.LOAD_PLANT_REQUEST]: loadPlantRequest,
   [actions.LOAD_PLANTS_REQUEST]: loadPlantsRequest,

@@ -3,9 +3,8 @@ const store = require('../store');
 const actions = require('../actions');
 const utils = require('../libs/utils');
 const {isLoggedIn} = require('../libs/auth-helper');
-const FloatingActionButton = require('material-ui/FloatingActionButton').default;
-const AddIcon = require('material-ui/svg-icons/content/add').default;
 const Immutable = require('immutable');
+const AddPlantButton = require('./plant/AddPlantButton');
 
 const {Link} = require('react-router');
 
@@ -46,6 +45,7 @@ class Navbar extends React.Component {
 
     const loggedIn = isLoggedIn();
     const notEditing = !interimMap.size;
+    console.log('Navbar.render');
 
     return (
       <nav className='navbar navbar-default'>
@@ -58,15 +58,11 @@ class Navbar extends React.Component {
               <span className='icon-bar' />
             </button>
             <Link to={'/'} className='navbar-brand'>Plant</Link>
-            {loggedIn && notEditing &&
-              <Link to={'/plant'}>
-                <FloatingActionButton
-                  title='Add Plant' mini={true} style={{marginTop: '5px'}}
-                >
-                  <AddIcon />
-                </FloatingActionButton>
-              </Link>
-            }
+            <AddPlantButton
+              mini={true}
+              show={!!(loggedIn && notEditing)}
+              style={{marginTop: '5px'}}
+            />
           </div>
 
           <div className='collapse navbar-collapse' id='plant-navbar-collapse'>
