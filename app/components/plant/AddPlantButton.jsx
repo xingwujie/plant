@@ -12,8 +12,6 @@ class AddPlantButton extends React.Component {
       style = {}
     } = this.props;
 
-    console.log('AddPlantButton:', mini, show, style);
-
     if(!show) {
       return null;
     }

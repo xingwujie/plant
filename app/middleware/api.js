@@ -174,7 +174,7 @@ function loadPlantRequest(store, action) {
 }
 
 // Get all the plants a user has created
-function loadPlantsRequest(store, action) {
+function loadPlantsRequest(store, action, next) {
   const userId = action.payload;
   const options = {
     url: `/api/plants/${userId}`,
@@ -182,6 +182,7 @@ function loadPlantsRequest(store, action) {
     failure: actions.loadPlantsFailure
   };
   ajax(store, options);
+  next(action);
 }
 
 // Get a specific user

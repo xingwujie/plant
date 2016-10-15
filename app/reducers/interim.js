@@ -59,6 +59,18 @@ function editPlantChange(state, action) {
   return state.mergeDeep({plant: {plant: action.payload}});
 }
 
+function loadPlantsRequest(state, action) {
+  return state.set('loadPlantRequest', action.payload);
+}
+
+function loadPlantsSuccess(state) {
+  return state.delete('loadPlantRequest');
+}
+
+function loadPlantsFailure(state) {
+  return state.delete('loadPlantRequest');
+}
+
 const reducers = {
   // Init the note prop in the interim state with something
   // so that the note is editable
@@ -68,6 +80,9 @@ const reducers = {
   [actions.EDIT_PLANT_OPEN]: editPlantOpen,
   [actions.EDIT_PLANT_CHANGE]: editPlantChange,
   [actions.EDIT_PLANT_CLOSE]: editPlantClose,
+  [actions.LOAD_PLANTS_REQUEST]: loadPlantsRequest,
+  [actions.LOAD_PLANTS_SUCCESS]: loadPlantsSuccess,
+  [actions.LOAD_PLANTS_FAILURE]: loadPlantsFailure,
 };
 
 module.exports = (state = new Immutable.Map(), action) => {

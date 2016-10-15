@@ -45,7 +45,6 @@ class Navbar extends React.Component {
 
     const loggedIn = isLoggedIn();
     const notEditing = !interimMap.size;
-    console.log('Navbar.render');
 
     return (
       <nav className='navbar navbar-default'>

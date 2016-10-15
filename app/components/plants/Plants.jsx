@@ -71,7 +71,6 @@ class Plants extends React.Component {
   }
 
   addPlantButton() {
-    console.log('Plants.addPlantsButton');
     return (
       <div style={{float: 'right', marginBottom: '60px'}}>
         <AddPlantButton
@@ -81,8 +80,22 @@ class Plants extends React.Component {
     );
   }
 
+  // TODO: renderWaiting and renderNoPlants are mostly the same.
+  // Make this code DRY
+  renderWaiting(user) {
+    return (
+      <Base>
+        <div>
+          {this.renderTitle(user)}
+          <h3 style={{textAlign: 'center'}}>
+            <CircularProgress />
+          </h3>
+        </div>
+      </Base>
+    );
+  }
+
   renderNoPlants(user) {
-    console.log('Plants.renderNoPlants');
     return (
       <Base>
         <div>
@@ -146,7 +159,12 @@ class Plants extends React.Component {
 
     const plantIds = user.get('plantIds', Immutable.List());
     if(!plantIds.size) {
-      return this.renderNoPlants(user);
+      if(interim.has('loadPlantRequest')) {
+        return this.renderWaiting(user);
+      } else {
+        return this.renderNoPlants(user);
+      }
+
     }
 
     const sortedPlantIds = utils.filterSortPlants(plantIds, allLoadedPlants, filter);
