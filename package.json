@@ -60,7 +60,7 @@
     "estraverse-fb": "1.3.1",
     "file-loader": "0.9.0",
     "html-webpack-plugin": "2.22.0",
-    "jsdom": "9.6.0",
+    "jsdom": "9.8.0",
     "mocha": "3.1.2",
     "node-libs-browser": "1.0.0",
     "nodemon": "1.11.0",
