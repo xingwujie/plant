@@ -174,6 +174,7 @@ function loadPlantRequest(store, action) {
 }
 
 // Get all the plants a user has created
+// action.payload is a userId
 function loadPlantsRequest(store, action, next) {
   const userId = action.payload;
   const options = {
@@ -226,6 +227,24 @@ function loadNotesRequest(store, action) {
   ajax(store, options);
 }
 
+// Get all the plants listed
+// action.payload is an array of plantIds
+function loadUnloadedPlantsRequest(store, action) {
+  if(!action.payload || !action.payload.length) {
+    console.error('No plantIds on payload, action:', action);
+  }
+
+  const options = {
+    data: {plantIds: action.payload},
+    failure: actions.loadUnloadedPlantsFailure,
+    success: actions.loadUnloadedPlantsSuccess,
+    type: 'POST', // Because we don't know how big the payload will be
+    url: '/api/unloaded-plants',
+  };
+
+  ajax(store, options);
+}
+
 const apis = {
   [actions.CREATE_PLANT_REQUEST]: createPlant,
   [actions.DELETE_NOTE_REQUEST]: deleteNoteRequest,
@@ -233,6 +252,7 @@ const apis = {
   [actions.LOAD_NOTES_REQUEST]: loadNotesRequest,
   [actions.LOAD_PLANT_REQUEST]: loadPlantRequest,
   [actions.LOAD_PLANTS_REQUEST]: loadPlantsRequest,
+  [actions.LOAD_UNLOADED_PLANTS_REQUEST]: loadUnloadedPlantsRequest,
   [actions.LOAD_USER_REQUEST]: loadUserRequest,
   [actions.LOAD_USERS_REQUEST]: loadUsersRequest,
   [actions.LOGIN_REQUEST]: loginRequest,

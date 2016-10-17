@@ -96,6 +96,7 @@ const reducers = {
   [actions.CREATE_PLANT_REQUEST]: createPlantRequest,
   [actions.DELETE_PLANT_REQUEST]: deletePlantRequest,
   [actions.LOAD_PLANTS_SUCCESS]: loadPlantsSuccess,
+  [actions.LOAD_UNLOADED_PLANTS_SUCCESS]: loadPlantsSuccess,
   [actions.LOAD_USER_SUCCESS]: loadUserSuccess,
   [actions.LOAD_USERS_SUCCESS]: loadUsersSuccess,
 };

@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const mongo = require('../../../../lib/db/mongo');
 const assert = require('assert');
 const constants = require('../../../../app/libs/constants');
@@ -29,7 +30,6 @@ describe('/lib/db/mongo/', function() {
         assert(err);
         assert.equal(err.message, 'No facebook.id or google.id:');
         assert(!body);
-        assert.equal(typeof userId, 'string');
 
         done();
       });
@@ -48,7 +48,21 @@ describe('/lib/db/mongo/', function() {
         assert(body._id);
         assert(constants.mongoIdRE.test(body._id));
         assert.deepStrictEqual(body, fbUser);
-        assert.equal(typeof userId, 'string');
+
+        done();
+      });
+    });
+
+    it('should fetch all users', (done) => {
+
+      mongo.getAllUsers((err, body) => {
+        assert(!err);
+        assert(body);
+        assert(_.isArray(body));
+        assert.equal(body.length, 1);
+        const user = body[0];
+        assert(user._id);
+        assert(constants.mongoIdRE.test(user._id));
 
         done();
       });
@@ -87,6 +101,20 @@ describe('/lib/db/mongo/', function() {
       mongo.getPlantById(plantId, (err, result) => {
         assert.equal(typeof result.userId, 'string');
         assert(!err);
+        assert.equal(result.name, plant.name);
+        assert.equal(result.plantedOn, plant.plantedOn);
+        assert.equal(result.userId, plant.userId.toString());
+        done();
+      });
+    });
+
+    it('should get existing plants', (done) => {
+      mongo.getPlantsByIds([plantId], (err, results) => {
+        assert(!err);
+        assert(_.isArray(results));
+        assert.equal(results.length, 1);
+        const result = results[0];
+        assert.equal(typeof result.userId, 'string');
         assert.equal(result.name, plant.name);
         assert.equal(result.plantedOn, plant.plantedOn);
         assert.equal(result.userId, plant.userId.toString());

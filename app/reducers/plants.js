@@ -128,6 +128,7 @@ const reducers = {
   [actions.LOAD_PLANT_FAILURE]: loadPlantFailure,
   [actions.LOAD_PLANT_SUCCESS]: loadPlantSuccess,
   [actions.LOAD_PLANTS_SUCCESS]: loadPlantsSuccess,
+  [actions.LOAD_UNLOADED_PLANTS_SUCCESS]: loadPlantsSuccess,
   [actions.UPDATE_PLANT_FAILURE]: ajaxPlantFailure,
   [actions.UPDATE_PLANT_REQUEST]: updatePlantRequest,
   [actions.UPSERT_NOTE_SUCCESS]: upsertNoteSuccess,

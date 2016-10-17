@@ -233,6 +233,31 @@ function loadNotesFailure(payload) {
   };
 }
 
+const LOAD_UNLOADED_PLANTS_REQUEST = 'LOAD_UNLOADED_PLANTS_REQUEST';
+const LOAD_UNLOADED_PLANTS_SUCCESS = 'LOAD_UNLOADED_PLANTS_SUCCESS';
+const LOAD_UNLOADED_PLANTS_FAILURE = 'LOAD_UNLOADED_PLANTS_FAILURE';
+
+function loadUnloadedPlantsRequest(payload) {
+  return {
+    type: LOAD_UNLOADED_PLANTS_REQUEST,
+    payload
+  };
+}
+
+function loadUnloadedPlantsSuccess(payload) {
+  return {
+    type: LOAD_UNLOADED_PLANTS_SUCCESS,
+    payload
+  };
+}
+
+function loadUnloadedPlantsFailure(payload) {
+  return {
+    type: LOAD_UNLOADED_PLANTS_FAILURE,
+    payload
+  };
+}
+
 const LOAD_USER_REQUEST = 'LOAD_USER_REQUEST';
 const LOAD_USER_SUCCESS = 'LOAD_USER_SUCCESS';
 const LOAD_USER_FAILURE = 'LOAD_USER_FAILURE';
@@ -357,6 +382,9 @@ module.exports = {
   LOAD_PLANTS_FAILURE,
   LOAD_PLANTS_REQUEST,
   LOAD_PLANTS_SUCCESS,
+  LOAD_UNLOADED_PLANTS_FAILURE,
+  LOAD_UNLOADED_PLANTS_REQUEST,
+  LOAD_UNLOADED_PLANTS_SUCCESS,
   LOAD_USER_FAILURE,
   LOAD_USER_REQUEST,
   LOAD_USER_SUCCESS,
@@ -397,6 +425,9 @@ module.exports = {
   loadPlantsRequest,
   loadPlantsSuccess,
   loadPlantSuccess,
+  loadUnloadedPlantsFailure,
+  loadUnloadedPlantsRequest,
+  loadUnloadedPlantsSuccess,
   loadUserFailure,
   loadUserRequest,
   loadUsersFailure,

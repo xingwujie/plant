@@ -179,7 +179,7 @@ class Plants extends React.Component {
       if(plant) {
         const _id = plant.get('_id');
         const isOwner = loggedIn && plant.get('userId') === authUser.get('_id');
-        acc.push(
+        acc.found.push(
           <PlantItem
             key={_id}
             dispatch={store.dispatch}
@@ -188,9 +188,15 @@ class Plants extends React.Component {
             plant={plant}
           />
         );
+      } else {
+        acc.unloaded.push(plantId);
       }
       return acc;
-    }, []);
+    }, {found: [], unloaded: []});
+
+    if(tileElements.unloaded.length) {
+      store.dispatch(actions.loadUnloadedPlantsRequest(tileElements.unloaded));
+    }
 
     const filterInput = (<InputCombo
       changeHandler={(e) => this.setState({filter: e.target.value.toLowerCase()})}
@@ -205,7 +211,7 @@ class Plants extends React.Component {
         <div>
           {this.renderTitle(user)}
           {filterInput}
-          {tileElements}
+          {tileElements.found}
           {this.addPlantButton()}
           <div className='clear'>&nbsp;</div>
         </div>
