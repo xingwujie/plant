@@ -150,8 +150,8 @@ describe('plant-api', function() {
     helper.makeRequest(reqOptions, (error, httpMsg, response) => {
       assert(!error);
       assert.equal(httpMsg.statusCode, 200);
-      assert(response);
-      assert(response.ok);
+      const expected = Object.assign({}, updatedPlant, {userId: user._id});
+      assert.deepEqual(response, expected);
 
       done();
     });

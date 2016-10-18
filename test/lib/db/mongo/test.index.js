@@ -1,10 +1,29 @@
 const _ = require('lodash');
-const mongo = require('../../../../lib/db/mongo');
+
 const assert = require('assert');
 const constants = require('../../../../app/libs/constants');
 const helper = require('../../../helper');
+const proxyquire = require('proxyquire');
 
 // const logger = require('../../../../lib/logging/logger').create('test.mongo-index');
+
+const proxylog = {
+  trace: () => {},
+  warn: () => {
+    throw new Error('Unexpected warn');
+  },
+  error: () => {
+    throw new Error('Unexpected error');
+  }
+};
+
+const mongo = proxyquire('../../../../lib/db/mongo', {
+  '../../logging/logger': {
+    create: () => {
+      return proxylog;
+    }
+  }
+});
 
 describe('/lib/db/mongo/', function() {
   this.timeout(10000);
@@ -133,10 +152,7 @@ describe('/lib/db/mongo/', function() {
 
       mongo.updatePlant(plantUpdate, (err, result) => {
         assert(!err);
-        assert.equal(result.ok, 1);
-        // Mongo 2.x does not return nModified which is what Travis uses so do not check this
-        // assert.equal(result.nModified, 1);
-        assert.equal(result.n, 1);
+        assert.deepEqual(result, plantUpdate);
         done();
       });
     });
