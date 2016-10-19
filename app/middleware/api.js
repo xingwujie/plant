@@ -210,14 +210,17 @@ function loadUsersRequest(store) {
 }
 
 // Get all the notes listed
-// action.payload is an array of noteIds
+// action.payload is an object with one of 2 properties:
+// noteIds: an array of noteIds
+// plantId: a plant id
 function loadNotesRequest(store, action) {
-  if(!action.payload || !action.payload.length) {
-    console.error('No notes on payload, action:', action);
+  const {noteIds, plantId} = action.payload;
+  if(!noteIds && !plantId) {
+    console.error('No noteIds or plantId on payload, action:', action);
   }
 
   const options = {
-    data: {noteIds: action.payload},
+    data: {noteIds, plantId},
     failure: actions.loadNotesFailure,
     success: actions.loadNotesSuccess,
     type: 'POST', // Because we don't know how big the payload will be

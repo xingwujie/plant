@@ -11,8 +11,8 @@ class NotesRead extends React.Component {
 
   render() {
     const noteIds = this.props.plant.get('notes', List());
-    if(!List.isList(noteIds)){
-      console.error('Not a List from plant.get notes:', this.props.plant);
+    if(!(List.isList(noteIds) || Immutable.Set.isSet(noteIds))) {
+      console.error('Not a List from plant.get notes:', this.props.plant, noteIds);
     }
 
     if(!noteIds.size) {
@@ -23,7 +23,9 @@ class NotesRead extends React.Component {
     // Find unloaded notes
     const unloaded = noteIds.filter(noteId => !notes.get(noteId));
     if(unloaded.size) {
-      this.props.dispatch(actions.loadNotesRequest(unloaded.toJS()));
+      this.props.dispatch(actions.loadNotesRequest({
+        noteIds: unloaded.toJS()
+      }));
     }
 
     const sortedIds = noteIds.sort((a, b) => {

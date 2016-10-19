@@ -46,12 +46,10 @@ function deletePlantRequest(state, action) {
 // Need to remove this note from the notes array in all plants
 function deleteNoteRequest(state, action) {
   return state.map(plant => {
-    const noteIds = plant.get('notes');
-    if(noteIds && noteIds.size) {
-      const index = noteIds.indexOf(action.payload);
-      if(index !== -1) {
-        const a = noteIds.splice(index, 1);
-        return plant.set('notes', a);
+    const noteIds = Immutable.Set(plant.get('notes', Immutable.Set()));
+    if(noteIds.size) {
+      if(noteIds.has(action.payload)) {
+        return plant.set('notes', noteIds.delete(action.payload));
       } else {
         return plant;
       }
@@ -97,25 +95,52 @@ function upsertNoteSuccess(state, action) {
     return state;
   }
 
+  // If plantIds has plantId, then make sure notes has noteId
+  // If plantIds does not have plantId, then make sure notes does not have noteId
   return state.map((plant, plantId) => {
-    const noteIds = plant.get('notes', Immutable.List());
-    const index = noteIds.indexOf(_id);
+    const noteIds = Immutable.Set(plant.get('notes', Immutable.Set()));
+    const hasNoteId = noteIds.has(_id);
 
     if(plantIds.indexOf(plantId) === -1) {
       // Make sure plant does not have the _id in its notes List
-      if(index === -1) {
-        return plant;
+      if(hasNoteId) {
+        return plant.set('notes', noteIds.delete(_id));
       } else {
-        return plant.set('notes', noteIds.delete(index));
+        return plant;
       }
     } else {
       // Make sure the plant had the _id in its notes List
-      if(index === -1) {
-        return plant.set('notes', noteIds.push(_id));
-      } else {
+      if(hasNoteId) {
         return plant;
+      } else {
+        return plant.set('notes', noteIds.add(_id));
       }
     }
+  });
+}
+
+// action.payload is an array of notes from the server
+function loadNotesSuccess(state, action) {
+
+  const plants = action.payload.reduce((acc, note) => {
+    (note.plantIds || []).forEach(plantId => {
+      if(acc[plantId]) {
+        acc[plantId].push(note._id);
+      } else {
+        acc[plantId] = [note._id];
+      }
+    });
+    return acc;
+  }, {});
+
+  return state.map((plant, plantId) => {
+
+    if(!plants[plantId]) {
+      return plant;
+    }
+
+    return plant.set('notes', Immutable.Set(plant.get('notes', Immutable.Set()).concat(plants[plantId])));
+
   });
 }
 
@@ -125,6 +150,7 @@ const reducers = {
   [actions.DELETE_NOTE_REQUEST]: deleteNoteRequest,
   [actions.DELETE_PLANT_FAILURE]: ajaxPlantFailure,
   [actions.DELETE_PLANT_REQUEST]: deletePlantRequest,
+  [actions.LOAD_NOTES_SUCCESS]: loadNotesSuccess,
   [actions.LOAD_PLANT_FAILURE]: loadPlantFailure,
   [actions.LOAD_PLANT_SUCCESS]: loadPlantSuccess,
   [actions.LOAD_PLANTS_SUCCESS]: loadPlantsSuccess,

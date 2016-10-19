@@ -195,6 +195,58 @@ describe('note-api', function() {
       });
     });
 
+    it('should retrieve the noteId as part of a multiple note request', (done) => {
+      const reqOptions = {
+        method: 'POST',
+        authenticate: true,
+        body: {noteIds: [noteId]},
+        json: true,
+        url: '/api/notes'
+      };
+
+      helper.makeRequest(reqOptions, (error, httpMsg, notes) => {
+
+        assert(!error);
+        assert.equal(httpMsg.statusCode, 200);
+
+        assert(notes);
+        assert.equal(notes.length, 1);
+        const note = notes[0];
+        assert.equal(note._id, noteId);
+        assert(constants.mongoIdRE.test(note._id));
+        assert.equal(note.date, 20160101);
+        assert.equal(note.note, 'A New Note');
+
+        done();
+      });
+    });
+
+    it('should retrieve the noteId as part of a plantId note request', (done) => {
+      const reqOptions = {
+        method: 'POST',
+        authenticate: true,
+        body: {plantId},
+        json: true,
+        url: '/api/notes'
+      };
+
+      helper.makeRequest(reqOptions, (error, httpMsg, notes) => {
+
+        assert(!error);
+        assert.equal(httpMsg.statusCode, 200);
+
+        assert(notes);
+        assert.equal(notes.length, 1);
+        const note = notes[0];
+        assert.equal(note._id, noteId);
+        assert(constants.mongoIdRE.test(note._id));
+        assert.equal(note.date, 20160101);
+        assert.equal(note.note, 'A New Note');
+
+        done();
+      });
+    });
+
     it('should delete the note', (done) => {
 
       const reqOptions = {
