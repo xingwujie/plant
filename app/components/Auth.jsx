@@ -3,6 +3,7 @@ const React = require('react');
 const store = require('../store');
 const actions = require('../actions');
 const Immutable = require('immutable');
+const utils = require('../libs/utils');
 
 class Auth extends React.Component {
   static contextTypes = {
@@ -33,16 +34,15 @@ class Auth extends React.Component {
   }
 
   componentDidUpdate() {
-    const jwt = store.getState().get('user', Immutable.Map()).get('jwt');
+    const user = store.getState().get('user', Immutable.Map());
+    const jwt = user.get('jwt');
     if(jwt) {
       const returnurl = localStorage.getItem('returnurl');
       if(returnurl) {
         localStorage.removeItem('returnurl');
       }
-      let destination = returnurl || '/';
+      const destination = returnurl || utils.makePlantsUrl(user);
       this.context.router.push(destination);
-    } else {
-      this.context.router.push('/login');
     }
   }
 
