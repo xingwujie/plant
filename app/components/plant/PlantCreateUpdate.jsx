@@ -114,12 +114,12 @@ class PlantCreateUpdate extends React.Component {
         <h2 style={{textAlign: 'center'}}>{pageTitle}</h2>
 
         <InputCombo
+          changeHandler={this.onChange}
           error={errors.title}
           label='Title'
-          value={title}
-          placeholder={'How do you refer to this plant? (e.g. Washington Navel)'}
           name='title'
-          changeHandler={this.onChange}
+          placeholder={'How do you refer to this plant? (e.g. Washington Navel)'}
+          value={title}
         />
         <Divider />
 
@@ -169,24 +169,25 @@ class PlantCreateUpdate extends React.Component {
         <Divider />
 
         <InputCombo
+          changeHandler={this.onChange}
           error={errors.plantedDate}
           extraClasses='col-sm-4'
           label='Planted Date'
-          value={plantedDate}
-          placeholder={dateFormat}
           name='plantedDate'
-          changeHandler={this.onChange}
+          placeholder={dateFormat}
+          value={plantedDate}
         />
         <Divider />
 
         <InputCombo
+          changeHandler={this.onChange}
           error={errors.price}
           extraClasses='col-sm-4'
           label='Price'
-          value={price}
-          placeholder={'$9.99'}
           name='price'
-          changeHandler={this.onChange}
+          placeholder={'$9.99'}
+          type='number'
+          value={price}
         />
         <Divider />
 

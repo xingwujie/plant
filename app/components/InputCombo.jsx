@@ -16,8 +16,9 @@ class InputCombo extends React.Component {
       multiLine = false,
       name: namo,
       placeholder,
+      style = {},
+      type = 'text',
       value,
-      style = {}
     } = this.props || {};
 
     const underlineStyle = {
@@ -38,6 +39,7 @@ class InputCombo extends React.Component {
         name={namo}
         onChange={changeHandler}
         style={styler}
+        type={type}
         underlineStyle={underlineStyle}
         value={value}
       />
