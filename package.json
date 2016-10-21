@@ -28,7 +28,7 @@
     "material-ui": "0.16.1",
     "method-override": "2.3.6",
     "moment": "2.15.1",
-    "mongodb": "2.2.10",
+    "mongodb": "2.2.11",
     "morgan": "1.7.0",
     "multer": "1.2.0",
     "node-version-checker": "2.0.0",
