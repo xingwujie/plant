@@ -13,6 +13,8 @@ const CancelSaveButtons = require('./CancelSaveButtons');
 const React = require('react');
 const utils = require('../../libs/utils');
 const Immutable = require('immutable');
+const FloatingActionButton = require('material-ui/FloatingActionButton').default;
+const MapsAddLocation = require('material-ui/svg-icons/maps/add-location').default;
 
 const validate = validators.plant;
 
@@ -26,6 +28,24 @@ class PlantCreateUpdate extends React.Component {
     this.cancel = this.cancel.bind(this);
     this.onChange = this.onChange.bind(this);
     this.save = this.save.bind(this);
+    this.addGeo = this.addGeo.bind(this);
+  }
+
+  addGeo() {
+    if(utils.hasGeo()) {
+      utils.getGeo({}, (err, position) => {
+        if(err) {
+          console.error(err);
+        } else {
+          const {latitude, longitude} = position.coords;
+          this.props.dispatch(actions.editPlantChange({
+            geoPosition: Immutable.fromJS({latitude, longitude})
+          }));
+        }
+      });
+    } else {
+      console.error('No geo service found on device');
+    }
   }
 
   cancel() {
@@ -91,6 +111,11 @@ class PlantCreateUpdate extends React.Component {
     const price = interimPlant.get('price', '');
     const errors = interimPlant.get('errors', Immutable.Map()).toJS();
 
+    const geoPosition = interimPlant.get('geoPosition', Immutable.Map());
+    const lat = geoPosition.get('latitude', 0);
+    const long = geoPosition.get('longitude', 0);
+    const geoPosDisplay = `${lat}/${long}`;
+
     const {
       pageTitle = ''
     } = this.state || {};
@@ -108,6 +133,7 @@ class PlantCreateUpdate extends React.Component {
     };
 
     const dateFormat = 'MM/DD/YYYY';
+    const hasGeo = utils.hasGeo();
 
     return (
       <Paper style={paperStyle} zDepth={1}>
@@ -190,6 +216,28 @@ class PlantCreateUpdate extends React.Component {
           value={price}
         />
         <Divider />
+
+        {hasGeo &&
+          <div>
+            <FloatingActionButton
+              onClick={this.addGeo}
+              title='Add Location'
+            >
+              <MapsAddLocation />
+            </FloatingActionButton>
+            <InputCombo
+              changeHandler={this.onChange}
+              disabled={true}
+              error={errors.geoPosition}
+              extraClasses='col-sm-4'
+              label='Geo Position'
+              name='geoPosition'
+              placeholder={'Location of this plant'}
+              value={geoPosDisplay}
+            />
+            <Divider />
+          </div>
+        }
 
         {!isEmpty(errors) &&
           <div>

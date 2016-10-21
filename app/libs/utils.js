@@ -149,10 +149,34 @@ function transformErrors(errors) {
   }, {});
 }
 
+function hasGeo() {
+  return !!(navigator && navigator.geolocation);
+}
+
+function getGeo(options, cb) {
+  if(!hasGeo()) {
+    return cb('This device does not have geolcation available');
+  }
+
+  options = Object.assign({}, {
+    enableHighAccuracy: true,
+    timeout: 30000, // 10 seconds
+  }, options);
+
+  navigator.geolocation.getCurrentPosition(position => {
+    return cb(null, position);
+  }, positionError => {
+    console.error('geolcation error:', positionError);
+    return cb('There was an error get the geo position', positionError);
+  }, options);
+}
+
 module.exports = {
   dateToInt,
   filterPlants,
   filterSortPlants,
+  getGeo,
+  hasGeo,
   intToDate,
   intToMoment,
   intToString,

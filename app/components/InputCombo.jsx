@@ -10,6 +10,7 @@ class InputCombo extends React.Component {
   render() {
     let {
       changeHandler,
+      disabled = false,
       error,
       fullWidth = true,
       label,
@@ -31,6 +32,7 @@ class InputCombo extends React.Component {
 
     return (
       <TextField
+        disabled={disabled}
         errorText={error}
         floatingLabelText={label}
         fullWidth={fullWidth}
