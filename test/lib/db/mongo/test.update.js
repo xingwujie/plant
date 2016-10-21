@@ -51,9 +51,8 @@ describe('/lib/db/mongo/update', function() {
         };
         mongo.addSizesToNoteImage(noteUpdate, (err) => {
           assert(!err);
+          cb(err, data);
         });
-
-        cb(null, data);
       }
 
       function getNote(data, cb) {
