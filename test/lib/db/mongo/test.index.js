@@ -99,7 +99,7 @@ describe('/lib/db/mongo/', function() {
     it('should create a plant', (done) => {
       plant.userId = userId;
       assert.equal(typeof plant.userId, 'string');
-      mongo.createPlant(plant, (createPlantErr, body) => {
+      mongo.createPlant(plant, userId, (createPlantErr, body) => {
         assert(!createPlantErr);
         assert(body);
         assert(body._id);
@@ -117,7 +117,7 @@ describe('/lib/db/mongo/', function() {
 
     it('should get an existing plant', (done) => {
 
-      mongo.getPlantById(plantId, (err, result) => {
+      mongo.getPlantById(plantId, userId, (err, result) => {
         assert.equal(typeof result.userId, 'string');
         assert(!err);
         assert.equal(result.name, plant.name);
@@ -128,7 +128,7 @@ describe('/lib/db/mongo/', function() {
     });
 
     it('should get existing plants', (done) => {
-      mongo.getPlantsByIds([plantId], (err, results) => {
+      mongo.getPlantsByIds([plantId], userId, (err, results) => {
         assert(!err);
         assert(_.isArray(results));
         assert.equal(results.length, 1);
@@ -150,7 +150,7 @@ describe('/lib/db/mongo/', function() {
         userId
       };
 
-      mongo.updatePlant(plantUpdate, (err, result) => {
+      mongo.updatePlant(plantUpdate, userId, (err, result) => {
         assert(!err);
         assert.deepEqual(result, plantUpdate);
         done();
