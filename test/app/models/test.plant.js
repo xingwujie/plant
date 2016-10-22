@@ -34,6 +34,7 @@ describe('/app/models/plant', function() {
       botanicalName: 'Botanical Name',
       commonName: 'Common Name',
       description: 'Description',
+      loc: {type: 'Plant', coordinates: [1.11, 2.22]},
       plantedDate: 20121215,
       price: 25.99,
       purchasedDate: 20121215,

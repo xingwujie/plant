@@ -33,13 +33,12 @@ class PlantCreateUpdate extends React.Component {
 
   addGeo() {
     if(utils.hasGeo()) {
-      utils.getGeo({}, (err, position) => {
+      utils.getGeo({}, (err, geoJson) => {
         if(err) {
           console.error(err);
         } else {
-          const {latitude, longitude} = position.coords;
           this.props.dispatch(actions.editPlantChange({
-            geoPosition: Immutable.fromJS({latitude, longitude})
+            loc: Immutable.fromJS(geoJson)
           }));
         }
       });
@@ -111,10 +110,9 @@ class PlantCreateUpdate extends React.Component {
     const price = interimPlant.get('price', '');
     const errors = interimPlant.get('errors', Immutable.Map()).toJS();
 
-    const geoPosition = interimPlant.get('geoPosition', Immutable.Map());
-    const lat = geoPosition.get('latitude', 0);
-    const long = geoPosition.get('longitude', 0);
-    const geoPosDisplay = `${lat}/${long}`;
+    const geoPosDisplay = interimPlant.has('loc')
+      ? `${interimPlant.getIn(['loc', 'coordinates', '0'])} / ${interimPlant.getIn(['loc', 'coordinates', '1'])}`
+      : '-- / --';
 
     const {
       pageTitle = ''

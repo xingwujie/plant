@@ -164,7 +164,16 @@ function getGeo(options, cb) {
   }, options);
 
   navigator.geolocation.getCurrentPosition(position => {
-    return cb(null, position);
+    // { type: "Point", coordinates: [ 40, 5 ] }
+    // postion: {coords: {latitude: 11.1, longitude: 22.2}}
+    const geoJson = {
+      type: 'Point',
+      coordinates: [
+        position.coords.longitude,
+        position.coords.latitude,
+      ]
+    };
+    return cb(null, geoJson);
   }, positionError => {
     console.error('geolcation error:', positionError);
     return cb('There was an error get the geo position', positionError);

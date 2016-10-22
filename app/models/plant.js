@@ -67,7 +67,12 @@ function transform(attributes) {
 
   // If any amounts are preceded by a $ sign then trim that.
   if(attributes.price && typeof attributes.price === 'string') {
-    attributes.price = +trim(attributes.price, '$');
+    attributes.price = parseFloat(trim(attributes.price, '$'), 10);
+  }
+
+  if(attributes.loc) {
+    attributes.loc.coordinates[0] = parseFloat(attributes.loc.coordinates[0], 10);
+    attributes.loc.coordinates[1] = parseFloat(attributes.loc.coordinates[1], 10);
   }
 
   return attributes;
@@ -83,6 +88,12 @@ module.exports = (attributes, {isNew}, cb) => {
     botanicalName: {length: {maximum: 100}},
     commonName:  {length: {maximum: 100}},
     description: {length: {maximum: 500}},
+    // { type: "Point", coordinates: [ 40, 5 ] }
+    loc: {presence: false},
+    'loc.type': {presence: false}, // if loc is present then this must be present and be "Point"
+    // if loc is present then the next 2 must be present
+    'loc.coordinates.0': {numericality: {noStrings: true}},
+    'loc.coordinates.1': {numericality: {noStrings: true}},
     plantedDate: {intDateValidate: {presence: false, name: 'Planted date'}},
     price: {numericality: {noStrings: true}},
     purchasedDate: {intDateValidate: {presence: false, name: 'Acquire date'}},
