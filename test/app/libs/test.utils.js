@@ -102,4 +102,26 @@ describe('/app/libs/utils', function() {
     });
   });
 
+  describe('rebaseLocations', () => {
+    it('should rebase the locations', () => {
+      const plants = [{
+        _id: '1',
+        loc: {coordinates: [5.5, 10.1]}
+      }, {
+        _id: '2',
+        loc: {coordinates: [15.15, 35.35]}
+      }, {
+        _id: '3',
+        loc: {coordinates: [10.1, 4.4]}
+      }];
+      const rebased = utils.rebaseLocations(plants);
+      assert.equal(rebased[0].loc.coordinates[0], 0);
+      assert.equal(rebased[0].loc.coordinates[1], 5.7);
+      assert.equal(rebased[1].loc.coordinates[0], 9.65);
+      assert.equal(rebased[1].loc.coordinates[1], 30.95);
+      assert.equal(rebased[2].loc.coordinates[0], 4.6);
+      assert.equal(rebased[2].loc.coordinates[1], 0);
+    });
+  });
+
 });

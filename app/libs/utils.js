@@ -180,6 +180,52 @@ function getGeo(options, cb) {
   }, options);
 }
 
+
+const gisMultiplier = Math.pow(10, 7);
+
+/**
+ * Because math in JS is not precise we need to use integers
+ * to subtract 2 number for GIS rebasing
+ * @param {number} left - the left number in the operation
+ * @param {number} right - the right number in the operation
+ * @returns {number} - left - right
+ */
+function subtractGis(left, right) {
+  // 7 decimal places in long/lat will get us down to 11mm which
+  // is good for surveying which is what we're basically doing here
+  return Math.round(left * gisMultiplier - right * gisMultiplier) / gisMultiplier;
+}
+
+/**
+ * Rebase the long and lat of the plant locations
+ * @param {array} plants - an array of plants with just the _id and loc fields
+ * @returns {array} - same array of plants with the locations rebased to 0,0
+ */
+function rebaseLocations(plants) {
+  if(!plants || !plants.length) {
+    return plants;
+  }
+
+  const northWestPoints = plants.reduce((acc, plant) => {
+    const [long, lat] = plant.loc.coordinates;
+    acc.long = Math.min(acc.long, long);
+    acc.lat = Math.min(acc.lat, lat);
+    return acc;
+  }, {long: 180, lat: 90});
+
+  return plants.map(plant => {
+    return {
+      _id: plant._id.toString(),
+      loc: {
+        coordinates: [
+          subtractGis(plant.loc.coordinates[0], northWestPoints.long),
+          subtractGis(plant.loc.coordinates[1], northWestPoints.lat),
+        ]
+      }
+    };
+  });
+}
+
 module.exports = {
   dateToInt,
   filterPlants,
@@ -192,6 +238,7 @@ module.exports = {
   makeMongoId,
   makePlantsUrl,
   makeSlug,
+  rebaseLocations,
   sortPlants,
   transformErrors,
 };
