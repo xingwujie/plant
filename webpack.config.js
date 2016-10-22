@@ -119,6 +119,7 @@ const proxy = [
   '/favicon.ico',
   '/help',
   '/img/*',
+  '/layout/*',
   '/login',
   '/plant/*',
   '/plants/*',

@@ -35,16 +35,24 @@ function makeSlug(text) {
   });
 }
 
+function makeUrl(first, user) {
+  const userName = user.get('name');
+  const _id = user.get('_id');
+
+  return `/${first}/${makeSlug(userName)}/${_id}`;
+}
+
 /**
  * Make a /plants/user-name-slug/id url from user object
  * @param {Immutable.Map} user - an Immutable.js Map
  * @returns {string} - a url
  */
 function makePlantsUrl(user) {
-  const userName = user.get('name');
-  const _id = user.get('_id');
+  return makeUrl('plants', user);
+}
 
-  return `/plants/${makeSlug(userName)}/${_id}`;
+function makeLayoutUrl(user) {
+  return makeUrl('layout', user);
 }
 
 /**
@@ -236,6 +244,7 @@ module.exports = {
   intToMoment,
   intToString,
   makeMongoId,
+  makeLayoutUrl,
   makePlantsUrl,
   makeSlug,
   rebaseLocations,

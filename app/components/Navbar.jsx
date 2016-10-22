@@ -80,6 +80,9 @@ class Navbar extends React.Component {
                   </a>
                   <ul className='dropdown-menu'>
                     <li>
+                      <Link to={utils.makeLayoutUrl(user)}>Layout Map</Link>
+                    </li>
+                    <li>
                       <Link to={'/profile'}>Profile</Link>
                     </li>
                     <li>
