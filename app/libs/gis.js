@@ -2,6 +2,13 @@ const constants = require('./constants');
 const {gisMultiplier} = constants;
 
 function scaleToCanvas(immutablePlants, width) {
+  if(!immutablePlants.size) {
+    return {
+      plants: immutablePlants,
+      canvasHeight: 0
+    };
+  }
+
   const minMax = immutablePlants.reduce((acc, plant) => {
     const long = plant.getIn(['loc', 'coordinates', '0']);
     const lat = plant.getIn(['loc', 'coordinates', '1']);
@@ -41,7 +48,7 @@ function scaleToCanvas(immutablePlants, width) {
   }
 
   const heightWidthRatio = actualHeight / actualWidth;
-  const canvasHeight = heightWidthRatio * canvasWidth;
+  const canvasHeight = heightWidthRatio * width;
 
   const plants = immutablePlants.map(plant => {
     const long = Math.round(plant.getIn(['loc', 'coordinates', '0']) * gisMultiplier);
