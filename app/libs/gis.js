@@ -30,6 +30,10 @@ function scaleToCanvas(immutablePlants, width) {
     // 1000 is about 10 metres I think
     actualWidth = 1000;
     actualHeight = 1000;
+    minMax.long.max += 500;
+    minMax.long.min -= 500;
+    minMax.lat.max += 500;
+    minMax.lat.min -= 500;
   } else if (actualWidth === 0) {
     actualWidth = actualHeight;
   } else if (actualHeight === 0) {
