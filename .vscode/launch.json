@@ -76,55 +76,6 @@
       "console": "internalConsole",
       "sourceMaps": true,
       "outDir": null
-    }, {
-      "name": "Mocha Logger",
-      "type": "node",
-      "request": "launch",
-      "program": "${workspaceRoot}/node_modules/.bin/_mocha",
-      "stopOnEntry": false,
-      "args": [
-        "test/lib/logging/test.logger.js"
-      ],
-      "cwd": "${workspaceRoot}",
-      "preLaunchTask": null,
-      "runtimeExecutable": null,
-      "runtimeArgs": [
-        "--nolazy"
-      ],
-      "env": {
-        "NODE_ENV": "development",
-        "PLANT_TOKEN_SECRET": "json-web-token-secret",
-        "PLANT_DB_URL": "127.0.0.1:27017",
-        "PLANT_DB_NAME": "plant-test",
-        "PLANT_FB_ID": "facebook-app-id",
-        "PLANT_FB_SECRET": "facebook-app-secret",
-        "PLANT_GOOGLE_ID": "google-app-id",
-        "PLANT_GOOGLE_SECRET": "google-app-secret"
-      },
-      "console": "integratedTerminal",
-      "sourceMaps": true,
-      "outDir": null
-    }, {
-      "name": "Reload Images",
-      "type": "node",
-      "request": "launch",
-      "program": "${workspaceRoot}/devops/reload-images-s3.js",
-      "stopOnEntry": false,
-      "args": [],
-      "cwd": "${workspaceRoot}",
-      "preLaunchTask": null,
-      "runtimeExecutable": null,
-      "runtimeArgs": [
-        "--nolazy"
-      ],
-      "env": {
-        "NODE_ENV": "development",
-        "PLANT_DB_URL": "127.0.0.1:27017",
-        "PLANT_DB_NAME": "plant-test"
-      },
-      "console": "internalConsole",
-      "sourceMaps": true,
-      "outDir": null
     }
   ]
 }
