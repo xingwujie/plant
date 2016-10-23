@@ -21,25 +21,36 @@ function scaleToCanvas(immutablePlants, width) {
   minMax.lat.min = Math.round(minMax.lat.min * gisMultiplier);
   minMax.lat.max = Math.round(minMax.lat.max * gisMultiplier);
 
-  // Take 10 pixels off each side.
-  const canvasWidth = width - 20;
   const canvasMin = 10;
-  const actualWidth = minMax.long.max - minMax.long.min;
-  const actualHeight = minMax.lat.max - minMax.lat.min;
+  // Take 10 pixels off each side.
+  const canvasWidth = width - (canvasMin * 2);
+  let actualWidth = minMax.long.max - minMax.long.min;
+  let actualHeight = minMax.lat.max - minMax.lat.min;
+  if(actualWidth === 0 && actualHeight === 0) {
+    // 1000 is about 10 metres I think
+    actualWidth = 1000;
+    actualHeight = 1000;
+  } else if (actualWidth === 0) {
+    actualWidth = actualHeight;
+  } else if (actualHeight === 0) {
+    actualHeight = actualWidth;
+  }
+
   const heightWidthRatio = actualHeight / actualWidth;
   const canvasHeight = heightWidthRatio * canvasWidth;
 
   const plants = immutablePlants.map(plant => {
     const long = Math.round(plant.getIn(['loc', 'coordinates', '0']) * gisMultiplier);
-    const ratioFromMin = (long - minMax.long.min) / actualWidth;
-    const x = (canvasWidth * ratioFromMin) + canvasMin;
+    const ratioFromMinLong = (long - minMax.long.min) / actualWidth;
+    const x = (canvasWidth * ratioFromMinLong) + canvasMin;
 
     const lat = Math.round(plant.getIn(['loc', 'coordinates', '1']) * gisMultiplier);
     const ratioFromMinLat = (lat - minMax.lat.min) / actualHeight;
     const y = (heightWidthRatio * (canvasWidth * ratioFromMinLat) + canvasMin);
 
-    const title = plant.getIn('title');
-    return {title, x, y};
+    const title = plant.get('title');
+    const _id = plant.get('_id');
+    return {_id, title, x, y};
   });
   return {
     plants,

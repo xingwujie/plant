@@ -14,14 +14,12 @@ class LayoutMap extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      color: 'green'
-    };
     this.handleClick = this.handleClick.bind(this);
     this.onChange = this.onChange.bind(this);
     this.state = {
-      users: store.getState('users'),
+      color: 'green',
       plants: store.getState('plants'),
+      users: store.getState('users'),
     };
 
     if(props.params && props.params.id) {
@@ -72,6 +70,7 @@ class LayoutMap extends React.Component {
   renderPlantLocation(plant) {
     return (
       <Rect
+        key={plant._id}
         x={plant.x} y={plant.y} width={10} height={10}
         fill={this.state.color}
         shadowBlur={10}
@@ -102,7 +101,7 @@ class LayoutMap extends React.Component {
       const scaledPlants = gis.scaleToCanvas(userPlants, width);
       return {
         canvasHeight: scaledPlants.canvasHeight,
-        plants: scaledPlants.plant.map(this.renderPlantLocation)
+        plants: scaledPlants.plants.map(this.renderPlantLocation.bind(this))
       };
     } else {
       return null;
@@ -112,19 +111,19 @@ class LayoutMap extends React.Component {
 
   render () {
     const canvasWidth = 700;
-    const plants = this.renderPlantLocations(canvasWidth);
+    const plantLocations = this.renderPlantLocations(canvasWidth);
 
     return (
       <Base>
         <div>
           {this.renderTitle()}
-          <div>{'Some text'}</div>
-          {!!plants &&
-            <Stage width={canvasWidth} height={plants.canvasHeight}>
+          {plantLocations
+            ? <Stage width={canvasWidth} height={plantLocations.canvasHeight}>
               <Layer>
-                {plants.plants}
+                {plantLocations.plants.valueSeq().toJS()}
               </Layer>
             </Stage>
+            : <div>{'No plants have been mapped.'}</div>
           }
         </div>
       </Base>
