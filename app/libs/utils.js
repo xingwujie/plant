@@ -1,6 +1,9 @@
+const constants = require('./constants');
 const slug = require('slug');
 const isDate = require('lodash/isDate');
 const moment = require('moment');
+
+const {gisMultiplier} = constants;
 
 // bson is currently not being explicitly installed in the project because
 // mongodb depends on mongodb-core which depends on bson. The Npm 3 installer
@@ -188,8 +191,6 @@ function getGeo(options, cb) {
   }, options);
 }
 
-
-const gisMultiplier = Math.pow(10, 7);
 
 /**
  * Because math in JS is not precise we need to use integers

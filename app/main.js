@@ -1,6 +1,7 @@
 require('jquery');
 require('bootstrap');
 require('bootstrap.css');
+require('konva');
 require('./stylesheets/main.css');
 
 const {browserHistory, Router, Route, IndexRoute} = require('react-router');

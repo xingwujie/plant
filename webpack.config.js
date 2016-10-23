@@ -78,6 +78,7 @@ const common = {
 
 common.addVendor('jquery', 'node_modules/jquery/dist/jquery.js');
 common.addVendor('bootstrap', 'node_modules/bootstrap/dist/js/bootstrap.js');
+common.addVendor('konva', 'node_modules/konva/konva.js');
 common.addVendor('bootstrap.css', 'node_modules/bootstrap/dist/css/bootstrap.css');
 
 if(TARGET === 'build') {
