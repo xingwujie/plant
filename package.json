@@ -36,7 +36,7 @@
     "passport-facebook": "2.1.1",
     "passport-google-oauth20": "1.0.0",
     "react": "15.3.2",
-    "react-bootstrap": "0.30.5",
+    "react-bootstrap": "0.30.6",
     "react-dom": "15.3.2",
     "react-dropzone": "3.7.0",
     "react-konva": "1.0.6",
