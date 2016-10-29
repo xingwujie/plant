@@ -134,10 +134,10 @@ describe('plant-api', function() {
   let updatedPlant;
   it('should update the just created plant', (done) => {
     updatedPlant = Object.assign({},
-      initialPlant,
-      {title: 'A New Title',
-      _id: plantId
-    });
+      initialPlant, {
+        title: 'A New Title',
+        _id: plantId
+      });
 
     const reqOptions = {
       method: 'PUT',

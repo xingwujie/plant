@@ -131,8 +131,7 @@ module.exports = (attributes, cb) => {
         }
         return Object.assign({},
           image,
-          {size: parseInt(image.size, 10)
-        });
+          {size: parseInt(image.size, 10)});
       })}
     );
   }

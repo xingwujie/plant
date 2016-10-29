@@ -149,7 +149,7 @@ class NoteRead extends React.Component {
         />
         {images}
       </Paper>
-      );
+    );
   }
 
   render() {
