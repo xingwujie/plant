@@ -8,7 +8,7 @@ const actions = require('../../actions');
 const gis = require('../../libs/gis');
 const Immutable = require('immutable');
 // const {Layer, Rect, Stage, Group} = require('react-konva');
-const {Layer, Rect, Stage} = require('react-konva');
+const {Layer, Text: KonvaText, Circle, Stage, Group} = require('react-konva');
 
 class LayoutMap extends React.Component {
 
@@ -68,14 +68,55 @@ class LayoutMap extends React.Component {
   }
 
   renderPlantLocation(plant) {
+    /*
+    var circle = new Konva.Circle({
+      x: stage.getWidth() / 2,
+      y: stage.getHeight() / 2,
+      radius: 70,
+      fill: 'red',
+      stroke: 'black',
+      strokeWidth: 4
+    });
+
+    var rect = new Konva.Rect({
+      x: 50,
+      y: 50,
+      width: 100,
+      height: 50,
+      fill: 'green',
+      stroke: 'black',
+      strokeWidth: 4
+    });
+    var simpleText = new Konva.Text({
+      x: stage.getWidth() / 2,
+      y: 15,
+      text: 'Simple Text',
+      fontSize: 30,
+      fontFamily: 'Calibri',
+      fill: 'green'
+    });
+     */
+    /*
+        */
     return (
-      <Rect
-        key={plant._id}
-        x={plant.x} y={plant.y} width={10} height={10}
-        fill={this.state.color}
-        shadowBlur={10}
-        onClick={this.handleClick}
-      />
+      <Group key={plant._id}>
+        <KonvaText
+          x={plant.x - 10}
+          y={plant.y}
+          text={plant.title}
+          fontSize={10}
+          fontFamily='Calibri'
+          fill='red'
+        />
+        <Circle
+          fill={this.state.color}
+          onClick={this.handleClick}
+          radius={5}
+          shadowBlur={10}
+          x={plant.x}
+          y={plant.y}
+        />
+      </Group>
     );
   }
 
@@ -110,7 +151,7 @@ class LayoutMap extends React.Component {
   }
 
   render () {
-    const canvasWidth = 700;
+    const canvasWidth = 1000;
     const plantLocations = this.renderPlantLocations(canvasWidth);
 
     return (

@@ -28,8 +28,8 @@ function scaleToCanvas(immutablePlants, width) {
   minMax.lat.min = Math.round(minMax.lat.min * gisMultiplier);
   minMax.lat.max = Math.round(minMax.lat.max * gisMultiplier);
 
-  const canvasMin = 10;
-  // Take 10 pixels off each side.
+  const canvasMin = 50;
+  // Take x pixels off each side.
   const canvasWidth = width - (canvasMin * 2);
   let actualWidth = minMax.long.max - minMax.long.min;
   let actualHeight = minMax.lat.max - minMax.lat.min;
