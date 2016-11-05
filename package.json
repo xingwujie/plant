@@ -48,7 +48,7 @@
     "request": "2.78.0",
     "slug": "0.9.1",
     "uuid": "2.0.3",
-    "validate.js": "0.10.0"
+    "validate.js": "0.11.0"
   },
   "description": "Plant Tracker",
   "devDependencies": {
