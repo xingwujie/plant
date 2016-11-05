@@ -86,7 +86,7 @@ describe('/app/models/plant', function() {
       assert.equal(err.price, 'Price is not a number');
       assert.equal(err.purchasedDate, 'Acquire date must have a valid month, value found was 13');
       assert.equal(err.tags, 'Tags can have a maximum of 5 tags');
-      assert.equal(err.title, 'Title can\'t be blank');
+      assert.equal(err.title, 'Title has an incorrect length');
       assert.equal(err.userId, 'User id is invalid');
       assert.deepEqual(plantCopy, plant);
       done();
