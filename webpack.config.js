@@ -1,4 +1,5 @@
 // const HtmlWebpackPlugin = require('html-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const merge = require('webpack-merge');
 const path = require('path');
 const webpack = require('webpack');
@@ -156,6 +157,7 @@ if(TARGET === 'dev') {
     devServer: {
       proxy: passthrough,
       contentBase: path.resolve(ROOT_PATH, 'build')
-    }
+    },
+    plugins: [new BundleAnalyzerPlugin()]
   });
 }
