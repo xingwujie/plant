@@ -1,4 +1,3 @@
-// const HtmlWebpackPlugin = require('html-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const merge = require('webpack-merge');
 const path = require('path');
@@ -73,7 +72,8 @@ const common = {
       jQuery: 'jquery',
       'window.jQuery': 'jquery',
       'root.jQuery': 'jquery'
-    })
+    }),
+    new webpack.IgnorePlugin(/unicode\/category\/So/)
   ]
 };
 
