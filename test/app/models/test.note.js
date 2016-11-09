@@ -217,6 +217,44 @@ describe('/app/models/note', function() {
       });
     });
 
+    it('should pass with valid images and an empty note', (done) => {
+      const note = {
+        _id: makeMongoId(),
+        date: 20160101,
+        images: [image],
+        note: '',
+        plantIds: [makeMongoId()],
+      };
+      const noteCopy = _.clone(note);
+
+      noteValidator(note, (err, transformed) => {
+        assert.equal(Object.keys(transformed).length, 5);
+        assert.equal(transformed._id, note._id);
+        assert.equal(transformed.note, note.note);
+        assert.equal(transformed.userId, note.userId);
+        assert.deepEqual(noteCopy, note);
+        done();
+      });
+    });
+
+    it('should pass with valid images and a missing note', (done) => {
+      const note = {
+        _id: makeMongoId(),
+        date: 20160101,
+        images: [image],
+        plantIds: [makeMongoId()],
+      };
+      const noteCopy = _.clone(note);
+
+      noteValidator(note, (err, transformed) => {
+        assert.equal(Object.keys(transformed).length, 4);
+        assert.equal(transformed._id, note._id);
+        assert.equal(transformed.userId, note.userId);
+        assert.deepEqual(noteCopy, note);
+        done();
+      });
+    });
+
     it('should fail if images is not an array', (done) => {
       const note = {
         _id: makeMongoId(),

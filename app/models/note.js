@@ -111,7 +111,7 @@ module.exports = (attributes, cb) => {
     date: {intDateValidate: {presence: true, name: 'Date'}},
     images: {imagesValidate: {}},
     plantIds: {plantIdsValidate: {length: {minimum: 1}}},
-    note: {length: {minimum: 1, maximum: 5000}, presence: false},
+    note: {length: {minimum: 0, maximum: 5000}, presence: false},
   };
 
   attributes = cloneDeep(attributes);
