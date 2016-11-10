@@ -27,7 +27,7 @@
     "marked": "0.3.6",
     "material-ui": "0.16.1",
     "method-override": "2.3.6",
-    "moment": "2.15.2",
+    "moment": "2.16.0",
     "mongodb": "2.2.11",
     "morgan": "1.7.0",
     "multer": "1.2.0",
