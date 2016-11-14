@@ -81,7 +81,7 @@
     "webpack": "1.13.3",
     "webpack-bundle-analyzer": "1.5.3",
     "webpack-dev-server": "1.16.2",
-    "webpack-merge": "0.15.0"
+    "webpack-merge": "0.16.0"
   },
   "engines": {
     "node": "7.0.0"
