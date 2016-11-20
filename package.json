@@ -26,7 +26,7 @@
     "loggly": "1.1.1",
     "marked": "0.3.6",
     "material-ui": "0.16.4",
-    "method-override": "2.3.6",
+    "method-override": "2.3.7",
     "moment": "2.16.0",
     "mongodb": "2.2.11",
     "morgan": "1.7.0",
