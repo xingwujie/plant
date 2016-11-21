@@ -2,27 +2,22 @@
 const actions = require('../actions');
 const Immutable = require('immutable');
 
-// The action.payload is the returned user from the server.
-function loadUserSuccess(state, action) {
-  const user = action.payload;
-  if(user.plantIds && user.plantIds.length) {
-    user.plantIds = Immutable.Set(user.plantIds);
-  }
-  return state.mergeDeep({
-    [user._id]: user
-  });
-}
-
 // The action.payload are the returned users from the server.
 function loadUsersSuccess(state, action) {
   const users = (action.payload || []).reduce((acc, user) => {
-    if(user.plantIds && user.plantIds.length) {
-      user.plantIds = Immutable.Set(user.plantIds);
-    }
+    user.plantIds = Immutable.Set(user.plantIds || []);
     acc[user._id] = user;
     return acc;
   }, {});
-  return state.mergeDeep(users);
+  const newState = state.mergeDeep(users);
+  return newState;
+}
+
+// The action.payload is the returned user from the server.
+function loadUserSuccess(state, action) {
+  return loadUsersSuccess(state, {
+    payload: [action.payload]
+  });
 }
 
 // User clicks save after creating a new plant, we need to

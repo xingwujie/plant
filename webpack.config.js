@@ -1,4 +1,4 @@
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const merge = require('webpack-merge');
 const path = require('path');
 const webpack = require('webpack');
@@ -158,6 +158,6 @@ if(TARGET === 'dev') {
       proxy: passthrough,
       contentBase: path.resolve(ROOT_PATH, 'build')
     },
-    plugins: [new BundleAnalyzerPlugin()]
+    // plugins: [new BundleAnalyzerPlugin()]
   });
 }
