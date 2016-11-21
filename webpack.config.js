@@ -149,7 +149,7 @@ if(TARGET === 'dev') {
       loaders: [
         {
           test: /\.jsx?$/,
-          loaders: ['react-hot', 'babel?presets[]=stage-1'],
+          loaders: ['react-hot-loader/webpack', 'babel?presets[]=stage-1'],
           include: path.resolve(ROOT_PATH, 'app')
         }
       ]
