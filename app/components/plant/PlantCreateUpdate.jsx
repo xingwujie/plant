@@ -15,6 +15,7 @@ const utils = require('../../libs/utils');
 const Immutable = require('immutable');
 const FloatingActionButton = require('material-ui/FloatingActionButton').default;
 const MapsAddLocation = require('material-ui/svg-icons/maps/add-location').default;
+// const PlantEditTerminated = require('./PlantEditTerminated');
 
 const validate = validators.plant;
 
@@ -214,6 +215,12 @@ class PlantCreateUpdate extends React.Component {
           value={price}
         />
         <Divider />
+
+        {/*
+        <PlantEditTerminated
+          {...this.props}
+        />
+        */}
 
         {hasGeo &&
           <div>

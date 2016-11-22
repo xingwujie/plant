@@ -98,6 +98,7 @@ module.exports = (attributes, {isNew}, cb) => {
     price: {numericality: {noStrings: true}},
     purchasedDate: {intDateValidate: {presence: false, name: 'Acquire date'}},
     tags: {tagValidate: {}},
+    // terminated: {presence: false},
     title: {length: {minimum: 1, maximum: 100}, presence: true},
     userId: {format: constants.mongoIdRE, presence: true},
   };
