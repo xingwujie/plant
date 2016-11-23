@@ -8,7 +8,7 @@ const {makeMongoId} = require('../../libs/utils');
 const actions = require('../../actions');
 const Base = require('../Base');
 const CircularProgress = require('material-ui/CircularProgress').default;
-const PlantCreateUpdate = require('./PlantCreateUpdate');
+const PlantEdit = require('./PlantEdit');
 const PlantRead = require('./PlantRead');
 const NoteCreate = require('./NoteCreate');
 const React = require('react');
@@ -108,7 +108,7 @@ class Plant extends React.Component {
       <Base>
         <div>
           {interimPlant
-            ? <PlantCreateUpdate
+            ? <PlantEdit
               dispatch={store.dispatch}
               interimPlant={interimPlant}
               user={user}

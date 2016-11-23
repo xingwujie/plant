@@ -19,7 +19,7 @@ const PlantEditTerminated = require('./PlantEditTerminated');
 
 const validate = validators.plant;
 
-class PlantCreateUpdate extends React.Component {
+class PlantEdit extends React.Component {
   static contextTypes = {
     router: React.PropTypes.object.isRequired
   };
@@ -260,7 +260,7 @@ class PlantCreateUpdate extends React.Component {
   }
 };
 
-PlantCreateUpdate.propTypes = {
+PlantEdit.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
   interimPlant: React.PropTypes.shape({
     get: React.PropTypes.func.isRequired,
@@ -271,4 +271,4 @@ PlantCreateUpdate.propTypes = {
   }).isRequired
 };
 
-module.exports = PlantCreateUpdate;
+module.exports = PlantEdit;
