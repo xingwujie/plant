@@ -37,10 +37,14 @@ class PlantEditTerminated extends React.Component {
     const { interimPlant } = this.props;
     const isTerminated = interimPlant.get('isTerminated', false);
     const terminatedDate = interimPlant.get('terminatedDate', '');
-    const terminatedReason = interimPlant.get('terminatedReason', 'died');
+    let terminatedReason = interimPlant.get('terminatedReason');
+    if(!terminatedReason) {
+      terminatedReason = 'died';
+      this.props.dispatch(actions.editPlantChange({
+        terminatedReason
+      }));
+    }
     const terminatedDescription = interimPlant.get('terminatedDescription', '');
-
-    console.log('terminated render:', {isTerminated, terminatedDate, terminatedReason, terminatedDescription});
 
     const errors = interimPlant.get('errors', Immutable.Map()).toJS();
     const dateFormat = 'MM/DD/YYYY';

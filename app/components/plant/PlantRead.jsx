@@ -97,7 +97,10 @@ class PlantRead extends React.Component {
       if(terminatedDate) {
         const date = utils.intToMoment(terminatedDate);
 
-        const terminatedReason = plant.get('terminatedReason');
+        const terminatedReason = plant.get('terminatedReason', 'unknown');
+        if(terminatedReason === 'unknown') {
+          console.error('terminatedReason not set', plant.toJS());
+        }
         if(plantedDate) {
           const datePlanted = utils.intToMoment(plantedDate);
           if(datePlanted.isBefore(date)) {
@@ -124,6 +127,12 @@ class PlantRead extends React.Component {
             </div>
           );
         }
+      // } else {
+      //   basicTitles.push(
+      //     <div key='terminatedDateUnknown'>
+      //       {''}
+      //     </div>
+      //   );
       }
     }
 
