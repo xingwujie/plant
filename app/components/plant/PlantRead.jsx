@@ -59,36 +59,75 @@ class PlantRead extends React.Component {
   }
 
   renderDetails(plant) {
+    if(!plant) {
+      return null;
+    }
+
     const titles = [
       {name: 'description', text: ''},
       {name: 'commonName', text: 'Common Name'},
       {name: 'botanicalName', text: 'Botanical Name'},
-      {name: 'plantedDate', text: 'Planted On'},
-      {name: 'terminatedDate', text: 'Terminated On'},
     ];
-    if(!plant) {
-      return null;
-    }
-    return titles.map( title => {
+    const basicTitles = titles.map( title => {
       const value = plant.get(title.name);
       if(!value) {
         return null;
       }
-      let renderText;
-      if(title.name === 'plantedDate' && value) {
-        const date = utils.intToMoment(value);
-        renderText = `Planted ${date.fromNow()}`;
-      } else if(title.name === 'terminatedDate' && value) {
-        const date = utils.intToMoment(value);
-        renderText = `Terminated on ${date.format('DD-MMM-YYYY')}`;
-      } else {
-        renderText = `${title.text ? title.text + ': ' : ''}${value}`;
-      }
+      let renderText = `${title.text ? title.text + ': ' : ''}${value}`;
       return (<div key={title.name}>
         {renderText}
       </div>);
     });
 
+    const dateFormat = 'DD-MMM-YYYY';
+
+    const plantedDate = plant.get('plantedDate');
+    if(plantedDate) {
+      const date = utils.intToMoment(plantedDate);
+      basicTitles.push(
+        <div key='plantedDate'>
+          {`Planted on ${date.format(dateFormat)} (${date.fromNow()})`}
+        </div>
+      );
+    }
+
+    const isTerminated = plant.get('isTerminated');
+    if(isTerminated) {
+      const terminatedDate = plant.get('terminatedDate');
+      if(terminatedDate) {
+        const date = utils.intToMoment(terminatedDate);
+
+        const terminatedReason = plant.get('terminatedReason');
+        if(plantedDate) {
+          const datePlanted = utils.intToMoment(plantedDate);
+          if(datePlanted.isBefore(date)) {
+            basicTitles.push(
+              <div key='plantToTerminated'>
+                {`...and then ${terminatedReason} after ${datePlanted.from(date, true)}`}
+              </div>
+            );
+          }
+        }
+
+        const reason = terminatedReason[0].toUpperCase() + terminatedReason.slice(1);
+        basicTitles.push(
+          <div key='terminatedDate'>
+            {`${reason} on ${date.format(dateFormat)}`}
+          </div>
+        );
+
+        const terminatedDescription = plant.get('terminatedDescription');
+        if(terminatedDescription) {
+          basicTitles.push(
+            <div key='terminatedDescription'>
+              {`(${terminatedDescription})`}
+            </div>
+          );
+        }
+      }
+    }
+
+    return basicTitles;
   }
 
   render() {
