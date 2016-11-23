@@ -52,10 +52,17 @@ class PlantItem extends React.Component {
       flex: '0 0 50px'
     };
 
+    const linkStyle = {
+      margin: '20px'
+    };
+    if(plant.get('isTerminated') === true) {
+      linkStyle.color = 'red';
+    }
+
     const link = `/plant/${makeSlug(title)}/${_id}`;
     const renderLink = (
       <Link
-        style={{margin: '20px'}}
+        style={linkStyle}
         to={link}
       >
         <span>{title}</span>
