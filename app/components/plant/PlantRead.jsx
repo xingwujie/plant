@@ -94,45 +94,45 @@ class PlantRead extends React.Component {
     const isTerminated = plant.get('isTerminated');
     if(isTerminated) {
       const terminatedDate = plant.get('terminatedDate');
-      if(terminatedDate) {
-        const date = utils.intToMoment(terminatedDate);
+      const dateTerminated = terminatedDate
+        ? utils.intToMoment(terminatedDate)
+        : null;
 
-        const terminatedReason = plant.get('terminatedReason', 'unknown');
-        if(terminatedReason === 'unknown') {
-          console.error('terminatedReason not set', plant.toJS());
-        }
-        if(plantedDate) {
-          const datePlanted = utils.intToMoment(plantedDate);
-          if(datePlanted.isBefore(date)) {
-            basicTitles.push(
-              <div key='plantToTerminated'>
-                {`...and then ${terminatedReason} after ${datePlanted.from(date, true)}`}
-              </div>
-            );
-          }
-        }
+      basicTitles.push(
+        <div key='terminatedDate'>
+          {`This plant was terminated${terminatedDate ? ` on ${dateTerminated.format(dateFormat)}` : ''}.`}
+        </div>
+      );
 
-        const reason = terminatedReason[0].toUpperCase() + terminatedReason.slice(1);
-        basicTitles.push(
-          <div key='terminatedDate'>
-            {`${reason} on ${date.format(dateFormat)}`}
-          </div>
-        );
-
-        const terminatedDescription = plant.get('terminatedDescription');
-        if(terminatedDescription) {
+      if(plantedDate && dateTerminated) {
+        const datePlanted = utils.intToMoment(plantedDate);
+        if(datePlanted.isBefore(dateTerminated)) {
           basicTitles.push(
-            <div key='terminatedDescription'>
-              {`(${terminatedDescription})`}
+            <div key='terminatedDaysAfterPlanting'>
+              {`${datePlanted.from(dateTerminated, true)} after it was planted.`}
             </div>
           );
         }
-      // } else {
-      //   basicTitles.push(
-      //     <div key='terminatedDateUnknown'>
-      //       {''}
-      //     </div>
-      //   );
+      }
+
+      const terminatedReason = plant.get('terminatedReason', 'unknown');
+      if(terminatedReason === 'unknown') {
+        console.error('terminatedReason not set', plant.toJS());
+      } else {
+        basicTitles.push(
+          <div key='terminatedReason'>
+            {`Reason: ${terminatedReason}`}
+          </div>
+        );
+      }
+
+      const terminatedDescription = plant.get('terminatedDescription');
+      if(terminatedDescription) {
+        basicTitles.push(
+          <div key='terminatedDescription'>
+            {`(${terminatedDescription})`}
+          </div>
+        );
       }
     }
 
