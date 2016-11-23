@@ -1,7 +1,7 @@
 // Used to update a note in a plant
 
 const React = require('react');
-const NoteCreateUpdate = require('./NoteCreateUpdate');
+const NoteEdit = require('./NoteEdit');
 
 class NoteUpdate extends React.Component {
 
@@ -11,7 +11,7 @@ class NoteUpdate extends React.Component {
     }
 
     return (
-      <NoteCreateUpdate
+      <NoteEdit
         dispatch={this.props.dispatch}
         interimNote={this.props.interimNote}
         plant={this.props.plant}

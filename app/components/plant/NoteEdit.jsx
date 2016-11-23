@@ -16,7 +16,7 @@ const Immutable = require('immutable');
 const validators = require('../../models');
 const validate = validators.note;
 
-class NoteCreateUpdate extends React.Component {
+class NoteEdit extends React.Component {
   constructor(props) {
     super(props);
     this.cancel = this.cancel.bind(this);
@@ -237,7 +237,7 @@ class NoteCreateUpdate extends React.Component {
   }
 }
 
-NoteCreateUpdate.propTypes = {
+NoteEdit.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
   images: React.PropTypes.array,
   interimNote: React.PropTypes.shape({
@@ -257,4 +257,4 @@ NoteCreateUpdate.propTypes = {
   }).isRequired
 };
 
-module.exports = NoteCreateUpdate;
+module.exports = NoteEdit;

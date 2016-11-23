@@ -112,7 +112,7 @@ Component naming uses CRUD (Create, Read, Update, Delete) names to identify what
 * Notes
   * Manages the Hide/Show "add note" functionality
   * Container to show a list of Notes
-* NoteCreateUpdate
+* NoteEdit
   * Create or Update a Note.
 * NoteRead
   * Shows the details of a Note

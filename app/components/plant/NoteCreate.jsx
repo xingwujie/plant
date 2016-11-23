@@ -2,7 +2,7 @@
 
 const actions = require('../../actions');
 const React = require('react');
-const NoteCreateUpdate = require('./NoteCreateUpdate');
+const NoteEdit = require('./NoteEdit');
 const FloatingActionButton = require('material-ui/FloatingActionButton').default;
 const AddIcon = require('material-ui/svg-icons/content/add').default;
 const utils = require('../../libs/utils');
@@ -46,7 +46,7 @@ class NoteCreate extends React.Component {
     return (
       <div>
         {createNote &&
-          <NoteCreateUpdate
+          <NoteEdit
             dispatch={this.props.dispatch}
             interimNote={interimNote}
             plant={this.props.plant}
