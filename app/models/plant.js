@@ -86,7 +86,7 @@ module.exports = (attributes, {isNew}, cb) => {
   const constraints = {
     _id: {format: constants.mongoIdRE, presence: true},
     botanicalName: {length: {maximum: 100}},
-    commonName:  {length: {maximum: 100}},
+    commonName: {length: {maximum: 100}},
     description: {length: {maximum: 500}},
     // { type: "Point", coordinates: [ 40, 5 ] }
     loc: {presence: false},
@@ -98,7 +98,10 @@ module.exports = (attributes, {isNew}, cb) => {
     price: {numericality: {noStrings: true}},
     purchasedDate: {intDateValidate: {presence: false, name: 'Acquire date'}},
     tags: {tagValidate: {}},
-    // terminated: {presence: false},
+    isTerminated: {presence: false},
+    terminatedDate: {intDateValidate: {presence: false, name: 'Terminated date'}},
+    terminatedReason: {presence: false},
+    terminatedDescription: {presence: false},
     title: {length: {minimum: 1, maximum: 100}, presence: true},
     userId: {format: constants.mongoIdRE, presence: true},
   };

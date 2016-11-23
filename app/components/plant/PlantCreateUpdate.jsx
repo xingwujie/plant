@@ -15,7 +15,7 @@ const utils = require('../../libs/utils');
 const Immutable = require('immutable');
 const FloatingActionButton = require('material-ui/FloatingActionButton').default;
 const MapsAddLocation = require('material-ui/svg-icons/maps/add-location').default;
-// const PlantEditTerminated = require('./PlantEditTerminated');
+const PlantEditTerminated = require('./PlantEditTerminated');
 
 const validate = validators.plant;
 
@@ -73,12 +73,12 @@ class PlantCreateUpdate extends React.Component {
   save(e) {
     const plant = this.props.interimPlant.toJS();
     const {isNew = false} = plant;
-    if(plant.purchasedDate) {
-      plant.purchasedDate = utils.dateToInt(plant.purchasedDate);
-    }
-    if(plant.plantedDate) {
-      plant.plantedDate = utils.dateToInt(plant.plantedDate);
-    }
+    const dateFields = ['plantedDate', 'purchasedDate', 'terminatedDate'];
+    dateFields.forEach(dateField => {
+      if(plant[dateField]) {
+        plant[dateField] = utils.dateToInt(plant[dateField]);
+      }
+    });
 
     plant.userId = this.props.user.get('_id');
 
@@ -216,11 +216,9 @@ class PlantCreateUpdate extends React.Component {
         />
         <Divider />
 
-        {/*
         <PlantEditTerminated
           {...this.props}
         />
-        */}
 
         {hasGeo &&
           <div>

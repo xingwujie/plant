@@ -4,6 +4,8 @@ const Immutable = require('immutable');
 const Toggle = require('material-ui/Toggle').default;
 const InputCombo = require('../InputCombo');
 const Divider = require('material-ui/Divider').default;
+const RadioButton = require('material-ui/RadioButton').RadioButton;
+const RadioButtonGroup = require('material-ui/RadioButton').RadioButtonGroup;
 
 class PlantEditTerminated extends React.Component {
 
@@ -23,11 +25,22 @@ class PlantEditTerminated extends React.Component {
   }
 
   render() {
+    const styles = {
+      radioGroup: {
+        display: 'flex',
+      },
+      radioButton: {
+        marginBottom: 16,
+        width: 'inherit',
+      },
+    };
     const { interimPlant } = this.props;
     const isTerminated = interimPlant.get('isTerminated', false);
     const terminatedDate = interimPlant.get('terminatedDate', '');
-    const terminatedReason = interimPlant.get('terminatedReason', '');
+    const terminatedReason = interimPlant.get('terminatedReason', 'died');
     const terminatedDescription = interimPlant.get('terminatedDescription', '');
+
+    console.log('terminated render:', {isTerminated, terminatedDate, terminatedReason, terminatedDescription});
 
     const errors = interimPlant.get('errors', Immutable.Map()).toJS();
     const dateFormat = 'MM/DD/YYYY';
@@ -52,14 +65,28 @@ class PlantEditTerminated extends React.Component {
               placeholder={dateFormat}
               value={terminatedDate}
             />
-            <InputCombo
-              changeHandler={this.onChange}
-              error={errors.terminatedReason}
-              label='Termination Reason'
+            <RadioButtonGroup
+              defaultSelected={terminatedReason}
               name='terminatedReason'
-              placeholder={'Pick a reason for terminating this plant'}
-              value={terminatedReason}
-            />
+              onChange={this.onChange}
+              style={styles.radioGroup}
+            >
+              <RadioButton
+                label='Culled'
+                style={styles.radioButton}
+                value='culled'
+              />
+              <RadioButton
+                label='Died'
+                style={styles.radioButton}
+                value='died'
+              />
+              <RadioButton
+                label='Transferred'
+                style={styles.radioButton}
+                value='transferred'
+              />
+            </RadioButtonGroup>
             <InputCombo
               changeHandler={this.onChange}
               error={errors.terminatedDescription}

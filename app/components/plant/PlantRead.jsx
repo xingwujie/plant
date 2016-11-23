@@ -29,12 +29,12 @@ class PlantRead extends React.Component {
 
   edit() {
     const plant = this.props.plant.toJS();
-    if(plant.plantedDate) {
-      plant.plantedDate = utils.intToString(plant.plantedDate);
-    }
-    if(plant.purchasedDate) {
-      plant.purchasedDate = utils.intToString(plant.purchasedDate);
-    }
+    const dateFields = ['plantedDate', 'purchasedDate', 'terminatedDate'];
+    dateFields.forEach(dateField => {
+      if(plant[dateField]) {
+        plant[dateField] = utils.intToString(plant[dateField]);
+      }
+    });
     this.props.dispatch(actions.editPlantOpen({plant, meta: {isNew: false}}));
   }
 
@@ -64,6 +64,7 @@ class PlantRead extends React.Component {
       {name: 'commonName', text: 'Common Name'},
       {name: 'botanicalName', text: 'Botanical Name'},
       {name: 'plantedDate', text: 'Planted On'},
+      {name: 'terminatedDate', text: 'Terminated On'},
     ];
     if(!plant) {
       return null;
@@ -77,6 +78,9 @@ class PlantRead extends React.Component {
       if(title.name === 'plantedDate' && value) {
         const date = utils.intToMoment(value);
         renderText = `Planted ${date.fromNow()}`;
+      } else if(title.name === 'terminatedDate' && value) {
+        const date = utils.intToMoment(value);
+        renderText = `Terminated on ${date.format('DD-MMM-YYYY')}`;
       } else {
         renderText = `${title.text ? title.text + ': ' : ''}${value}`;
       }

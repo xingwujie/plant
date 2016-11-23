@@ -96,6 +96,24 @@ function intToString(date) {
 }
 
 /**
+ * Converts the body of a POST/PUT to a plant object.
+ * @param {object} body - POST/PUT body
+ * @returns {object} - body with relavant fields converted to correct data type
+ */
+function plantFromBody(body) {
+  const dateFields = ['plantedDate', 'purchasedDate', 'terminatedDate'];
+  dateFields.forEach(dateField => {
+    if(body[dateField]) {
+      body[dateField] = parseInt(body[dateField], 10);
+    }
+  });
+  if(typeof body.isTerminated === 'string') {
+    body.isTerminated = body.isTerminated === 'true';
+  }
+  return body;
+}
+
+/**
  * Filters the plantIds array based on filter
  * @param {array} plantIds - original plantIds to filter
  * @param {Immutable.Map} plants - all the plants available to sort
@@ -244,10 +262,11 @@ module.exports = {
   intToDate,
   intToMoment,
   intToString,
-  makeMongoId,
   makeLayoutUrl,
+  makeMongoId,
   makePlantsUrl,
   makeSlug,
+  plantFromBody,
   rebaseLocations,
   sortPlants,
   transformErrors,
