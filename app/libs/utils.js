@@ -2,6 +2,7 @@ const constants = require('./constants');
 const slug = require('slug');
 const isDate = require('lodash/isDate');
 const moment = require('moment');
+const Immutable = require('immutable');
 
 const {gisMultiplier} = constants;
 
@@ -253,32 +254,42 @@ function rebaseLocations(plants) {
   });
 }
 
-const metrics = [{
-  label: 'Height', // For InputCombo
-  name: 'height', // For <input> and DB
-  placeholder: 'Enter height of plant', // Input hint
-  type: 'length',
-}, {
-  label: 'Girth',
-  name: 'girth',
-  placeholder: 'Enter girth of plant',
-  type: 'length',
-}, {
-  label: 'Harvest Count',
-  name: 'harvestCount',
-  placeholder: 'Enter number of items harvested',
-  type: 'count',
-}, {
-  label: 'Harvest Weight',
-  name: 'harvestWeight',
-  placeholder: 'Enter weight of harvest',
-  type: 'weight',
-}, {
-  label: 'First Blossum',
-  name: 'firstBlossum',
-  placeholder: 'Check when first blossom is seen',
-  type: 'toggle',
-}];
+const metrics = Immutable.fromJS({
+  height: {
+    label: 'Height', // For InputCombo
+    placeholder: 'Enter height of plant', // Input hint
+    type: 'length',
+  },
+  girth: {
+    label: 'Girth',
+    placeholder: 'Enter girth of plant',
+    type: 'length',
+  },
+  harvestCount: {
+    label: 'Harvest Count',
+    placeholder: 'Enter number of items harvested',
+    type: 'count',
+  },
+  harvestWeight: {
+    label: 'Harvest Weight',
+    placeholder: 'Enter weight of harvest',
+    type: 'weight',
+  },
+  firstBlossum: {
+    label: 'First Blossum',
+    placeholder: 'Check when first blossom is seen',
+    type: 'toggle',
+  }
+});
+
+/**
+ * Merges the values collected for a Note with values available
+ * @param {Immutable} values - an Immutable object of actual values
+ * @returns {Immutable} - all metrics available with actual values filled in
+ */
+function mergeMetrics(values = Immutable.Map()) {
+  return metrics.mergeDeep(values);
+}
 
 module.exports = {
   dateToInt,
@@ -293,6 +304,7 @@ module.exports = {
   makeMongoId,
   makePlantsUrl,
   makeSlug,
+  mergeMetrics,
   metrics,
   plantFromBody,
   rebaseLocations,
