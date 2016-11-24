@@ -253,6 +253,33 @@ function rebaseLocations(plants) {
   });
 }
 
+const metrics = [{
+  label: 'Height', // For InputCombo
+  name: 'height', // For <input> and DB
+  placeholder: 'Enter height of plant', // Input hint
+  type: 'length',
+}, {
+  label: 'Girth',
+  name: 'girth',
+  placeholder: 'Enter girth of plant',
+  type: 'length',
+}, {
+  label: 'Harvest Count',
+  name: 'harvestCount',
+  placeholder: 'Enter number of items harvested',
+  type: 'count',
+}, {
+  label: 'Harvest Weight',
+  name: 'harvestWeight',
+  placeholder: 'Enter weight of harvest',
+  type: 'weight',
+}, {
+  label: 'First Blossum',
+  name: 'firstBlossum',
+  placeholder: 'Check when first blossom is seen',
+  type: 'toggle',
+}];
+
 module.exports = {
   dateToInt,
   filterPlants,
@@ -266,6 +293,7 @@ module.exports = {
   makeMongoId,
   makePlantsUrl,
   makeSlug,
+  metrics,
   plantFromBody,
   rebaseLocations,
   sortPlants,
