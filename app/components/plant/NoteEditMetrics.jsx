@@ -1,17 +1,21 @@
+const actions = require('../../actions');
 const React = require('react');
 const InputCombo = require('../InputCombo');
 const Errors = require('../Errors');
+const Immutable = require('immutable');
+const utils = require('../../libs/utils');
 
 class NoteEditMetrics extends React.Component {
   constructor() {
     super();
     this.onChange = this.onChange.bind(this);
+    this.renderMetric = this.renderMetric.bind(this);
     this.renderLength = this.renderLength.bind(this);
     this.renderCount = this.renderCount.bind(this);
     this.renderWeight = this.renderWeight.bind(this);
     this.renderToggle = this.renderToggle.bind(this);
 
-    this.renderMetrics = Object.freeze({
+    this.metricTypes = Object.freeze({
       length: this.renderLength,
       count: this.renderCount,
       weight: this.renderWeight,
@@ -21,38 +25,64 @@ class NoteEditMetrics extends React.Component {
 
   onChange(e) {
     console.log('onChange:', e.target.name);
-    // this.props.dispatch(actions.editNoteChange({plantIds}));
+    const {name: inputName} = e.target;
+    const interimMetrics = this.props.interimNote.get('metrics', Immutable.Map());
+    const type = utils.metrics.getIn([inputName, 'type']);
+    // based on inputName (e.g. blossom or height) we need to lookup
+    // the type to determine where to pull the value. Types of toggle
+    // have their values in "checked" otherwise in "value"
+    // The change will be something like:
+    // {metrics: { height: 23.4, blossum: true }}
+
+    const value = type === 'toggle' ? e.target.checked : e.target.value;
+
+    const metrics = interimMetrics.mergeDeep({
+      [inputName]: value
+    });
+
+    this.props.dispatch(actions.editNoteChange({metrics}));
   }
 
-  renderLength(metric, key) {
+  renderLength(metaMetric, key, value) {
     return (<InputCombo
       key={key}
       changeHandler={this.onChange}
-      label={metric.label}
+      label={metaMetric.label}
       name={key}
-      placeholder={metric.placeholder}
-      value={metric.value || ''}
+      placeholder={metaMetric.placeholder}
+      value={value || ''}
     />);
   }
 
-  renderCount(met, key) {
-    return this.renderLength(met, key);
+  renderCount(metaMetric, key, value) {
+    return this.renderLength(metaMetric, key, value);
   }
 
-  renderWeight(met, key) {
-    return this.renderLength(met, key);
+  renderWeight(metaMetric, key, value) {
+    return this.renderLength(metaMetric, key, value);
   }
 
-  renderToggle(met, key) {
-    return this.renderLength(met, key);
+  renderToggle(metaMetric, key, value) {
+    return this.renderLength(metaMetric, key, value);
+  }
+
+  /**
+   * @param {object} metaMetric - All the metrics available
+   * @param {string} key - the key/name of the metric being rendered (e.g. 'height' or 'blossom')
+   * @param {string} value - the value if one has been set or an empty string.
+   * @returns {object} - a rendered React component to edit this type of metric
+   */
+  renderMetric(metaMetric, key, value) {
+    return this.metricTypes[metaMetric.type](metaMetric, key, value);
   }
 
   render() {
-    const metrics = this.props.metrics.toJS();
+    const { interimNote } = this.props;
+    const metrics = interimNote.get('metrics', Immutable.Map()).toJS();
+    const metaMetrics = utils.metrics.toJS();
 
-    const mets = Object.keys(metrics).map((key) => {
-      const metric = metrics[key];
-      return this.renderMetrics[metric.type](metric, key);
+    const mets = Object.keys(metaMetrics).map((key) => {
+      return this.renderMetric(metaMetrics[key], key, metrics[key] || '');
     });
 
     return (
@@ -67,7 +97,7 @@ class NoteEditMetrics extends React.Component {
 NoteEditMetrics.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
   error: React.PropTypes.string,
-  metrics: React.PropTypes.shape({
+  interimNote: React.PropTypes.shape({
     get: React.PropTypes.func.isRequired,
     toJS: React.PropTypes.func.isRequired,
   }).isRequired,
