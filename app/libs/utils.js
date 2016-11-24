@@ -254,41 +254,71 @@ function rebaseLocations(plants) {
   });
 }
 
-const metrics = Immutable.fromJS({
-  height: {
-    label: 'Height', // For InputCombo
-    placeholder: 'Enter height of plant', // Input hint
-    type: 'length',
-  },
-  girth: {
-    label: 'Girth',
-    placeholder: 'Enter girth of plant',
-    type: 'length',
-  },
-  harvestCount: {
-    label: 'Harvest Count',
-    placeholder: 'Enter number of items harvested',
-    type: 'count',
-  },
-  harvestWeight: {
-    label: 'Harvest Weight',
-    placeholder: 'Enter weight of harvest',
-    type: 'weight',
-  },
-  firstBlossum: {
-    label: 'First Blossum',
-    placeholder: 'Check when first blossom is seen',
-    type: 'toggle',
-  }
-});
+const metrics = Immutable.fromJS([{
+  key: 'height',
+  label: 'Height', // For InputCombo
+  placeholder: 'Enter height of plant', // Input hint
+  type: 'length',
+}, {
+  key: 'girth',
+  label: 'Girth',
+  placeholder: 'Enter girth of plant',
+  type: 'length',
+}, {
+  key: 'harvestCount',
+  label: 'Harvest Count',
+  placeholder: 'Enter number of items harvested',
+  type: 'count',
+}, {
+  key: 'harvestWeight',
+  label: 'Harvest Weight',
+  placeholder: 'Enter weight of harvest',
+  type: 'weight',
+}, {
+  key: 'firstBlossum',
+  label: 'First Blossum',
+  placeholder: 'Check when first blossom is seen',
+  type: 'toggle',
+}, {
+  key: 'lastBlossum',
+  label: 'Last Blossum',
+  placeholder: 'Check when last blossom is seen',
+  type: 'toggle',
+}, {
+  key: 'firstBud',
+  label: 'First Bud',
+  placeholder: 'Check when first bud is seen',
+  type: 'toggle',
+}, {
+  key: 'harvestStart',
+  label: 'Harvest Start',
+  placeholder: 'Check when harvest starts',
+  type: 'toggle',
+}, {
+  key: 'harvestEnd',
+  label: 'Harvest End',
+  placeholder: 'Check when harvest ends',
+  type: 'toggle',
+}, {
+  key: 'leafShedStart',
+  label: 'Leaf Shed Start',
+  placeholder: 'Check when leaf shed (abscission) starts',
+  type: 'toggle',
+}, {
+  key: 'leafShedEnd',
+  label: 'Leaf Shed End',
+  placeholder: 'Check when leaf shed (abscission) ends',
+  type: 'toggle',
+},
+]);
 
 /**
  * Merges the values collected for a Note with values available
- * @param {Immutable} values - an Immutable object of actual values
- * @returns {Immutable} - all metrics available with actual values filled in
+ * @param {string} key - the key of the object to get
+ * @returns {Immutable} - the metaMetric for that key
  */
-function mergeMetrics(values = Immutable.Map()) {
-  return metrics.mergeDeep(values);
+function metricsGetType(key) {
+  return metrics.find(value => value.key === key);
 }
 
 module.exports = {
@@ -304,8 +334,8 @@ module.exports = {
   makeMongoId,
   makePlantsUrl,
   makeSlug,
-  mergeMetrics,
   metrics,
+  metricsGetType,
   plantFromBody,
   rebaseLocations,
   sortPlants,

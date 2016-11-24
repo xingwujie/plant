@@ -124,14 +124,14 @@ describe('/app/libs/utils', function() {
     });
   });
 
-  describe('metrics', () => {
-    it('should merge metrics', () => {
-      const values = {height: {value: 15}};
-      const actual = utils.mergeMetrics(values);
-      const expected = utils.metrics.toJS();
-      expected.height.value = 15;
-      assert.deepEqual(actual.toJS(), expected);
-    });
-  });
+  // describe('metrics', () => {
+  //   it('should merge metrics', () => {
+  //     const values = {height: {value: 15}};
+  //     const actual = utils.mergeMetrics(values);
+  //     const expected = utils.metrics.toJS();
+  //     expected.height.value = 15;
+  //     assert.deepEqual(actual.toJS(), expected);
+  //   });
+  // });
 
 });
