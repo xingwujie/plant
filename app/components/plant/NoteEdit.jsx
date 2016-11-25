@@ -11,7 +11,7 @@ const CircularProgress = require('material-ui/CircularProgress').default;
 const actions = require('../../actions');
 const utils = require('../../libs/utils');
 const NoteAssocPlant = require('./NoteAssocPlant');
-// const NoteEditMetrics = require('./NoteEditMetrics');
+const NoteEditMetrics = require('./NoteEditMetrics');
 const Immutable = require('immutable');
 
 const validators = require('../../models');
@@ -139,9 +139,6 @@ class NoteEdit extends React.Component {
     const errors = interimNote.get('errors', Immutable.Map());
     const note = interimNote.get('note');
     const plantIds = interimNote.get('plantIds').toJS();
-    // const mets = interimNote.get('metrics').toJS();
-    // metrics:
-    // [{name: 'height', value: 14.5}]
 
     const textAreaStyle = {
       textAlign: 'left'
@@ -236,13 +233,11 @@ class NoteEdit extends React.Component {
           plants={this.props.plants.filter(plant => plant.get('userId') === this.props.user.get('_id'))}
         />
 
-        {/*
         <NoteEditMetrics
           dispatch={this.props.dispatch}
           error={errors.get('metrics')}
-          metrics={metrics}
+          interimNote={interimNote}
         />
-        */}
 
       </Paper>
     );

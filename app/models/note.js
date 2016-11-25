@@ -110,6 +110,7 @@ module.exports = (attributes, cb) => {
     _id: {format: constants.mongoIdRE, presence: true},
     date: {intDateValidate: {presence: true, name: 'Date'}},
     images: {imagesValidate: {}},
+    metrics: {presence: false},
     plantIds: {plantIdsValidate: {length: {minimum: 1}}},
     note: {length: {minimum: 0, maximum: 5000}, presence: false},
   };

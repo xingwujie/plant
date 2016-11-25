@@ -254,7 +254,7 @@ function rebaseLocations(plants) {
   });
 }
 
-const metrics = Immutable.fromJS([{
+const metaMetrics = Immutable.fromJS([{
   key: 'height',
   label: 'Height', // For InputCombo
   placeholder: 'Enter height of plant', // Input hint
@@ -312,13 +312,57 @@ const metrics = Immutable.fromJS([{
 },
 ]);
 
+function noteFromBody(body) {
+  body.date = parseInt(body.date, 10);
+
+  if(body.metrics) {
+    Object.keys(body.metrics).forEach(key => {
+      const metaMetric = metaMetrics.find(mm => mm.get('key') === key);
+      if(metaMetric) {
+        switch(metaMetric.get('type')) {
+          case 'toggle':
+            body.metrics[key] = body.metrics[key] === 'true';
+            if(!body.metrics[key]) {
+              // A missing toggle metric is false by default. No need
+              // to store it in the DB as false as that just wastes space.
+              delete body.metrics[key];
+            }
+            break;
+          case 'count':
+            body.metrics[key] = parseInt(body.metrics[key], 10);
+            if(isNaN(body.metrics[key])) {
+              delete body.metrics[key];
+            }
+            break;
+          default:
+            body.metrics[key] = parseFloat(body.metrics[key], 10);
+            if(isNaN(body.metrics[key])) {
+              delete body.metrics[key];
+            }
+            break;
+        }
+      } else {
+        // Remove any keys that we don't know about
+        delete body.metrics[key];
+      }
+    });
+    // If all the props in body.metrics have been removed then
+    // remove the body.metrics prop.
+    if(!Object.keys(body.metrics).length) {
+      delete body.metrics;
+    }
+  }
+
+  return body;
+}
+
 /**
- * Merges the values collected for a Note with values available
- * @param {string} key - the key of the object to get
+ * Given a key returns the metaMetric
+ * @param {string} key - the key (metric e.g. 'height' or 'blossomStart')
  * @returns {Immutable} - the metaMetric for that key
  */
-function metricsGetType(key) {
-  return metrics.find(value => value.key === key);
+function metaMetricsGetByKey(key) {
+  return metaMetrics.find(value => value.get('key') === key);
 }
 
 module.exports = {
@@ -334,8 +378,9 @@ module.exports = {
   makeMongoId,
   makePlantsUrl,
   makeSlug,
-  metrics,
-  metricsGetType,
+  metaMetrics,
+  metaMetricsGetByKey,
+  noteFromBody,
   plantFromBody,
   rebaseLocations,
   sortPlants,

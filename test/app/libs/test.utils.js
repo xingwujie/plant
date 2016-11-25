@@ -124,14 +124,44 @@ describe('/app/libs/utils', function() {
     });
   });
 
-  // describe('metrics', () => {
-  //   it('should merge metrics', () => {
-  //     const values = {height: {value: 15}};
-  //     const actual = utils.mergeMetrics(values);
-  //     const expected = utils.metrics.toJS();
-  //     expected.height.value = 15;
-  //     assert.deepEqual(actual.toJS(), expected);
-  //   });
-  // });
+  describe('metrics', () => {
+    it('should prepare note body and remove unknow metrics', () => {
+      const body = {
+        date: '20160101',
+        metrics: {
+          height: '15.5',
+          harvestCount: '32',
+          harvestStart: 'true',
+          invalidProp: '66',
+        }
+      };
+      const actual = utils.noteFromBody(body);
+      const expected = {
+        date: 20160101,
+        metrics: {
+          height: 15.5,
+          harvestCount: 32,
+          harvestStart: true,
+        }
+      };
+      assert.deepEqual(actual, expected);
+    });
+
+    it('should prepare note body and remove invalid metrics', () => {
+      const body = {
+        date: '20160101',
+        metrics: {
+          height: 'invalid float',
+          harvestCount: 'invalid number',
+          harvestStart: 'anything not "true" should be removed',
+        }
+      };
+      const actual = utils.noteFromBody(body);
+      const expected = {
+        date: 20160101,
+      };
+      assert.deepEqual(actual, expected);
+    });
+  });
 
 });
