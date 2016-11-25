@@ -275,13 +275,13 @@ const metaMetrics = Immutable.fromJS([{
   placeholder: 'Enter weight of harvest',
   type: 'weight',
 }, {
-  key: 'firstBlossum',
-  label: 'First Blossum',
+  key: 'firstBlossom',
+  label: 'First Blossom',
   placeholder: 'Check when first blossom is seen',
   type: 'toggle',
 }, {
-  key: 'lastBlossum',
-  label: 'Last Blossum',
+  key: 'lastBlossom',
+  label: 'Last Blossom',
   placeholder: 'Check when last blossom is seen',
   type: 'toggle',
 }, {

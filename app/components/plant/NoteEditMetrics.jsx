@@ -34,7 +34,7 @@ class NoteEditMetrics extends React.Component {
     // the type to determine where to pull the value. Types of toggle
     // have their values in "checked" otherwise in "value"
     // The change will be something like:
-    // {metrics: { height: 23.4, blossum: true }}
+    // {metrics: { height: 23.4, blossom: true }}
 
     const value = type === 'toggle' ? e.target.checked : e.target.value;
 

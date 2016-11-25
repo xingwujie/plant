@@ -7,7 +7,9 @@ const moment = require('moment');
 const LinkIcon = require('material-ui/svg-icons/content/link').default;
 const utils = require('../../libs/utils');
 const Markdown = require('../utils/Markdown');
+const NoteReadMetrics = require('./NoteReadMetrics');
 const Immutable = require('immutable');
+
 const List = Immutable.List;
 
 class NoteRead extends React.Component {
@@ -139,6 +141,7 @@ class NoteRead extends React.Component {
         </div>
         <h5>{noteDate}</h5>
         <Markdown markdown={note.get('note')} />
+        <NoteReadMetrics note={note} />
         <EditDeleteButtons
           clickDelete={this.checkDelete}
           clickEdit={this.editNote}
