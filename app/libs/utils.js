@@ -256,12 +256,12 @@ function rebaseLocations(plants) {
 
 const metaMetrics = Immutable.fromJS([{
   key: 'height',
-  label: 'Height', // For InputCombo
+  label: 'Height (inches only)', // For InputCombo
   placeholder: 'Enter height of plant', // Input hint
   type: 'length',
 }, {
   key: 'girth',
-  label: 'Girth',
+  label: 'Girth (inches only)',
   placeholder: 'Enter girth of plant',
   type: 'length',
 }, {
@@ -271,7 +271,7 @@ const metaMetrics = Immutable.fromJS([{
   type: 'count',
 }, {
   key: 'harvestWeight',
-  label: 'Harvest Weight',
+  label: 'Harvest Weight (lbs only)',
   placeholder: 'Enter weight of harvest',
   type: 'weight',
 }, {
