@@ -74,7 +74,7 @@ class NoteEditMetrics extends React.Component {
         labelPosition='left'
         name={metaMetric.key}
         onToggle={this.onChange}
-        style={{paddingLeft: '5px', maxWidth: '150px'}}
+        style={{paddingLeft: '5px', maxWidth: '200px'}}
       />
     );
   }

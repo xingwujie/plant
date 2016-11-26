@@ -20,11 +20,29 @@ class NoteReadMetrics extends React.Component {
       if(!metrics[metaMetric.key]) {
         return null;
       }
+
+      let value;
+      switch(metaMetric.type) {
+        case 'toggle':
+          value = '✔';
+          break;
+        case 'length':
+          value = `: ${metrics[metaMetric.key]} inches`;
+          break;
+        case 'weight':
+          value = `: ${metrics[metaMetric.key]} lbs`;
+          break;
+        default:
+          value = `: ${metrics[metaMetric.key]}`;
+          break;
+      }
+
       return (
         <li key={metaMetric.key}>
-          {`${metaMetric.label}: ${metrics[metaMetric.key]}`}
+          {`${metaMetric.label} ${value}`}
         </li>
       );
+
     });
 
     return (
