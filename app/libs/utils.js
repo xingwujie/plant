@@ -330,16 +330,21 @@ function noteFromBody(body) {
             break;
           case 'count':
             body.metrics[key] = parseInt(body.metrics[key], 10);
-            if(isNaN(body.metrics[key])) {
-              delete body.metrics[key];
+            break;
+          case 'length':
+            if(body.metrics[key].includes(' ')) {
+              const parts = body.metrics[key].split(' ');
+              body.metrics[key] = parseFloat(parts[0], 10) * 12 + parseFloat(parts[1], 10);
+            } else {
+              body.metrics[key] = parseFloat(body.metrics[key], 10);
             }
             break;
           default:
             body.metrics[key] = parseFloat(body.metrics[key], 10);
-            if(isNaN(body.metrics[key])) {
-              delete body.metrics[key];
-            }
             break;
+        }
+        if(isNaN(body.metrics[key])) {
+          delete body.metrics[key];
         }
       } else {
         // Remove any keys that we don't know about
