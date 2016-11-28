@@ -1,4 +1,4 @@
-const Base = require('./Base');
+const Base = require('../Base');
 const React = require('react');
 
 // Responsible for:
