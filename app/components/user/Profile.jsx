@@ -1,5 +1,7 @@
 const Base = require('../Base');
 const React = require('react');
+const RadioButton = require('material-ui/RadioButton').RadioButton;
+const RadioButtonGroup = require('material-ui/RadioButton').RadioButtonGroup;
 
 // Responsible for:
 // 1. Current user: /profile
@@ -9,11 +11,44 @@ const React = require('react');
 class Profile extends React.Component {
 
   render() {
+    const styles = {
+      radioGroup: {
+        display: 'flex',
+      },
+      radioButton: {
+        marginBottom: 16,
+        width: 'inherit',
+      },
+    };
+
+    const unitOfMeasurement = 'imperial';
+
     return (
       <Base>
         <h2 style={{textAlign: 'center'}}>
           User Profile
         </h2>
+        <h3>{'Unit of Measurement'}</h3>
+        <RadioButtonGroup
+          defaultSelected={unitOfMeasurement}
+          name='unitOfMeasurement'
+          onChange={this.onChange}
+          style={styles.radioGroup}
+        >
+          <RadioButton
+            disabled={true}
+            label='Imperial'
+            style={styles.radioButton}
+            value='imperial'
+          />
+          <RadioButton
+            disabled={true}
+            label='Metric'
+            style={styles.radioButton}
+            value='metric'
+          />
+        </RadioButtonGroup>
+        <h3>{'Locations'}</h3>
       </Base>
     );
   }
