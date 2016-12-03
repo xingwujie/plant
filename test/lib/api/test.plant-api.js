@@ -107,6 +107,7 @@ describe('plant-api', function() {
       assert.equal(response._id, plantId);
       assert.equal(response.title, initialPlant.title);
       assert(response.notes);
+      assert(response.locationId);
       assert.equal(response.notes.length, 0);
 
       done();
@@ -148,9 +149,10 @@ describe('plant-api', function() {
     };
 
     helper.makeRequest(reqOptions, (error, httpMsg, response) => {
+      const { locationId } = response;
       assert(!error);
       assert.equal(httpMsg.statusCode, 200);
-      const expected = Object.assign({}, updatedPlant, {userId: user._id});
+      const expected = Object.assign({}, updatedPlant, {userId: user._id, locationId});
       assert.deepEqual(response, expected);
 
       done();

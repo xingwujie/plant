@@ -4,7 +4,7 @@
 const mongo = require('../lib/db/mongo');
 const async = require('async');
 
-mongo.getAllUsers((allUserErr, usersWithPlantIds) => {
+mongo._getAllUsersOnly((allUserErr, usersWithPlantIds) => {
   if(allUserErr) {
     console.log('allUserErr', allUserErr);
     return;
@@ -19,15 +19,22 @@ mongo.getAllUsers((allUserErr, usersWithPlantIds) => {
     if(user.loc) {
       loc.loc = user.loc;
     }
-    mongo.createLocation(loc, (createLocationErr) => {
+    mongo.createLocation(loc, (createLocationErr, createdLocation) => {
       if(createLocationErr) {
+        console.log('createLocationErr', createLocationErr);
         return cb(createLocationErr);
       } else {
         if(user.loc) {
-          // TODO: Create an update for user
-          // mongo.updateUser
+          delete user.loc;
+          mongo.updateUser(user, (updateUserErr) => {
+            if(updateUserErr) {
+              console.log('updateUserErr', updateUserErr);
+            } else {
+              mongo._setLocation(user._id, createdLocation._id, cb);
+            }
+          });
         } else {
-          cb();
+          mongo._setLocation(user._id, createdLocation._id, cb);
         }
       }
     });
@@ -35,6 +42,8 @@ mongo.getAllUsers((allUserErr, usersWithPlantIds) => {
     if(asyncEachUserErr) {
       console.log('asyncEachUserErr', asyncEachUserErr);
       return;
+    } else {
+      console.log('All complete');
     }
   });
 
