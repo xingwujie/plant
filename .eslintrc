@@ -20,6 +20,9 @@
     "react"
   ],
   "rules": {
-    "no-underscore-dangle": 0
+    "no-underscore-dangle": 0,
+    "no-shadow": [2, {"allow": [
+      "Location"
+    ]}]
   }
 }

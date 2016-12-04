@@ -40,6 +40,7 @@ var routes = (
     <Route path='/debug-settings' component={DebugSettings}/>
     <Route path='/help' component={Help}/>
     <Route path='/layout/:slug/:id' component={LayoutMap}/>
+    <Route path='/location/:slug/:id' component={Location}/>
     <Route path='/login' component={Login}/>
     <Route path='/plant' component={Plant}/>
     <Route path='/plant/:slug/:id' component={Plant}/>
