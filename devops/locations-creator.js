@@ -4,6 +4,11 @@
 const mongo = require('../lib/db/mongo');
 const async = require('async');
 
+if(!process.env.DEBUG) {
+  console.log('Set DEBUG env to "plant:*" before running...');
+  process.exit(1);
+}
+
 const Logger = require('../lib/logging/logger');
 Logger.setLevel('trace');
 const logger = new Logger('devops-location-creator');
