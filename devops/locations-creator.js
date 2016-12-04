@@ -4,9 +4,13 @@
 const mongo = require('../lib/db/mongo');
 const async = require('async');
 
+const Logger = require('../lib/logging/logger');
+Logger.setLevel('trace');
+const logger = new Logger('devops-location-creator');
+
 mongo._getAllUsersOnly((allUserErr, usersWithPlantIds) => {
   if(allUserErr) {
-    console.log('allUserErr', allUserErr);
+    logger.trace('allUserErr', {allUserErr});
     return;
   }
 
@@ -21,14 +25,14 @@ mongo._getAllUsersOnly((allUserErr, usersWithPlantIds) => {
     }
     mongo.createLocation(loc, (createLocationErr, createdLocation) => {
       if(createLocationErr) {
-        console.log('createLocationErr', createLocationErr);
+        logger.trace('createLocationErr', {createLocationErr});
         return cb(createLocationErr);
       } else {
         if(user.loc) {
           delete user.loc;
-          mongo.updateUser(user, (updateUserErr) => {
+          mongo._updateUser(user, (updateUserErr) => {
             if(updateUserErr) {
-              console.log('updateUserErr', updateUserErr);
+              logger.trace('updateUserErr', {updateUserErr});
             } else {
               mongo._setLocation(user._id, createdLocation._id, cb);
             }
@@ -40,11 +44,12 @@ mongo._getAllUsersOnly((allUserErr, usersWithPlantIds) => {
     });
   }, (asyncEachUserErr) => {
     if(asyncEachUserErr) {
-      console.log('asyncEachUserErr', asyncEachUserErr);
-      return;
+      logger.trace('asyncEachUserErr', {asyncEachUserErr});
     } else {
-      console.log('All complete');
+      logger.trace('All complete');
     }
+    logger.trace('Closing...');
+    mongo._close();
   });
 
 });

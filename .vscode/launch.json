@@ -36,7 +36,7 @@
       "name": "TestPad",
       "type": "node",
       "request": "launch",
-      "program": "${workspaceRoot}/devops/test-pad.js",
+      "program": "${workspaceRoot}/devops/locations-creator.js",
       "stopOnEntry": false,
       "args": [],
       "cwd": "${workspaceRoot}",
@@ -46,7 +46,8 @@
         "--nolazy"
       ],
       "env": {
-        "NODE_ENV": "development"
+        "NODE_ENV": "development",
+        "DEBUG": "plant:*"
       },
       "console": "internalConsole",
       "sourceMaps": true
