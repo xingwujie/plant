@@ -53,7 +53,7 @@ class Home extends React.Component {
     );
   }
 
-  anonHome(existing) {
+  anonHome(existingUsers, existingLocations) {
     const elevatorPitch =
 `Plaaant will improve the growth and health of 
 your trees and plants by providing a way to record, 
@@ -66,23 +66,33 @@ measure, compare, and share successes and failures.`;
           <div><Link to={'/login'}>{'Login'}</Link>{' to get started'}</div>
         </div>
       }
-      {existing &&
-        <div style={{cursor: 'pointer'}} className='home-subheader'>
-          <a onClick={() => this.setState({showUsers: true})}>
-            {'Explore...'}
-          </a>
-        </div>
+      {existingUsers &&
+        <Link
+          style={{margin: '20px'}}
+          to={'/users'}
+        >
+          {'Exlore Farmers and Gardeners...'}
+        </Link>
+      }
+      {existingLocations &&
+        <Link
+          style={{margin: '20px'}}
+          to={'/locations'}
+        >
+          {'Exlore Orchards, Gardens, Yards and Farms...'}
+        </Link>
       }
     </div>);
   }
 
   renderUsers() {
     const users = store.getState().get('users');
+    const locations = store.getState().get('locations');
     const {showUsers = false} = this.state || {};
     if(users && users.size && showUsers) {
       return users.valueSeq().toArray().map(user => this.renderUser(user));
     } else {
-      return this.anonHome(users && users.size);
+      return this.anonHome(users && users.size, locations && locations.size);
     }
   }
 

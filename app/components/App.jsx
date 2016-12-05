@@ -11,12 +11,17 @@ class App extends React.Component {
       store.dispatch(actions.loadUsersRequest());
     }
 
+    const locations = store.getState().get('locations');
+    if(!locations || locations.size === 0) {
+      store.dispatch(actions.loadLocationsRequest());
+    }
+
     const user = store.getState().get('user');
     if(user && user.get('isLoggedIn', false)) {
-      const plantIds = user.get('plantIds');
-      if(!plantIds) {
+      const locationIds = user.get('locationIds');
+      if(!locationIds) {
         const userId = user.get('_id');
-        store.dispatch(actions.loadPlantsRequest(userId));
+        store.dispatch(actions.loadLocationsRequest(userId));
       }
     }
   }

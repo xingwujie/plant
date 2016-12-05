@@ -282,6 +282,7 @@ function loadUserFailure(payload) {
     payload
   };
 }
+
 const LOAD_USERS_REQUEST = 'LOAD_USERS_REQUEST';
 const LOAD_USERS_SUCCESS = 'LOAD_USERS_SUCCESS';
 const LOAD_USERS_FAILURE = 'LOAD_USERS_FAILURE';
@@ -303,6 +304,31 @@ function loadUsersSuccess(payload) {
 function loadUsersFailure(payload) {
   return {
     type: LOAD_USERS_FAILURE,
+    payload
+  };
+}
+
+const LOAD_LOCATIONS_REQUEST = 'LOAD_LOCATIONS_REQUEST';
+const LOAD_LOCATIONS_SUCCESS = 'LOAD_LOCATIONS_SUCCESS';
+const LOAD_LOCATIONS_FAILURE = 'LOAD_LOCATIONS_FAILURE';
+
+function loadLocationsRequest(payload) {
+  return {
+    type: LOAD_LOCATIONS_REQUEST,
+    payload
+  };
+}
+
+function loadLocationsSuccess(payload) {
+  return {
+    type: LOAD_LOCATIONS_SUCCESS,
+    payload
+  };
+}
+
+function loadLocationsFailure(payload) {
+  return {
+    type: LOAD_LOCATIONS_FAILURE,
     payload
   };
 }
@@ -373,6 +399,7 @@ module.exports = {
   EDIT_PLANT_CHANGE,
   EDIT_PLANT_CLOSE,
   EDIT_PLANT_OPEN,
+  LOAD_LOCATIONS_REQUEST,
   LOAD_NOTES_FAILURE,
   LOAD_NOTES_REQUEST,
   LOAD_NOTES_SUCCESS,
@@ -416,6 +443,9 @@ module.exports = {
   editPlantChange,
   editPlantClose,
   editPlantOpen,
+  loadLocationsFailure,
+  loadLocationsRequest,
+  loadLocationsSuccess,
   loadNotesFailure,
   loadNotesRequest,
   loadNotesSuccess,

@@ -209,6 +209,18 @@ function loadUsersRequest(store) {
   ajax(store, options);
 }
 
+// Load all the locations.
+// At some point in the future we'll want paging but for now grab all of them
+// action.payload at this point is undefined
+function loadLocationsRequest(store) {
+  const options = {
+    url: '/api/locations',
+    success: actions.loadLocationsSuccess,
+    failure: actions.loadLocationsFailure
+  };
+  ajax(store, options);
+}
+
 // Get all the notes listed
 // action.payload is an object with one of 2 properties:
 // noteIds: an array of noteIds
@@ -258,6 +270,7 @@ const apis = {
   [actions.LOAD_UNLOADED_PLANTS_REQUEST]: loadUnloadedPlantsRequest,
   [actions.LOAD_USER_REQUEST]: loadUserRequest,
   [actions.LOAD_USERS_REQUEST]: loadUsersRequest,
+  [actions.LOAD_LOCATIONS_REQUEST]: loadLocationsRequest,
   [actions.LOGIN_REQUEST]: loginRequest,
   [actions.UPDATE_PLANT_REQUEST]: updatePlant,
   [actions.UPSERT_NOTE_REQUEST]: upsertNoteRequest,
