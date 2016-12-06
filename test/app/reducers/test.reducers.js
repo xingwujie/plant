@@ -7,11 +7,12 @@ describe('/app/reducers', function() {
 
   it('should reduce a logout action', (done) => {
     const expected = {
+      interim: {},
+      locations: {},
       notes: {},
       plants: {},
       user: {},
       users: {},
-      interim: {}
     };
     const actual = rootReducer(new Immutable.Map(), actions.logout());
     assert.deepEqual(actual.toJS(), expected);

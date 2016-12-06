@@ -1,5 +1,6 @@
 const { combineReducers } = require('redux-immutable');
 const interim = require('./interim');
+const locations = require('./locations');
 const notes = require('./notes');
 const plants = require('./plants');
 const user = require('./user');
@@ -7,6 +8,7 @@ const users = require('./users');
 
 module.exports = combineReducers({
   interim,
+  locations,
   notes,
   plants,
   user,

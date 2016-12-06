@@ -16,14 +16,14 @@ class App extends React.Component {
       store.dispatch(actions.loadLocationsRequest());
     }
 
-    const user = store.getState().get('user');
-    if(user && user.get('isLoggedIn', false)) {
-      const locationIds = user.get('locationIds');
-      if(!locationIds) {
-        const userId = user.get('_id');
-        store.dispatch(actions.loadLocationsRequest(userId));
-      }
-    }
+    // const user = store.getState().get('user');
+    // if(user && user.get('isLoggedIn', false)) {
+    //   const locationIds = user.get('locationIds');
+    //   if(!locationIds) {
+    //     const userId = user.get('_id');
+    //     store.dispatch(actions.loadLocationsRequest(userId));
+    //   }
+    // }
   }
 
   render() {
