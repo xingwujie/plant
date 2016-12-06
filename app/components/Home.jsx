@@ -2,10 +2,7 @@ const {Link} = require('react-router');
 const Base = require('./Base');
 const React = require('react');
 const store = require('../store');
-// const utils = require('../libs/utils');
 const {isLoggedIn} = require('../libs/auth-helper');
-
-// const {makeSlug} = utils;
 
 class Home extends React.Component {
   static contextTypes = {
@@ -37,22 +34,6 @@ class Home extends React.Component {
   onChange() {
     this.updateState();
   }
-
-  // renderUser(user) {
-  //   const _id = user.get('_id');
-  //   const userName = user.get('name');
-  //   const link = `/locations/${makeSlug(userName)}/${_id}`;
-  //   return (
-  //     <div key={_id} style={{display: 'flex', alignItems: 'center'}}>
-  //       <Link
-  //         style={{margin: '20px'}}
-  //         to={link}
-  //       >
-  //         <span>{userName}</span>
-  //       </Link>
-  //     </div>
-  //   );
-  // }
 
   anonHome(existingUsers, existingLocations) {
     const elevatorPitch =
@@ -93,12 +74,7 @@ measure, compare, and share your awesomeness.`;
   renderUsers() {
     const users = store.getState().get('users');
     const locations = store.getState().get('locations');
-    // const {showUsers = false} = this.state || {};
-    // if(users && users.size && showUsers) {
-    //   return users.valueSeq().toArray().map(user => this.renderUser(user));
-    // } else {
     return this.anonHome(!!(users && users.size), !!(locations && locations.size));
-    // }
   }
 
   render() {
