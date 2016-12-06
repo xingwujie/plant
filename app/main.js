@@ -23,7 +23,9 @@ const LayoutMap = require('./components/layout/LayoutMap');
 const React = require('react');
 const ReactDOM = require('react-dom');
 const Terms = require('./components/info/Terms');
-
+const Location = require('./components/location/Location');
+const Locations = require('./components/location/Locations');
+const Users = require('./components/user/Users');
 const muiTheme = getMuiTheme({
   palette: {
     accent1Color: deepOrange500,
@@ -41,6 +43,9 @@ var routes = (
     <Route path='/help' component={Help}/>
     <Route path='/layout/:slug/:id' component={LayoutMap}/>
     <Route path='/location/:slug/:id' component={Location}/>
+    <Route path='/locations' component={Locations}/>
+    <Route path='/locations/:slug/:id' component={Locations}/>
+    <Route path='/users' component={Users}/>
     <Route path='/login' component={Login}/>
     <Route path='/plant' component={Plant}/>
     <Route path='/plant/:slug/:id' component={Plant}/>
