@@ -65,7 +65,7 @@ class Location extends React.Component {
       users = {},
     } = this.state || {};
     const user = users[this.props.params.id];
-    return user && (authUser._id === user._id);
+    return !!(user && authUser._id === user._id);
   }
 
   addPlantButton() {

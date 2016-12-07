@@ -10,10 +10,6 @@ const utils = require('../../libs/utils');
 const {makeSlug} = utils;
 
 class Users extends React.Component {
-  static contextTypes = {
-    router: React.PropTypes.object.isRequired
-  };
-
   constructor() {
     super();
     this.onChange = this.onChange.bind(this);
