@@ -9,6 +9,7 @@ const {Link} = require('react-router');
 const store = require('../../store');
 const utils = require('../../libs/utils');
 const Immutable = require('immutable');
+const AddLocationButton = require('./AddLocationButton');
 
 const {makeSlug} = utils;
 
@@ -59,6 +60,32 @@ class Locations extends React.Component {
     );
   }
 
+  isOwner(user) {
+    const authUser = store.getState().get('user', Immutable.Map());
+    return !!(user && authUser.get('_id') === user.get('_id'));
+  }
+
+  renderTitle(title) {
+    return (
+      <h2 style={{textAlign: 'center'}}>{`${title}`}</h2>
+    );
+  }
+
+  renderNoLocations(user) {
+    return (
+      <div>
+        {this.renderTitle(user.get('name'))}
+        <h3 style={{textAlign: 'center'}}>
+          <div style={{marginTop: '100px'}}>{'No locations added yet...'}</div>
+          <AddLocationButton
+            show={this.isOwner(user)}
+            style={{marginTop: '10px'}}
+          />
+        </h3>
+      </div>
+    );
+  }
+
   renderLocations() {
     const locations = store.getState().get('locations');
     if(!locations || !locations.size) {
@@ -67,11 +94,16 @@ class Locations extends React.Component {
 
     const {params} = this.props;
     if(params && params.id) {
-      const locationIds = store.getState().getIn(['users', params.id, 'locationIds'], Immutable.List());
-      return locationIds.valueSeq().toArray().map(locationId => {
-        const location = locations.get(locationId);
-        this.renderLocation(location);
-      });
+      const user = store.getState().getIn(['users', params.id], Immutable.Map());
+      const locationIds = user.get('locationIds', Immutable.List());
+      if(locationIds.size) {
+        return locationIds.valueSeq().toArray().map(locationId => {
+          const location = locations.get(locationId);
+          this.renderLocation(location);
+        });
+      } else {
+        return this.renderNoLocations(user);
+      }
     } else {
       return locations.valueSeq().toArray().map(location => this.renderLocation(location));
     }

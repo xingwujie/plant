@@ -147,7 +147,6 @@ class LayoutMap extends React.Component {
     } else {
       return null;
     }
-
   }
 
   render () {
@@ -164,7 +163,9 @@ class LayoutMap extends React.Component {
                 {plantLocations.plants.valueSeq().toJS()}
               </Layer>
             </Stage>
-            : <div>{'No plants have been mapped.'}</div>
+            : <h3 style={{textAlign: 'center'}}>
+                <div style={{marginTop: '100px'}}>{'No plants have been mapped yet...'}</div>
+              </h3>
           }
         </div>
       </Base>
