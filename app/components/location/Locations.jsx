@@ -22,7 +22,8 @@ class Locations extends React.Component {
 
   updateState() {
     const locations = store.getState().get('locations');
-    this.setState({locations});
+    const users = store.getState().get('users');
+    this.setState({locations, users});
   }
 
   componentWillMount() {
