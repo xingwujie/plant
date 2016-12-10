@@ -49,7 +49,7 @@ function startServerAuthenticated(cb) {
   function emptyDatabase(done) {
     mongo.GetDb((dbGetError, db) => {
       assert(!dbGetError);
-      async.each(['user', 'plant', 'note'], (collection, callback) => {
+      async.each(['user', 'location', 'plant', 'note'], (collection, callback) => {
         const coll = db.collection(collection);
         coll.deleteMany({}, callback);
       }, (err) => {
@@ -85,7 +85,8 @@ function startServerAuthenticated(cb) {
       assert(user);
       assert(user._id);
       assert(constants.mongoIdRE.test(user._id));
-      assert.deepEqual(_.omit(user, ['_id']), fbUser);
+      assert(constants.mongoIdRE.test(user.locationIds[0]));
+      assert.deepEqual(_.omit(user, ['_id', 'locationIds']), fbUser);
 
       waterfallData.user = user;
       done(err, waterfallData);

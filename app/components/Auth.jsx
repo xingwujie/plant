@@ -3,7 +3,7 @@ const React = require('react');
 const store = require('../store');
 const actions = require('../actions');
 const Immutable = require('immutable');
-const utils = require('../libs/utils');
+// const utils = require('../libs/utils');
 
 class Auth extends React.Component {
   static contextTypes = {
@@ -41,7 +41,9 @@ class Auth extends React.Component {
       if(returnurl) {
         localStorage.removeItem('returnurl');
       }
-      const destination = returnurl || utils.makePlantsUrl(user);
+      // TODO: Make this next line work instead of the following
+      // const destination = returnurl || utils.makeLocationUrl(location);
+      const destination = returnurl || '/';
       this.context.router.push(destination);
     }
   }

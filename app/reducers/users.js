@@ -5,7 +5,7 @@ const Immutable = require('immutable');
 // The action.payload are the returned users from the server.
 function loadUsersSuccess(state, action) {
   const users = (action.payload || []).reduce((acc, user) => {
-    user.plantIds = Immutable.Set(user.plantIds || []);
+    user.locationIds = Immutable.Set(user.locationIds || []);
     acc[user._id] = user;
     return acc;
   }, {});
@@ -20,78 +20,77 @@ function loadUserSuccess(state, action) {
   });
 }
 
-// User clicks save after creating a new plant, we need to
-// add this to the list of plants owned by this user.
-// action.payload is a plant object created in the browser
+// User clicks save after creating a new location, we need to
+// add this to the list of locations owned by this user.
+// action.payload is a location object created in the browser
 // Some of the fields:
 // _id
 // title
 // userId
-function createPlantRequest(state, action) {
-  // payload is an object of new plant being POSTed to server
+function createLocationRequest(state, action) {
+  // payload is an object of new location being POSTed to server
   // an _id has already been assigned to this object
-  const plant = action.payload;
-  const user = state.get(plant.userId);
+  const location = action.payload;
+  const user = state.get(location.userId);
   if(user) {
-    const plantIds = user.get('plantIds', Immutable.Set()).add(plant._id);
-    return state.set(plant.userId, user.set('plantIds', plantIds));
+    const ownerLocationIds = user.get('ownerLocationIds', Immutable.Set()).add(location._id);
+    return state.set(location.userId, user.set('ownerLocationIds', ownerLocationIds));
   } else {
-    console.warn(`No user found in users createPlantRequest reducer ${plant.userId}`);
+    console.warn(`No user found in users createLocationRequest reducer ${location.userId}`);
     return state;
   }
 }
 
-// If a bunch of plants are loaded then check that the plant
-// is on the user's plantIds list
-// action.payload is an array of plant objects
-function loadPlantsSuccess(state, action) {
-  if(action.payload && action.payload.length > 0) {
+// If a bunch of locations are loaded then check that the location
+// is on the user's ownerLocationIds/managerLocationIds list
+// action.payload is an array of location objects
+// function loadLocationsSuccess(state, action) {
+//   if(action.payload && action.payload.length > 0) {
 
-    // Create an object with users:
-    // {'u1': {plantIds: ['p1', p2]}, 'u2': {...}}
-    const users = action.payload.reduce((acc, plant) => {
-      if(state.get(plant.userId)) {
-        acc[plant.userId] = acc[plant.userId] || { plantIds: Immutable.Set() };
-        acc[plant.userId].plantIds = acc[plant.userId].plantIds.add(plant._id);
-      }
-      return acc;
-    }, {});
+//     // Create an object with users:
+//     // {'u1': {locationIds: ['p1', p2]}, 'u2': {...}}
+//     const users = action.payload.reduce((acc, location) => {
+//       if(state.get(location.userId)) {
+//         acc[location.userId] = acc[location.userId] || { locationIds: Immutable.Set() };
+//         acc[location.userId].locationIds = acc[location.userId].locationIds.add(location._id);
+//       }
+//       return acc;
+//     }, {});
 
-    // const isList = List.isList
-    const isSet = Immutable.Set.isSet;
-    function merger(a, b) {
-      if (isSet(a) && isSet(b)) {
-        return a.union(b);
-      } else if(a && a.mergeWith) {
-        return a.mergeWith(merger, b);
-      } else {
-        return b;
-      }
-    }
+//     // const isList = List.isList
+//     const isSet = Immutable.Set.isSet;
+//     function merger(a, b) {
+//       if (isSet(a) && isSet(b)) {
+//         return a.union(b);
+//       } else if(a && a.mergeWith) {
+//         return a.mergeWith(merger, b);
+//       } else {
+//         return b;
+//       }
+//     }
 
-    return state.mergeDeepWith(merger, users);
-  } else {
-    return state;
-  }
-}
+//     return state.mergeDeepWith(merger, users);
+//   } else {
+//     return state;
+//   }
+// }
 
-// action.payload: {plantId: <plant-id>, userId: <user-id>}
-function deletePlantRequest(state, action) {
-  const {userId, plantId} = action.payload;
-  const plantIds = state.getIn([userId, 'plantIds'], Immutable.List());
-  if(plantIds.has(plantId)) {
-    const pIds = plantIds.filter(pId => pId !== plantId);
-    return state.setIn([userId, 'plantIds'], pIds);
-  } else {
-    return state;
-  }
-}
+// action.payload: {locationId: <location-id>, userId: <user-id>}
+// function deleteLocationRequest(state, action) {
+//   const {userId, locationId} = action.payload;
+//   const locationIds = state.getIn([userId, 'locationIds'], Immutable.List());
+//   if(locationIds.has(locationId)) {
+//     const pIds = locationIds.filter(pId => pId !== locationId);
+//     return state.setIn([userId, 'locationIds'], pIds);
+//   } else {
+//     return state;
+//   }
+// }
 
 const reducers = {
-  [actions.CREATE_PLANT_REQUEST]: createPlantRequest,
-  [actions.DELETE_PLANT_REQUEST]: deletePlantRequest,
-  [actions.LOAD_PLANTS_SUCCESS]: loadPlantsSuccess,
-  [actions.LOAD_UNLOADED_PLANTS_SUCCESS]: loadPlantsSuccess,
+  [actions.CREATE_LOCATION_REQUEST]: createLocationRequest,
+  // [actions.DELETE_LOCATION_REQUEST]: deleteLocationRequest,
+  // [actions.LOAD_LOCATIONS_SUCCESS]: loadLocationsSuccess,
   [actions.LOAD_USER_SUCCESS]: loadUserSuccess,
   [actions.LOAD_USERS_SUCCESS]: loadUsersSuccess,
 };
@@ -108,4 +107,5 @@ module.exports = (state = new Immutable.Map(), action) => {
 // _id
 // createdAt
 // name
-// plantIds: [plantId1, ...]
+// ownerLocationIds: [locationId1, ...]
+// managerLocationIds: [locationId1, ...]

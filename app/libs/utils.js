@@ -39,24 +39,24 @@ function makeSlug(text) {
   });
 }
 
-function makeUrl(first, user) {
-  const userName = user.get('name');
-  const _id = user.get('_id');
+function makeUrl(first, location) {
+  const title = location.get('title');
+  const _id = location.get('_id');
 
-  return `/${first}/${makeSlug(userName)}/${_id}`;
+  return `/${first}/${makeSlug(title)}/${_id}`;
 }
 
 /**
- * Make a /plants/user-name-slug/id url from user object
- * @param {Immutable.Map} user - an Immutable.js Map
+ * Make a /location/location-name-slug/id url from location object
+ * @param {Immutable.Map} location - an Immutable.js Map
  * @returns {string} - a url
  */
-function makePlantsUrl(user) {
-  return makeUrl('plants', user);
+function makeLocationUrl(location) {
+  return makeUrl('location', location);
 }
 
-function makeLayoutUrl(user) {
-  return makeUrl('layout', user);
+function makeLayoutUrl(location) {
+  return makeUrl('layout', location);
 }
 
 /**
@@ -381,7 +381,7 @@ module.exports = {
   intToString,
   makeLayoutUrl,
   makeMongoId,
-  makePlantsUrl,
+  makeLocationUrl,
   makeSlug,
   metaMetrics,
   metaMetricsGetByKey,

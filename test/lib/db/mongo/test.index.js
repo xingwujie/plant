@@ -59,13 +59,14 @@ describe('/lib/db/mongo/', function() {
       const user = {
         facebook: {
           id: fbUser.facebook.id
-        },
+        }
       };
       mongo.findOrCreateUser(user, (err, body) => {
         assert(!err);
         assert(body);
         assert(body._id);
         assert(constants.mongoIdRE.test(body._id));
+        assert(constants.mongoIdRE.test(body.locationIds[0]));
         assert.deepStrictEqual(body, fbUser);
 
         done();

@@ -22,7 +22,7 @@ mongo._getAllUsersOnly((allUserErr, usersWithPlantIds) => {
   async.each(usersWithPlantIds, (user, cb) => {
     const loc = {
       userId: user._id,
-      ownerIds: [user._id],
+      userIds: [{id: user._id, role: 'owner'}],
       title: `${user.name} Yard`
     };
     if(user.loc) {

@@ -1,4 +1,6 @@
-require('node-version-checker');
+const checker = require('node-version-checker').default;
+checker();
+
 const jsdom = require('jsdom');
 
 const Logger = require('../lib/logging/logger');

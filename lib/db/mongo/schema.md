@@ -14,8 +14,9 @@
 ## Location
 
 - _id (MongoId)
-- ownerIds (array of MongoIds that exist in the User collection)
-- managerIds (array of MongoIds that exist in the User collection)
+- userIds (array of user objects) each object:
+  - id (MongoId) of user in user collection
+  - role (string) - one of 'owner', 'manager'
 - title (name of the location)
 - loc (received from User collection - this is the Geo location of the Location)
 - public - a boolean flag which is `false` (missing) by default. Indicates if the geo location of these plants can be made public.

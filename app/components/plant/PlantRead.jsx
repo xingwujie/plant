@@ -44,15 +44,20 @@ class PlantRead extends React.Component {
 
   confirmDelete(yes) {
     if(yes) {
-      const {user, plant} = this.props;
+      const {user, plant, locations} = this.props;
       const payload = {
         userId: user.get('_id'),
         plantId: plant.get('_id')
       };
+      const location = locations.get(plant.locationId);
       this.props.dispatch(actions.deletePlantRequest(payload));
-      // Transition to /plants/:slug/:id
-      const plantUrl = utils.makePlantsUrl(user);
-      this.context.router.push(plantUrl);
+      if(location) {
+        // Transition to /location/:slug/:id
+        const locationUrl = utils.makeLocationUrl(location);
+        this.context.router.push(locationUrl);
+      } else {
+        console.warn('Could not find location for locationId', plant.locationId);
+      }
     } else {
       this.setState({showDeleteConfirmation: false});
     }
@@ -202,6 +207,9 @@ PlantRead.propTypes = {
   notes:  React.PropTypes.shape({
     get: React.PropTypes.func.isRequired,
   }).isRequired,
+  locations: React.PropTypes.shape({
+    get: React.PropTypes.func.isRequired,
+  }).isRequired,
   plant:  React.PropTypes.shape({
     get: React.PropTypes.func.isRequired,
     toJS: React.PropTypes.func.isRequired,
@@ -209,9 +217,9 @@ PlantRead.propTypes = {
   plants:  React.PropTypes.shape({
     get: React.PropTypes.func.isRequired,
   }).isRequired,
-  user: React.PropTypes.shape({ // Immutable.js Map
+  user: React.PropTypes.shape({
     get: React.PropTypes.func.isRequired,
-  }).isRequired
+  }).isRequired,
 };
 
 module.exports = PlantRead;

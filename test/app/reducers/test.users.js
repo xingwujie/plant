@@ -17,7 +17,7 @@ describe('/app/reducers/users', function() {
     const state = Immutable.fromJS({});
     const payload = {_id: '1', name: 'john'};
     const expected = Immutable.fromJS({
-      '1': {_id: '1', name: 'john', plantIds: Immutable.Set()}
+      '1': {_id: '1', name: 'john', locationIds: Immutable.Set()}
     });
     checkReducer('loadUserSuccess', state, payload, expected);
   });
@@ -26,16 +26,16 @@ describe('/app/reducers/users', function() {
     const state = Immutable.fromJS({});
     const payload = [{_id: '1', name: 'john'}];
     const expected = Immutable.fromJS({
-      '1': {_id: '1', name: 'john', plantIds: Immutable.Set()}
+      '1': {_id: '1', name: 'john', locationIds: Immutable.Set()}
     });
     checkReducer('loadUsersSuccess', state, payload, expected);
   });
 
   it('should reduce createPlantRequest action', () => {
-    const state = Immutable.fromJS({ 'u1': {_id: 'u1', name: 'john', plantIds: Immutable.Set(['p1'])}});
+    const state = Immutable.fromJS({ 'u1': {_id: 'u1', name: 'john', locationIds: Immutable.Set(['p1'])}});
     const payload = {_id: 'p2', title: 'pt', userId: 'u1'};
     const expected = Immutable.fromJS({
-      'u1': {_id: 'u1', name: 'john', plantIds: Immutable.Set(['p1', 'p2'])}
+      'u1': {_id: 'u1', name: 'john', locationIds: Immutable.Set(['p1'])}
     });
     checkReducer('createPlantRequest', state, payload, expected);
   });
@@ -45,12 +45,12 @@ describe('/app/reducers/users', function() {
       'u1': {
         _id: 'u1',
         name: 'john',
-        plantIds: Immutable.Set(['p1.1'])
+        locationIds: Immutable.Set(['p1.1'])
       },
       'u2': {
         _id: 'u2',
         name: 'jane',
-        plantIds: Immutable.Set(['p2.1', 'p2.2'])
+        locationIds: Immutable.Set(['p2.1', 'p2.2'])
       }
     });
     const payload = [
@@ -61,8 +61,8 @@ describe('/app/reducers/users', function() {
       {_id: 'p3.1', userId: 'u3'},
     ];
     const expected = Immutable.fromJS({
-      'u1': {_id: 'u1', name: 'john', plantIds: Immutable.Set(['p1.1', 'p1.2'])},
-      'u2': {_id: 'u2', name: 'jane', plantIds: Immutable.Set(['p2.1', 'p2.2', 'p2.3'])},
+      'u1': {_id: 'u1', name: 'john', locationIds: Immutable.Set(['p1.1'])},
+      'u2': {_id: 'u2', name: 'jane', locationIds: Immutable.Set(['p2.1', 'p2.2'])},
     });
     checkReducer('loadPlantsSuccess', state, payload, expected);
   });
@@ -72,18 +72,18 @@ describe('/app/reducers/users', function() {
       'u1': {
         _id: 'u1',
         name: 'john',
-        plantIds: Immutable.Set(['p1.1'])
+        locationIds: Immutable.Set(['p1.1'])
       },
       'u2': {
         _id: 'u2',
         name: 'jane',
-        plantIds: Immutable.Set(['p2.1', 'p2.2', 'p2.3'])
+        locationIds: Immutable.Set(['p2.1', 'p2.2', 'p2.3'])
       }
     });
-    const payload = {userId: 'u2', plantId: 'p2.1'};
+    const payload = {userId: 'u2', locationId: 'p2.1'};
     const expected = Immutable.fromJS({
-      'u1': {_id: 'u1', name: 'john', plantIds: Immutable.Set(['p1.1'])},
-      'u2': {_id: 'u2', name: 'jane', plantIds: Immutable.Set(['p2.2', 'p2.3'])},
+      'u1': {_id: 'u1', name: 'john', locationIds: Immutable.Set(['p1.1'])},
+      'u2': {_id: 'u2', name: 'jane', locationIds: Immutable.Set(['p2.1', 'p2.2', 'p2.3'])},
     });
 
     checkReducer('deletePlantRequest', state, payload, expected);

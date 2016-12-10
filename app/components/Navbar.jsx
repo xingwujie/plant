@@ -36,9 +36,60 @@ class Navbar extends React.Component {
     store.dispatch(actions.logout());
   }
 
+  makeMyPlantsMenu(loggedIn) {
+    if(!loggedIn) {
+      return null;
+    }
+
+    const {
+      user,
+    } = this.state || {};
+
+    let locationId = user.get('currentLocationId', '');
+
+    if(!locationId) {
+      const ownerLocationIds = user.get('ownerLocationIds', Immutable.List());
+      if(ownerLocationIds.size) {
+        locationId = ownerLocationIds.get(0);
+      }
+    }
+
+    // if(!locationId) {
+    //   const managerLocationIds = user.get('managerLocationIds', Immutable.List());
+    //   if(managerLocationIds.size) {
+    //     locationId = managerLocationIds.get(0);
+    //   }
+    // }
+
+    if(!locationId) {
+      const altUser = store.getState().getIn(['users', user.get('_id')]);
+      if(altUser) {
+        const ownerLocationIds = altUser.get('ownerLocationIds', Immutable.List());
+        if(ownerLocationIds.size) {
+          locationId = ownerLocationIds.get(0);
+        }
+      }
+    }
+
+    if(!locationId) {
+      return null;
+    }
+
+    const location = store.getState().getIn(['locations', locationId]);
+    if(!location) {
+      return null;
+    }
+
+    return (
+      <li>
+        <Link to={utils.makeLocationUrl(location)} title='My Plants'>My Plants</Link>
+      </li>
+    );
+  }
+
   render() {
     const {
-      user = {},
+      user,
       interimMap
     } = this.state || {};
     const displayName = user.get('name', '');
@@ -66,11 +117,7 @@ class Navbar extends React.Component {
 
           <div className='collapse navbar-collapse' id='plant-navbar-collapse'>
             <ul className='nav navbar-nav navbar-right'>
-              {loggedIn &&
-                <li>
-                  <Link to={utils.makePlantsUrl(user)} title='My Plants'>My Plants</Link>
-                </li>
-              }
+              {this.makeMyPlantsMenu(loggedIn)}
               {loggedIn &&
                 <li className='dropdown'>
                   <a href='#' className='dropdown-toggle'

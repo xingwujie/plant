@@ -26,7 +26,9 @@ function createPlantRequest(state, action) {
   const plant = action.payload;
   const location = state.get(plant.locationId);
   if(location) {
+    // Add the new plantId to the existing list of plantIds at this location
     const plantIds = location.get('plantIds', Immutable.Set()).add(plant._id);
+    // Update the location object with the new list of plantIds
     return state.set(plant.locationId, location.set('plantIds', plantIds));
   } else {
     console.warn(`No location found in locations createPlantRequest reducer ${plant.locationId}`);
@@ -81,11 +83,13 @@ function deletePlantRequest(state, action) {
 }
 
 const reducers = {
+  // [actions.CREATE_LOCATION_REQUEST]: createLocationRequest,
   [actions.CREATE_PLANT_REQUEST]: createPlantRequest,
+  // [actions.DELETE_LOCATION_REQUEST]: deleteLocationRequest,
   [actions.DELETE_PLANT_REQUEST]: deletePlantRequest,
+  [actions.LOAD_LOCATIONS_SUCCESS]: loadLocationsSuccess,
   [actions.LOAD_PLANTS_SUCCESS]: loadPlantsSuccess,
   [actions.LOAD_UNLOADED_PLANTS_SUCCESS]: loadPlantsSuccess,
-  [actions.LOAD_LOCATIONS_SUCCESS]: loadLocationsSuccess,
 };
 
 module.exports = (state = new Immutable.Map(), action) => {
