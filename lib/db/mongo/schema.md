@@ -11,6 +11,14 @@
 - updatedAt
 - loc - to be moved to Location collection
 
+### Indexes
+
+```
+db.user.createIndex({'facebook.id': 1}, {unique: true, sparse: true, name: 'facebookId'})
+db.user.createIndex({'google.id': 1}, {unique: true, sparse: true, name: 'googleId'})
+db.user.createIndex({'email': 1}, {unique: true, sparse: true, name: 'email'})
+```
+
 ## Location
 
 - _id (MongoId)
