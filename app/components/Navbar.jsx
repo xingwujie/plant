@@ -36,7 +36,7 @@ class Navbar extends React.Component {
     store.dispatch(actions.logout());
   }
 
-  makeMyPlantsMenu(loggedIn) {
+  getLocation(loggedIn) {
     if(!loggedIn) {
       return null;
     }
@@ -48,9 +48,9 @@ class Navbar extends React.Component {
     let locationId = user.get('currentLocationId', '');
 
     if(!locationId) {
-      const ownerLocationIds = user.get('ownerLocationIds', Immutable.List());
-      if(ownerLocationIds.size) {
-        locationId = ownerLocationIds.get(0);
+      const locationIds = user.get('locationIds', Immutable.List());
+      if(locationIds.size) {
+        locationId = locationIds.get(0);
       }
     }
 
@@ -64,9 +64,9 @@ class Navbar extends React.Component {
     if(!locationId) {
       const altUser = store.getState().getIn(['users', user.get('_id')]);
       if(altUser) {
-        const ownerLocationIds = altUser.get('ownerLocationIds', Immutable.List());
-        if(ownerLocationIds.size) {
-          locationId = ownerLocationIds.get(0);
+        const locationIds = altUser.get('locationIds', Immutable.List());
+        if(locationIds.size) {
+          locationId = locationIds.get(0);
         }
       }
     }
@@ -86,6 +86,33 @@ class Navbar extends React.Component {
       </li>
     );
   }
+
+  makeMyPlantsMenu(loggedIn) {
+    const location = this.getLocation(loggedIn);
+    if(!location) {
+      return null;
+    }
+
+    return (
+      <li>
+        <Link to={utils.makeLocationUrl(location)} title='My Plants'>My Plants</Link>
+      </li>
+    );
+  }
+
+  makeLayoutMenu(loggedIn) {
+    const location = this.getLocation(loggedIn);
+    if(!location) {
+      return null;
+    }
+
+    return (
+      <li>
+        <Link to={utils.makeLayoutUrl(location)}>Layout Map</Link>
+      </li>
+    );
+  }
+
 
   render() {
     const {
@@ -126,9 +153,7 @@ class Navbar extends React.Component {
                     title={displayName}>{displayName} <span className='caret' />
                   </a>
                   <ul className='dropdown-menu'>
-                    <li>
-                      <Link to={utils.makeLayoutUrl(user)}>Layout Map</Link>
-                    </li>
+                    {this.makeLayoutMenu(loggedIn)}
                     <li>
                       <Link to={'/profile'}>Profile</Link>
                     </li>

@@ -33,8 +33,11 @@ function createLocationRequest(state, action) {
   const location = action.payload;
   const user = state.get(location.userId);
   if(user) {
-    const ownerLocationIds = user.get('ownerLocationIds', Immutable.Set()).add(location._id);
-    return state.set(location.userId, user.set('ownerLocationIds', ownerLocationIds));
+    const locationIds = user.get('locationIds', Immutable.Set()).add({
+      id: location._id,
+      role: 'owner'
+    });
+    return state.set(location.userId, user.set('locationIds', locationIds));
   } else {
     console.warn(`No user found in users createLocationRequest reducer ${location.userId}`);
     return state;
@@ -42,7 +45,7 @@ function createLocationRequest(state, action) {
 }
 
 // If a bunch of locations are loaded then check that the location
-// is on the user's ownerLocationIds/managerLocationIds list
+// is on the user's locationIds list
 // action.payload is an array of location objects
 // function loadLocationsSuccess(state, action) {
 //   if(action.payload && action.payload.length > 0) {
@@ -107,5 +110,7 @@ module.exports = (state = new Immutable.Map(), action) => {
 // _id
 // createdAt
 // name
-// ownerLocationIds: [locationId1, ...]
-// managerLocationIds: [locationId1, ...]
+// locationIds: [{
+//   id: <a location _id>,
+//   role: 'owner/manager'
+// }, ...]
