@@ -1,11 +1,6 @@
 const {initialState} = require('../store/user');
 const Immutable = require('immutable');
-
-const {
-  LOGIN_REQUEST,
-  LOGIN_SUCCESS,
-  LOGIN_FAILURE,
-  LOGOUT} = require('../actions');
+const actions = require('../actions');
 
 function loginRequest() {
   return Immutable.fromJS({
@@ -33,11 +28,28 @@ function logout() {
   return Immutable.fromJS({});
 }
 
+// The action.payload are the returned locations from the server.
+function loadLocationsSuccess(state, action) {
+  if(state.get('isLoggedIn', false) && !state.get('activeLocationId', '')) {
+    const _id = state.get('_id');
+
+    const location = (action.payload || []).find(loc => loc.userIds.some(userId => userId.id === _id));
+    if(location) {
+      console.log('found location');
+      return state.set('activeLocationId', location._id);
+    } else {
+      console.log('no location found');
+    }
+  }
+  return state;
+}
+
 const reducers = {
-  [LOGIN_REQUEST]: loginRequest,
-  [LOGIN_SUCCESS]: loginSuccess,
-  [LOGIN_FAILURE]: loginFailure,
-  [LOGOUT]: logout,
+  [actions.LOAD_LOCATIONS_SUCCESS]: loadLocationsSuccess,
+  [actions.LOGIN_FAILURE]: loginFailure,
+  [actions.LOGIN_REQUEST]: loginRequest,
+  [actions.LOGIN_SUCCESS]: loginSuccess,
+  [actions.LOGOUT]: logout,
 };
 
 // The login reducer

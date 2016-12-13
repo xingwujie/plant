@@ -81,7 +81,7 @@ class Plant extends React.Component {
 
   render() {
     const user = store.getState().get('user');
-
+    const locations = store.getState().get('locations');
     const plants = store.getState().get('plants');
 
     const {params} = this.props;
@@ -118,19 +118,20 @@ class Plant extends React.Component {
                 dispatch={store.dispatch}
                 interim={interim}
                 isOwner={owner}
+                locations={locations}
+                notes={notes}
                 plant={plant}
                 plants={plants}
                 user={user}
-                notes={notes}
               />
               {plant && plant.get('title') &&
                 <NoteCreate
                   dispatch={store.dispatch}
+                  interimNote={interimNote}
                   isOwner={owner}
                   plant={plant}
                   plants={plants}
                   user={user}
-                  interimNote={interimNote}
                 />
               }
             </div>

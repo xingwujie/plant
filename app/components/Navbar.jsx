@@ -36,7 +36,17 @@ class Navbar extends React.Component {
     store.dispatch(actions.logout());
   }
 
-  getLocation(loggedIn) {
+  // When to show the "My Plants" menu and what action to take:
+  // User is logged in: Always show "My Plants"
+  // User has zero locations: "My Plants" links to /locations/user-slug/user-id
+  //   (Allows user to add a location)
+  //   (Just put a placeholder here for now)
+  // User has activeLocationId set: "My Plants" links to /location/location-slug/activeLocationId
+  // User has 1 location. "My Plants" links to /location/location-slug/<single-location-id>
+  // User has multiple locations: "My Plants" links to /locations/user-slug/user-id
+  //   (Allows user to pick a location)
+  //   (Just put a placeholder here for now)
+  makeMyPlantsMenu(loggedIn) {
     if(!loggedIn) {
       return null;
     }
@@ -45,38 +55,16 @@ class Navbar extends React.Component {
       user,
     } = this.state || {};
 
-    let locationId = user.get('currentLocationId', '');
+    let locationId = user.get('activeLocationId', '');
 
     if(!locationId) {
-      const locationIds = user.get('locationIds', Immutable.List());
-      if(locationIds.size) {
-        locationId = locationIds.get(0);
-      }
-    }
-
-    // if(!locationId) {
-    //   const managerLocationIds = user.get('managerLocationIds', Immutable.List());
-    //   if(managerLocationIds.size) {
-    //     locationId = managerLocationIds.get(0);
-    //   }
-    // }
-
-    if(!locationId) {
-      const altUser = store.getState().getIn(['users', user.get('_id')]);
-      if(altUser) {
-        const locationIds = altUser.get('locationIds', Immutable.List());
-        if(locationIds.size) {
-          locationId = locationIds.get(0);
-        }
-      }
-    }
-
-    if(!locationId) {
+      console.warn('No default locationId found for user', user);
       return null;
     }
 
     const location = store.getState().getIn(['locations', locationId]);
     if(!location) {
+      console.warn('No location found for locationId', locationId);
       return null;
     }
 
@@ -87,31 +75,18 @@ class Navbar extends React.Component {
     );
   }
 
-  makeMyPlantsMenu(loggedIn) {
-    const location = this.getLocation(loggedIn);
-    if(!location) {
-      return null;
-    }
+  // makeLayoutMenu(loggedIn) {
+  //   const location = this.getLocation(loggedIn);
+  //   if(!location) {
+  //     return null;
+  //   }
 
-    return (
-      <li>
-        <Link to={utils.makeLocationUrl(location)} title='My Plants'>My Plants</Link>
-      </li>
-    );
-  }
-
-  makeLayoutMenu(loggedIn) {
-    const location = this.getLocation(loggedIn);
-    if(!location) {
-      return null;
-    }
-
-    return (
-      <li>
-        <Link to={utils.makeLayoutUrl(location)}>Layout Map</Link>
-      </li>
-    );
-  }
+  //   return (
+  //     <li>
+  //       <Link to={utils.makeLayoutUrl(location)}>Layout Map</Link>
+  //     </li>
+  //   );
+  // }
 
 
   render() {
@@ -153,7 +128,7 @@ class Navbar extends React.Component {
                     title={displayName}>{displayName} <span className='caret' />
                   </a>
                   <ul className='dropdown-menu'>
-                    {this.makeLayoutMenu(loggedIn)}
+                    {/* this.makeLayoutMenu(loggedIn) */}
                     <li>
                       <Link to={'/profile'}>Profile</Link>
                     </li>
