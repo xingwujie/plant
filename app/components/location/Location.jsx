@@ -20,22 +20,19 @@ class Location extends React.Component {
     super(props);
     this.onChange = this.onChange.bind(this);
     this.postSaveSuccessCreateNote = this.postSaveSuccessCreateNote.bind(this);
-    this.state = {...store.getState().toJS()};
-    this.state.filter = '';
-
-    const {
-      locations = {},
-    } = this.state || {};
+    this.state = {filter: ''};
+    const locations = store.getState().get('locations', Immutable.Map());
 
     const {id: locationId} = props.params;
-    if(!locations[locationId] || !locations[locationId].plantIds) {
+
+    const plantIds = locations.getIn([locationId, 'plantIds']);
+    if(!plantIds) {
       store.dispatch(actions.loadPlantsRequest(locationId));
     }
   }
 
   componentWillMount() {
-    const state = {...store.getState().toJS()};
-    this.setState(state);
+    this.onChange();
     this.unsubscribe = store.subscribe(this.onChange);
   }
 
@@ -44,7 +41,12 @@ class Location extends React.Component {
   }
 
   onChange() {
-    const state = {...store.getState().toJS()};
+    const locations = store.getState().get('locations');
+    const allLoadedPlants = store.getState().get('plants');
+    const interim = store.getState().get('interim');
+    const authUser = store.getState().get('user');
+    const users = store.getState().get('users');
+    const state = {locations, allLoadedPlants, interim, authUser, users};
     this.setState(state);
   }
 
@@ -61,11 +63,11 @@ class Location extends React.Component {
   isOwner() {
     // TODO: Check the logic below
     var {
-      user: authUser = {},
-      users = {},
+      authUser = Immutable.Map(),
+      users = Immutable.Map(),
     } = this.state || {};
-    const user = users[this.props.params.id];
-    return !!(user && authUser._id === user._id);
+    const user = users.get(this.props.params.id);
+    return !!(user && authUser.get('_id') === user.get('_id'));
   }
 
   addPlantButton() {
@@ -113,12 +115,15 @@ class Location extends React.Component {
   render() {
     const {
       filter = '',
+      locations,
+      allLoadedPlants,
+      interim,
+      authUser,
     } = this.state || {};
-    const locations = store.getState().get('locations');
 
     const loggedIn = !!isLoggedIn();
 
-    const location = locations.get(this.props.params.id);
+    const location = locations && locations.get(this.props.params.id);
     if(!location) {
       return (
         <Base>
@@ -128,9 +133,6 @@ class Location extends React.Component {
         </Base>
       );
     }
-    const allLoadedPlants = store.getState().get('plants');
-    const interim = store.getState().get('interim');
-    const authUser = store.getState().get('user');
 
     const interimNote = interim.getIn(['note', 'note']);
     const plantCreateNote = interim.getIn(['note', 'plant']);
@@ -162,7 +164,6 @@ class Location extends React.Component {
       } else {
         return this.renderNoPlants(location);
       }
-
     }
 
     const sortedPlantIds = utils.filterSortPlants(plantIds, allLoadedPlants, filter);

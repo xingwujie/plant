@@ -16,15 +16,10 @@ class Users extends React.Component {
     this.state = store.getState();
   }
 
-  updateState() {
-    const users = store.getState().get('users');
-    this.setState({users});
-  }
-
   componentWillMount() {
     this.unsubscribe = store.subscribe(this.onChange);
 
-    this.updateState();
+    this.onChange();
   }
 
   componentWillUnmount() {
@@ -32,7 +27,9 @@ class Users extends React.Component {
   }
 
   onChange() {
-    this.updateState();
+    const users = store.getState().get('users');
+    const locations = store.getState().get('locations');
+    this.setState({users, locations});
   }
 
   renderUser(user) {
@@ -44,7 +41,7 @@ class Users extends React.Component {
     if(locationIds.size === 1) {
       const locations = store.getState().get('locations');
       if(locations) {
-        const singleLocationId = locationIds.get(0);
+        const singleLocationId = locationIds.first();
         const singleLocation = locations.get(singleLocationId);
         if(singleLocation) {
           link = `/location/${makeSlug(singleLocation.get('title'))}/${singleLocationId}`;

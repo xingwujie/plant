@@ -121,27 +121,28 @@ function upsertNoteSuccess(state, action) {
 
 // action.payload is an array of notes from the server
 function loadNotesSuccess(state, action) {
+  if(action.payload && action.payload.length > 0) {
+    const plants = action.payload.reduce((acc, note) => {
+      (note.plantIds || []).forEach(plantId => {
+        if(acc[plantId]) {
+          acc[plantId].push(note._id);
+        } else {
+          acc[plantId] = [note._id];
+        }
+      });
+      return acc;
+    }, {});
 
-  const plants = action.payload.reduce((acc, note) => {
-    (note.plantIds || []).forEach(plantId => {
-      if(acc[plantId]) {
-        acc[plantId].push(note._id);
-      } else {
-        acc[plantId] = [note._id];
+    return state.map((plant, plantId) => {
+
+      if(!plants[plantId]) {
+        return plant;
       }
+
+      return plant.set('notes', Immutable.Set(plant.get('notes', Immutable.Set()).concat(plants[plantId])));
     });
-    return acc;
-  }, {});
-
-  return state.map((plant, plantId) => {
-
-    if(!plants[plantId]) {
-      return plant;
-    }
-
-    return plant.set('notes', Immutable.Set(plant.get('notes', Immutable.Set()).concat(plants[plantId])));
-
-  });
+  }
+  return state;
 }
 
 const reducers = {
