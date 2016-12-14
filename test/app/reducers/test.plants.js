@@ -71,7 +71,7 @@ describe('/app/reducers/plants', function() {
         name: 'xxx'
       }
     });
-    const payload = {userId: 'u1', plantId: '2'};
+    const payload = {locationId: 'l1', plantId: '2'};
     const expected = current.toJS();
     delete expected['2'];
 

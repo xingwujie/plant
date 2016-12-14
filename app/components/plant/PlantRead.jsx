@@ -44,12 +44,12 @@ class PlantRead extends React.Component {
 
   confirmDelete(yes) {
     if(yes) {
-      const {user, plant, locations} = this.props;
+      const {plant, locations} = this.props;
       const payload = {
-        userId: user.get('_id'),
+        locationId: plant.get('locationId'),
         plantId: plant.get('_id')
       };
-      const location = locations.get(plant.locationId);
+      const location = locations.get(plant.get('locationId'));
       this.props.dispatch(actions.deletePlantRequest(payload));
       if(location) {
         // Transition to /location/:slug/:id

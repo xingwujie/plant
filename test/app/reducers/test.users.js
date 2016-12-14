@@ -69,21 +69,21 @@ describe('/app/reducers/users', function() {
 
   it('should delete a plant', () => {
     const state = Immutable.fromJS({
-      'u1': {
-        _id: 'u1',
+      'l1': {
+        _id: 'l1',
         name: 'john',
         locationIds: Immutable.Set(['p1.1'])
       },
-      'u2': {
-        _id: 'u2',
+      'l2': {
+        _id: 'l2',
         name: 'jane',
         locationIds: Immutable.Set(['p2.1', 'p2.2', 'p2.3'])
       }
     });
-    const payload = {userId: 'u2', locationId: 'p2.1'};
+    const payload = {locationId: 'l2', plantId: 'p2.1'};
     const expected = Immutable.fromJS({
-      'u1': {_id: 'u1', name: 'john', locationIds: Immutable.Set(['p1.1'])},
-      'u2': {_id: 'u2', name: 'jane', locationIds: Immutable.Set(['p2.1', 'p2.2', 'p2.3'])},
+      'l1': {_id: 'l1', name: 'john', locationIds: Immutable.Set(['p1.1'])},
+      'l2': {_id: 'l2', name: 'jane', locationIds: Immutable.Set(['p2.1', 'p2.2', 'p2.3'])},
     });
 
     checkReducer('deletePlantRequest', state, payload, expected);
