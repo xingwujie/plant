@@ -3,7 +3,7 @@
   "configurations": [
     {
       "name": "Server",
-      "type": "node",
+      "type": "node2",
       "request": "launch",
       "program": "${workspaceRoot}/server.js",
       "stopOnEntry": false,
@@ -24,8 +24,14 @@
         "DEBUG": "plant:*"
       },
       "console": "integratedTerminal",
-      "sourceMaps": true,
-      "outDir": null
+      "sourceMaps": true
+    }, {
+      "name": "Client",
+      "type": "chrome",
+      "request": "attach",
+      "port": 9222,
+      "url": "http://localhost:8080/",
+      "webRoot": "${workspaceRoot}/app"
     }, {
       "name": "TestPad",
       "type": "node",
@@ -43,8 +49,7 @@
         "NODE_ENV": "development"
       },
       "console": "internalConsole",
-      "sourceMaps": true,
-      "outDir": null
+      "sourceMaps": true
     }, {
       "name": "Mocha",
       "type": "node",
@@ -74,8 +79,13 @@
         "PLANT_GOOGLE_SECRET": "google-app-secret"
       },
       "console": "internalConsole",
-      "sourceMaps": true,
-      "outDir": null
+      "sourceMaps": true
+    }
+  ],
+  "compounds": [
+    {
+      "name": "Server/Client",
+      "configurations": ["Server", "Client"]
     }
   ]
 }
