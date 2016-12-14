@@ -151,10 +151,11 @@ function startServerAuthenticated(cb) {
   });
 };
 
-function createPlants(numPlants, userId, cb) {
+function createPlants(numPlants, userId, locationId, cb) {
   const plantTemplate = {
     title: 'Plant Title',
-    userId
+    userId,
+    locationId,
   };
 
   var createPlant = function(count, callback) {

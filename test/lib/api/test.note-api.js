@@ -10,11 +10,13 @@ const logger = require('../../../lib/logging/logger').create('test.note-api');
 describe('note-api', function() {
   this.timeout(10000);
   let userId;
+  let locationId;
 
   before('it should start the server and setup auth token', done => {
     helper.startServerAuthenticated((err, data) => {
       assert(data.userId);
-      userId = data.userId;
+      userId = data.user._id;
+      locationId = data.user.locationIds[0];
       logger.trace('startServerAuthenticated userId:', {userId});
       done();
     });
@@ -31,7 +33,7 @@ describe('note-api', function() {
 
   before('it should create a plant', (done) => {
     const howMany = 1;
-    helper.createPlants(howMany, userId, (err, plants) => {
+    helper.createPlants(howMany, userId, locationId, (err, plants) => {
       initialPlant = plants[0];
       plantId = initialPlant._id;
       initialNote.plantIds = [plantId];

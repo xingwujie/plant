@@ -9,18 +9,20 @@ const utils = require('../../../app/libs/utils');
 describe('plant-api-delete', function() {
   this.timeout(10000);
   let userId;
+  let locationId;
 
   before('it should start the server and setup auth token', done => {
     helper.startServerAuthenticated((err, data) => {
       assert(data.userId);
-      userId = data.userId;
+      userId = data.user._id;
+      locationId = data.user.locationIds[0];
       done();
     });
   });
 
   describe('simple plant deletion', () => {
     it('should delete a plant without notes', done => {
-      helper.createPlants(1, userId, (err, plants) => {
+      helper.createPlants(1, userId, locationId, (err, plants) => {
         assert(!err);
         const reqOptions = {
           method: 'DELETE',
@@ -72,7 +74,7 @@ describe('plant-api-delete', function() {
       async.waterfall([
 
         // 1. Create 2 plants
-        async.apply(helper.createPlants, 2, userId),
+        async.apply(helper.createPlants, 2, userId, locationId),
 
         // 2. Create 3 notes, part 1.1:
         //    Note #1: plantIds reference plant #1

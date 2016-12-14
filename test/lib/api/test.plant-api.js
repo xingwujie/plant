@@ -15,12 +15,13 @@ describe('plant-api', function() {
     });
   });
 
-  const initialPlant = {
+  const initialPlant = Object.freeze({
     title: 'Plant Title',
     price: 19.99,
-    tags: ['north-east', 'citrus']
+    tags: ['north-east', 'citrus'],
     // userId: makeMongoId(),
-  };
+    locationId: 'cf885bf372488977ae0d6475',
+  });
   let plantId;
 
   it('should fail to create a plant record if user is not authenticated', (done) => {

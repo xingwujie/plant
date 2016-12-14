@@ -174,11 +174,11 @@ function loadPlantRequest(store, action) {
 }
 
 // Get all the plants a user has created
-// action.payload is a userId
+// action.payload is a locationId
 function loadPlantsRequest(store, action, next) {
-  const userId = action.payload;
+  const locationId = action.payload;
   const options = {
-    url: `/api/plants/${userId}`,
+    url: `/api/plants/${locationId}`,
     success: actions.loadPlantsSuccess,
     failure: actions.loadPlantsFailure
   };

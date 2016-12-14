@@ -6,11 +6,16 @@ const logger = require('../../../lib/logging/logger').create('test.plants-api');
 describe('plants-api', function() {
   this.timeout(10000);
   let userId;
+  let locationId;
 
   before('it should start the server and setup auth token', done => {
     helper.startServerAuthenticated((err, data) => {
-      assert(data.userId);
-      userId = data.userId;
+      assert(data.user);
+      assert(data.user._id);
+      assert(data.user.locationIds);
+      assert(data.user.locationIds.length);
+      userId = data.user._id;
+      locationId = data.user.locationIds[0];
       done();
     });
   });
@@ -19,27 +24,25 @@ describe('plants-api', function() {
   const numPlants = 2;
 
   before('should create multiple plants to use in test', done => {
-    helper.createPlants(numPlants, userId, (err, plants) => {
+    helper.createPlants(numPlants, userId, locationId, (err, plants) => {
       insertedPlants = plants;
       done();
     });
   });
 
-  describe('plants by userId', () => {
-    // it('should return an empty list if userId exists and has no plants');
+  describe('plants by locationId', () => {
+    // it('should return an empty list if locationId exists and has no plants');
 
-    it('should retrieve the just created plants by userId', done => {
+    it('should retrieve the just created plants by locationId', done => {
       const reqOptions = {
         method: 'GET',
         authenticate: false,
         json: true,
-        url: `/api/plants/${userId}`
+        url: `/api/plants/${locationId}`
       };
 
       helper.makeRequest(reqOptions, (error, httpMsg, response) => {
         logger.trace('response:', {response});
-        // response should look like:
-        // ?
         assert(!error);
         assert.equal(httpMsg.statusCode, 200);
         assert(response);
@@ -60,7 +63,7 @@ describe('plants-api', function() {
   });
 
   describe('failures', () => {
-    it('should get a 404 if there is no userId', done => {
+    it('should get a 404 if there is no locationId', done => {
       const reqOptions = {
         method: 'GET',
         authenticate: false,
@@ -77,7 +80,7 @@ describe('plants-api', function() {
       });
     });
 
-    it('should fail to retrieve any plants if the userId does not exist', done => {
+    it('should fail to retrieve any plants if the locationId does not exist', done => {
       const reqOptions = {
         method: 'GET',
         authenticate: false,

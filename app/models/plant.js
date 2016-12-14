@@ -104,6 +104,7 @@ module.exports = (attributes, {isNew}, cb) => {
     terminatedDescription: {presence: false},
     title: {length: {minimum: 1, maximum: 100}, presence: true},
     userId: {format: constants.mongoIdRE, presence: true},
+    locationId: {format: constants.mongoIdRE, presence: true},
   };
 
   if(isNew && !attributes._id) {
