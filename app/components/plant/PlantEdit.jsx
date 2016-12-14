@@ -81,6 +81,8 @@ class PlantEdit extends React.Component {
     });
 
     plant.userId = this.props.user.get('_id');
+    // TODO: This should be in a drop down one the user is able to add multiple locations
+    plant.locationId = this.props.user.get('activeLocationId');
 
     validate(plant, {isNew}, (errors, transformed) => {
       if(errors) {
@@ -133,6 +135,14 @@ class PlantEdit extends React.Component {
 
     const dateFormat = 'MM/DD/YYYY';
     const hasGeo = utils.hasGeo();
+
+    const errorDivs = isEmpty(errors)
+      ? []
+      : Object.keys(errors).map(key =>
+        <div key={key}>
+          {`${key} - ${errors[key]}`}
+        </div>
+      );
 
     return (
       <Paper style={paperStyle} zDepth={1}>
@@ -245,6 +255,7 @@ class PlantEdit extends React.Component {
         {!isEmpty(errors) &&
           <div>
             <p className='text-danger col-xs-12'>{'There were errors. Please check your input.'}</p>
+            {errorDivs}
             <Divider />
           </div>
         }

@@ -24,6 +24,17 @@ class PlantEditTerminated extends React.Component {
     }));
   }
 
+  componentWillMount() {
+    const { interimPlant } = this.props;
+    let terminatedReason = interimPlant.get('terminatedReason');
+    if(!terminatedReason) {
+      terminatedReason = 'died';
+      this.props.dispatch(actions.editPlantChange({
+        terminatedReason
+      }));
+    }
+  }
+
   render() {
     const styles = {
       radioGroup: {
@@ -38,12 +49,6 @@ class PlantEditTerminated extends React.Component {
     const isTerminated = interimPlant.get('isTerminated', false);
     const terminatedDate = interimPlant.get('terminatedDate', '');
     let terminatedReason = interimPlant.get('terminatedReason');
-    if(!terminatedReason) {
-      terminatedReason = 'died';
-      this.props.dispatch(actions.editPlantChange({
-        terminatedReason
-      }));
-    }
     const terminatedDescription = interimPlant.get('terminatedDescription', '');
 
     const errors = interimPlant.get('errors', Immutable.Map()).toJS();
