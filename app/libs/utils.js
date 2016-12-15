@@ -370,6 +370,19 @@ function metaMetricsGetByKey(key) {
   return metaMetrics.find(value => value.get('key') === key);
 }
 
+/**
+ * Determines if unfinished features should be shown. i.e. Feature Flag
+ * @param {Immutable} user - an Immutable user object - possibly falsey
+ * @return {boolean} - true to show flag and false otherwise
+ */
+function showFeature(user) {
+  const validUserIds = [
+    '57b4e90d9f0e4e114b44bcf8', // Guy
+  ];
+
+  return !!(user && user.get && validUserIds.indexOf(user.get('_id')) > -1);
+}
+
 module.exports = {
   dateToInt,
   filterPlants,
@@ -388,6 +401,7 @@ module.exports = {
   noteFromBody,
   plantFromBody,
   rebaseLocations,
+  showFeature,
   sortPlants,
   transformErrors,
 };

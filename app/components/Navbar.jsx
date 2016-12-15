@@ -99,6 +99,9 @@ class Navbar extends React.Component {
     const loggedIn = isLoggedIn();
     const notEditing = !interimMap.size;
 
+    const featureFlag = utils.showFeature(user);
+    const locationsUrl = `/locations/${utils.makeSlug(displayName)}/${user.get('_id')}`;
+
     return (
       <nav className='navbar navbar-default'>
         <div className='container-fluid'>
@@ -129,6 +132,11 @@ class Navbar extends React.Component {
                   </a>
                   <ul className='dropdown-menu'>
                     {/* this.makeLayoutMenu(loggedIn) */}
+                    {featureFlag &&
+                      <li>
+                        <Link to={locationsUrl}>Manage Locations</Link>
+                      </li>
+                    }
                     <li>
                       <Link to={'/profile'}>Profile</Link>
                     </li>
