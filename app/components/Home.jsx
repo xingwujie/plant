@@ -36,39 +36,43 @@ class Home extends React.Component {
   }
 
   anonHome(existingUsers, existingLocations) {
-    const elevatorPitch =
-`Plaaant will improve the growth and health of 
-your trees and plants by providing a way to record, 
-measure, compare, and share your awesomeness.`;
-
-    return (<div id='hero'>
-      {!isLoggedIn() &&
-        <div className='home-subheader'>
-          <div><Link to={'/login'}>{'Login'}</Link>{' to get started'}</div>
-        </div>
-      }
-      {existingUsers &&
-        <div className='home-subheader'>
-          <Link
-            style={{margin: '20px'}}
-            to={'/users'}
-          >
-            {'Exlore Farmers and Gardeners...'}
-          </Link>
-        </div>
-      }
-      {existingLocations &&
-        <div className='home-subheader'>
-          <Link
-            style={{margin: '20px'}}
-            to={'/locations'}
-          >
-            {'Exlore Orchards, Gardens, Yards and Farms...'}
-          </Link>
-        </div>
-      }
-      <div className='home-header'>{elevatorPitch}</div>
-    </div>);
+    return (
+      <div id='hero'>
+        <section>
+          <p>
+            {'Improve the health of your trees and plants...'}
+          </p>
+        </section>
+        <section>
+          <p>
+            {'...measure, compare, and share your awesomeness...'}
+          </p>
+        </section>
+        {existingUsers &&
+          <section>
+            <Link
+              to={'/users'}
+            >
+              {'...exlore Farmers and Gardeners...'}
+            </Link>
+          </section>
+        }
+        {existingLocations &&
+          <section>
+            <Link
+              to={'/locations'}
+            >
+              {'...exlore Orchards, Gardens, Yards and Farms...'}
+            </Link>
+          </section>
+        }
+        {!isLoggedIn() &&
+          <section>
+            <div><Link to={'/login'}>{'Login to get started'}</Link></div>
+          </section>
+        }
+      </div>
+    );
   }
 
   renderUsers() {

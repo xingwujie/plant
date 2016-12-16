@@ -103,7 +103,7 @@ class Navbar extends React.Component {
     const locationsUrl = `/locations/${utils.makeSlug(displayName)}/${user.get('_id')}`;
 
     return (
-      <nav className='navbar navbar-default'>
+      <nav className='navbar navbar-default navbar-fixed-top'>
         <div className='container-fluid'>
           <div className='navbar-header'>
             <button type='button' className='navbar-toggle collapsed' data-toggle='collapse' data-target='#plant-navbar-collapse' aria-expanded='false'>
