@@ -1,9 +1,12 @@
 const actions = require('../../actions');
 const EditDeleteButtons = require('./EditDeleteButtons');
 const NotesRead = require('./NotesRead');
+const moment = require('moment');
 const Paper = require('material-ui/Paper').default;
 const React = require('react');
 const utils = require('../../libs/utils');
+
+const dateFormat = 'DD-MMM-YYYY';
 
 class PlantRead extends React.Component {
   static contextTypes = {
@@ -63,6 +66,18 @@ class PlantRead extends React.Component {
     }
   }
 
+  plantedDateTitle(plant) {
+    const plantedDate = plant.get('plantedDate');
+    if(plantedDate) {
+      const date = utils.intToMoment(plantedDate);
+      const daysAgo = date.isSame(moment(), 'day')
+        ? 'today'
+        : `${date.fromNow()}`;
+      return `Planted on ${date.format(dateFormat)} (${daysAgo})`;
+    }
+    return null;
+  }
+
   renderDetails(plant) {
     if(!plant) {
       return null;
@@ -84,14 +99,11 @@ class PlantRead extends React.Component {
       </div>);
     });
 
-    const dateFormat = 'DD-MMM-YYYY';
-
-    const plantedDate = plant.get('plantedDate');
-    if(plantedDate) {
-      const date = utils.intToMoment(plantedDate);
+    const plantedDateTitle = this.plantedDateTitle(plant);
+    if(plantedDateTitle) {
       basicTitles.push(
         <div key='plantedDate'>
-          {`Planted on ${date.format(dateFormat)} (${date.fromNow()})`}
+          {plantedDateTitle}
         </div>
       );
     }
@@ -109,6 +121,7 @@ class PlantRead extends React.Component {
         </div>
       );
 
+      const plantedDate = plant.get('plantedDate');
       if(plantedDate && dateTerminated) {
         const datePlanted = utils.intToMoment(plantedDate);
         if(datePlanted.isBefore(dateTerminated)) {
