@@ -97,7 +97,6 @@
   "pre-commit": {
     "colors": true,
     "run": [
-      "dependency-update",
       "csslint",
       "test"
     ],
