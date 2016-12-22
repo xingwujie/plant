@@ -10,8 +10,8 @@ class Help extends React.Component {
     return (
       <Base>
         <div className='well'>
-          <h3 className='well'>Add Plant</h3>
-          <p>Login and click the Add menu to add a plant.</p>
+          <h3 className='well'>Need Help?</h3>
+          <p>Please ask your questions on <a target='_blank' href='https://www.facebook.com/groups/589635491185478/'>Fruit Trees Anonymous</a>.</p>
         </div>
       </Base>
     );
