@@ -135,9 +135,9 @@ class NoteEdit extends React.Component {
       images = []
     } = this.state || {};
 
-    const date = interimNote.get('date');
+    const date = interimNote.get('date', '');
     const errors = interimNote.get('errors', Immutable.Map());
-    const note = interimNote.get('note');
+    const note = interimNote.get('note', '');
     const plantIds = interimNote.get('plantIds').toJS();
 
     const textAreaStyle = {

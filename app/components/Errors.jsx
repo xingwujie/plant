@@ -9,7 +9,7 @@ class Errors extends React.Component {
 
   render() {
     let {errors} = this.props || {};
-    if(!errors || errors.length === 0) {
+    if(!errors || !errors.length) {
       return null;
     }
 

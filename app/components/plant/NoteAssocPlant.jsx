@@ -35,12 +35,14 @@ class NoteAssocPlant extends React.Component {
   renderPlantButton(plant, primary) {
     const _id = plant.get('_id');
     const title = plant.get('title');
+    const secondary = !primary && !!plant.get('isTerminated');
     return <RaisedButton
       key={_id}
       label={title}
       style={{margin: 12}}
       onClick={this.toggle.bind(this, _id)}
       primary={primary}
+      secondary={secondary}
     />;
   }
 
@@ -89,9 +91,11 @@ class NoteAssocPlant extends React.Component {
       name='filter'
     />);
 
+    const errors = this.props.error ? [this.props.error] : [];
+
     return (
       <div style={{textAlign: 'left'}}>
-        <Errors errors={this.props.error} />
+        <Errors errors={errors} />
         <div>
           {'Associated plants:'}
           {filterInput}
