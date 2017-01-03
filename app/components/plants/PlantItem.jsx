@@ -27,7 +27,7 @@ class PlantItem extends React.Component {
       errors: {},
     };
 
-    if(!plant.has('notes')) {
+    if(!plant.has('notesRequested')) {
       this.props.dispatch(actions.loadNotesRequest({
         plantId: plant.get('_id')
       }));

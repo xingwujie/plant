@@ -225,7 +225,7 @@ function loadLocationsRequest(store) {
 // action.payload is an object with one of 2 properties:
 // noteIds: an array of noteIds
 // plantId: a plant id
-function loadNotesRequest(store, action) {
+function loadNotesRequest(store, action, next) {
   const {noteIds, plantId} = action.payload;
   if(!noteIds && !plantId) {
     console.error('No noteIds or plantId on payload, action:', action);
@@ -240,6 +240,7 @@ function loadNotesRequest(store, action) {
   };
 
   ajax(store, options);
+  next(action);
 }
 
 // Get all the plants listed

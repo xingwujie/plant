@@ -22,11 +22,10 @@ class PlantRead extends React.Component {
 
   componentWillMount() {
     const {plant} = this.props;
-    if(!plant.get('notes')) {
-      const _id = plant.get('_id');
-      if(_id) {
-        this.props.dispatch(actions.loadPlantRequest({_id}));
-      }
+    if(!plant.has('notesRequested')) {
+      this.props.dispatch(actions.loadNotesRequest({
+        plantId: plant.get('_id')
+      }));
     }
   }
 

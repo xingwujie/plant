@@ -119,6 +119,28 @@ function upsertNoteSuccess(state, action) {
   });
 }
 
+// action.payload is {
+//   noteIds: [<note-id>, <note-id>, ...]
+// OR
+//   plantId: <plant-id>
+// }
+function loadNotesRequest(state, action) {
+  const { plantId, noteIds } = action.payload;
+  if(noteIds) {
+    return state;
+  }
+  if(!plantId) {
+    console.error('No plantId in action.payload:', action.payload);
+    return state;
+  }
+  const plant = state.get(plantId);
+  if(!plant) {
+    console.error('No plant in state for plantId:', plantId);
+    return state;
+  }
+  return state.set(plantId, plant.set('notesRequested', true));
+}
+
 // action.payload is an array of notes from the server
 function loadNotesSuccess(state, action) {
   if(action.payload && action.payload.length > 0) {
@@ -152,6 +174,7 @@ const reducers = {
   [actions.DELETE_PLANT_FAILURE]: ajaxPlantFailure,
   [actions.DELETE_PLANT_REQUEST]: deletePlantRequest,
   [actions.LOAD_NOTES_SUCCESS]: loadNotesSuccess,
+  [actions.LOAD_NOTES_REQUEST]: loadNotesRequest,
   [actions.LOAD_PLANT_FAILURE]: loadPlantFailure,
   [actions.LOAD_PLANT_SUCCESS]: loadPlantSuccess,
   [actions.LOAD_PLANTS_SUCCESS]: loadPlantsSuccess,
