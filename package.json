@@ -37,7 +37,7 @@
     "passport-google-oauth20": "1.0.0",
     "react": "15.4.2",
     "react-bootstrap": "0.30.7",
-    "react-dom": "15.4.1",
+    "react-dom": "15.4.2",
     "react-dropzone": "3.8.0",
     "react-konva": "1.1.1",
     "react-redux": "5.0.1",
