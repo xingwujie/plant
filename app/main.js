@@ -58,9 +58,7 @@ var routes = (
 );
 
 function render() {
-  let content = document.createElement('div');
-  content.className = 'wrapper'; // hang some styles on this top level el
-  document.body.appendChild(content);
+  const content = document.getElementById('wrapper');
 
   ReactDOM.render((
     <MuiThemeProvider muiTheme={muiTheme}>
