@@ -86,9 +86,7 @@ class Plant extends React.Component {
 
     const {params} = this.props;
 
-    const plant = plants.get(params && params.id, Immutable.Map());
-
-    const owner = isOwner(plant.toJS());
+    const plant = plants.get(params && params.id);
 
     const interim = store.getState().get('interim');
     const interimNote = interim.getIn(['note', 'note'], Immutable.Map());
@@ -101,6 +99,8 @@ class Plant extends React.Component {
         </Base>
       );
     }
+
+    const owner = isOwner(plant.toJS());
 
     const notes = store.getState().get('notes');
 

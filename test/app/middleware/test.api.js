@@ -30,7 +30,12 @@ describe('/app/middleware/api', function() {
     };
 
     Object.keys(api.apis).forEach(key => {
-      const action = {payload: {_id: '123'}};
+      const action = {
+        payload: {
+          _id: '123',
+          plantId: '123', // To make loadNotesRequest work
+        }
+      };
 
       api(store)(next)(Object.assign({}, action, {type: key}));
     });

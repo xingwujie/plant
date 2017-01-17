@@ -1,4 +1,3 @@
-const actions = require('../../actions');
 const CircularProgress = require('material-ui/CircularProgress').default;
 const React = require('react');
 const NoteRead = require('./NoteRead');
@@ -9,24 +8,16 @@ const List = Immutable.List;
 
 class NotesRead extends React.Component {
 
-  render() {
+  sortNotes() {
     const noteIds = this.props.plant.get('notes', List());
     if(!(List.isList(noteIds) || Immutable.Set.isSet(noteIds))) {
-      console.error('Not a List from plant.get notes:', this.props.plant, noteIds);
+      console.error('Not a List or Set from plant.get notes:', this.props.plant, noteIds);
     }
 
     if(!noteIds.size) {
-      return null;
+      return;
     }
     const {notes} = this.props;
-
-    // Find unloaded notes
-    const unloaded = noteIds.filter(noteId => !notes.get(noteId));
-    if(unloaded.size) {
-      this.props.dispatch(actions.loadNotesRequest({
-        noteIds: unloaded.toJS()
-      }));
-    }
 
     const sortedIds = noteIds.sort((a, b) => {
       const noteA = notes.get(a);
@@ -42,6 +33,24 @@ class NotesRead extends React.Component {
         return 0;
       }
     });
+
+    this.setState({sortedIds});
+  }
+
+  componentWillReceiveProps() {
+    this.sortNotes();
+  }
+
+  componentWillMount() {
+    this.sortNotes();
+  }
+
+  render() {
+    const {notes} = this.props;
+    const { sortedIds } = this.state || {};
+    if(!sortedIds || !sortedIds.size) {
+      return null;
+    }
 
     const paperStyle = {
       backgroundColor: '#ddd',

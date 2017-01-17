@@ -229,6 +229,7 @@ function loadNotesRequest(store, action, next) {
   const {noteIds, plantId} = action.payload;
   if(!noteIds && !plantId) {
     console.error('No noteIds or plantId on payload, action:', action);
+    return next(action);
   }
 
   const options = {

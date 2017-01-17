@@ -23,9 +23,13 @@ class PlantRead extends React.Component {
   componentWillMount() {
     const {plant} = this.props;
     if(!plant.has('notesRequested')) {
-      this.props.dispatch(actions.loadNotesRequest({
-        plantId: plant.get('_id')
-      }));
+      if(plant.has('_id')) {
+        this.props.dispatch(actions.loadNotesRequest({
+          plantId: plant.get('_id')
+        }));
+      } else {
+        console.error('PlantRead: plant object does not have _id', plant.toJS());
+      }
     }
   }
 

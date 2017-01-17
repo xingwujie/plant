@@ -28,9 +28,13 @@ class PlantItem extends React.Component {
     };
 
     if(!plant.has('notesRequested')) {
-      this.props.dispatch(actions.loadNotesRequest({
-        plantId: plant.get('_id')
-      }));
+      if(plant.has('_id')) {
+        this.props.dispatch(actions.loadNotesRequest({
+          plantId: plant.get('_id')
+        }));
+      } else {
+        console.error('PlantItem: plant object does not have _id', plant.toJS());
+      }
     }
 
     this.props.dispatch(actions.editNoteOpen({note, plant: plant.toJS()}));
