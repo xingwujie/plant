@@ -8,16 +8,16 @@ const List = Immutable.List;
 
 class NotesRead extends React.Component {
 
-  sortNotes() {
-    const noteIds = this.props.plant.get('notes', List());
+  sortNotes(props = this.props) {
+    const noteIds = props.plant.get('notes', List());
     if(!(List.isList(noteIds) || Immutable.Set.isSet(noteIds))) {
-      console.error('Not a List or Set from plant.get notes:', this.props.plant, noteIds);
+      console.error('Not a List or Set from plant.get notes:', props.plant, noteIds);
     }
 
     if(!noteIds.size) {
       return;
     }
-    const {notes} = this.props;
+    const {notes} = props;
 
     const sortedIds = noteIds.sort((a, b) => {
       const noteA = notes.get(a);
@@ -37,8 +37,8 @@ class NotesRead extends React.Component {
     this.setState({sortedIds});
   }
 
-  componentWillReceiveProps() {
-    this.sortNotes();
+  componentWillReceiveProps(nextProps) {
+    this.sortNotes(nextProps);
   }
 
   componentWillMount() {
