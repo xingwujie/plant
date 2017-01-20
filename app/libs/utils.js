@@ -164,6 +164,16 @@ function filterSortPlants(plantIds, plants, filter) {
   return sortPlants(filteredPlantIds, plants);
 }
 
+function plantStats(plantIds, plants) {
+  return {
+    total: plantIds.size,
+    alive: plantIds.filter(plantId => {
+      const plant = plants.get(plantId, Immutable.Map());
+      return !plant.get('isTerminated', false);
+    }).size
+  };
+}
+
 /**
  * The values of the errors object are arrays. Take the first item out of each array.
  * @param {object} errors - values are arrays
@@ -393,13 +403,14 @@ module.exports = {
   intToMoment,
   intToString,
   makeLayoutUrl,
-  makeMongoId,
   makeLocationUrl,
+  makeMongoId,
   makeSlug,
   metaMetrics,
   metaMetricsGetByKey,
   noteFromBody,
   plantFromBody,
+  plantStats,
   rebaseLocations,
   showFeature,
   sortPlants,

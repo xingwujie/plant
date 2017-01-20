@@ -167,6 +167,7 @@ class Location extends React.Component {
     }
 
     const sortedPlantIds = utils.filterSortPlants(plantIds, allLoadedPlants, filter);
+    const plantStats = utils.plantStats(plantIds, allLoadedPlants);
 
     // Don't send the name into PlantItem to skip the subtitle
     // If all the plants are at the same location then don't need the
@@ -205,10 +206,16 @@ class Location extends React.Component {
       name='filter'
     />);
 
+    const stats = (<div>
+      <p>{`Total: ${plantStats.total}`}</p>
+      <p>{`Alive: ${plantStats.alive}`}</p>
+    </div>);
+
     return (
       <Base>
         <div>
           {this.renderTitle(location)}
+          {stats}
           {filterInput}
           {tileElements.found}
           {this.addPlantButton()}
