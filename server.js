@@ -1,4 +1,4 @@
-// require('babel-core/register');
+require('babel-core/register');
 
 var app = require('./lib/server');
 

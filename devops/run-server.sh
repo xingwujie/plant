@@ -29,3 +29,4 @@ export NODE_ENV=development
 export DEBUG=plant:*
 
 nodemon server.js
+# nodemon server.js --exec babel-node --presets es2015,stage-1
