@@ -23,7 +23,7 @@
         "PLANT_FB_SECRET": "facebook-app-secret",
         "DEBUG": "plant:*"
       },
-      "console": "integratedTerminal",
+      "console": "internalConsole",
       "sourceMaps": true
     }, {
       "name": "Client",
