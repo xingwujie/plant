@@ -127,7 +127,7 @@ class Location extends React.Component {
       authUser,
     } = this.state || {};
 
-    const loggedIn = !!isLoggedIn();
+    const loggedIn = !!isLoggedIn(store);
 
     const location = locations && locations.get(this.props.params.id);
     if(!location) {

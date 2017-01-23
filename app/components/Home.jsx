@@ -36,6 +36,7 @@ class Home extends React.Component {
   }
 
   anonHome(existingUsers, existingLocations) {
+    const {store} = this.context;
     return (
       <div id='hero'>
         <section>
@@ -66,7 +67,7 @@ class Home extends React.Component {
             </Link>
           </section>
         }
-        {!isLoggedIn() &&
+        {!isLoggedIn(store) &&
           <section>
             <div><Link to={'/login'}>{'Login to get started'}</Link></div>
           </section>

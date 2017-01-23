@@ -103,7 +103,7 @@ class Plant extends React.Component {
       );
     }
 
-    const owner = isOwner((interimPlant || plant).toJS());
+    const owner = isOwner((interimPlant || plant).toJS(), store);
 
     const notes = store.getState().get('notes');
 

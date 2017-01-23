@@ -1,6 +1,5 @@
-const store = require('../store');
 
-function isOwner(object) {
+function isOwner(object, store) {
   const user = store.getState().get('user');
 
   const owner = user && user.get('jwt') && user.get('_id') && object &&
@@ -9,7 +8,7 @@ function isOwner(object) {
   return !!owner;
 }
 
-function isLoggedIn() {
+function isLoggedIn(store) {
   const user = store.getState().get('user');
   return !!(user && user.get('isLoggedIn'));
 }

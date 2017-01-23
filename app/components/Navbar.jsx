@@ -102,8 +102,9 @@ class Navbar extends React.Component {
       interimMap
     } = this.state || {};
     const displayName = user.get('name', '');
+    const {store} = this.context;
 
-    const loggedIn = isLoggedIn();
+    const loggedIn = isLoggedIn(store);
     const notEditing = !interimMap.size;
 
     const featureFlag = utils.showFeature(user);
