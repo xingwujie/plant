@@ -3,7 +3,6 @@
 
 const Base = require('../Base');
 const React = require('react');
-const store = require('../../store');
 const actions = require('../../actions');
 const gis = require('../../libs/gis');
 const Immutable = require('immutable');
@@ -11,17 +10,25 @@ const Immutable = require('immutable');
 const {Layer, Text: KonvaText, Circle, Stage, Group} = require('react-konva');
 
 class LayoutMap extends React.Component {
+  static contextTypes = {
+    store: React.PropTypes.object.isRequired,
+  };
 
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
     this.onChange = this.onChange.bind(this);
-    this.state = {
+  }
+
+  componentWillMount() {
+    const {store} = this.context;
+    this.setState({
       color: 'green',
       plants: store.getState('plants'),
       users: store.getState('users'),
-    };
+    });
 
+    const {props} = this;
     if(props.params && props.params.id) {
       const {id: userId} = props.params;
       const user = store.getState().getIn(['users', userId], Immutable.Map());
@@ -30,9 +37,6 @@ class LayoutMap extends React.Component {
         store.dispatch(actions.loadPlantsRequest(userId));
       }
     }
-  }
-
-  componentWillMount() {
     const state = {
       users: store.getState('users'),
       plants: store.getState('plants'),
@@ -46,6 +50,7 @@ class LayoutMap extends React.Component {
   }
 
   onChange() {
+    const {store} = this.context;
     const state = {
       users: store.getState('users'),
       plants: store.getState('plants'),
@@ -54,6 +59,7 @@ class LayoutMap extends React.Component {
   }
 
   renderTitle() {
+    const {store} = this.context;
     const {id: userId} = (this.props || {}).params || {};
     const userName = store.getState().getIn(['users', userId, 'name']);
     return (
@@ -126,6 +132,7 @@ class LayoutMap extends React.Component {
       return null;
     }
 
+    const {store} = this.context;
     if(this.props.params && this.props.params.id) {
       const {id: userId} = this.props.params;
       const user = store.getState().getIn(['users', userId], Immutable.Map());

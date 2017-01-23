@@ -4,21 +4,19 @@
 // Redirect: /location/slug/_location_id
 
 const React = require('react');
-const store = require('../../store');
 const utils = require('../../libs/utils');
 const Immutable = require('immutable');
 
 class Plants extends React.Component {
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: React.PropTypes.object.isRequired,
+    store: React.PropTypes.object.isRequired,
   };
 
   constructor() {
     super();
     this.onChange = this.onChange.bind(this);
     this.redirectIfReady = this.redirectIfReady.bind(this);
-
-    this.state = {};
   }
 
   componentWillUnmount() {
@@ -26,12 +24,14 @@ class Plants extends React.Component {
   }
 
   onChange() {
+    const {store} = this.context;
     const users = store.getState().get('users');
     const locations = store.getState().get('locations');
     this.setState({users, locations});
   }
 
   componentWillMount() {
+    const {store} = this.context;
     this.unsubscribe = store.subscribe(this.onChange);
     this.onChange();
     this.redirectIfReady();
@@ -42,6 +42,7 @@ class Plants extends React.Component {
   }
 
   redirectIfReady() {
+    const {store} = this.context;
     const userId = this.props.params && this.props.params.id;
     let fwdUrl = '/';
     if(userId) {

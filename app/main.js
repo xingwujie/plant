@@ -6,6 +6,7 @@ require('./stylesheets/main.css');
 
 const {browserHistory, Router, Route, IndexRoute} = require('react-router');
 const {deepOrange500} = require('material-ui/styles/colors');
+const { Provider } = require('react-redux');
 const App = require('./components/App');
 const Auth = require('./components/Auth');
 const DebugSettings = require('./components/DebugSettings');
@@ -22,6 +23,7 @@ const Profile = require('./components/user/Profile');
 const LayoutMap = require('./components/layout/LayoutMap');
 const React = require('react');
 const ReactDOM = require('react-dom');
+const store = require('./store');
 const Terms = require('./components/info/Terms');
 const Location = require('./components/location/Location');
 const Locations = require('./components/location/Locations');
@@ -62,7 +64,9 @@ function render() {
 
   ReactDOM.render((
     <MuiThemeProvider muiTheme={muiTheme}>
-      <Router history={browserHistory}>{routes}</Router>
+      <Provider store={store}>
+        <Router history={browserHistory}>{routes}</Router>
+      </Provider>
     </MuiThemeProvider>
   ), content);
 

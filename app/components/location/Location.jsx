@@ -6,7 +6,6 @@ const CircularProgress = require('material-ui/CircularProgress').default;
 const InputCombo = require('../InputCombo');
 const PlantItem = require('../plants/PlantItem');
 const React = require('react');
-const store = require('../../store');
 const {isLoggedIn} = require('../../libs/auth-helper');
 const actions = require('../../actions');
 const NoteCreate = require('../plant/NoteCreate');
@@ -15,23 +14,27 @@ const Immutable = require('immutable');
 const AddPlantButton = require('../plant/AddPlantButton');
 
 class Location extends React.Component {
+  static contextTypes = {
+    store: React.PropTypes.object.isRequired,
+  };
 
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
     this.postSaveSuccessCreateNote = this.postSaveSuccessCreateNote.bind(this);
     this.state = {filter: ''};
+  }
+
+  componentWillMount() {
+    const {store} = this.context;
     const locations = store.getState().get('locations', Immutable.Map());
 
-    const {id: locationId} = props.params;
+    const {id: locationId} = this.props.params;
 
     const plantIds = locations.getIn([locationId, 'plantIds']);
     if(!plantIds) {
       store.dispatch(actions.loadPlantsRequest(locationId));
     }
-  }
-
-  componentWillMount() {
     this.onChange();
     this.unsubscribe = store.subscribe(this.onChange);
   }
@@ -41,6 +44,7 @@ class Location extends React.Component {
   }
 
   onChange() {
+    const {store} = this.context;
     const locations = store.getState().get('locations');
     const allLoadedPlants = store.getState().get('plants');
     const interim = store.getState().get('interim');
@@ -51,6 +55,7 @@ class Location extends React.Component {
   }
 
   postSaveSuccessCreateNote() {
+    const {store} = this.context;
     store.dispatch(actions.editNoteClose());
   }
 
@@ -113,6 +118,7 @@ class Location extends React.Component {
   }
 
   render() {
+    const {store} = this.context;
     const {
       filter = '',
       locations,

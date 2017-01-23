@@ -12,12 +12,11 @@ const PlantEdit = require('./PlantEdit');
 const PlantRead = require('./PlantRead');
 const NoteCreate = require('./NoteCreate');
 const React = require('react');
-const store = require('../../store');
 const Immutable = require('immutable');
 
 class Plant extends React.Component {
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    store: React.PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -26,6 +25,7 @@ class Plant extends React.Component {
   }
 
   initState(first, props = this.props || {}) {
+    const {store} = this.context;
     const plants = store.getState().get('plants');
 
     const {id: _id} = props.params || {};
@@ -46,6 +46,7 @@ class Plant extends React.Component {
   }
 
   componentWillMount() {
+    const {store} = this.context;
     this.unsubscribe = store.subscribe(this.onChange);
     this.initState(true);
   }
@@ -72,6 +73,7 @@ class Plant extends React.Component {
   }
 
   fromStore(key) {
+    const {store} = this.context;
     if(store.getState().has(key)) {
       return store.getState().get(key).toJS();
     } else {
@@ -80,6 +82,7 @@ class Plant extends React.Component {
   }
 
   render() {
+    const {store} = this.context;
     const user = store.getState().get('user');
     const locations = store.getState().get('locations');
     const plants = store.getState().get('plants');

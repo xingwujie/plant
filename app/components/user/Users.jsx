@@ -4,19 +4,22 @@
 const Base = require('../Base');
 const React = require('react');
 const {Link} = require('react-router');
-const store = require('../../store');
 const utils = require('../../libs/utils');
 
 const {makeSlug} = utils;
 
 class Users extends React.Component {
+  static contextTypes = {
+    store: React.PropTypes.object.isRequired,
+  };
+
   constructor() {
     super();
     this.onChange = this.onChange.bind(this);
-    this.state = store.getState();
   }
 
   componentWillMount() {
+    const {store} = this.context;
     this.unsubscribe = store.subscribe(this.onChange);
 
     this.onChange();
@@ -27,6 +30,7 @@ class Users extends React.Component {
   }
 
   onChange() {
+    const {store} = this.context;
     const users = store.getState().get('users');
     const locations = store.getState().get('locations');
     this.setState({users, locations});
@@ -39,6 +43,7 @@ class Users extends React.Component {
     let link = `/locations/${makeSlug(userName)}/${_id}`;
 
     if(locationIds.size === 1) {
+      const {store} = this.context;
       const locations = store.getState().get('locations');
       if(locations) {
         const singleLocationId = locationIds.first();
@@ -62,6 +67,7 @@ class Users extends React.Component {
   }
 
   renderUsers() {
+    const {store} = this.context;
     const users = store.getState().get('users');
     if(users && users.size) {
       return users.valueSeq().toArray().map(user => this.renderUser(user));

@@ -1,27 +1,27 @@
 const {Link} = require('react-router');
 const Base = require('./Base');
 const React = require('react');
-const store = require('../store');
 const {isLoggedIn} = require('../libs/auth-helper');
 
 class Home extends React.Component {
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    store: React.PropTypes.object.isRequired,
   };
 
   constructor() {
     super();
     this.onChange = this.onChange.bind(this);
-    this.state = store.getState();
   }
 
   updateState() {
+    const {store} = this.context;
     const users = store.getState().get('users');
     const locations = store.getState().get('locations');
     this.setState({users, locations});
   }
 
   componentWillMount() {
+    const {store} = this.context;
     this.unsubscribe = store.subscribe(this.onChange);
 
     this.updateState();
@@ -76,6 +76,7 @@ class Home extends React.Component {
   }
 
   renderUsers() {
+    const {store} = this.context;
     const users = store.getState().get('users');
     const locations = store.getState().get('locations');
     return this.anonHome(!!(users && users.size), !!(locations && locations.size));

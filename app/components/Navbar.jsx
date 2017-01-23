@@ -1,5 +1,4 @@
 const React = require('react');
-const store = require('../store');
 const actions = require('../actions');
 const utils = require('../libs/utils');
 const {isLoggedIn} = require('../libs/auth-helper');
@@ -9,6 +8,10 @@ const AddPlantButton = require('./plant/AddPlantButton');
 const {Link} = require('react-router');
 
 class Navbar extends React.Component {
+  static contextTypes = {
+    store: React.PropTypes.object.isRequired,
+  };
+
   constructor() {
     super();
     this.onChange = this.onChange.bind(this);
@@ -16,6 +19,7 @@ class Navbar extends React.Component {
   }
 
   componentWillMount() {
+    const {store} = this.context;
     this.unsubscribe = store.subscribe(this.onChange);
     const user = store.getState().get('user', Immutable.Map());
     const interimMap = store.getState().get('interim');
@@ -27,12 +31,14 @@ class Navbar extends React.Component {
   }
 
   onChange() {
+    const {store} = this.context;
     const user = store.getState().get('user', Immutable.Map());
     const interimMap = store.getState().get('interim');
     this.setState({user, interimMap});
   }
 
   logout() {
+    const {store} = this.context;
     store.dispatch(actions.logout());
   }
 
@@ -62,6 +68,7 @@ class Navbar extends React.Component {
       return null;
     }
 
+    const {store} = this.context;
     const location = store.getState().getIn(['locations', locationId]);
     if(!location) {
       console.warn('No location found for locationId', locationId);

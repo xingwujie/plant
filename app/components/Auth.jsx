@@ -1,13 +1,13 @@
 const Base = require('./Base');
 const React = require('react');
-const store = require('../store');
 const actions = require('../actions');
 const Immutable = require('immutable');
 // const utils = require('../libs/utils');
 
 class Auth extends React.Component {
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: React.PropTypes.object.isRequired,
+    store: React.PropTypes.object.isRequired,
   };
 
   constructor() {
@@ -16,6 +16,7 @@ class Auth extends React.Component {
   }
 
   componentDidMount() {
+    const {store} = this.context;
     this.unsubscribe = store.subscribe(this.onChange);
 
     let { query } = this.props.location;
@@ -30,10 +31,12 @@ class Auth extends React.Component {
   }
 
   onChange(){
+    const {store} = this.context;
     this.setState(store.getState().get('user', Immutable.Map()));
   }
 
   componentDidUpdate() {
+    const {store} = this.context;
     const user = store.getState().get('user', Immutable.Map());
     const jwt = user.get('jwt');
     if(jwt) {

@@ -1,11 +1,13 @@
 const React = require('react');
-const store = require('../store');
 const actions = require('../actions');
 
 class App extends React.Component {
-  constructor() {
-    super();
+  static contextTypes = {
+    store: React.PropTypes.object.isRequired,
+  };
 
+  componentWillMount() {
+    const {store} = this.context;
     const users = store.getState().get('users');
     if(!users || users.size === 0) {
       store.dispatch(actions.loadUsersRequest());
@@ -27,6 +29,7 @@ class App extends React.Component {
   }
 
   render() {
+    console.log('App.render:', this.context);
     return (
       <div className='react-root'>
         {this.props.children}
