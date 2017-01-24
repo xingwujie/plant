@@ -190,7 +190,10 @@ function transformErrors(errors) {
 }
 
 function hasGeo() {
-  return !!(navigator && navigator.geolocation);
+  if(typeof window === 'undefined') {
+    return false;
+  }
+  return !!(window && window.navigator && window.navigator.geolocation);
 }
 
 function getGeo(options, cb) {
@@ -203,7 +206,7 @@ function getGeo(options, cb) {
     timeout: 30000, // 10 seconds
   }, options);
 
-  navigator.geolocation.getCurrentPosition(position => {
+  window.navigator.geolocation.getCurrentPosition(position => {
     // { type: "Point", coordinates: [ 40, 5 ] }
     // postion: {coords: {latitude: 11.1, longitude: 22.2}}
     const geoJson = {

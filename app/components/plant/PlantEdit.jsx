@@ -21,7 +21,7 @@ const validate = validators.plant;
 
 class PlantEdit extends React.Component {
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: React.PropTypes.object,
   };
 
   constructor(props) {
