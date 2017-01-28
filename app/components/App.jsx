@@ -29,7 +29,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log('App.render:', this.context);
     return (
       <div className='react-root'>
         {this.props.children}
