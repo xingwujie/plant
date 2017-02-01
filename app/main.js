@@ -50,7 +50,6 @@ var routes = (
     <Route path='/users' component={Users}/>
     <Route path='/login' component={Login}/>
     <Route path='/plant' component={Plant}/>
-    <Route path='/planttt/:slug/:id' component={Plant}/>
     <Route path='/plant/:slug/:id' component={Plant}/>
     <Route path='/plants/:slug/:id' component={Plants}/>
     <Route path='/privacy' component={Privacy}/>
