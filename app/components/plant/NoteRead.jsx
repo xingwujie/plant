@@ -1,14 +1,15 @@
 const actions = require('../../actions');
+const EditDeleteButtons = require('./EditDeleteButtons');
+const Immutable = require('immutable');
+const LinkIcon = require('material-ui/svg-icons/content/link').default;
+const Markdown = require('../utils/Markdown');
+const moment = require('moment');
+const NoteReadMetrics = require('./NoteReadMetrics');
+const NoteUpdate = require('./NoteUpdate');
+const NoteAssocPlantList = require('./NoteAssocPlantList');
 const Paper = require('material-ui/Paper').default;
 const React = require('react');
-const EditDeleteButtons = require('./EditDeleteButtons');
-const NoteUpdate = require('./NoteUpdate');
-const moment = require('moment');
-const LinkIcon = require('material-ui/svg-icons/content/link').default;
 const utils = require('../../libs/utils');
-const Markdown = require('../utils/Markdown');
-const NoteReadMetrics = require('./NoteReadMetrics');
-const Immutable = require('immutable');
 
 const List = Immutable.List;
 
@@ -119,7 +120,8 @@ class NoteRead extends React.Component {
 
     const {
       isOwner,
-      note
+      note,
+      plant,
     } = this.props;
 
     const images = this.renderImages(note);
@@ -131,6 +133,8 @@ class NoteRead extends React.Component {
       ? ' (today)'
       : ` (${date.from(moment().startOf('day'))})`);
     const noteId = note.get('_id');
+    const associatedPlantIds = note.get('plantIds', Immutable.List());
+    const currentPlantId = plant.get('_id');
 
     return (
       <Paper key={noteId} style={paperStyle} zDepth={1}>
@@ -149,6 +153,11 @@ class NoteRead extends React.Component {
           deleteTitle={''}
           showButtons={isOwner}
           showDeleteConfirmation={showDeleteConfirmation}
+        />
+        <NoteAssocPlantList
+          associatedPlantIds={associatedPlantIds}
+          currentPlantId={currentPlantId}
+          plants={this.props.plants}
         />
         {images}
       </Paper>

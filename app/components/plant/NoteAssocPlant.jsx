@@ -1,3 +1,4 @@
+// When editing/create a Note this component manages the list of associated plants.
 
 const actions = require('../../actions');
 const React = require('react');
