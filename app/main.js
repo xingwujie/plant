@@ -17,6 +17,7 @@ const injectTapEventPlugin = require('react-tap-event-plugin');
 const Login = require('./components/auth/Login');
 const MuiThemeProvider = require('material-ui/styles/MuiThemeProvider').default;
 const Plant = require('./components/plant/Plant');
+const Article = require('./components/article/Article');
 const Plants = require('./components/plants/Plants');
 const Privacy = require('./components/info/Privacy');
 const Profile = require('./components/user/Profile');
@@ -51,6 +52,7 @@ var routes = (
     <Route path='/login' component={Login}/>
     <Route path='/plant' component={Plant}/>
     <Route path='/plant/:slug/:id' component={Plant}/>
+    <Route path='/article/:slug/:id' component={Article}/>
     <Route path='/plants/:slug/:id' component={Plants}/>
     <Route path='/privacy' component={Privacy}/>
     <Route path='/profile' component={Profile}/>
