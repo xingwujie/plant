@@ -5,6 +5,7 @@ const Paper = require('material-ui/Paper').default;
 const utils = require('../../libs/utils');
 const Immutable = require('immutable');
 const List = Immutable.List;
+const NoteUpdate = require('./NoteUpdate');
 
 class NotesRead extends React.Component {
 
@@ -74,13 +75,32 @@ class NotesRead extends React.Component {
           );
         }
         lastNoteDate = currentNoteDate;
-        acc.push(
-          <NoteRead
-            key={noteId}
-            {...this.props}
-            note={note}
-          />
-        );
+
+        const interimNoteId = this.props.interim.getIn(['note', 'note', '_id']);
+
+        if(interimNoteId === noteId) {
+          acc.push(
+            <NoteUpdate
+              dispatch={this.props.dispatch}
+              interimNote={this.props.interim.getIn(['note', 'note'])}
+              isOwner={this.props.isOwner}
+              key={noteId}
+              plant={this.props.plant}
+              plants={this.props.plants}
+              user={this.props.user}
+            />
+          );
+        } else {
+          acc.push(
+            <NoteRead
+              dispatch={this.props.dispatch}
+              isOwner={this.props.isOwner}
+              key={noteId}
+              note={note}
+              plant={this.props.plant}
+            />
+          );
+        }
       } else {
         acc.push(
           <CircularProgress key={noteId} />
@@ -102,6 +122,7 @@ NotesRead.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
   interim: React.PropTypes.shape({
     get: React.PropTypes.func.isRequired,
+    getIn: React.PropTypes.func.isRequired,
   }).isRequired,
   isOwner: React.PropTypes.bool.isRequired,
   notes:  React.PropTypes.shape({

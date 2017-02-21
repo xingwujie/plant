@@ -6,6 +6,7 @@ const NoteEdit = require('./NoteEdit');
 class NoteUpdate extends React.Component {
 
   render() {
+    console.log('NoteUpdate.render');
     if(!this.props.isOwner) {
       return null;
     }

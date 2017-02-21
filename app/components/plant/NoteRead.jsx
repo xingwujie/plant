@@ -2,7 +2,6 @@ const actions = require('../../actions');
 const Paper = require('material-ui/Paper').default;
 const React = require('react');
 const EditDeleteButtons = require('./EditDeleteButtons');
-const NoteUpdate = require('./NoteUpdate');
 const moment = require('moment');
 const LinkIcon = require('material-ui/svg-icons/content/link').default;
 const utils = require('../../libs/utils');
@@ -31,19 +30,6 @@ class NoteRead extends React.Component {
     } else {
       this.setState({showDeleteConfirmation: false});
     }
-  }
-
-  renderEdit() {
-    return (
-      <NoteUpdate
-        dispatch={this.props.dispatch}
-        isOwner={this.props.isOwner}
-        interimNote={this.props.interim.getIn(['note', 'note'])}
-        plant={this.props.plant}
-        plants={this.props.plants}
-        user={this.props.user}
-      />
-    );
   }
 
   buildImageUrl(size, image) {
@@ -105,7 +91,9 @@ class NoteRead extends React.Component {
     this.props.dispatch(actions.editNoteOpen({plant, note}));
   }
 
-  renderRead() {
+  render() {
+    console.log('NoteRead.render');
+
     const paperStyle = {
       padding: 20,
       width: '100%',
@@ -154,23 +142,10 @@ class NoteRead extends React.Component {
       </Paper>
     );
   }
-
-  render() {
-    const noteId = this.props.interim.getIn(['note', 'note', '_id']);
-
-    return noteId === this.props.note.get('_id')
-      ? this.renderEdit()
-      : this.renderRead();
-  }
-
 }
 
 NoteRead.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
-  interim: React.PropTypes.shape({
-    get: React.PropTypes.func.isRequired,
-    getIn: React.PropTypes.func.isRequired,
-  }).isRequired,
   isOwner: React.PropTypes.bool.isRequired,
   note: React.PropTypes.shape({
     get: React.PropTypes.func.isRequired,
@@ -179,13 +154,13 @@ NoteRead.propTypes = {
   plant: React.PropTypes.shape({
     get: React.PropTypes.func.isRequired,
   }).isRequired,
-  plants: React.PropTypes.shape({
-    get: React.PropTypes.func.isRequired,
-    filter: React.PropTypes.func.isRequired,
-  }).isRequired,
-  user: React.PropTypes.shape({ // Immutable.js Map
-    get: React.PropTypes.func.isRequired,
-  }).isRequired
+  // plants: React.PropTypes.shape({
+  //   get: React.PropTypes.func.isRequired,
+  //   filter: React.PropTypes.func.isRequired,
+  // }).isRequired,
+  // user: React.PropTypes.shape({ // Immutable.js Map
+  //   get: React.PropTypes.func.isRequired,
+  // }).isRequired
 };
 
 module.exports = NoteRead;
