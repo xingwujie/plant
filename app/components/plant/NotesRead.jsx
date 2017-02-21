@@ -62,35 +62,33 @@ class NotesRead extends React.Component {
     };
 
     let lastNoteDate;
-    const renderedNotes = sortedIds.reduce((acc, noteId) => {
-      const note = notes.get(noteId);
-      if(note) {
-        const currentNoteDate = utils.intToMoment(note.get('date'));
-        const sinceLast = lastNoteDate ? `...and then after ${lastNoteDate.from(currentNoteDate, true)}` : '';
-        if(sinceLast && !lastNoteDate.isSame(currentNoteDate)) {
-          acc.push(
-            <Paper key={noteId + '-sincelast'} style={paperStyle} zDepth={1}>
-              {sinceLast}
-            </Paper>
-          );
-        }
-        lastNoteDate = currentNoteDate;
+    const interimNoteId = this.props.interim.getIn(['note', 'note', '_id']);
 
-        const interimNoteId = this.props.interim.getIn(['note', 'note', '_id']);
+    const interimNote = interimNoteId && sortedIds.find(id => id === interimNoteId);
+    if(interimNote) {
+      return (<NoteUpdate
+        dispatch={this.props.dispatch}
+        interimNote={this.props.interim.getIn(['note', 'note'])}
+        isOwner={this.props.isOwner}
+        plant={this.props.plant}
+        plants={this.props.plants}
+        user={this.props.user}
+      />);
+    } else {
+      const renderedNotes = sortedIds.reduce((acc, noteId) => {
+        const note = notes.get(noteId);
+        if(note) {
+          const currentNoteDate = utils.intToMoment(note.get('date'));
+          const sinceLast = lastNoteDate ? `...and then after ${lastNoteDate.from(currentNoteDate, true)}` : '';
+          if(sinceLast && !lastNoteDate.isSame(currentNoteDate)) {
+            acc.push(
+              <Paper key={noteId + '-sincelast'} style={paperStyle} zDepth={1}>
+                {sinceLast}
+              </Paper>
+            );
+          }
+          lastNoteDate = currentNoteDate;
 
-        if(interimNoteId === noteId) {
-          acc.push(
-            <NoteUpdate
-              dispatch={this.props.dispatch}
-              interimNote={this.props.interim.getIn(['note', 'note'])}
-              isOwner={this.props.isOwner}
-              key={noteId}
-              plant={this.props.plant}
-              plants={this.props.plants}
-              user={this.props.user}
-            />
-          );
-        } else {
           acc.push(
             <NoteRead
               dispatch={this.props.dispatch}
@@ -100,21 +98,20 @@ class NotesRead extends React.Component {
               plant={this.props.plant}
             />
           );
+        } else {
+          acc.push(
+            <CircularProgress key={noteId} />
+          );
         }
-      } else {
-        acc.push(
-          <CircularProgress key={noteId} />
-        );
-      }
-      return acc;
-    }, []);
+        return acc;
+      }, []);
 
-    return (
-      <div>
-        {renderedNotes}
-      </div>
-    );
-
+      return (
+        <div>
+          {renderedNotes}
+        </div>
+      );
+    }
   }
 }
 

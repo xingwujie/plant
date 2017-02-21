@@ -41,8 +41,6 @@ class NoteRead extends React.Component {
   }
 
   render() {
-    console.log('NoteRead.render');
-
     const paperStyle = {
       padding: 20,
       width: '100%',
