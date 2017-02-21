@@ -7,9 +7,7 @@ const LinkIcon = require('material-ui/svg-icons/content/link').default;
 const utils = require('../../libs/utils');
 const Markdown = require('../utils/Markdown');
 const NoteReadMetrics = require('./NoteReadMetrics');
-const Immutable = require('immutable');
-
-const List = Immutable.List;
+const NoteReadImages = require('./NoteReadImages');
 
 class NoteRead extends React.Component {
 
@@ -29,55 +27,6 @@ class NoteRead extends React.Component {
       this.props.dispatch(actions.deleteNoteRequest(this.props.note.get('_id')));
     } else {
       this.setState({showDeleteConfirmation: false});
-    }
-  }
-
-  buildImageUrl(size, image) {
-    const id = image.get('id');
-    const ext = image.get('ext');
-    const folder = process.env.NODE_ENV === 'production' ? 'up' : 'test';
-    return `//i.plaaant.com/${folder}/${size}/${id}${ext && ext.length ? '.' : ''}${ext}`;
-  }
-
-  buildImageSrc(image) {
-    const sizes = image.get('sizes', List()).toJS();
-    const size = sizes && sizes.length
-      ? sizes[sizes.length - 1].name
-      : 'orig';
-    return this.buildImageUrl(size, image);
-  }
-
-  buildImageSrcSet(image) {
-    const sizes = image.get('sizes', List()).toJS();
-    if(sizes && sizes.length) {
-      // <img src="small.jpg" srcset="medium.jpg 1000w, large.jpg 2000w" alt="yah">
-      const items = sizes.map(size => `${this.buildImageUrl(size.name, image)} ${size.width}w `);
-      return items.join(',');
-    } else {
-      return '';
-    }
-  }
-
-  renderImage(image) {
-    const imageStyle = {
-      maxWidth: '100%',
-      padding: '1%'
-    };
-    return (
-      <div key={image.get('id')}>
-        <img style={imageStyle} src={this.buildImageSrc(image)} srcSet={this.buildImageSrcSet(image)} />
-      </div>
-    );
-  }
-
-  renderImages(note) {
-    const images = note.get('images');
-    if(images && images.size) {
-      return images.map(image => {
-        return this.renderImage(image);
-      });
-    } else {
-      return null;
     }
   }
 
@@ -110,8 +59,6 @@ class NoteRead extends React.Component {
       note
     } = this.props;
 
-    const images = this.renderImages(note);
-
     const date = utils.intToMoment(note.get('date'));
 
     const noteDate = date.format('DD-MMM-YYYY') +
@@ -138,7 +85,7 @@ class NoteRead extends React.Component {
           showButtons={isOwner}
           showDeleteConfirmation={showDeleteConfirmation}
         />
-        {images}
+        <NoteReadImages note={note} />
       </Paper>
     );
   }
