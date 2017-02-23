@@ -145,10 +145,14 @@ class Location extends React.Component {
     const createNote = !!interimNote && interimNote.get('isNew');
 
     if(createNote && loggedIn) {
+      const style = {
+        paddingTop: '30px',
+        textAlign: 'center'
+      };
       return (
         <Base>
           <div>
-            <h4 style={{textAlign: 'center'}}>{`Create a Note for ${plantCreateNote.get('title')}`}</h4>
+            <h4 style={style}>{`Create a Note for ${plantCreateNote.get('title')}`}</h4>
             <NoteCreate
               dispatch={store.dispatch}
               isOwner={true}
