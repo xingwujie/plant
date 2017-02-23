@@ -45,7 +45,8 @@ class NoteCreate extends React.Component {
 
     return (
       <div>
-        {createNote &&
+        {createNote
+        ?
           <NoteEdit
             dispatch={this.props.dispatch}
             interimNote={interimNote}
@@ -53,8 +54,7 @@ class NoteCreate extends React.Component {
             plants={this.props.plants}
             user={this.props.user}
           />
-        }
-        {!createNote &&
+        :
           <div style={{textAlign: 'right'}}>
             <FloatingActionButton
               onClick={this.createNote}
