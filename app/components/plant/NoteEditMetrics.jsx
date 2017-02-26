@@ -52,6 +52,7 @@ class NoteEditMetrics extends React.Component {
       label={metaMetric.label}
       name={metaMetric.key}
       placeholder={metaMetric.placeholder}
+      type='number'
       value={value || ''}
     />);
   }
