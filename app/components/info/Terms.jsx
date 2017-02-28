@@ -129,9 +129,9 @@ class Terms extends React.Component {
   render() {
     const paperStyle = {
       padding: 20,
-      width: '100%',
+      //~ width: '100%',
       margin: 20,
-      display: 'inline-block'
+      //~ display: 'inline-block'
     };
 
     return (

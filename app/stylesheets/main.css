@@ -114,8 +114,18 @@ html {
 }
 
 #main {
-  margin: 0 40px 0 auto;
-  padding-top: 30px;
+  margin: 0 auto;
+  /*margin: 0 40px 0 auto;
+  padding-top: 30px;*/
+}
+
+#main .well {
+  margin: 30px;
+}
+
+.navbar-fixed-bottom a {
+  margin-top: 10px;
+  display: inline-block;
 }
 
 .plant {
@@ -162,6 +172,7 @@ body {
 }
 
 .page {
+  padding-top: 50px;
   min-height: 100%;
 }
 
@@ -201,7 +212,9 @@ footer {
   height: 100vh;
   justify-content: center;
   text-align: center;
+/*
   width: 100vw;
+*/
 }
 
 #hero section:nth-of-type(1) {
@@ -247,4 +260,22 @@ footer {
       rgba(0, 0, 0, 0.3)
     ),
     url('https://i.plaaant.com/up/sm/5823c95dd98baf0aa95d2a25.jpg');
+}
+
+#oops { 
+  padding: 50px; 
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  box-sizing: border-box;
+  background: grey;
+}
+
+#oops img { 
+  float: left;
+  max-width: 300px;
+}
+
+#oops .clear {
+  clear: both;
 }
