@@ -115,8 +115,6 @@ html {
 
 #main {
   margin: 0 auto;
-  /*margin: 0 40px 0 auto;
-  padding-top: 30px;*/
 }
 
 #main .well {
@@ -124,8 +122,8 @@ html {
 }
 
 .navbar-fixed-bottom a {
-  margin-top: 10px;
   display: inline-block;
+  margin-top: 10px;
 }
 
 .plant {
@@ -172,8 +170,8 @@ body {
 }
 
 .page {
-  padding-top: 50px;
   min-height: 100%;
+  padding-top: 50px;
 }
 
 .react-root {
@@ -212,9 +210,6 @@ footer {
   height: 100vh;
   justify-content: center;
   text-align: center;
-/*
-  width: 100vw;
-*/
 }
 
 #hero section:nth-of-type(1) {
@@ -262,20 +257,9 @@ footer {
     url('https://i.plaaant.com/up/sm/5823c95dd98baf0aa95d2a25.jpg');
 }
 
-#oops { 
-  padding: 50px; 
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
-  box-sizing: border-box;
-  background: grey;
+#oops h1 {
+  color: rgba(0, 150, 0, 0.5);
+  font-size: 8rem;
+  padding-top: 3rem;
 }
 
-#oops img { 
-  float: left;
-  max-width: 300px;
-}
-
-#oops .clear {
-  clear: both;
-}
