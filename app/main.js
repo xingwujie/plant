@@ -12,6 +12,7 @@ const Auth = require('./components/Auth');
 const DebugSettings = require('./components/DebugSettings');
 const getMuiTheme = require('material-ui/styles/getMuiTheme').default;
 const Help = require('./components/Help');
+const FourOFour = require('./components/404');
 const Home = require('./components/Home');
 const injectTapEventPlugin = require('react-tap-event-plugin');
 const Login = require('./components/auth/Login');
@@ -57,7 +58,7 @@ var routes = (
     <Route path='/privacy' component={Privacy}/>
     <Route path='/profile' component={Profile}/>
     <Route path='/terms' component={Terms}/>
-    <Route path='*' component={Help}/>
+    <Route path='*' component={FourOFour}/>
   </Route>
 );
 
