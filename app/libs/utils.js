@@ -1,5 +1,5 @@
 const constants = require('./constants');
-const slug = require('slug');
+const slug = require('slugify');
 const isDate = require('lodash/isDate');
 const moment = require('moment');
 const Immutable = require('immutable');
@@ -29,14 +29,7 @@ function makeSlug(text) {
 
   text = text.toString();
   text = text.replace(/\//g, ' ');
-  return slug(text.toString(), {
-    // replacement: '-',
-    // symbols: true,
-    // remove: /[.]/g,
-    lower: true,
-    // charmap: slug.charmap,
-    // multicharmap: slug.multicharmap
-  });
+  return slug(text.toString().toLowerCase());
 }
 
 function makeUrl(first, location) {
