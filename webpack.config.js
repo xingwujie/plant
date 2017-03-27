@@ -72,8 +72,7 @@ const common = {
       jQuery: 'jquery',
       'window.jQuery': 'jquery',
       'root.jQuery': 'jquery'
-    }),
-    new webpack.IgnorePlugin(/unicode\/category\/So/)
+    })
   ]
 };
 
