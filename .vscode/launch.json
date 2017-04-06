@@ -3,7 +3,7 @@
   "configurations": [
     {
       "name": "Server",
-      "type": "node2",
+      "type": "node",
       "request": "launch",
       "program": "${workspaceRoot}/server.js",
       "stopOnEntry": false,
