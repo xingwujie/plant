@@ -17,7 +17,8 @@
   ],
   "parser": "babel-eslint",
   "plugins": [
-    "react"
+    "react",
+    "security"
   ],
   "rules": {
     "no-underscore-dangle": 0,
