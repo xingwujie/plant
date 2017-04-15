@@ -1,9 +1,10 @@
 const React = require('react');
 const actions = require('../actions');
+const PropTypes = require('prop-types');
 
 class App extends React.Component {
   static contextTypes = {
-    store: React.PropTypes.object.isRequired,
+    store: PropTypes.object.isRequired,
   };
 
   componentWillMount() {
@@ -38,7 +39,7 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  children: React.PropTypes.object,
+  children: PropTypes.object,
 };
 
 module.exports = App;

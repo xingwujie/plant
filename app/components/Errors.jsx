@@ -1,5 +1,6 @@
 
 const React = require('react');
+const PropTypes = require('prop-types');
 
 class Errors extends React.Component {
 
@@ -30,7 +31,7 @@ class Errors extends React.Component {
 }
 
 Errors.propTypes = {
-  errors: React.PropTypes.array,
+  errors: PropTypes.array,
 };
 
 module.exports = Errors;

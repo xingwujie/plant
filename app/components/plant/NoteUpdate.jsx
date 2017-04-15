@@ -2,6 +2,7 @@
 
 const React = require('react');
 const NoteEdit = require('./NoteEdit');
+const PropTypes = require('prop-types');
 
 class NoteUpdate extends React.Component {
 
@@ -23,19 +24,19 @@ class NoteUpdate extends React.Component {
 }
 
 NoteUpdate.propTypes = {
-  dispatch: React.PropTypes.func.isRequired,
-  interimNote: React.PropTypes.shape({
-    get: React.PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  interimNote: PropTypes.shape({
+    get: PropTypes.func.isRequired,
   }).isRequired,
-  isOwner: React.PropTypes.bool.isRequired,
-  plant: React.PropTypes.shape({
-    get: React.PropTypes.func.isRequired,
+  isOwner: PropTypes.bool.isRequired,
+  plant: PropTypes.shape({
+    get: PropTypes.func.isRequired,
   }).isRequired,
-  plants: React.PropTypes.shape({
-    get: React.PropTypes.func.isRequired,
+  plants: PropTypes.shape({
+    get: PropTypes.func.isRequired,
   }).isRequired,
-  user: React.PropTypes.shape({ // Immutable.js Map
-    get: React.PropTypes.func.isRequired,
+  user: PropTypes.shape({ // Immutable.js Map
+    get: PropTypes.func.isRequired,
   }).isRequired
 };
 

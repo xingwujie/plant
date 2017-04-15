@@ -5,6 +5,7 @@ const Paper = require('material-ui/Paper').default;
 const utils = require('../../libs/utils');
 const Immutable = require('immutable');
 const List = Immutable.List;
+const PropTypes = require('prop-types');
 
 class NotesRead extends React.Component {
 
@@ -99,22 +100,22 @@ class NotesRead extends React.Component {
 }
 
 NotesRead.propTypes = {
-  dispatch: React.PropTypes.func.isRequired,
-  interim: React.PropTypes.shape({
-    get: React.PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  interim: PropTypes.shape({
+    get: PropTypes.func.isRequired,
   }).isRequired,
-  isOwner: React.PropTypes.bool.isRequired,
-  notes:  React.PropTypes.shape({
-    get: React.PropTypes.func.isRequired,
+  isOwner: PropTypes.bool.isRequired,
+  notes:  PropTypes.shape({
+    get: PropTypes.func.isRequired,
   }).isRequired,
-  plant:  React.PropTypes.shape({
-    get: React.PropTypes.func.isRequired,
+  plant:  PropTypes.shape({
+    get: PropTypes.func.isRequired,
   }).isRequired,
-  plants:  React.PropTypes.shape({
-    get: React.PropTypes.func.isRequired,
+  plants:  PropTypes.shape({
+    get: PropTypes.func.isRequired,
   }).isRequired,
-  user: React.PropTypes.shape({ // Immutable.js Map
-    get: React.PropTypes.func.isRequired,
+  user: PropTypes.shape({ // Immutable.js Map
+    get: PropTypes.func.isRequired,
   }).isRequired
 };
 

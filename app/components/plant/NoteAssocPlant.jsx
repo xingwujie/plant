@@ -8,6 +8,7 @@ const ArrowLeft = require('material-ui/svg-icons/hardware/keyboard-arrow-left').
 const ArrowRight = require('material-ui/svg-icons/hardware/keyboard-arrow-right').default;
 const Errors = require('../Errors');
 const utils = require('../../libs/utils');
+const PropTypes = require('prop-types');
 
 class NoteAssocPlant extends React.Component {
   constructor() {
@@ -109,10 +110,10 @@ class NoteAssocPlant extends React.Component {
 }
 
 NoteAssocPlant.propTypes = {
-  dispatch: React.PropTypes.func.isRequired,
-  error: React.PropTypes.string,
-  plantIds: React.PropTypes.array.isRequired,
-  plants: React.PropTypes.object.isRequired, // Immutable.js Map
+  dispatch: PropTypes.func.isRequired,
+  error: PropTypes.string,
+  plantIds: PropTypes.array.isRequired,
+  plants: PropTypes.object.isRequired, // Immutable.js Map
 };
 
 module.exports = NoteAssocPlant;

@@ -4,12 +4,13 @@ const utils = require('../libs/utils');
 const {isLoggedIn} = require('../libs/auth-helper');
 const Immutable = require('immutable');
 const AddPlantButton = require('./plant/AddPlantButton');
+const PropTypes = require('prop-types');
 
 const {Link} = require('react-router');
 
 class Navbar extends React.Component {
   static contextTypes = {
-    store: React.PropTypes.object.isRequired,
+    store: PropTypes.object.isRequired,
   };
 
   constructor() {

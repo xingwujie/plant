@@ -5,12 +5,13 @@ const moment = require('moment');
 const Paper = require('material-ui/Paper').default;
 const React = require('react');
 const utils = require('../../libs/utils');
+const PropTypes = require('prop-types');
 
 const dateFormat = 'DD-MMM-YYYY';
 
 class PlantRead extends React.Component {
   static contextTypes = {
-    router: React.PropTypes.object.isRequired
+    router: PropTypes.object.isRequired
   };
 
   constructor(props) {
@@ -215,26 +216,26 @@ class PlantRead extends React.Component {
 }
 
 PlantRead.propTypes = {
-  dispatch: React.PropTypes.func.isRequired,
-  interim: React.PropTypes.shape({
-    get: React.PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  interim: PropTypes.shape({
+    get: PropTypes.func.isRequired,
   }).isRequired,
-  isOwner: React.PropTypes.bool.isRequired,
-  notes:  React.PropTypes.shape({
-    get: React.PropTypes.func.isRequired,
+  isOwner: PropTypes.bool.isRequired,
+  notes:  PropTypes.shape({
+    get: PropTypes.func.isRequired,
   }).isRequired,
-  locations: React.PropTypes.shape({
-    get: React.PropTypes.func.isRequired,
+  locations: PropTypes.shape({
+    get: PropTypes.func.isRequired,
   }).isRequired,
-  plant:  React.PropTypes.shape({
-    get: React.PropTypes.func.isRequired,
-    toJS: React.PropTypes.func.isRequired,
+  plant:  PropTypes.shape({
+    get: PropTypes.func.isRequired,
+    toJS: PropTypes.func.isRequired,
   }).isRequired,
-  plants:  React.PropTypes.shape({
-    get: React.PropTypes.func.isRequired,
+  plants:  PropTypes.shape({
+    get: PropTypes.func.isRequired,
   }).isRequired,
-  user: React.PropTypes.shape({
-    get: React.PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    get: PropTypes.func.isRequired,
   }).isRequired,
 };
 

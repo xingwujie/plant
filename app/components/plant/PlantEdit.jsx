@@ -16,12 +16,13 @@ const Immutable = require('immutable');
 const FloatingActionButton = require('material-ui/FloatingActionButton').default;
 const MapsAddLocation = require('material-ui/svg-icons/maps/add-location').default;
 const PlantEditTerminated = require('./PlantEditTerminated');
+const PropTypes = require('prop-types');
 
 const validate = validators.plant;
 
 class PlantEdit extends React.Component {
   static contextTypes = {
-    router: React.PropTypes.object,
+    router: PropTypes.object,
   };
 
   constructor(props) {
@@ -272,13 +273,13 @@ class PlantEdit extends React.Component {
 };
 
 PlantEdit.propTypes = {
-  dispatch: React.PropTypes.func.isRequired,
-  interimPlant: React.PropTypes.shape({
-    get: React.PropTypes.func.isRequired,
-    toJS: React.PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  interimPlant: PropTypes.shape({
+    get: PropTypes.func.isRequired,
+    toJS: PropTypes.func.isRequired,
   }).isRequired,
-  user: React.PropTypes.shape({
-    get: React.PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    get: PropTypes.func.isRequired,
   }).isRequired
 };
 

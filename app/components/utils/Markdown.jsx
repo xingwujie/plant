@@ -1,6 +1,7 @@
 
 const marked = require('marked');
 const React = require('react');
+const PropTypes = require('prop-types');
 
 class Markdown extends React.Component {
   render() {
@@ -10,7 +11,7 @@ class Markdown extends React.Component {
 }
 
 Markdown.propTypes = {
-  markdown: React.PropTypes.string,
+  markdown: PropTypes.string,
 };
 
 module.exports = Markdown;

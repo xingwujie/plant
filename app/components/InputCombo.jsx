@@ -1,5 +1,6 @@
 const React = require('react');
 const TextField = require('material-ui/TextField').default;
+const PropTypes = require('prop-types');
 
 class InputCombo extends React.Component {
 
@@ -50,15 +51,15 @@ class InputCombo extends React.Component {
 }
 
 InputCombo.propTypes = {
-  changeHandler: React.PropTypes.func.isRequired,
-  error: React.PropTypes.string,
-  fullWidth: React.PropTypes.bool,
-  label: React.PropTypes.string,
-  multiLine: React.PropTypes.bool,
-  name: React.PropTypes.string.isRequired, // eslint-disable-line no-dupe-keys
-  placeholder: React.PropTypes.string,
-  style: React.PropTypes.object,
-  value: React.PropTypes.any.isRequired,
+  changeHandler: PropTypes.func.isRequired,
+  error: PropTypes.string,
+  fullWidth: PropTypes.bool,
+  label: PropTypes.string,
+  multiLine: PropTypes.bool,
+  name: PropTypes.string.isRequired, // eslint-disable-line no-dupe-keys
+  placeholder: PropTypes.string,
+  style: PropTypes.object,
+  value: PropTypes.any.isRequired,
 };
 
 module.exports = InputCombo;

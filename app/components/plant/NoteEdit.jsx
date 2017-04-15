@@ -13,6 +13,7 @@ const utils = require('../../libs/utils');
 const NoteAssocPlant = require('./NoteAssocPlant');
 const NoteEditMetrics = require('./NoteEditMetrics');
 const Immutable = require('immutable');
+const PropTypes = require('prop-types');
 
 const validators = require('../../models');
 const validate = validators.note;
@@ -245,22 +246,22 @@ class NoteEdit extends React.Component {
 }
 
 NoteEdit.propTypes = {
-  dispatch: React.PropTypes.func.isRequired,
-  images: React.PropTypes.array,
-  interimNote: React.PropTypes.shape({
-    get: React.PropTypes.func.isRequired,
-    toJS: React.PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  images: PropTypes.array,
+  interimNote: PropTypes.shape({
+    get: PropTypes.func.isRequired,
+    toJS: PropTypes.func.isRequired,
   }).isRequired,
-  plant: React.PropTypes.shape({
-    get: React.PropTypes.func.isRequired,
+  plant: PropTypes.shape({
+    get: PropTypes.func.isRequired,
   }).isRequired,
-  plants: React.PropTypes.shape({
-    get: React.PropTypes.func.isRequired,
-    filter: React.PropTypes.func.isRequired,
+  plants: PropTypes.shape({
+    get: PropTypes.func.isRequired,
+    filter: PropTypes.func.isRequired,
   }).isRequired,
-  postSaveSuccess: React.PropTypes.func,
-  user: React.PropTypes.shape({ // Immutable.js Map
-    get: React.PropTypes.func.isRequired,
+  postSaveSuccess: PropTypes.func,
+  user: PropTypes.shape({ // Immutable.js Map
+    get: PropTypes.func.isRequired,
   }).isRequired
 };
 

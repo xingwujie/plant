@@ -5,12 +5,13 @@ const Base = require('../Base');
 const React = require('react');
 const {Link} = require('react-router');
 const utils = require('../../libs/utils');
+const PropTypes = require('prop-types');
 
 const {makeSlug} = utils;
 
 class Users extends React.Component {
   static contextTypes = {
-    store: React.PropTypes.object.isRequired,
+    store: PropTypes.object.isRequired,
   };
 
   constructor() {

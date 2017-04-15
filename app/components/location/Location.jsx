@@ -12,10 +12,11 @@ const NoteCreate = require('../plant/NoteCreate');
 const utils = require('../../libs/utils');
 const Immutable = require('immutable');
 const AddPlantButton = require('../plant/AddPlantButton');
+const PropTypes = require('prop-types');
 
 class Location extends React.Component {
   static contextTypes = {
-    store: React.PropTypes.object.isRequired,
+    store: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -237,9 +238,9 @@ class Location extends React.Component {
 }
 
 Location.propTypes = {
-  params:  React.PropTypes.shape({
-    id: React.PropTypes.string.isRequired,
-    slug: React.PropTypes.string.isRequired,
+  params:  PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    slug: PropTypes.string.isRequired,
   }).isRequired,
 };
 

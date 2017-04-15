@@ -77,8 +77,8 @@ class Article extends React.Component {
 }
 
 // Article.propTypes = {
-//   params: React.PropTypes.shape({
-//     id: React.PropTypes.string
+//   params: PropTypes.shape({
+//     id: PropTypes.string
 //   })
 // };
 

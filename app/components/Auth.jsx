@@ -3,11 +3,12 @@ const React = require('react');
 const actions = require('../actions');
 const Immutable = require('immutable');
 // const utils = require('../libs/utils');
+const PropTypes = require('prop-types');
 
 class Auth extends React.Component {
   static contextTypes = {
-    router: React.PropTypes.object.isRequired,
-    store: React.PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
+    store: PropTypes.object.isRequired,
   };
 
   constructor() {
@@ -61,7 +62,7 @@ class Auth extends React.Component {
 };
 
 Auth.propTypes = {
-  location: React.PropTypes.object,
+  location: PropTypes.object,
 };
 
 module.exports = Auth;

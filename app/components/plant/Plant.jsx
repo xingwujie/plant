@@ -13,10 +13,11 @@ const PlantRead = require('./PlantRead');
 const NoteCreate = require('./NoteCreate');
 const React = require('react');
 const Immutable = require('immutable');
+const PropTypes = require('prop-types');
 
 class Plant extends React.Component {
   static contextTypes = {
-    store: React.PropTypes.object.isRequired,
+    store: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -146,8 +147,8 @@ class Plant extends React.Component {
 }
 
 Plant.propTypes = {
-  params: React.PropTypes.shape({
-    id: React.PropTypes.string
+  params: PropTypes.shape({
+    id: PropTypes.string
   })
 };
 

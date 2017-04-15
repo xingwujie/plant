@@ -6,6 +6,7 @@ const InputCombo = require('../InputCombo');
 const Divider = require('material-ui/Divider').default;
 const RadioButton = require('material-ui/RadioButton').RadioButton;
 const RadioButtonGroup = require('material-ui/RadioButton').RadioButtonGroup;
+const PropTypes = require('prop-types');
 
 class PlantEditTerminated extends React.Component {
 
@@ -114,10 +115,10 @@ class PlantEditTerminated extends React.Component {
 };
 
 PlantEditTerminated.propTypes = {
-  dispatch: React.PropTypes.func.isRequired,
-  interimPlant: React.PropTypes.shape({
-    get: React.PropTypes.func.isRequired,
-    toJS: React.PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  interimPlant: PropTypes.shape({
+    get: PropTypes.func.isRequired,
+    toJS: PropTypes.func.isRequired,
   }).isRequired,
 };
 

@@ -3,6 +3,7 @@ const RemoveConfirm = require('../RemoveConfirm');
 const FloatingActionButton = require('material-ui/FloatingActionButton').default;
 const EditIcon = require('material-ui/svg-icons/editor/mode-edit').default;
 const DeleteIcon = require('material-ui/svg-icons/action/delete').default;
+const PropTypes = require('prop-types');
 
 class EditDeleteButtons extends React.Component {
 
@@ -46,13 +47,13 @@ class EditDeleteButtons extends React.Component {
 }
 
 EditDeleteButtons.propTypes = {
-  clickDelete: React.PropTypes.func.isRequired,
-  clickEdit: React.PropTypes.func.isRequired,
-  confirmDelete: React.PropTypes.func.isRequired,
-  deleteTitle: React.PropTypes.string.isRequired,
-  // dispatch: React.PropTypes.func.isRequired,
-  showButtons: React.PropTypes.bool.isRequired,
-  showDeleteConfirmation: React.PropTypes.bool.isRequired,
+  clickDelete: PropTypes.func.isRequired,
+  clickEdit: PropTypes.func.isRequired,
+  confirmDelete: PropTypes.func.isRequired,
+  deleteTitle: PropTypes.string.isRequired,
+  // dispatch: PropTypes.func.isRequired,
+  showButtons: PropTypes.bool.isRequired,
+  showDeleteConfirmation: PropTypes.bool.isRequired,
 };
 
 module.exports = EditDeleteButtons;

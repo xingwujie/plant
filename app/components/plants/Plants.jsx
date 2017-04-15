@@ -6,11 +6,12 @@
 const React = require('react');
 const utils = require('../../libs/utils');
 const Immutable = require('immutable');
+const PropTypes = require('prop-types');
 
 class Plants extends React.Component {
   static contextTypes = {
-    router: React.PropTypes.object.isRequired,
-    store: React.PropTypes.object.isRequired,
+    router: PropTypes.object.isRequired,
+    store: PropTypes.object.isRequired,
   };
 
   constructor() {
@@ -72,9 +73,9 @@ class Plants extends React.Component {
 }
 
 Plants.propTypes = {
-  params:  React.PropTypes.shape({
-    id: React.PropTypes.string.isRequired,
-    slug: React.PropTypes.string.isRequired,
+  params:  PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    slug: PropTypes.string.isRequired,
   }).isRequired,
 };
 

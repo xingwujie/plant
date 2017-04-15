@@ -3,6 +3,7 @@ const FloatingActionButton = require('material-ui/FloatingActionButton').default
 const ClearIcon = require('material-ui/svg-icons/content/clear').default;
 const DoneIcon = require('material-ui/svg-icons/action/done').default;
 const AddPhotoIcon = require('material-ui/svg-icons/image/add-a-photo').default;
+const PropTypes = require('prop-types');
 
 class CancelSaveButtons extends React.Component {
 
@@ -56,10 +57,10 @@ class CancelSaveButtons extends React.Component {
 }
 
 CancelSaveButtons.propTypes = {
-  clickAddPhoto: React.PropTypes.func,
-  clickCancel: React.PropTypes.func.isRequired,
-  clickSave: React.PropTypes.func.isRequired,
-  showButtons: React.PropTypes.bool.isRequired,
+  clickAddPhoto: PropTypes.func,
+  clickCancel: PropTypes.func.isRequired,
+  clickSave: PropTypes.func.isRequired,
+  showButtons: PropTypes.bool.isRequired,
 };
 
 module.exports = CancelSaveButtons;

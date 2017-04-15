@@ -1,6 +1,7 @@
 const React = require('react');
 const utils = require('../../libs/utils');
 // const Immutable = require('immutable');
+const PropTypes = require('prop-types');
 
 class NoteReadMetrics extends React.Component {
 
@@ -58,9 +59,9 @@ class NoteReadMetrics extends React.Component {
 }
 
 NoteReadMetrics.propTypes = {
-  note: React.PropTypes.shape({
-    get: React.PropTypes.func.isRequired,
-    toJS: React.PropTypes.func.isRequired,
+  note: PropTypes.shape({
+    get: PropTypes.func.isRequired,
+    toJS: PropTypes.func.isRequired,
   }).isRequired,
 };
 

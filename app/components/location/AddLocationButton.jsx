@@ -2,6 +2,7 @@ const React = require('react');
 const FloatingActionButton = require('material-ui/FloatingActionButton').default;
 const AddIcon = require('material-ui/svg-icons/content/add').default;
 const {Link} = require('react-router');
+const PropTypes = require('prop-types');
 
 class AddLocationButton extends React.Component {
 
@@ -30,9 +31,9 @@ class AddLocationButton extends React.Component {
 }
 
 AddLocationButton.propTypes = {
-  mini: React.PropTypes.bool,
-  show: React.PropTypes.bool.isRequired,
-  style: React.PropTypes.object,
+  mini: PropTypes.bool,
+  show: PropTypes.bool.isRequired,
+  style: PropTypes.object,
 };
 
 module.exports = AddLocationButton;

@@ -9,6 +9,7 @@ const utils = require('../../libs/utils');
 const Markdown = require('../utils/Markdown');
 const NoteReadMetrics = require('./NoteReadMetrics');
 const Immutable = require('immutable');
+const PropTypes = require('prop-types');
 
 const List = Immutable.List;
 
@@ -166,25 +167,25 @@ class NoteRead extends React.Component {
 }
 
 NoteRead.propTypes = {
-  dispatch: React.PropTypes.func.isRequired,
-  interim: React.PropTypes.shape({
-    get: React.PropTypes.func.isRequired,
-    getIn: React.PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  interim: PropTypes.shape({
+    get: PropTypes.func.isRequired,
+    getIn: PropTypes.func.isRequired,
   }).isRequired,
-  isOwner: React.PropTypes.bool.isRequired,
-  note: React.PropTypes.shape({
-    get: React.PropTypes.func.isRequired,
-    toJS: React.PropTypes.func.isRequired,
+  isOwner: PropTypes.bool.isRequired,
+  note: PropTypes.shape({
+    get: PropTypes.func.isRequired,
+    toJS: PropTypes.func.isRequired,
   }).isRequired,
-  plant: React.PropTypes.shape({
-    get: React.PropTypes.func.isRequired,
+  plant: PropTypes.shape({
+    get: PropTypes.func.isRequired,
   }).isRequired,
-  plants: React.PropTypes.shape({
-    get: React.PropTypes.func.isRequired,
-    filter: React.PropTypes.func.isRequired,
+  plants: PropTypes.shape({
+    get: PropTypes.func.isRequired,
+    filter: PropTypes.func.isRequired,
   }).isRequired,
-  user: React.PropTypes.shape({ // Immutable.js Map
-    get: React.PropTypes.func.isRequired,
+  user: PropTypes.shape({ // Immutable.js Map
+    get: PropTypes.func.isRequired,
   }).isRequired
 };
 

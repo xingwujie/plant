@@ -9,12 +9,13 @@ const {Link} = require('react-router');
 const utils = require('../../libs/utils');
 const Immutable = require('immutable');
 const AddLocationButton = require('./AddLocationButton');
+const PropTypes = require('prop-types');
 
 const {makeSlug} = utils;
 
 class Locations extends React.Component {
   static contextTypes = {
-    store: React.PropTypes.object.isRequired,
+    store: PropTypes.object.isRequired,
   };
 
   constructor() {
@@ -128,9 +129,9 @@ class Locations extends React.Component {
 }
 
 Locations.propTypes = {
-  params:  React.PropTypes.shape({
-    id: React.PropTypes.string,
-    slug: React.PropTypes.string,
+  params:  PropTypes.shape({
+    id: PropTypes.string,
+    slug: PropTypes.string,
   }),
 };
 

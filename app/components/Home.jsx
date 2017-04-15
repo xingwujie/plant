@@ -2,10 +2,11 @@ const {Link} = require('react-router');
 const Base = require('./Base');
 const React = require('react');
 const {isLoggedIn} = require('../libs/auth-helper');
+const PropTypes = require('prop-types');
 
 class Home extends React.Component {
   static contextTypes = {
-    store: React.PropTypes.object.isRequired,
+    store: PropTypes.object.isRequired,
   };
 
   constructor() {

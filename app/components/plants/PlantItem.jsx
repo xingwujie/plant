@@ -8,6 +8,7 @@ const AddIcon = require('material-ui/svg-icons/content/add').default;
 const utils = require('../../libs/utils');
 const actions = require('../../actions');
 const moment = require('moment');
+const PropTypes = require('prop-types');
 
 class PlantItem extends React.Component {
 
@@ -93,10 +94,10 @@ class PlantItem extends React.Component {
 }
 
 PlantItem.propTypes = {
-  dispatch: React.PropTypes.func.isRequired,
-  isOwner: React.PropTypes.bool.isRequired,
-  plant:  React.PropTypes.shape({ // Immutable.js
-    get: React.PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  isOwner: PropTypes.bool.isRequired,
+  plant:  PropTypes.shape({ // Immutable.js
+    get: PropTypes.func.isRequired,
   }).isRequired
 };
 

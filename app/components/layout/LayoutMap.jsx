@@ -8,10 +8,11 @@ const gis = require('../../libs/gis');
 const Immutable = require('immutable');
 // const {Layer, Rect, Stage, Group} = require('react-konva');
 const {Layer, Text: KonvaText, Circle, Stage, Group} = require('react-konva');
+const PropTypes = require('prop-types');
 
 class LayoutMap extends React.Component {
   static contextTypes = {
-    store: React.PropTypes.object.isRequired,
+    store: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -181,9 +182,9 @@ class LayoutMap extends React.Component {
 }
 
 LayoutMap.propTypes = {
-  params:  React.PropTypes.shape({
-    id: React.PropTypes.string.isRequired,
-    slug: React.PropTypes.string.isRequired,
+  params:  PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    slug: PropTypes.string.isRequired,
   }).isRequired,
 };
 

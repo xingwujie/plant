@@ -2,6 +2,7 @@ const React = require('react');
 const FloatingActionButton = require('material-ui/FloatingActionButton').default;
 const ClearIcon = require('material-ui/svg-icons/content/clear').default;
 const DeleteForeverIcon = require('material-ui/svg-icons/action/delete-forever').default;
+const PropTypes = require('prop-types');
 
 class RemoveConfirm extends React.Component {
 
@@ -46,8 +47,8 @@ class RemoveConfirm extends React.Component {
 }
 
 RemoveConfirm.propTypes = {
-  confirmFn: React.PropTypes.func.isRequired,
-  title: React.PropTypes.string,
+  confirmFn: PropTypes.func.isRequired,
+  title: PropTypes.string,
 };
 
 module.exports = RemoveConfirm;

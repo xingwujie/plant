@@ -7,6 +7,7 @@ const FloatingActionButton = require('material-ui/FloatingActionButton').default
 const AddIcon = require('material-ui/svg-icons/content/add').default;
 const utils = require('../../libs/utils');
 const moment = require('moment');
+const PropTypes = require('prop-types');
 
 class NoteCreate extends React.Component {
 
@@ -71,21 +72,21 @@ class NoteCreate extends React.Component {
 }
 
 NoteCreate.propTypes = {
-  dispatch: React.PropTypes.func.isRequired,
-  isOwner: React.PropTypes.bool.isRequired,
-  interimNote: React.PropTypes.shape({ // Immutable.js Map
-    get: React.PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  isOwner: PropTypes.bool.isRequired,
+  interimNote: PropTypes.shape({ // Immutable.js Map
+    get: PropTypes.func.isRequired,
   }).isRequired,
-  plant: React.PropTypes.shape({ // Immutable.js Map
-    get: React.PropTypes.func.isRequired,
+  plant: PropTypes.shape({ // Immutable.js Map
+    get: PropTypes.func.isRequired,
   }).isRequired,
-  plants: React.PropTypes.shape({ // Immutable.js Map
-    get: React.PropTypes.func.isRequired,
-    filter: React.PropTypes.func.isRequired,
+  plants: PropTypes.shape({ // Immutable.js Map
+    get: PropTypes.func.isRequired,
+    filter: PropTypes.func.isRequired,
   }).isRequired,
-  postSaveSuccess: React.PropTypes.func,
-  user: React.PropTypes.shape({ // Immutable.js Map
-    get: React.PropTypes.func.isRequired,
+  postSaveSuccess: PropTypes.func,
+  user: PropTypes.shape({ // Immutable.js Map
+    get: PropTypes.func.isRequired,
   }).isRequired
 };
 

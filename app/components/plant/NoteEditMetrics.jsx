@@ -5,6 +5,7 @@ const InputCombo = require('../InputCombo');
 const React = require('react');
 const Toggle = require('material-ui/Toggle').default;
 const utils = require('../../libs/utils');
+const PropTypes = require('prop-types');
 
 class NoteEditMetrics extends React.Component {
   constructor() {
@@ -108,10 +109,10 @@ class NoteEditMetrics extends React.Component {
 }
 
 NoteEditMetrics.propTypes = {
-  dispatch: React.PropTypes.func.isRequired,
-  error: React.PropTypes.string,
-  interimNote: React.PropTypes.shape({
-    get: React.PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
+  error: PropTypes.string,
+  interimNote: PropTypes.shape({
+    get: PropTypes.func.isRequired,
   }).isRequired,
 };
 
