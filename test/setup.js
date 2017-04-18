@@ -1,5 +1,3 @@
-const checker = require('node-version-checker').default;
-checker();
 
 const jsdom = require('jsdom');
 
