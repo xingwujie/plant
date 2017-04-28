@@ -1,5 +1,5 @@
 
-const jsdom = require('jsdom');
+const jsdom = require('jsdom/lib/old-api.js');
 
 const Logger = require('../lib/logging/logger');
 Logger.setLevel('trace');
