@@ -1,5 +1,7 @@
 # plant
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/guyellis/plant.svg)](https://greenkeeper.io/)
+
 A website app to manage backyard orchards and anything else you can grow
 in your yard.
 
