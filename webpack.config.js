@@ -101,7 +101,8 @@ if(TARGET === 'build') {
       new webpack.DefinePlugin({
         'process.env': {
           // This has effect on the react lib size
-          'NODE_ENV': JSON.stringify('production')
+          'NODE_ENV': JSON.stringify('production'),
+          'PLANT_IMAGE_CACHE': JSON.stringify(process.env.PLANT_IMAGE_CACHE || ''),
         }
       }),
       new webpack.optimize.UglifyJsPlugin({
@@ -153,6 +154,13 @@ if(TARGET === 'dev') {
         }
       ]
     },
+    plugins: [
+      new webpack.DefinePlugin({
+        'process.env': {
+          'PLANT_IMAGE_CACHE': JSON.stringify(process.env.PLANT_IMAGE_CACHE || ''),
+        }
+      })
+    ],
     devServer: {
       proxy: passthrough,
       contentBase: path.resolve(ROOT_PATH, 'build')
