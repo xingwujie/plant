@@ -51,7 +51,8 @@ class NoteRead extends React.Component {
     const id = image.get('id');
     const ext = image.get('ext');
     const folder = process.env.NODE_ENV === 'production' ? 'up' : 'test';
-    return `//i.plaaant.com/${folder}/${size}/${id}${ext && ext.length ? '.' : ''}${ext}`;
+    const imageCache = process.env.PLANT_IMAGE_CACHE || '';
+    return `//${imageCache}i.plaaant.com/${folder}/${size}/${id}${ext && ext.length ? '.' : ''}${ext}`;
   }
 
   buildImageSrc(image) {
@@ -63,6 +64,11 @@ class NoteRead extends React.Component {
   }
 
   buildImageSrcSet(image) {
+    // If the cache is live then don't set a value for srcset
+    if(process.env.PLANT_IMAGE_CACHE) {
+      return '';
+    }
+
     const sizes = image.get('sizes', List()).toJS();
     if(sizes && sizes.length) {
       // <img src="small.jpg" srcset="medium.jpg 1000w, large.jpg 2000w" alt="yah">
