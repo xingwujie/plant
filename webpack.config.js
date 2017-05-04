@@ -1,4 +1,3 @@
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const merge = require('webpack-merge');
 const path = require('path');
 const webpack = require('webpack');
@@ -7,64 +6,69 @@ const TARGET = process.env.TARGET;
 const ROOT_PATH = path.resolve(__dirname);
 
 const common = {
-  addVendor: function (vendorName, moduleLocation) {
-    moduleLocation = path.join(__dirname, moduleLocation);
-    this.resolve.alias[vendorName] = moduleLocation;
-    // this.module.noParse.push(new RegExp(moduleLocation));
-  },
-  entry: [
-    // 'bootstrap-webpack!./bootstrap.config.js',
-    path.resolve(ROOT_PATH, 'app/main')
-  ],
-  resolve: {
-    extensions: ['', '.js', '.jsx'],
-    alias: {}
-  },
+  entry: './app/main',
   output: {
-    path: path.resolve(ROOT_PATH, 'build'),
-    filename: '/bundle.js',
-    // Putting in publicPath fixes this error:
-    // [HMR] Update check failed: SyntaxError: Unexpected token <
-    publicPath: '/'
+    path: path.resolve(__dirname, 'build'),
+    filename: 'bundle.js',
+    // publicPath: '/',
+  },
+  resolve: {
+    extensions: ['.js', '.jsx'],
+    alias: {},
   },
   module: {
-    noParse: [],
-    loaders: [
-      {
-        test: /\.json$/,
-        loaders: ['json']
+    rules: [{
+      test: /\.jsx?$/,
+      exclude: /node_modules/,
+      use: {
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015', 'react', 'stage-0'],
+        },
       },
-      {
-        test: /\.css$/,
-        loaders: ['style', 'css']
+    },
+    {
+      test: /\.json$/,
+      loaders: ['json']
+    },
+    {
+      test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
+      use: {
+        loader: 'url-loader?limit=10000&mimetype=application/font-woff',
       },
-      // **IMPORTANT** This is needed so that each bootstrap js file required by
-      // bootstrap-webpack has access to the jQuery object
-      // { test: /bootstrap\/js\//, loader: 'imports?jQuery=jquery' },
-
-      // Needed for the css-loader when [bootstrap-webpack](https://github.com/bline/bootstrap-webpack)
-      // loads bootstrap's css.
-      {
-        test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url?limit=10000&mimetype=application/font-woff'
+    },
+    {
+      test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
+      use: {
+        loader: 'url-loader?limit=10000&mimetype=application/font-woff',
       },
-      {
-        test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url?limit=10000&mimetype=application/font-woff'
+    },
+    {
+      test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+      use: {
+        loader: 'url-loader?limit=10000&mimetype=application/octet-stream',
       },
-      {
-        test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url?limit=10000&mimetype=application/octet-stream'
+    },
+    {
+      test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+      use: {
+        loader: 'file-loader',
       },
-      {
-        test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'file'
+    },
+    {
+      test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+      use: {
+        loader: 'url-loader?limit=10000&mimetype=image/svg+xml',
       },
-      {
-        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-        loader: 'url?limit=10000&mimetype=image/svg+xml'
-      }
-    ]
+    },
+    {
+      test: /\.css$/,
+      use: [{
+        loader: 'style-loader',
+      }, {
+        loader: 'css-loader',
+      }],
+    }]
   },
   plugins: [
     new webpack.ProvidePlugin({
@@ -76,33 +80,24 @@ const common = {
   ]
 };
 
-common.addVendor('jquery', 'node_modules/jquery/dist/jquery.js');
-common.addVendor('bootstrap', 'node_modules/bootstrap/dist/js/bootstrap.js');
-common.addVendor('konva', 'node_modules/konva/konva.js');
-common.addVendor('bootstrap.css', 'node_modules/bootstrap/dist/css/bootstrap.css');
+function addVendor(vendorName, moduleLocation) {
+  moduleLocation = path.join(__dirname, moduleLocation);
+  common.resolve.alias[vendorName] = moduleLocation;
+}
+
+addVendor('jquery', 'node_modules/jquery/dist/jquery.js');
+addVendor('bootstrap', 'node_modules/bootstrap/dist/js/bootstrap.js');
+addVendor('konva', 'node_modules/konva/konva.js');
+addVendor('bootstrap.css', 'node_modules/bootstrap/dist/css/bootstrap.css');
 
 if(TARGET === 'build') {
   module.exports = merge(common, {
-    module: {
-      loaders: [
-        {
-          // test for both js and jsx
-          test: /\.jsx?$/,
 
-          // use babel loader with Stage 1 features
-          loader: 'babel?presets[]=stage-1',
-
-          // operate only on our app directory
-          include: path.resolve(ROOT_PATH, 'app')
-        }
-      ]
-    },
     plugins: [
       new webpack.DefinePlugin({
         'process.env': {
           // This has effect on the react lib size
           'NODE_ENV': JSON.stringify('production'),
-          'PLANT_IMAGE_CACHE': JSON.stringify(process.env.PLANT_IMAGE_CACHE || ''),
         }
       }),
       new webpack.optimize.UglifyJsPlugin({
@@ -141,19 +136,6 @@ const passthrough = proxy.reduce((acc, url) => {
 
 if(TARGET === 'dev') {
   module.exports = merge(common, {
-    entry: [
-      'webpack/hot/dev-server'
-    ],
-    // devtool: 'source-map',
-    module: {
-      loaders: [
-        {
-          test: /\.jsx?$/,
-          loaders: ['react-hot-loader/webpack', 'babel?presets[]=stage-1'],
-          include: path.resolve(ROOT_PATH, 'app')
-        }
-      ]
-    },
     plugins: [
       new webpack.DefinePlugin({
         'process.env': {
@@ -165,6 +147,5 @@ if(TARGET === 'dev') {
       proxy: passthrough,
       contentBase: path.resolve(ROOT_PATH, 'build')
     },
-    // plugins: [new BundleAnalyzerPlugin()]
   });
 }
