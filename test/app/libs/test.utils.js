@@ -6,12 +6,23 @@ const moment = require('moment');
 
 describe('/app/libs/utils', function() {
 
-  it('should create a mongo id', () => {
-    const mongoId = utils.makeMongoId();
-    assert.equal(mongoId.length, 24);
-    assert(!_.includes(mongoId, '-'));
-    assert(typeof mongoId === 'string');
-    assert(constants.mongoIdRE.test(mongoId));
+  describe('slugs', () => {
+    it('should create a slug', () => {
+      const given = '  I/am(a)slug  ';
+      const actual = utils.makeSlug(given);
+      const expected = 'i-am-a-slug';
+      assert.equal(actual, expected);
+    });
+  });
+
+  describe('mongo', () => {
+    it('should create a mongo id', () => {
+      const mongoId = utils.makeMongoId();
+      assert.equal(mongoId.length, 24);
+      assert(!_.includes(mongoId, '-'));
+      assert(typeof mongoId === 'string');
+      assert(constants.mongoIdRE.test(mongoId));
+    });
   });
 
   describe('dateToInt()', () => {

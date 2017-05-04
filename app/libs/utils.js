@@ -28,7 +28,7 @@ function makeSlug(text) {
   }
 
   text = text.toString();
-  text = text.replace(/\//g, ' ');
+  text = text.replace(/[\/\(\)]/g, ' ');
   return slug(text.toString().toLowerCase());
 }
 
