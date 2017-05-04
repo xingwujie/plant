@@ -92,11 +92,9 @@ addVendor('bootstrap.css', 'node_modules/bootstrap/dist/css/bootstrap.css');
 
 if(TARGET === 'build') {
   module.exports = merge(common, {
-
     plugins: [
       new webpack.DefinePlugin({
         'process.env': {
-          // This has effect on the react lib size
           'NODE_ENV': JSON.stringify('production'),
         }
       }),
@@ -104,7 +102,7 @@ if(TARGET === 'build') {
         compress: {
           warnings: false
         }
-      })
+      }),
     ]
   });
 }
@@ -136,13 +134,6 @@ const passthrough = proxy.reduce((acc, url) => {
 
 if(TARGET === 'dev') {
   module.exports = merge(common, {
-    plugins: [
-      new webpack.DefinePlugin({
-        'process.env': {
-          'PLANT_IMAGE_CACHE': JSON.stringify(process.env.PLANT_IMAGE_CACHE || ''),
-        }
-      })
-    ],
     devServer: {
       proxy: passthrough,
       contentBase: path.resolve(ROOT_PATH, 'build')
