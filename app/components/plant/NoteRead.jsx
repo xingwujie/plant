@@ -142,7 +142,7 @@ class NoteRead extends React.Component {
     return (
       <Paper key={noteId} style={paperStyle} zDepth={1}>
         <div id={noteId}>
-          <a href={`#${noteId}`}>
+          <a href={`?noteid=${noteId}#${noteId}`}>
             <LinkIcon />
           </a>
         </div>
