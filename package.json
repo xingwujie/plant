@@ -67,7 +67,7 @@
     "mocha": "3.3.0",
     "nodemon": "1.11.0",
     "npm-update-outdated": "0.1.6",
-    "nyc": "10.3.0",
+    "nyc": "10.3.2",
     "pre-commit": "1.2.2",
     "proxyquire": "1.7.11",
     "react-hot-loader": "3.0.0-beta.6",
