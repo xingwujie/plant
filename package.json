@@ -69,7 +69,7 @@
     "npm-update-outdated": "0.1.6",
     "nyc": "10.3.2",
     "pre-commit": "1.2.2",
-    "proxyquire": "1.7.11",
+    "proxyquire": "1.8.0",
     "react-hot-loader": "3.0.0-beta.6",
     "react-log-lifecycle": "1.1.0",
     "redux-devtools": "3.4.0",
