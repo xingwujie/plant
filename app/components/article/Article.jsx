@@ -2,7 +2,7 @@
 
 const Base = require('../Base');
 const React = require('react');
-const Markdown = require('../utils/Markdown');
+const Markdown = require('../common/Markdown');
 
 // Once this is in the DB use this MongoId for the insert: 58a9d4ec27b363e3630c969b
 // Url will be something like: /article/fruit-tree-emergency/58a9d4ec27b363e3630c969b

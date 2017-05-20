@@ -1,7 +1,7 @@
 const Base = require('../Base');
 const React = require('react');
 const Paper = require('material-ui/Paper').default;
-const Markdown = require('../utils/Markdown');
+const Markdown = require('../common/Markdown');
 
 const markdown =
 `# Introduction
