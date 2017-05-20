@@ -1,11 +1,12 @@
 const CircularProgress = require('material-ui/CircularProgress').default;
-const React = require('react');
+const Immutable = require('immutable');
+const metrics = require('../../libs/metrics');
 const NoteRead = require('./NoteRead');
 const Paper = require('material-ui/Paper').default;
-const utils = require('../../libs/utils');
-const Immutable = require('immutable');
-const List = Immutable.List;
 const PropTypes = require('prop-types');
+const React = require('react');
+
+const List = Immutable.List;
 
 class NotesRead extends React.Component {
 
@@ -61,34 +62,28 @@ class NotesRead extends React.Component {
       width: '100%',
     };
 
-    let lastNoteDate;
-    const renderedNotes = sortedIds.reduce((acc, noteId) => {
-      const note = notes.get(noteId);
-      if(note) {
-        const currentNoteDate = utils.intToMoment(note.get('date'));
-        const sinceLast = lastNoteDate ? `...and then after ${lastNoteDate.from(currentNoteDate, true)}` : '';
-        if(sinceLast && !lastNoteDate.isSame(currentNoteDate)) {
-          acc.push(
-            <Paper key={noteId + '-sincelast'} style={paperStyle} zDepth={1}>
-              {sinceLast}
-            </Paper>
-          );
-        }
-        lastNoteDate = currentNoteDate;
-        acc.push(
-          <NoteRead
+    const metricNotes = metrics.notesToMetricNotes(sortedIds, notes);
+    const renderedNotes = metricNotes.map(metricNote => {
+      const { noteId } = metricNote;
+      switch(metricNote.type) {
+        case 'note':
+          const { note } = metricNote;
+          return (<NoteRead
             key={noteId}
             {...this.props}
             note={note}
-          />
-        );
-      } else {
-        acc.push(
-          <CircularProgress key={noteId} />
-        );
+          />);
+        case 'since':
+          const { sinceLast } = metricNote;
+          return (<Paper key={noteId + '-sincelast'} style={paperStyle} zDepth={1}>
+            {sinceLast}
+          </Paper>);
+        case 'unfound':
+          return (<CircularProgress key={noteId} />);
+        default:
+          throw new Error(`Uknown note render type ${metricNote.type}`);
       }
-      return acc;
-    }, []);
+    });
 
     return (
       <div>
