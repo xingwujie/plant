@@ -78,6 +78,11 @@ class NotesRead extends React.Component {
           return (<Paper key={noteId + '-sincelast'} style={paperStyle} zDepth={1}>
             {sinceLast}
           </Paper>);
+        case 'metric':
+          const { change } = metricNote;
+          return (<Paper key={noteId + '-change'} style={paperStyle} zDepth={1}>
+            {change}
+          </Paper>);
         case 'unfound':
           return (<CircularProgress key={noteId} />);
         default:
