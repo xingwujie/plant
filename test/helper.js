@@ -164,7 +164,7 @@ function createPlants(numPlants, userId, locationId, cb) {
     locationId,
   };
 
-  const createPlant = function (count, callback) {
+  function createPlant(count, callback) {
     const reqOptions = {
       method: 'POST',
       authenticate: true,
@@ -181,7 +181,7 @@ function createPlants(numPlants, userId, locationId, cb) {
 
       callback(null, plant);
     });
-  };
+  }
 
   // generate some plants
   async.times(numPlants, (n, next) => {

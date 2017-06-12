@@ -322,12 +322,12 @@ describe('note-api', () => {
       ];
 
       function createNote(data, cb) {
-        mongo.upsertNote(note, (err, body) => {
+        mongo.upsertNote(note, (err, createdNote) => {
           assert(!err);
-          assert(body);
-          // logger.trace('body', {body});
-          data.createdNote = body;
-          cb(err, data);
+          assert(createdNote);
+          // logger.trace('createdNote', {createdNote});
+          // data.createdNote = body;
+          cb(err, Object.assign({}, data, { createdNote }));
         });
       }
 
