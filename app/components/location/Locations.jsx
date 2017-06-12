@@ -54,8 +54,13 @@ class Locations extends React.Component {
     const title = location.get('title');
     const link = `/location/${makeSlug(title)}/${_id}`;
 
+    const style = {
+      display: 'flex',
+      alignItems: 'center',
+    };
+
     return (
-      <div key={_id} style={{display: 'flex', alignItems: 'center'}}>
+      <div key={_id} style={style}>
         <Link
           style={{margin: '20px'}}
           to={link}
@@ -107,7 +112,7 @@ class Locations extends React.Component {
       if(locationIds.size) {
         return locationIds.valueSeq().toArray().map(locationId => {
           const location = locations.get(locationId);
-          this.renderLocation(location);
+          return this.renderLocation(location);
         });
       } else {
         return this.renderNoLocations(user);
@@ -118,9 +123,13 @@ class Locations extends React.Component {
   }
 
   render() {
+    const style = {
+      marginTop: '20px',
+    };
+
     return (
       <Base>
-        <div>
+        <div style={style}>
           {this.renderLocations()}
         </div>
       </Base>

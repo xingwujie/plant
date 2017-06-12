@@ -37,6 +37,10 @@ const muiTheme = getMuiTheme({
 
 injectTapEventPlugin();
 
+// /location/**location-name**/_location_id - a list of plants at that location (analogous to the old /plants/**user-name**/_user_id)
+// /locations - a list of all locations
+// /locations/**user-name**/_user_id - a list of locations managed or owned by user
+
 // TODO: Put a Not Found / No Match component in here.
 var routes = (
   <Route path='/' component={App}>
