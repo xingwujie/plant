@@ -4,13 +4,12 @@ const constants = require('../../../app/libs/constants');
 const utils = require('../../../app/libs/utils');
 const assert = require('assert');
 
-const {makeMongoId} = utils;
+const { makeMongoId } = utils;
 const noteValidator = validators.note;
 
 // const logger = require('../../../lib/logging/logger').create('test.model-note');
 
-describe('/app/models/note', function() {
-
+describe('/app/models/note', () => {
   it('should pass minimum validation', (done) => {
     const note = {
       _id: makeMongoId(),
@@ -40,7 +39,7 @@ describe('/app/models/note', function() {
 
     const noteCopy = _.clone(note);
 
-    noteValidator(note, (err /*, transformed*/) => {
+    noteValidator(note, (err /* , transformed*/) => {
       assert(err);
 
       assert.equal(err._id, ' id is invalid');
@@ -64,7 +63,6 @@ describe('/app/models/note', function() {
     const noteCopy = _.clone(note);
 
     noteValidator(note, (err, transformed) => {
-
       assert(!err);
       assert.equal(Object.keys(transformed).length, 4);
       assert.equal(transformed._id, note._id);
@@ -87,7 +85,6 @@ describe('/app/models/note', function() {
     const noteCopy = _.cloneDeep(note);
 
     noteValidator(note, (err, transformed) => {
-
       assert(!err);
       assert.equal(Object.keys(transformed).length, 4);
       assert(transformed._id);
@@ -110,7 +107,6 @@ describe('/app/models/note', function() {
     const noteCopy = _.clone(note);
 
     noteValidator(note, (err, transformed) => {
-
       assert(err);
       assert.equal(err.plantIds, 'You must select at least 1 plant for this note.');
       assert.equal(Object.keys(transformed).length, 4);
@@ -131,7 +127,6 @@ describe('/app/models/note', function() {
     const noteCopy = _.clone(note);
 
     noteValidator(note, (err, transformed) => {
-
       assert(err);
       assert.equal(err.plantIds, 'Plant ids is required');
       assert.equal(Object.keys(transformed).length, 3);
@@ -153,7 +148,6 @@ describe('/app/models/note', function() {
     const noteCopy = _.clone(note);
 
     noteValidator(note, (err, transformed) => {
-
       assert(err);
       assert.equal(err.plantIds, 'Plant ids must be an array');
       assert.equal(Object.keys(transformed).length, 4);
@@ -170,7 +164,7 @@ describe('/app/models/note', function() {
       ext: 'jpg',
       id: makeMongoId(),
       originalname: 'apple tree',
-      size: 123456
+      size: 123456,
     };
 
     it('should pass with an empty images array', (done) => {
@@ -184,9 +178,7 @@ describe('/app/models/note', function() {
       const noteCopy = _.clone(note);
 
 
-
       noteValidator(note, (err, transformed) => {
-
         assert.equal(Object.keys(transformed).length, 5);
         assert.equal(transformed._id, note._id);
         assert.equal(transformed.note, note.note);
@@ -207,7 +199,6 @@ describe('/app/models/note', function() {
       const noteCopy = _.clone(note);
 
       noteValidator(note, (err, transformed) => {
-
         assert.equal(Object.keys(transformed).length, 5);
         assert.equal(transformed._id, note._id);
         assert.equal(transformed.note, note.note);
@@ -266,7 +257,6 @@ describe('/app/models/note', function() {
       const noteCopy = _.clone(note);
 
       noteValidator(note, (err, transformed) => {
-
         assert(err);
         assert.equal(err.images, 'Images must be an array');
         assert.equal(Object.keys(transformed).length, 5);
@@ -282,14 +272,13 @@ describe('/app/models/note', function() {
       const note = {
         _id: makeMongoId(),
         date: 20160101,
-        images: [Object.assign({}, image, {id: 123})],
+        images: [Object.assign({}, image, { id: 123 })],
         note: 'some text',
         plantIds: [makeMongoId()],
       };
       const noteCopy = _.clone(note);
 
       noteValidator(note, (err, transformed) => {
-
         assert(err);
         assert.equal(err.images, 'Images must be valid image objects');
         assert.equal(Object.keys(transformed).length, 5);
@@ -305,14 +294,13 @@ describe('/app/models/note', function() {
       const note = {
         _id: makeMongoId(),
         date: 20160101,
-        images: [Object.assign({}, image, {id: 123})],
+        images: [Object.assign({}, image, { id: 123 })],
         note: 'some text',
         plantIds: [makeMongoId()],
       };
       const noteCopy = _.clone(note);
 
       noteValidator(note, (err, transformed) => {
-
         assert(err);
         assert.equal(err.images, 'Images must be valid image objects');
         assert.equal(Object.keys(transformed).length, 5);
@@ -328,14 +316,13 @@ describe('/app/models/note', function() {
       const note = {
         _id: makeMongoId(),
         date: 20160101,
-        images: [Object.assign({}, image, {originalname: 123})],
+        images: [Object.assign({}, image, { originalname: 123 })],
         note: 'some text',
         plantIds: [makeMongoId()],
       };
       const noteCopy = _.clone(note);
 
       noteValidator(note, (err, transformed) => {
-
         assert(err);
         assert.equal(err.images, 'Images must be valid image objects');
         assert.equal(Object.keys(transformed).length, 5);
@@ -351,7 +338,7 @@ describe('/app/models/note', function() {
       const note = {
         _id: makeMongoId(),
         date: 20160101,
-        images: [Object.assign({}, image, {size: 123})],
+        images: [Object.assign({}, image, { size: 123 })],
         note: 'some text',
         plantIds: [makeMongoId()],
       };
@@ -373,14 +360,13 @@ describe('/app/models/note', function() {
       const note = {
         _id: makeMongoId(),
         date: 20160101,
-        images: [Object.assign({}, image, {ext: '123456789012345678901'})],
+        images: [Object.assign({}, image, { ext: '123456789012345678901' })],
         note: 'some text',
         plantIds: [makeMongoId()],
       };
       const noteCopy = _.clone(note);
 
       noteValidator(note, (err, transformed) => {
-
         assert(err);
         assert.equal(err.images, 'Images must be valid image objects');
         assert.equal(Object.keys(transformed).length, 5);
@@ -396,7 +382,7 @@ describe('/app/models/note', function() {
       const note = {
         _id: makeMongoId(),
         date: 20160101,
-        images: [Object.assign({}, image, {extra: 'jpg'})],
+        images: [Object.assign({}, image, { extra: 'jpg' })],
         note: 'some text',
         plantIds: [makeMongoId()],
       };
@@ -413,7 +399,5 @@ describe('/app/models/note', function() {
         done();
       });
     });
-
   });
-
 });

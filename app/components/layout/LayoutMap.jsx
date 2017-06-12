@@ -7,7 +7,7 @@ const actions = require('../../actions');
 const gis = require('../../libs/gis');
 const Immutable = require('immutable');
 // const {Layer, Rect, Stage, Group} = require('react-konva');
-const {Layer, Text: KonvaText, Circle, Stage, Group} = require('react-konva');
+const { Layer, Text: KonvaText, Circle, Stage, Group } = require('react-konva');
 const PropTypes = require('prop-types');
 
 class LayoutMap extends React.Component {
@@ -22,19 +22,19 @@ class LayoutMap extends React.Component {
   }
 
   componentWillMount() {
-    const {store} = this.context;
+    const { store } = this.context;
     this.setState({
       color: 'green',
       plants: store.getState('plants'),
       users: store.getState('users'),
     });
 
-    const {props} = this;
-    if(props.params && props.params.id) {
-      const {id: userId} = props.params;
+    const { props } = this;
+    if (props.params && props.params.id) {
+      const { id: userId } = props.params;
       const user = store.getState().getIn(['users', userId], Immutable.Map());
       // This is the user id for this page.
-      if(!user.has('plantIds')) {
+      if (!user.has('plantIds')) {
         store.dispatch(actions.loadPlantsRequest(userId));
       }
     }
@@ -51,7 +51,7 @@ class LayoutMap extends React.Component {
   }
 
   onChange() {
-    const {store} = this.context;
+    const { store } = this.context;
     const state = {
       users: store.getState('users'),
       plants: store.getState('plants'),
@@ -60,17 +60,17 @@ class LayoutMap extends React.Component {
   }
 
   renderTitle() {
-    const {store} = this.context;
-    const {id: userId} = (this.props || {}).params || {};
+    const { store } = this.context;
+    const { id: userId } = (this.props || {}).params || {};
     const userName = store.getState().getIn(['users', userId, 'name']);
     return (
-      <h2 style={{textAlign: 'center'}}>{`${userName} Layout Map`}</h2>
+      <h2 style={{ textAlign: 'center' }}>{`${userName} Layout Map`}</h2>
     );
   }
 
   handleClick() {
     this.setState({
-      color: 'orange'
+      color: 'orange',
     });
   }
 
@@ -112,8 +112,8 @@ class LayoutMap extends React.Component {
           y={plant.y}
           text={plant.title}
           fontSize={10}
-          fontFamily='Calibri'
-          fill='red'
+          fontFamily="Calibri"
+          fill="red"
         />
         <Circle
           fill={this.state.color}
@@ -128,36 +128,35 @@ class LayoutMap extends React.Component {
   }
 
   renderPlantLocations(width) {
-    if(width < 30) {
+    if (width < 30) {
       console.error('Width is less than 30');
       return null;
     }
 
-    const {store} = this.context;
-    if(this.props.params && this.props.params.id) {
-      const {id: userId} = this.props.params;
+    const { store } = this.context;
+    if (this.props.params && this.props.params.id) {
+      const { id: userId } = this.props.params;
       const user = store.getState().getIn(['users', userId], Immutable.Map());
-      if(!user.size) {
+      if (!user.size) {
         return null;
       }
 
       const plants = store.getState().get('plants', Immutable.Set());
       const userPlants = plants.filter(plant => plant.get('userId') === userId && plant.has('loc'));
-      if(!userPlants || !userPlants.size) {
+      if (!userPlants || !userPlants.size) {
         return null;
       }
 
       const scaledPlants = gis.scaleToCanvas(userPlants, width);
       return {
         canvasHeight: scaledPlants.canvasHeight,
-        plants: scaledPlants.plants.map(this.renderPlantLocation.bind(this))
+        plants: scaledPlants.plants.map(this.renderPlantLocation.bind(this)),
       };
-    } else {
-      return null;
     }
+    return null;
   }
 
-  render () {
+  render() {
     const canvasWidth = 1000;
     const plantLocations = this.renderPlantLocations(canvasWidth);
 
@@ -171,9 +170,9 @@ class LayoutMap extends React.Component {
                 {plantLocations.plants.valueSeq().toJS()}
               </Layer>
             </Stage>
-            : <h3 style={{textAlign: 'center'}}>
-                <div style={{marginTop: '100px'}}>{'No plants have been mapped yet...'}</div>
-              </h3>
+            : <h3 style={{ textAlign: 'center' }}>
+              <div style={{ marginTop: '100px' }}>{'No plants have been mapped yet...'}</div>
+            </h3>
           }
         </div>
       </Base>
@@ -182,7 +181,7 @@ class LayoutMap extends React.Component {
 }
 
 LayoutMap.propTypes = {
-  params:  PropTypes.shape({
+  params: PropTypes.shape({
     id: PropTypes.string.isRequired,
     slug: PropTypes.string.isRequired,
   }).isRequired,

@@ -4,8 +4,8 @@ require('bootstrap.css');
 require('konva');
 require('./stylesheets/main.css');
 
-const {browserHistory, Router, Route, IndexRoute} = require('react-router');
-const {deepOrange500} = require('material-ui/styles/colors');
+const { browserHistory, Router, Route, IndexRoute } = require('react-router');
+const { deepOrange500 } = require('material-ui/styles/colors');
 const { Provider } = require('react-redux');
 const App = require('./components/App');
 const Auth = require('./components/Auth');
@@ -42,26 +42,26 @@ injectTapEventPlugin();
 // /locations/**user-name**/_user_id - a list of locations managed or owned by user
 
 // TODO: Put a Not Found / No Match component in here.
-var routes = (
-  <Route path='/' component={App}>
-    <IndexRoute component={Home}/>
-    <Route path='/auth/token' component={Auth}/>
-    <Route path='/debug-settings' component={DebugSettings}/>
-    <Route path='/help' component={Help}/>
-    <Route path='/layout/:slug/:id' component={LayoutMap}/>
-    <Route path='/location/:slug/:id' component={Location}/>
-    <Route path='/locations' component={Locations}/>
-    <Route path='/locations/:slug/:id' component={Locations}/>
-    <Route path='/users' component={Users}/>
-    <Route path='/login' component={Login}/>
-    <Route path='/plant' component={Plant}/>
-    <Route path='/plant/:slug/:id' component={Plant}/>
-    <Route path='/article/:slug/:id' component={Article}/>
-    <Route path='/plants/:slug/:id' component={Plants}/>
-    <Route path='/privacy' component={Privacy}/>
-    <Route path='/profile' component={Profile}/>
-    <Route path='/terms' component={Terms}/>
-    <Route path='*' component={Help}/>
+const routes = (
+  <Route path="/" component={App}>
+    <IndexRoute component={Home} />
+    <Route path="/auth/token" component={Auth} />
+    <Route path="/debug-settings" component={DebugSettings} />
+    <Route path="/help" component={Help} />
+    <Route path="/layout/:slug/:id" component={LayoutMap} />
+    <Route path="/location/:slug/:id" component={Location} />
+    <Route path="/locations" component={Locations} />
+    <Route path="/locations/:slug/:id" component={Locations} />
+    <Route path="/users" component={Users} />
+    <Route path="/login" component={Login} />
+    <Route path="/plant" component={Plant} />
+    <Route path="/plant/:slug/:id" component={Plant} />
+    <Route path="/article/:slug/:id" component={Article} />
+    <Route path="/plants/:slug/:id" component={Plants} />
+    <Route path="/privacy" component={Privacy} />
+    <Route path="/profile" component={Profile} />
+    <Route path="/terms" component={Terms} />
+    <Route path="*" component={Help} />
   </Route>
 );
 
@@ -75,7 +75,6 @@ function render() {
       </Provider>
     </MuiThemeProvider>
   ), content);
-
 }
 
 function main() {

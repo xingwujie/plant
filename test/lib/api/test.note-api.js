@@ -7,17 +7,17 @@ const mongo = require('../../../lib/db/mongo');
 
 const logger = require('../../../lib/logging/logger').create('test.note-api');
 
-describe('note-api', function() {
+describe('note-api', function () {
   this.timeout(10000);
   let userId;
   let locationId;
 
-  before('it should start the server and setup auth token', done => {
+  before('it should start the server and setup auth token', (done) => {
     helper.startServerAuthenticated((err, data) => {
       assert(data.userId);
       userId = data.user._id;
       locationId = data.user.locationIds[0];
-      logger.trace('startServerAuthenticated userId:', {userId});
+      logger.trace('startServerAuthenticated userId:', { userId });
       done();
     });
   });
@@ -27,7 +27,7 @@ describe('note-api', function() {
 
   const initialNote = {
     note: 'This is a note',
-    date: 20160101
+    date: 20160101,
   };
   let noteId;
 
@@ -37,7 +37,7 @@ describe('note-api', function() {
       initialPlant = plants[0];
       plantId = initialPlant._id;
       initialNote.plantIds = [plantId];
-      logger.trace('plant created:', {initialPlant});
+      logger.trace('plant created:', { initialPlant });
       done();
     });
   });
@@ -49,7 +49,7 @@ describe('note-api', function() {
         authenticate: false,
         body: initialNote,
         json: true,
-        url: '/api/note'
+        url: '/api/note',
       };
       helper.makeRequest(reqOptions, (error, httpMsg, response) => {
         assert(!error);
@@ -65,9 +65,9 @@ describe('note-api', function() {
       const reqOptions = {
         method: 'POST',
         authenticate: true,
-        body: Object.assign({}, initialNote, {plantIds: []}),
+        body: Object.assign({}, initialNote, { plantIds: [] }),
         json: true,
-        url: '/api/note'
+        url: '/api/note',
       };
       helper.makeRequest(reqOptions, (error, httpMsg, response) => {
         // response should look like:
@@ -80,23 +80,21 @@ describe('note-api', function() {
         done();
       });
     });
-
   });
 
   describe('note-api create/retrieve notes', () => {
-
     it('should create a note', (done) => {
       const reqOptions = {
         method: 'POST',
         authenticate: true,
         body: initialNote,
         json: true,
-        url: '/api/note'
+        url: '/api/note',
       };
       // logger.trace('options for note create', {reqOptions});
       helper.makeRequest(reqOptions, (error, httpMsg, response) => {
         // logger.trace('result of create note', {response});
-        const {note} = response;
+        const { note } = response;
         assert(!error);
         assert.equal(httpMsg.statusCode, 200);
         assert(response);
@@ -115,14 +113,14 @@ describe('note-api', function() {
         method: 'GET',
         authenticate: false,
         json: true,
-        url: `/api/plant/${plantId}`
+        url: `/api/plant/${plantId}`,
       };
       helper.makeRequest(reqOptions, (error, httpMsg, response) => {
         // response should look like:
         // { _id: 'e5fc6fff0a8f48ad90636b3cea6e4f93',
         // title: 'Plant Title',
         // userId: '241ff27e28c7448fb22c4f6fb2580923'}
-        logger.trace('note retrieved:', {response});
+        logger.trace('note retrieved:', { response });
         assert(!error);
         assert.equal(httpMsg.statusCode, 200);
         assert(response);
@@ -142,8 +140,8 @@ describe('note-api', function() {
       updatedNote = Object.assign({},
         initialNote, {
           note: 'A New Note',
-          _id: noteId
-        }
+          _id: noteId,
+        },
       );
 
       const reqOptions = {
@@ -151,7 +149,7 @@ describe('note-api', function() {
         authenticate: true,
         body: updatedNote,
         json: true,
-        url: '/api/note'
+        url: '/api/note',
       };
 
       helper.makeRequest(reqOptions, (error, httpMsg, response) => {
@@ -173,11 +171,10 @@ describe('note-api', function() {
         method: 'GET',
         authenticate: false,
         json: true,
-        url: `/api/plant/${plantId}`
+        url: `/api/plant/${plantId}`,
       };
 
       helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-
         assert(!error);
         assert.equal(httpMsg.statusCode, 200);
         assert(response);
@@ -201,13 +198,12 @@ describe('note-api', function() {
       const reqOptions = {
         method: 'POST',
         authenticate: true,
-        body: {noteIds: [noteId]},
+        body: { noteIds: [noteId] },
         json: true,
-        url: '/api/notes'
+        url: '/api/notes',
       };
 
       helper.makeRequest(reqOptions, (error, httpMsg, notes) => {
-
         assert(!error);
         assert.equal(httpMsg.statusCode, 200);
 
@@ -227,13 +223,12 @@ describe('note-api', function() {
       const reqOptions = {
         method: 'POST',
         authenticate: true,
-        body: {plantId},
+        body: { plantId },
         json: true,
-        url: '/api/notes'
+        url: '/api/notes',
       };
 
       helper.makeRequest(reqOptions, (error, httpMsg, notes) => {
-
         assert(!error);
         assert.equal(httpMsg.statusCode, 200);
 
@@ -250,12 +245,11 @@ describe('note-api', function() {
     });
 
     it('should delete the note', (done) => {
-
       const reqOptions = {
         method: 'DELETE',
         authenticate: true,
         json: true,
-        url: `/api/note/${noteId}`
+        url: `/api/note/${noteId}`,
       };
 
       helper.makeRequest(reqOptions, (error, httpMsg, response) => {
@@ -283,11 +277,10 @@ describe('note-api', function() {
         method: 'GET',
         authenticate: false,
         json: true,
-        url: `/api/plant/${plantId}`
+        url: `/api/plant/${plantId}`,
       };
 
       helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-
         assert(!error);
         assert.equal(httpMsg.statusCode, 200);
         assert(response);
@@ -306,7 +299,6 @@ describe('note-api', function() {
   });
 
   describe('note-api /api/image-complete', () => {
-
     it('should confirm a complete image', (done) => {
       const note = {
         userId: utils.makeMongoId(),
@@ -314,20 +306,20 @@ describe('note-api', function() {
           id: utils.makeMongoId(),
           ext: 'jpg',
           originalname: 'flower',
-          size: 999
+          size: 999,
         }, {
           id: utils.makeMongoId(),
           ext: 'jpg',
           originalname: 'leaf',
-          size: 666
-        }]
+          size: 666,
+        }],
       };
       const sizes = [
-        {width:100, name:'thumb'},
-        {width:500, name:'sm'},
-        {width:1000, name:'md'},
-        {width:1500, name:'lg'},
-        {width:2000, name:'xl'}
+        { width: 100, name: 'thumb' },
+        { width: 500, name: 'sm' },
+        { width: 1000, name: 'md' },
+        { width: 1500, name: 'lg' },
+        { width: 2000, name: 'xl' },
       ];
 
       function createNote(data, cb) {
@@ -345,9 +337,9 @@ describe('note-api', function() {
           metadata: {
             noteid: data.createdNote._id,
             id: note.images[0].id,
-            userid: note.userId
+            userid: note.userId,
           },
-          sizes
+          sizes,
         };
 
         const reqOptions = {
@@ -355,11 +347,11 @@ describe('note-api', function() {
           authenticate: false,
           body: putData,
           json: true,
-          url: '/api/image-complete?token=fake-image-token'
+          url: '/api/image-complete?token=fake-image-token',
         };
 
         helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-          const {success} = response;
+          const { success } = response;
           assert(!error);
           assert.equal(httpMsg.statusCode, 200);
           assert.equal(success, true);
@@ -380,15 +372,12 @@ describe('note-api', function() {
       async.waterfall([
         createNote.bind(null, {}),
         makePutRequest,
-        getNote
+        getNote,
       ], (err, data) => {
         assert(!err);
         assert(data);
         done();
       });
-
-
     });
   });
-
 });

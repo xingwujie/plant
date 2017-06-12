@@ -5,5 +5,5 @@ module.exports = {
   maxImageFilesPerUpload: 100,
   awsBucketName: 'i.plaaant.com',
   imageSizeNames: ['orig', 'xl', 'lg', 'md', 'sm', 'thumb'],
-  gisMultiplier: Math.pow(10, 7)
+  gisMultiplier: Math.pow(10, 7),
 };

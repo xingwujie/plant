@@ -6,8 +6,7 @@ const plantValidator = validators.plant;
 
 const logger = require('../../../lib/logging/logger').create('plant:test.plant');
 
-describe('/app/models/plant', function() {
-
+describe('/app/models/plant', () => {
   it('should pass minimum validation', (done) => {
     const plant = {
       _id: 'b33d420024432d67a3c7fb36',
@@ -20,7 +19,7 @@ describe('/app/models/plant', function() {
 
     const isNew = false;
 
-    plantValidator(plant, {isNew}, (err, transformed) => {
+    plantValidator(plant, { isNew }, (err, transformed) => {
       assert(!err);
       assert.equal(transformed.title, plant.title);
       assert.deepEqual(plantCopy, plant);
@@ -35,7 +34,7 @@ describe('/app/models/plant', function() {
       botanicalName: 'Botanical Name',
       commonName: 'Common Name',
       description: 'Description',
-      loc: {type: 'Plant', coordinates: [1.11, 2.22]},
+      loc: { type: 'Plant', coordinates: [1.11, 2.22] },
       locationId: 'cf885bf372488977ae0d6475',
       plantedDate: 20121215,
       price: 25.99,
@@ -48,11 +47,10 @@ describe('/app/models/plant', function() {
 
     const isNew = false;
 
-    plantValidator(plant, {isNew}, (err, transformed) => {
-
+    plantValidator(plant, { isNew }, (err, transformed) => {
       assert(!err);
       assert.deepEqual(Object.keys(transformed), Object.keys(plant));
-      logger.trace('transformed:', {transformed});
+      logger.trace('transformed:', { transformed });
       assert.deepEqual(transformed, plant);
       assert.deepEqual(plantCopy, plant);
       done();
@@ -78,7 +76,7 @@ describe('/app/models/plant', function() {
 
     const isNew = false;
 
-    plantValidator(plant, {isNew}, (err /*, transformed*/) => {
+    plantValidator(plant, { isNew }, (err /* , transformed*/) => {
       assert(err);
 
       assert.equal(err._id, ' id is invalid');
@@ -110,8 +108,7 @@ describe('/app/models/plant', function() {
 
     const isNew = false;
 
-    plantValidator(plant, {isNew}, (err, transformed) => {
-
+    plantValidator(plant, { isNew }, (err, transformed) => {
       assert(!err);
       assert.equal(Object.keys(transformed).length, 4);
       assert.equal(transformed._id, plant._id);
@@ -133,8 +130,7 @@ describe('/app/models/plant', function() {
     const plantCopy = _.clone(plant);
 
     const isNew = true;
-    plantValidator(plant, {isNew}, (err, transformed) => {
-
+    plantValidator(plant, { isNew }, (err, transformed) => {
       assert(!err);
       assert.equal(Object.keys(transformed).length, 4);
       assert(transformed._id);
@@ -155,8 +151,7 @@ describe('/app/models/plant', function() {
 
     const isNew = false;
 
-    plantValidator(plant, {isNew}, (err, transformed) => {
-
+    plantValidator(plant, { isNew }, (err, transformed) => {
       assert(err);
       assert.equal(err.userId, 'User id can\'t be blank');
       assert.equal(Object.keys(transformed).length, 3);
@@ -178,8 +173,7 @@ describe('/app/models/plant', function() {
 
     const isNew = false;
 
-    plantValidator(plant, {isNew}, (err, transformed) => {
-
+    plantValidator(plant, { isNew }, (err, transformed) => {
       assert(err);
       assert.equal(err.locationId, 'Location id can\'t be blank');
       assert.equal(Object.keys(transformed).length, 3);
@@ -209,8 +203,7 @@ describe('/app/models/plant', function() {
 
     const isNew = false;
 
-    plantValidator(plant, {isNew}, (err, transformed) => {
-
+    plantValidator(plant, { isNew }, (err, transformed) => {
       assert(err);
       assert.equal(err.tags, 'Tags cannot be more than 20 characters');
       assert.deepEqual(Object.keys(transformed), Object.keys(plant));
@@ -238,8 +231,7 @@ describe('/app/models/plant', function() {
 
     const isNew = false;
 
-    plantValidator(plant, {isNew}, (err, transformed) => {
-
+    plantValidator(plant, { isNew }, (err, transformed) => {
       assert(err);
       assert.equal(err.tags, 'Tags must be an array');
       assert.deepEqual(Object.keys(transformed), Object.keys(plant));
@@ -267,8 +259,7 @@ describe('/app/models/plant', function() {
 
     const isNew = false;
 
-    plantValidator(plant, {isNew}, (err, transformed) => {
-
+    plantValidator(plant, { isNew }, (err, transformed) => {
       assert(err);
       assert.equal(err.tags, 'Tags can only have alphabetic characters and a dash');
       assert.deepEqual(Object.keys(transformed), Object.keys(plant));
@@ -296,7 +287,7 @@ describe('/app/models/plant', function() {
 
     const isNew = false;
 
-    plantValidator(plant, {isNew}, (err, transformed) => {
+    plantValidator(plant, { isNew }, (err, transformed) => {
       assert(!err);
       assert.deepEqual(Object.keys(transformed), Object.keys(plant));
       assert.deepEqual(transformed.tags, ['citrus', 'north-west', 'upper']);
@@ -304,5 +295,4 @@ describe('/app/models/plant', function() {
       done();
     });
   });
-
 });

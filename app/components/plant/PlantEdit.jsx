@@ -3,7 +3,7 @@
 // Url Update: /plant/<slug>/<plant-id>
 
 const isEmpty = require('lodash/isEmpty');
-const {makeSlug} = require('../../libs/utils');
+const { makeSlug } = require('../../libs/utils');
 const validators = require('../../models');
 const actions = require('../../actions');
 const Divider = require('material-ui/Divider').default;
@@ -34,13 +34,13 @@ class PlantEdit extends React.Component {
   }
 
   addGeo() {
-    if(utils.hasGeo()) {
+    if (utils.hasGeo()) {
       utils.getGeo({}, (err, geoJson) => {
-        if(err) {
+        if (err) {
           console.error(err);
         } else {
           this.props.dispatch(actions.editPlantChange({
-            loc: Immutable.fromJS(geoJson)
+            loc: Immutable.fromJS(geoJson),
           }));
         }
       });
@@ -58,25 +58,25 @@ class PlantEdit extends React.Component {
   }
 
   componentWillMount() {
-    const {interimPlant} = this.props;
+    const { interimPlant } = this.props;
     const pageTitle = interimPlant.get('isNew')
       ? 'Add New Plant'
       : `Edit ${interimPlant.get('title')}`;
-    this.setState({pageTitle});
+    this.setState({ pageTitle });
   }
 
   onChange(e) {
     this.props.dispatch(actions.editPlantChange({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     }));
   }
 
   save(e) {
     const plant = this.props.interimPlant.toJS();
-    const {isNew = false} = plant;
+    const { isNew = false } = plant;
     const dateFields = ['plantedDate', 'purchasedDate', 'terminatedDate'];
-    dateFields.forEach(dateField => {
-      if(plant[dateField]) {
+    dateFields.forEach((dateField) => {
+      if (plant[dateField]) {
         plant[dateField] = utils.dateToInt(plant[dateField]);
       }
     });
@@ -85,12 +85,12 @@ class PlantEdit extends React.Component {
     // TODO: This should be in a drop down one the user is able to add multiple locations
     plant.locationId = this.props.user.get('activeLocationId');
 
-    validate(plant, {isNew}, (errors, transformed) => {
-      if(errors) {
+    validate(plant, { isNew }, (errors, transformed) => {
+      if (errors) {
         console.warn('Validation errors:', errors);
-        this.props.dispatch(actions.editPlantChange({errors}));
+        this.props.dispatch(actions.editPlantChange({ errors }));
       } else {
-        if(isNew) {
+        if (isNew) {
           this.props.dispatch(actions.createPlantRequest(transformed));
         } else {
           this.props.dispatch(actions.updatePlantRequest(transformed));
@@ -119,7 +119,7 @@ class PlantEdit extends React.Component {
       : '-- / --';
 
     const {
-      pageTitle = ''
+      pageTitle = '',
     } = this.state || {};
 
     const paperStyle = {
@@ -131,7 +131,7 @@ class PlantEdit extends React.Component {
     };
 
     const textAreaStyle = {
-      textAlign: 'left'
+      textAlign: 'left',
     };
 
     const dateFormat = 'MM/DD/YYYY';
@@ -140,20 +140,20 @@ class PlantEdit extends React.Component {
     const errorDivs = isEmpty(errors)
       ? []
       : Object.keys(errors).map(key =>
-        <div key={key}>
+        (<div key={key}>
           {`${key} - ${errors[key]}`}
-        </div>
+        </div>),
       );
 
     return (
       <Paper style={paperStyle} zDepth={1}>
-        <h2 style={{textAlign: 'center'}}>{pageTitle}</h2>
+        <h2 style={{ textAlign: 'center' }}>{pageTitle}</h2>
 
         <InputCombo
           changeHandler={this.onChange}
           error={errors.title}
-          label='Title'
-          name='title'
+          label="Title"
+          name="title"
           placeholder={'How do you refer to this plant? (e.g. Washington Navel)'}
           value={title}
         />
@@ -162,9 +162,9 @@ class PlantEdit extends React.Component {
         <InputCombo
           changeHandler={this.onChange}
           error={errors.botanicalName}
-          extraClasses='col-sm-6'
-          label='Botanical Name'
-          name='botanicalName'
+          extraClasses="col-sm-6"
+          label="Botanical Name"
+          name="botanicalName"
           placeholder={'e.g. Citrus sinensis \'Washington Navel\''}
           value={botanicalName}
         />
@@ -173,9 +173,9 @@ class PlantEdit extends React.Component {
         <InputCombo
           changeHandler={this.onChange}
           error={errors.commonName}
-          extraClasses='col-sm-6'
-          label='Common Name'
-          name='commonName'
+          extraClasses="col-sm-6"
+          label="Common Name"
+          name="commonName"
           placeholder={'e.g. Washington Navel Orange'}
           value={commonName}
         />
@@ -184,9 +184,9 @@ class PlantEdit extends React.Component {
         <InputCombo
           changeHandler={this.onChange}
           error={errors.description}
-          label='Description'
-          multiLine={true}
-          name='description'
+          label="Description"
+          multiLine
+          name="description"
           placeholder={'Describe this plant and/or the location in your yard'}
           style={textAreaStyle}
           value={description}
@@ -196,9 +196,9 @@ class PlantEdit extends React.Component {
         <InputCombo
           changeHandler={this.onChange}
           error={errors.purchasedDate}
-          extraClasses='col-sm-4'
-          label='Acquire Date'
-          name='purchasedDate'
+          extraClasses="col-sm-4"
+          label="Acquire Date"
+          name="purchasedDate"
           placeholder={dateFormat}
           value={purchasedDate}
         />
@@ -207,9 +207,9 @@ class PlantEdit extends React.Component {
         <InputCombo
           changeHandler={this.onChange}
           error={errors.plantedDate}
-          extraClasses='col-sm-4'
-          label='Planted Date'
-          name='plantedDate'
+          extraClasses="col-sm-4"
+          label="Planted Date"
+          name="plantedDate"
           placeholder={dateFormat}
           value={plantedDate}
         />
@@ -218,11 +218,11 @@ class PlantEdit extends React.Component {
         <InputCombo
           changeHandler={this.onChange}
           error={errors.price}
-          extraClasses='col-sm-4'
-          label='Price'
-          name='price'
+          extraClasses="col-sm-4"
+          label="Price"
+          name="price"
           placeholder={'$9.99'}
-          type='number'
+          type="number"
           value={price}
         />
         <Divider />
@@ -235,17 +235,17 @@ class PlantEdit extends React.Component {
           <div>
             <FloatingActionButton
               onClick={this.addGeo}
-              title='Add Location'
+              title="Add Location"
             >
               <MapsAddLocation />
             </FloatingActionButton>
             <InputCombo
               changeHandler={this.onChange}
-              disabled={true}
+              disabled
               error={errors.geoPosition}
-              extraClasses='col-sm-4'
-              label='Geo Position'
-              name='geoPosition'
+              extraClasses="col-sm-4"
+              label="Geo Position"
+              name="geoPosition"
               placeholder={'Location of this plant'}
               value={geoPosDisplay}
             />
@@ -255,7 +255,7 @@ class PlantEdit extends React.Component {
 
         {!isEmpty(errors) &&
           <div>
-            <p className='text-danger col-xs-12'>{'There were errors. Please check your input.'}</p>
+            <p className="text-danger col-xs-12">{'There were errors. Please check your input.'}</p>
             {errorDivs}
             <Divider />
           </div>
@@ -264,13 +264,13 @@ class PlantEdit extends React.Component {
         <CancelSaveButtons
           clickSave={this.save.bind(this)}
           clickCancel={this.cancel.bind(this)}
-          showButtons={true}
+          showButtons
         />
 
       </Paper>
     );
   }
-};
+}
 
 PlantEdit.propTypes = {
   dispatch: PropTypes.func.isRequired,
@@ -280,7 +280,7 @@ PlantEdit.propTypes = {
   }).isRequired,
   user: PropTypes.shape({
     get: PropTypes.func.isRequired,
-  }).isRequired
+  }).isRequired,
 };
 
 module.exports = PlantEdit;

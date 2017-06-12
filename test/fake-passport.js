@@ -21,26 +21,23 @@ class FakePassport {
   }
 
   authenticate(type, cb) {
-    if(cb) {
+    if (cb) {
       // debug('fake fb authenticate setup with cb');
       const err = null;
       const info = {};
-      return () => {
+      return () =>
         // debug('fake fb authenticate called with cb, arg.length:', arguments.length);
-        return cb(err, this.user, info);
-      };
-    } else {
-      // debug('fake fb authenticate setup');
-      return (req, res, next) => {
-        // debug('fake fb authenticate called, arg.length:', arguments.length);
-        return next();
-      };
+         cb(err, this.user, info);
     }
+      // debug('fake fb authenticate setup');
+    return (req, res, next) =>
+        // debug('fake fb authenticate called, arg.length:', arguments.length);
+         next();
   }
 
   use(/* strategy */) {
     // debug('fake fb use:', arguments.length);
   }
-};
+}
 
 module.exports = FakePassport;

@@ -12,31 +12,30 @@ class NotesRead extends React.Component {
 
   sortNotes(props = this.props) {
     const noteIds = props.plant.get('notes', List());
-    if(!(List.isList(noteIds) || Immutable.Set.isSet(noteIds))) {
+    if (!(List.isList(noteIds) || Immutable.Set.isSet(noteIds))) {
       console.error('Not a List or Set from plant.get notes:', props.plant, noteIds);
     }
 
-    if(!noteIds.size) {
+    if (!noteIds.size) {
       return;
     }
-    const {notes} = props;
+    const { notes } = props;
 
     const sortedIds = noteIds.sort((a, b) => {
       const noteA = notes.get(a);
       const noteB = notes.get(b);
-      if(noteA && noteB) {
+      if (noteA && noteB) {
         const dateA = noteA.get('date');
         const dateB = noteB.get('date');
-        if(dateA === dateB) {
+        if (dateA === dateB) {
           return 0;
         }
         return dateA > dateB ? 1 : -1;
-      } else {
-        return 0;
       }
+      return 0;
     });
 
-    this.setState({sortedIds});
+    this.setState({ sortedIds });
   }
 
   componentWillReceiveProps(nextProps) {
@@ -48,9 +47,9 @@ class NotesRead extends React.Component {
   }
 
   render() {
-    const {notes} = this.props;
+    const { notes } = this.props;
     const { sortedIds } = this.state || {};
-    if(!sortedIds || !sortedIds.size) {
+    if (!sortedIds || !sortedIds.size) {
       return null;
     }
 
@@ -63,9 +62,9 @@ class NotesRead extends React.Component {
     };
 
     const metricNotes = metrics.notesToMetricNotes(sortedIds, notes);
-    const renderedNotes = metricNotes.map(metricNote => {
+    const renderedNotes = metricNotes.map((metricNote) => {
       const { noteId } = metricNote;
-      switch(metricNote.type) {
+      switch (metricNote.type) {
         case 'note':
           const { note } = metricNote;
           return (<NoteRead
@@ -75,12 +74,12 @@ class NotesRead extends React.Component {
           />);
         case 'since':
           const { sinceLast } = metricNote;
-          return (<Paper key={noteId + '-sincelast'} style={paperStyle} zDepth={1}>
+          return (<Paper key={`${noteId}-sincelast`} style={paperStyle} zDepth={1}>
             {sinceLast}
           </Paper>);
         case 'metric':
           const { change } = metricNote;
-          return (<Paper key={noteId + '-change'} style={paperStyle} zDepth={1}>
+          return (<Paper key={`${noteId}-change`} style={paperStyle} zDepth={1}>
             {change}
           </Paper>);
         case 'unfound':
@@ -95,7 +94,6 @@ class NotesRead extends React.Component {
         {renderedNotes}
       </div>
     );
-
   }
 }
 
@@ -105,18 +103,18 @@ NotesRead.propTypes = {
     get: PropTypes.func.isRequired,
   }).isRequired,
   isOwner: PropTypes.bool.isRequired,
-  notes:  PropTypes.shape({
+  notes: PropTypes.shape({
     get: PropTypes.func.isRequired,
   }).isRequired,
-  plant:  PropTypes.shape({
+  plant: PropTypes.shape({
     get: PropTypes.func.isRequired,
   }).isRequired,
-  plants:  PropTypes.shape({
+  plants: PropTypes.shape({
     get: PropTypes.func.isRequired,
   }).isRequired,
   user: PropTypes.shape({ // Immutable.js Map
     get: PropTypes.func.isRequired,
-  }).isRequired
+  }).isRequired,
 };
 
 module.exports = NotesRead;

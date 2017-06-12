@@ -26,27 +26,27 @@ class Profile extends React.Component {
     return (
       <Base>
         <div>
-          <h2 style={{textAlign: 'center'}}>
+          <h2 style={{ textAlign: 'center' }}>
             User Profile
           </h2>
           <h3>{'Unit of Measurement'}</h3>
           <RadioButtonGroup
             defaultSelected={unitOfMeasurement}
-            name='unitOfMeasurement'
+            name="unitOfMeasurement"
             onChange={this.onChange}
             style={styles.radioGroup}
           >
             <RadioButton
-              disabled={true}
-              label='Imperial'
+              disabled
+              label="Imperial"
               style={styles.radioButton}
-              value='imperial'
+              value="imperial"
             />
             <RadioButton
-              disabled={true}
-              label='Metric'
+              disabled
+              label="Metric"
               style={styles.radioButton}
-              value='metric'
+              value="metric"
             />
           </RadioButtonGroup>
           <h3>{'Locations'}</h3>

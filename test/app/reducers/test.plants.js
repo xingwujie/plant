@@ -4,7 +4,7 @@ const actions = require('../../../app/actions');
 const assert = require('assert');
 const Immutable = require('immutable');
 
-describe('/app/reducers/plants', function() {
+describe('/app/reducers/plants', () => {
   describe('similar methods', () => {
     const methods = [
       'createPlantRequest',
@@ -12,86 +12,83 @@ describe('/app/reducers/plants', function() {
       'deletePlantFailure',
       'updatePlantFailure',
       'updatePlantRequest',
-      'loadPlantFailure'
+      'loadPlantFailure',
     ];
 
     it('should reduce using replace in place', () => {
       const state = Immutable.fromJS({
-        '1': {
+        1: {
           _id: '1',
-          name: 'one'
-        }
+          name: 'one',
+        },
       });
       const payload = {
         _id: '2',
-        name: 'two'
+        name: 'two',
       };
-      const expected = Object.assign({}, state.toJS(), {'2': payload});
+      const expected = Object.assign({}, state.toJS(), { 2: payload });
 
-      methods.forEach(method => {
+      methods.forEach((method) => {
         const actual = plants(state, actions[method](payload));
         assert.deepEqual(actual.toJS(), expected);
       });
-
     });
 
     it('should reduce with existing with replace in place', () => {
       const state = Immutable.fromJS({
-        '1': {
+        1: {
           _id: '1',
-          name: 'one'
+          name: 'one',
         },
-        '2': {
+        2: {
           _id: '2',
-          name: 'xxx'
-        }
+          name: 'xxx',
+        },
       });
       const payload = {
         _id: '2',
-        name: 'two'
+        name: 'two',
       };
-      const expected = Object.assign({}, state.toJS(), {'2': payload});
+      const expected = Object.assign({}, state.toJS(), { 2: payload });
 
-      methods.forEach(method => {
+      methods.forEach((method) => {
         const actual = plants(state, actions[method](payload));
         assert.deepEqual(actual.toJS(), expected);
       });
-
     });
   });
 
   it('should delete a plant', () => {
     const current = Immutable.fromJS({
-      '1': {
+      1: {
         _id: '1',
-        name: 'one'
+        name: 'one',
       },
-      '2': {
+      2: {
         _id: '2',
-        name: 'xxx'
-      }
+        name: 'xxx',
+      },
     });
-    const payload = {locationId: 'l1', plantId: '2'};
+    const payload = { locationId: 'l1', plantId: '2' };
     const expected = current.toJS();
     delete expected['2'];
 
     const actual = plants(current, actions.deletePlantRequest(payload));
     assert.deepEqual(actual.toJS(), expected);
-
   });
 
   it('should delete a note', () => {
     const current = Immutable.fromJS({
-      '1': {
+      1: {
         _id: '1',
         name: 'one',
-        notes: ['n1', 'n2', 'n3']
+        notes: ['n1', 'n2', 'n3'],
       },
-      '2': {
+      2: {
         _id: '2',
         name: 'xxx',
-        notes: ['n1', 'n2', 'n3']
-      }
+        notes: ['n1', 'n2', 'n3'],
+      },
     });
     const payload = 'n2';
     const expected = current.toJS();
@@ -104,23 +101,23 @@ describe('/app/reducers/plants', function() {
 
   it('should load a plant', () => {
     const current = Immutable.fromJS({
-      '1': {
+      1: {
         _id: '1',
         name: 'one',
-        notes: ['n1', 'n2', 'n3']
+        notes: ['n1', 'n2', 'n3'],
       },
-      '2': {
+      2: {
         _id: '2',
         name: 'xxx',
-        notes: ['n1', 'n2', 'n3']
-      }
+        notes: ['n1', 'n2', 'n3'],
+      },
     });
     const payload = {
       _id: '3',
       name: 'three',
-      notes: ['n1', 'n2']
+      notes: ['n1', 'n2'],
     };
-    const expected = Object.assign({}, current.toJS(), {'3': _.cloneDeep(payload)});
+    const expected = Object.assign({}, current.toJS(), { 3: _.cloneDeep(payload) });
     expected['3'].notes = ['n1', 'n2'];
 
     const actual = plants(current, actions.loadPlantSuccess(payload));
@@ -130,23 +127,23 @@ describe('/app/reducers/plants', function() {
 
   it('should load multiple plants', () => {
     const current = Immutable.fromJS({
-      '1': {
+      1: {
         _id: '1',
         name: 'one',
-        notes: ['n1', 'n2', 'n3']
+        notes: ['n1', 'n2', 'n3'],
       },
-      '2': {
+      2: {
         _id: '2',
         name: 'xxx',
-        notes: ['n1', 'n2', 'n3']
-      }
+        notes: ['n1', 'n2', 'n3'],
+      },
     });
     const payload = [{
       _id: '3',
       name: 'three',
-      notes: ['n1', 'n2']
+      notes: ['n1', 'n2'],
     }];
-    const expected = Object.assign({}, current.toJS(), {'3': _.cloneDeep(payload[0])});
+    const expected = Object.assign({}, current.toJS(), { 3: _.cloneDeep(payload[0]) });
     expected['3'].notes = ['n1', 'n2'];
 
     const actual = plants(current, actions.loadPlantsSuccess(payload));
@@ -155,22 +152,22 @@ describe('/app/reducers/plants', function() {
 
   it('should add a new noteId to the plant\'s notes List', () => {
     const current = Immutable.fromJS({
-      'p1': {
+      p1: {
         _id: 'p1',
         name: 'one',
-        notes: ['n1', 'n2', 'n3']
+        notes: ['n1', 'n2', 'n3'],
       },
-      'p2': {
+      p2: {
         _id: 'p2',
         name: 'xxx',
-        notes: ['n1', 'n2']
-      }
+        notes: ['n1', 'n2'],
+      },
     });
     const payload = {
       note: {
         _id: 'n5',
-        plantIds: ['p1', 'p2']
-      }
+        plantIds: ['p1', 'p2'],
+      },
     };
     const expected = current.toJS();
     expected.p1.notes = ['n1', 'n2', 'n3', 'n5'];
@@ -182,22 +179,22 @@ describe('/app/reducers/plants', function() {
 
   it('should remove a removed noteId to the plant\'s notes List', () => {
     const current = Immutable.fromJS({
-      'p1': {
+      p1: {
         _id: 'p1',
         name: 'one',
-        notes: ['n1', 'n2', 'n3', 'n5']
+        notes: ['n1', 'n2', 'n3', 'n5'],
       },
-      'p2': {
+      p2: {
         _id: 'p2',
         name: 'xxx',
-        notes: ['n1', 'n2']
-      }
+        notes: ['n1', 'n2'],
+      },
     });
     const payload = {
       note: {
         _id: 'n5',
-        plantIds: ['p2']
-      }
+        plantIds: ['p2'],
+      },
     };
     const expected = current.toJS();
     expected.p1.notes = ['n1', 'n2', 'n3'];
@@ -206,5 +203,4 @@ describe('/app/reducers/plants', function() {
     const actual = plants(current, actions.upsertNoteSuccess(payload));
     assert.deepEqual(actual.toJS(), expected);
   });
-
 });

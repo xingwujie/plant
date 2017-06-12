@@ -3,8 +3,7 @@ const actions = require('../../../app/actions');
 const assert = require('assert');
 const Immutable = require('immutable');
 
-describe('/app/reducers', function() {
-
+describe('/app/reducers', () => {
   it('should reduce a logout action', (done) => {
     const expected = {
       interim: {},
@@ -18,5 +17,4 @@ describe('/app/reducers', function() {
     assert.deepEqual(actual.toJS(), expected);
     done();
   });
-
 });

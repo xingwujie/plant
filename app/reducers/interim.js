@@ -28,8 +28,8 @@ function editNoteChange(state, action) {
   // TODO: Write some tests around this and then see if this specialization
   // for plantIds can be removed and replaced with an Immutable function because
   // this will impact other arrays.
-  let merged = state.mergeDeep({note: {note: action.payload}});
-  if(action.payload.plantIds) {
+  let merged = state.mergeDeep({ note: { note: action.payload } });
+  if (action.payload.plantIds) {
     merged = merged.setIn(['note', 'note', 'plantIds'], Immutable.List(action.payload.plantIds));
   }
   return merged;
@@ -56,7 +56,7 @@ function editPlantClose(state) {
 //     plant,
 //     plant
 function editPlantChange(state, action) {
-  return state.mergeDeep({plant: {plant: action.payload}});
+  return state.mergeDeep({ plant: { plant: action.payload } });
 }
 
 function loadPlantsRequest(state, action) {
@@ -86,7 +86,7 @@ const reducers = {
 };
 
 module.exports = (state = new Immutable.Map(), action) => {
-  if(reducers[action.type]) {
+  if (reducers[action.type]) {
     return reducers[action.type](state, action);
   }
 

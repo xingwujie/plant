@@ -25,14 +25,14 @@ class Plants extends React.Component {
   }
 
   onChange() {
-    const {store} = this.context;
+    const { store } = this.context;
     const users = store.getState().get('users');
     const locations = store.getState().get('locations');
-    this.setState({users, locations});
+    this.setState({ users, locations });
   }
 
   componentWillMount() {
-    const {store} = this.context;
+    const { store } = this.context;
     this.unsubscribe = store.subscribe(this.onChange);
     this.onChange();
     this.redirectIfReady();
@@ -43,16 +43,16 @@ class Plants extends React.Component {
   }
 
   redirectIfReady() {
-    const {store} = this.context;
+    const { store } = this.context;
     const userId = this.props.params && this.props.params.id;
     let fwdUrl = '/';
-    if(userId) {
+    if (userId) {
       const user = store.getState().getIn(['users', userId], Immutable.Map());
       const locationIds = user.get('locationIds', Immutable.List());
-      if(locationIds.size) {
+      if (locationIds.size) {
         const locationId = locationIds.first();
         const location = store.getState().getIn(['locations', locationId]);
-        if(location) {
+        if (location) {
           const title = location.get('title', '');
           fwdUrl = `/location/${utils.makeSlug(title)}/${locationId}`;
           this.context.router.push(fwdUrl);
@@ -73,7 +73,7 @@ class Plants extends React.Component {
 }
 
 Plants.propTypes = {
-  params:  PropTypes.shape({
+  params: PropTypes.shape({
     id: PropTypes.string.isRequired,
     slug: PropTypes.string.isRequired,
   }).isRequired,

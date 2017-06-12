@@ -3,12 +3,12 @@ const assert = require('assert');
 
 const logger = require('../../../lib/logging/logger').create('test.plants-api');
 
-describe('plants-api', function() {
+describe('plants-api', function () {
   this.timeout(10000);
   let userId;
   let locationId;
 
-  before('it should start the server and setup auth token', done => {
+  before('it should start the server and setup auth token', (done) => {
     helper.startServerAuthenticated((err, data) => {
       assert(data.user);
       assert(data.user._id);
@@ -23,7 +23,7 @@ describe('plants-api', function() {
   let insertedPlants;
   const numPlants = 2;
 
-  before('should create multiple plants to use in test', done => {
+  before('should create multiple plants to use in test', (done) => {
     helper.createPlants(numPlants, userId, locationId, (err, plants) => {
       insertedPlants = plants;
       done();
@@ -33,42 +33,39 @@ describe('plants-api', function() {
   describe('plants by locationId', () => {
     // it('should return an empty list if locationId exists and has no plants');
 
-    it('should retrieve the just created plants by locationId', done => {
+    it('should retrieve the just created plants by locationId', (done) => {
       const reqOptions = {
         method: 'GET',
         authenticate: false,
         json: true,
-        url: `/api/plants/${locationId}`
+        url: `/api/plants/${locationId}`,
       };
 
       helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-        logger.trace('response:', {response});
+        logger.trace('response:', { response });
         assert(!error);
         assert.equal(httpMsg.statusCode, 200);
         assert(response);
 
         assert.equal(response.length, numPlants);
         // assert that all plants exist
-        insertedPlants.forEach( plant => {
-          const some = response.some( r => {
-            return r._id === plant._id;
-          });
+        insertedPlants.forEach((plant) => {
+          const some = response.some(r => r._id === plant._id);
           assert(some);
         });
 
         done();
       });
-
     });
   });
 
   describe('failures', () => {
-    it('should get a 404 if there is no locationId', done => {
+    it('should get a 404 if there is no locationId', (done) => {
       const reqOptions = {
         method: 'GET',
         authenticate: false,
         json: true,
-        url: '/api/plants'
+        url: '/api/plants',
       };
 
       helper.makeRequest(reqOptions, (error, httpMsg, response) => {
@@ -80,15 +77,14 @@ describe('plants-api', function() {
       });
     });
 
-    it('should fail to retrieve any plants if the locationId does not exist', done => {
+    it('should fail to retrieve any plants if the locationId does not exist', (done) => {
       const reqOptions = {
         method: 'GET',
         authenticate: false,
         json: true,
-        url: '/api/plants/does-not-exist'
+        url: '/api/plants/does-not-exist',
       };
       helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-
         assert(!error);
         assert.equal(httpMsg.statusCode, 404);
         assert(!response);
@@ -97,5 +93,4 @@ describe('plants-api', function() {
       });
     });
   });
-
 });

@@ -131,7 +131,7 @@ class Terms extends React.Component {
       padding: 20,
       width: '100%',
       margin: 20,
-      display: 'inline-block'
+      display: 'inline-block',
     };
 
     return (

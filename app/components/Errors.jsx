@@ -9,21 +9,19 @@ class Errors extends React.Component {
   }
 
   render() {
-    let {errors} = this.props || {};
-    if(!errors || !errors.length) {
+    let { errors } = this.props || {};
+    if (!errors || !errors.length) {
       return null;
     }
 
-    if(typeof errors === 'string') {
+    if (typeof errors === 'string') {
       errors = [errors];
     }
 
     return (
-      <div className='btn btn-danger' style={{margin: 10}}>
+      <div className="btn btn-danger" style={{ margin: 10 }}>
         {
-          errors.map((error, index) => {
-            return (<div key={index}>{error}</div>);
-          })
+          errors.map((error, index) => (<div key={index}>{error}</div>))
         }
       </div>
     );

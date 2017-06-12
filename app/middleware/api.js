@@ -9,7 +9,7 @@ function loginRequest(store, action) {
     url: `/auth/with?code=${action.payload}`,
     success: actions.loginSuccess,
     failure: actions.loginFailure,
-    beforeSend: () => {}
+    beforeSend: () => {},
   };
   ajax(store, options);
 }
@@ -24,8 +24,8 @@ function createPlant(store, action, next) {
   function failure(ajaxResult) {
     store.dispatch(actions.editPlantChange({
       errors: {
-        general: ajaxResult.toString()
-      }
+        general: ajaxResult.toString(),
+      },
     }));
     return actions.createPlantFailure(ajaxResult);
   }
@@ -35,7 +35,7 @@ function createPlant(store, action, next) {
     url: '/api/plant',
     data: action.payload,
     success,
-    failure
+    failure,
   };
   ajax(store, options);
   next(action);
@@ -88,14 +88,14 @@ function upsertNoteRequest(store, action, next) {
   function failure(ajaxResult) {
     store.dispatch(actions.editNoteChange({
       errors: {
-        general: ajaxResult.toString()
-      }
+        general: ajaxResult.toString(),
+      },
     }));
     return actions.upsertNoteFailure(ajaxResult);
   }
   const opts = { success, failure };
 
-  if(action.payload.files && action.payload.files.length) {
+  if (action.payload.files && action.payload.files.length) {
     saveFilesRequest(store, action, opts, next);
   } else {
     const options = {
@@ -103,7 +103,7 @@ function upsertNoteRequest(store, action, next) {
       url: '/api/note',
       data: action.payload.note,
       success,
-      failure
+      failure,
     };
     ajax(store, options);
     next(action);
@@ -120,8 +120,8 @@ function updatePlant(store, action, next) {
   function failure(ajaxResult) {
     store.dispatch(actions.editPlantChange({
       errors: {
-        general: ajaxResult.toString()
-      }
+        general: ajaxResult.toString(),
+      },
     }));
     return actions.updatePlantFailure(ajaxResult);
   }
@@ -142,7 +142,7 @@ function deletePlantRequest(store, action, next) {
     type: 'DELETE',
     url: `/api/plant/${action.payload.plantId}`,
     success: actions.deletePlantSuccess,
-    failure: actions.deletePlantFailure
+    failure: actions.deletePlantFailure,
   };
   ajax(store, options);
   next(action);
@@ -153,15 +153,14 @@ function deleteNoteRequest(store, action, next) {
     type: 'DELETE',
     url: `/api/note/${action.payload}`,
     success: actions.deleteNoteSuccess,
-    failure: actions.deleteNoteFailure
+    failure: actions.deleteNoteFailure,
   };
   ajax(store, options);
   next(action);
 }
 
 function loadPlantRequest(store, action) {
-
-  if(!action.payload._id) {
+  if (!action.payload._id) {
     console.error('No _id in loadPlantRequest', (new Error()).stack);
   } else {
     const options = {
@@ -180,7 +179,7 @@ function loadPlantsRequest(store, action, next) {
   const options = {
     url: `/api/plants/${locationId}`,
     success: actions.loadPlantsSuccess,
-    failure: actions.loadPlantsFailure
+    failure: actions.loadPlantsFailure,
   };
   ajax(store, options);
   next(action);
@@ -192,7 +191,7 @@ function loadUserRequest(store, action) {
   const options = {
     url: `/api/user/${userId}`,
     success: actions.loadUserSuccess,
-    failure: actions.loadUserFailure
+    failure: actions.loadUserFailure,
   };
   ajax(store, options);
 }
@@ -204,7 +203,7 @@ function loadUsersRequest(store) {
   const options = {
     url: '/api/users',
     success: actions.loadUsersSuccess,
-    failure: actions.loadUsersFailure
+    failure: actions.loadUsersFailure,
   };
   ajax(store, options);
 }
@@ -216,7 +215,7 @@ function loadLocationsRequest(store) {
   const options = {
     url: '/api/locations',
     success: actions.loadLocationsSuccess,
-    failure: actions.loadLocationsFailure
+    failure: actions.loadLocationsFailure,
   };
   ajax(store, options);
 }
@@ -226,14 +225,14 @@ function loadLocationsRequest(store) {
 // noteIds: an array of noteIds
 // plantId: a plant id
 function loadNotesRequest(store, action, next) {
-  const {noteIds, plantId} = action.payload;
-  if(!noteIds && !plantId) {
+  const { noteIds, plantId } = action.payload;
+  if (!noteIds && !plantId) {
     console.error('No noteIds or plantId on payload, action:', action);
     return next(action);
   }
 
   const options = {
-    data: {noteIds, plantId},
+    data: { noteIds, plantId },
     failure: actions.loadNotesFailure,
     success: actions.loadNotesSuccess,
     type: 'POST', // Because we don't know how big the payload will be
@@ -247,12 +246,12 @@ function loadNotesRequest(store, action, next) {
 // Get all the plants listed
 // action.payload is an array of plantIds
 function loadUnloadedPlantsRequest(store, action) {
-  if(!action.payload || !action.payload.length) {
+  if (!action.payload || !action.payload.length) {
     console.error('No plantIds on payload, action:', action);
   }
 
   const options = {
-    data: {plantIds: action.payload},
+    data: { plantIds: action.payload },
     failure: actions.loadUnloadedPlantsFailure,
     success: actions.loadUnloadedPlantsSuccess,
     type: 'POST', // Because we don't know how big the payload will be
@@ -278,8 +277,8 @@ const apis = {
   [actions.UPSERT_NOTE_REQUEST]: upsertNoteRequest,
 };
 
-module.exports = store => next => action => {
-  if(apis[action.type]) {
+module.exports = store => next => (action) => {
+  if (apis[action.type]) {
     return apis[action.type](store, action, next);
   }
 

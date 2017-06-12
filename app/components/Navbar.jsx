@@ -1,12 +1,12 @@
 const React = require('react');
 const actions = require('../actions');
 const utils = require('../libs/utils');
-const {isLoggedIn} = require('../libs/auth-helper');
+const { isLoggedIn } = require('../libs/auth-helper');
 const Immutable = require('immutable');
 const AddPlantButton = require('./plant/AddPlantButton');
 const PropTypes = require('prop-types');
 
-const {Link} = require('react-router');
+const { Link } = require('react-router');
 
 class Navbar extends React.Component {
   static contextTypes = {
@@ -20,11 +20,11 @@ class Navbar extends React.Component {
   }
 
   componentWillMount() {
-    const {store} = this.context;
+    const { store } = this.context;
     this.unsubscribe = store.subscribe(this.onChange);
     const user = store.getState().get('user', Immutable.Map());
     const interimMap = store.getState().get('interim');
-    this.setState({user, interimMap});
+    this.setState({ user, interimMap });
   }
 
   componentWillUnmount() {
@@ -32,14 +32,14 @@ class Navbar extends React.Component {
   }
 
   onChange() {
-    const {store} = this.context;
+    const { store } = this.context;
     const user = store.getState().get('user', Immutable.Map());
     const interimMap = store.getState().get('interim');
-    this.setState({user, interimMap});
+    this.setState({ user, interimMap });
   }
 
   logout() {
-    const {store} = this.context;
+    const { store } = this.context;
     store.dispatch(actions.logout());
   }
 
@@ -54,7 +54,7 @@ class Navbar extends React.Component {
   //   (Allows user to pick a location)
   //   (Just put a placeholder here for now)
   makeMyPlantsMenu(loggedIn) {
-    if(!loggedIn) {
+    if (!loggedIn) {
       return null;
     }
 
@@ -62,23 +62,23 @@ class Navbar extends React.Component {
       user,
     } = this.state || {};
 
-    let locationId = user.get('activeLocationId', '');
+    const locationId = user.get('activeLocationId', '');
 
-    if(!locationId) {
+    if (!locationId) {
       console.warn('No default locationId found for user', user);
       return null;
     }
 
-    const {store} = this.context;
+    const { store } = this.context;
     const location = store.getState().getIn(['locations', locationId]);
-    if(!location) {
+    if (!location) {
       console.warn('No location found for locationId', locationId);
       return null;
     }
 
     return (
       <li>
-        <Link to={utils.makeLocationUrl(location)} title='My Plants'>My Plants</Link>
+        <Link to={utils.makeLocationUrl(location)} title="My Plants">My Plants</Link>
       </li>
     );
   }
@@ -100,10 +100,10 @@ class Navbar extends React.Component {
   render() {
     const {
       user,
-      interimMap
+      interimMap,
     } = this.state || {};
     const displayName = user.get('name', '');
-    const {store} = this.context;
+    const { store } = this.context;
 
     const loggedIn = isLoggedIn(store);
     const notEditing = !interimMap.size;
@@ -112,34 +112,36 @@ class Navbar extends React.Component {
     const locationsUrl = `/locations/${utils.makeSlug(displayName)}/${user.get('_id')}`;
 
     return (
-      <nav className='navbar navbar-default navbar-fixed-top'>
-        <div className='container-fluid'>
-          <div className='navbar-header'>
-            <button type='button' className='navbar-toggle collapsed' data-toggle='collapse' data-target='#plant-navbar-collapse' aria-expanded='false'>
-              <span className='sr-only'>Toggle navigation</span>
-              <span className='icon-bar' />
-              <span className='icon-bar' />
-              <span className='icon-bar' />
+      <nav className="navbar navbar-default navbar-fixed-top">
+        <div className="container-fluid">
+          <div className="navbar-header">
+            <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#plant-navbar-collapse" aria-expanded="false">
+              <span className="sr-only">Toggle navigation</span>
+              <span className="icon-bar" />
+              <span className="icon-bar" />
+              <span className="icon-bar" />
             </button>
-            <Link to={'/'} className='navbar-brand'>Plant</Link>
+            <Link to={'/'} className="navbar-brand">Plant</Link>
             <AddPlantButton
-              mini={true}
+              mini
               show={!!(loggedIn && notEditing)}
-              style={{marginTop: '5px'}}
+              style={{ marginTop: '5px' }}
             />
           </div>
 
-          <div className='collapse navbar-collapse' id='plant-navbar-collapse'>
-            <ul className='nav navbar-nav navbar-right'>
+          <div className="collapse navbar-collapse" id="plant-navbar-collapse">
+            <ul className="nav navbar-nav navbar-right">
               {this.makeMyPlantsMenu(loggedIn)}
               {loggedIn &&
-                <li className='dropdown'>
-                  <a href='#' className='dropdown-toggle'
-                    data-toggle='dropdown' role='button'
-                    aria-haspopup='true' aria-expanded='false'
-                    title={displayName}>{displayName} <span className='caret' />
+                <li className="dropdown">
+                  <a
+                    href="#" className="dropdown-toggle"
+                    data-toggle="dropdown" role="button"
+                    aria-haspopup="true" aria-expanded="false"
+                    title={displayName}
+                  >{displayName} <span className="caret" />
                   </a>
-                  <ul className='dropdown-menu'>
+                  <ul className="dropdown-menu">
                     {/* this.makeLayoutMenu(loggedIn) */}
                     {featureFlag &&
                       <li>
@@ -150,18 +152,18 @@ class Navbar extends React.Component {
                       <Link to={'/profile'}>Profile</Link>
                     </li>
                     <li>
-                      <a href='#' onClick={this.logout} title='Logout'>Logout</a>
+                      <a href="#" onClick={this.logout} title="Logout">Logout</a>
                     </li>
                   </ul>
                 </li>
               }
               {!loggedIn &&
                 <li>
-                  <Link to='/login'>Login</Link>
+                  <Link to="/login">Login</Link>
                 </li>
               }
               <li>
-                <Link to={'/help'} title='help'>Help</Link>
+                <Link to={'/help'} title="help">Help</Link>
               </li>
             </ul>
           </div>

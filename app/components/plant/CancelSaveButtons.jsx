@@ -8,27 +8,26 @@ const PropTypes = require('prop-types');
 class CancelSaveButtons extends React.Component {
 
   render() {
-
     const {
       showButtons,
     } = this.props || {};
 
-    if(!showButtons) {
+    if (!showButtons) {
       return null;
     }
 
     const {
-      clickAddPhoto
+      clickAddPhoto,
     } = this.props;
 
     return (
-      <h2 className='vcenter'>
-        <div style={{textAlign: 'right'}}>
+      <h2 className="vcenter">
+        <div style={{ textAlign: 'right' }}>
           {clickAddPhoto &&
             <FloatingActionButton
               onClick={clickAddPhoto}
-              secondary={true}
-              title='Upload Photo'
+              secondary
+              title="Upload Photo"
             >
               <AddPhotoIcon />
             </FloatingActionButton>
@@ -36,17 +35,17 @@ class CancelSaveButtons extends React.Component {
 
           <FloatingActionButton
             onClick={this.props.clickCancel}
-            secondary={true}
-            style={{marginLeft: '10px'}}
-            title='Cancel'
+            secondary
+            style={{ marginLeft: '10px' }}
+            title="Cancel"
           >
             <ClearIcon />
           </FloatingActionButton>
 
           <FloatingActionButton
             onClick={this.props.clickSave}
-            style={{marginLeft: '10px'}}
-            title='Save'
+            style={{ marginLeft: '10px' }}
+            title="Save"
           >
             <DoneIcon />
           </FloatingActionButton>

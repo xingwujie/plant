@@ -7,7 +7,7 @@ const PropTypes = require('prop-types');
 class NoteUpdate extends React.Component {
 
   render() {
-    if(!this.props.isOwner) {
+    if (!this.props.isOwner) {
       return null;
     }
 
@@ -37,7 +37,7 @@ NoteUpdate.propTypes = {
   }).isRequired,
   user: PropTypes.shape({ // Immutable.js Map
     get: PropTypes.func.isRequired,
-  }).isRequired
+  }).isRequired,
 };
 
 module.exports = NoteUpdate;

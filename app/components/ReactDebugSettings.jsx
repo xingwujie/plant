@@ -7,7 +7,7 @@ class DebugSettings extends React.Component {
     let debugSettings = localStorage.getItem('debug-settings');
     try {
       debugSettings = JSON.parse(debugSettings);
-    } catch(e) {
+    } catch (e) {
       debugSettings = {};
     }
     this.state = debugSettings;
@@ -15,7 +15,7 @@ class DebugSettings extends React.Component {
 
   clickCheck(key) {
     const settings = this.state;
-    if(settings[key]) {
+    if (settings[key]) {
       settings[key] = false;
     } else {
       settings[key] = true;
@@ -29,26 +29,28 @@ class DebugSettings extends React.Component {
     const checked = !!debugSettings[setting.name];
     return (
       <label>
-        <input key={setting.name} type='checkbox'
-          value={setting.name} checked={checked} /> {setting.description}
+        <input
+          key={setting.name} type="checkbox"
+          value={setting.name} checked={checked}
+        /> {setting.description}
       </label>
     );
   }
 
   render() {
     const {
-      settings
+      settings,
     } = this.props || {};
 
-    if(!settings || settings.length === 0) {
+    if (!settings || settings.length === 0) {
       console.warn('You should have at least one setting in the properties passed to ReactDebugSettings');
       return null;
     }
 
     return (
-      <div style={{marginLeft: '50px'}}>
+      <div style={{ marginLeft: '50px' }}>
         <div>{'Check the console debug messages that you want to enable. These settings are stored in localStorage which means that they\'ll still be set the next time you open this browser.'}</div>
-        {settings.map( setting => this.renderCheckbox(setting) )}
+        {settings.map(setting => this.renderCheckbox(setting))}
       </div>
     );
   }

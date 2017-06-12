@@ -5,7 +5,7 @@ const mongo = require('../../../../lib/db/mongo');
 
 // const logger = require('../../../../lib/logging/logger').create('test:mongo-update');
 
-describe('/lib/db/mongo/update', function() {
+describe('/lib/db/mongo/update', function () {
   this.timeout(10000);
 
   describe('note', () => {
@@ -16,20 +16,20 @@ describe('/lib/db/mongo/update', function() {
           id: utils.makeMongoId(),
           ext: 'jpg',
           originalname: 'flower',
-          size: 999
+          size: 999,
         }, {
           id: utils.makeMongoId(),
           ext: 'jpg',
           originalname: 'leaf',
-          size: 666
-        }]
+          size: 666,
+        }],
       };
       const sizes = [
-        {width:100, name:'thumb'},
-        {width:500, name:'sm'},
-        {width:1000, name:'md'},
-        {width:1500, name:'lg'},
-        {width:2000, name:'xl'}
+        { width: 100, name: 'thumb' },
+        { width: 500, name: 'sm' },
+        { width: 1000, name: 'md' },
+        { width: 1500, name: 'lg' },
+        { width: 2000, name: 'xl' },
       ];
 
       function createNote(data, cb) {
@@ -47,7 +47,7 @@ describe('/lib/db/mongo/update', function() {
           _id: data.createdNote._id,
           userId: note.userId,
           imageId: note.images[0].id,
-          sizes
+          sizes,
         };
         mongo.addSizesToNoteImage(noteUpdate, (err) => {
           assert(!err);
@@ -67,14 +67,12 @@ describe('/lib/db/mongo/update', function() {
       async.waterfall([
         createNote.bind(null, {}),
         addSizesToNoteImage,
-        getNote
+        getNote,
       ], (err, data) => {
         assert(!err);
         assert(data);
         done();
       });
     });
-
-
   });
 });

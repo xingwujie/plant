@@ -8,14 +8,14 @@ class App extends React.Component {
   };
 
   componentWillMount() {
-    const {store} = this.context;
+    const { store } = this.context;
     const users = store.getState().get('users');
-    if(!users || users.size === 0) {
+    if (!users || users.size === 0) {
       store.dispatch(actions.loadUsersRequest());
     }
 
     const locations = store.getState().get('locations');
-    if(!locations || locations.size === 0) {
+    if (!locations || locations.size === 0) {
       store.dispatch(actions.loadLocationsRequest());
     }
 
@@ -31,7 +31,7 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className='react-root'>
+      <div className="react-root">
         {this.props.children}
       </div>
     );

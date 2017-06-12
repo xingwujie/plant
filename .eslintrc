@@ -11,13 +11,10 @@
     "node": true
   },
   "extends": [
-    "guyellis",
-    "guyellis/es6",
-    "guyellis/react"
+     "airbnb"
   ],
   "parser": "babel-eslint",
   "plugins": [
-    "react",
     "security"
   ],
   "rules": {

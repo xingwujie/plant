@@ -2,11 +2,10 @@
 const actions = require('../../../app/actions');
 const assert = require('assert');
 
-describe('/app/actions', function() {
-
+describe('/app/actions', () => {
   it('should create a logout action', (done) => {
     const expected = {
-      type: actions.LOGOUT
+      type: actions.LOGOUT,
     };
     const actual = actions.logout();
     assert.deepEqual(actual, expected);
@@ -14,10 +13,10 @@ describe('/app/actions', function() {
   });
 
   it('should create a login request action', (done) => {
-    const payload = {one: 1, two: 2};
+    const payload = { one: 1, two: 2 };
     const expected = {
       type: actions.LOGIN_REQUEST,
-      payload
+      payload,
     };
     const actual = actions.loginRequest(payload);
     assert.deepEqual(actual, expected);
@@ -25,16 +24,14 @@ describe('/app/actions', function() {
   });
 
   it('should create a login failure action', (done) => {
-    const payload = {one: 1, two: 2};
+    const payload = { one: 1, two: 2 };
     const expected = {
       type: actions.LOGIN_FAILURE,
       payload,
-      error: true
+      error: true,
     };
     const actual = actions.loginFailure(payload);
     assert.deepEqual(actual, expected);
     done();
   });
-
-
 });

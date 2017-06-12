@@ -17,12 +17,12 @@ class Auth extends React.Component {
   }
 
   componentDidMount() {
-    const {store} = this.context;
+    const { store } = this.context;
     this.unsubscribe = store.subscribe(this.onChange);
 
-    let { query } = this.props.location;
+    const { query } = this.props.location;
 
-    var code = query && query.jwt;
+    const code = query && query.jwt;
 
     store.dispatch(actions.loginRequest(code));
   }
@@ -31,18 +31,18 @@ class Auth extends React.Component {
     this.unsubscribe();
   }
 
-  onChange(){
-    const {store} = this.context;
+  onChange() {
+    const { store } = this.context;
     this.setState(store.getState().get('user', Immutable.Map()));
   }
 
   componentDidUpdate() {
-    const {store} = this.context;
+    const { store } = this.context;
     const user = store.getState().get('user', Immutable.Map());
     const jwt = user.get('jwt');
-    if(jwt) {
+    if (jwt) {
       const returnurl = localStorage.getItem('returnurl');
-      if(returnurl) {
+      if (returnurl) {
         localStorage.removeItem('returnurl');
       }
       // TODO: Make this next line work instead of the following
@@ -55,11 +55,11 @@ class Auth extends React.Component {
   render() {
     return (
       <Base>
-          <h2>Authenticating...</h2>
+        <h2>Authenticating...</h2>
       </Base>
     );
   }
-};
+}
 
 Auth.propTypes = {
   location: PropTypes.object,

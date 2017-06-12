@@ -11,7 +11,7 @@ const dateFormat = 'DD-MMM-YYYY';
 
 class PlantRead extends React.Component {
   static contextTypes = {
-    router: PropTypes.object.isRequired
+    router: PropTypes.object.isRequired,
   };
 
   constructor(props) {
@@ -22,11 +22,11 @@ class PlantRead extends React.Component {
   }
 
   componentWillMount() {
-    const {plant} = this.props;
-    if(!plant.has('notesRequested')) {
-      if(plant.has('_id')) {
+    const { plant } = this.props;
+    if (!plant.has('notesRequested')) {
+      if (plant.has('_id')) {
         this.props.dispatch(actions.loadNotesRequest({
-          plantId: plant.get('_id')
+          plantId: plant.get('_id'),
         }));
       } else {
         console.error('PlantRead: plant object does not have _id', plant.toJS());
@@ -37,28 +37,28 @@ class PlantRead extends React.Component {
   edit() {
     const plant = this.props.plant.toJS();
     const dateFields = ['plantedDate', 'purchasedDate', 'terminatedDate'];
-    dateFields.forEach(dateField => {
-      if(plant[dateField]) {
+    dateFields.forEach((dateField) => {
+      if (plant[dateField]) {
         plant[dateField] = utils.intToString(plant[dateField]);
       }
     });
-    this.props.dispatch(actions.editPlantOpen({plant, meta: {isNew: false}}));
+    this.props.dispatch(actions.editPlantOpen({ plant, meta: { isNew: false } }));
   }
 
   checkDelete() {
-    this.setState({showDeleteConfirmation: true});
+    this.setState({ showDeleteConfirmation: true });
   }
 
   confirmDelete(yes) {
-    if(yes) {
-      const {plant, locations} = this.props;
+    if (yes) {
+      const { plant, locations } = this.props;
       const payload = {
         locationId: plant.get('locationId'),
-        plantId: plant.get('_id')
+        plantId: plant.get('_id'),
       };
       const location = locations.get(plant.get('locationId'));
       this.props.dispatch(actions.deletePlantRequest(payload));
-      if(location) {
+      if (location) {
         // Transition to /location/:slug/:id
         const locationUrl = utils.makeLocationUrl(location);
         this.context.router.push(locationUrl);
@@ -66,13 +66,13 @@ class PlantRead extends React.Component {
         console.warn('Could not find location for locationId', plant.locationId);
       }
     } else {
-      this.setState({showDeleteConfirmation: false});
+      this.setState({ showDeleteConfirmation: false });
     }
   }
 
   plantedDateTitle(plant) {
     const plantedDate = plant.get('plantedDate');
-    if(plantedDate) {
+    if (plantedDate) {
       const date = utils.intToMoment(plantedDate);
       const daysAgo = date.isSame(moment(), 'day')
         ? 'today'
@@ -83,77 +83,77 @@ class PlantRead extends React.Component {
   }
 
   renderDetails(plant) {
-    if(!plant) {
+    if (!plant) {
       return null;
     }
 
     const titles = [
-      {name: 'description', text: ''},
-      {name: 'commonName', text: 'Common Name'},
-      {name: 'botanicalName', text: 'Botanical Name'},
+      { name: 'description', text: '' },
+      { name: 'commonName', text: 'Common Name' },
+      { name: 'botanicalName', text: 'Botanical Name' },
     ];
-    const basicTitles = titles.map( title => {
+    const basicTitles = titles.map((title) => {
       const value = plant.get(title.name);
-      if(!value) {
+      if (!value) {
         return null;
       }
-      let renderText = `${title.text ? title.text + ': ' : ''}${value}`;
+      const renderText = `${title.text ? `${title.text}: ` : ''}${value}`;
       return (<div key={title.name}>
         {renderText}
       </div>);
     });
 
     const plantedDateTitle = this.plantedDateTitle(plant);
-    if(plantedDateTitle) {
+    if (plantedDateTitle) {
       basicTitles.push(
-        <div key='plantedDate'>
+        <div key="plantedDate">
           {plantedDateTitle}
-        </div>
+        </div>,
       );
     }
 
     const isTerminated = plant.get('isTerminated');
-    if(isTerminated) {
+    if (isTerminated) {
       const terminatedDate = plant.get('terminatedDate');
       const dateTerminated = terminatedDate
         ? utils.intToMoment(terminatedDate)
         : null;
 
       basicTitles.push(
-        <div key='terminatedDate'>
+        <div key="terminatedDate">
           {`This plant was terminated${terminatedDate ? ` on ${dateTerminated.format(dateFormat)}` : ''}.`}
-        </div>
+        </div>,
       );
 
       const plantedDate = plant.get('plantedDate');
-      if(plantedDate && dateTerminated) {
+      if (plantedDate && dateTerminated) {
         const datePlanted = utils.intToMoment(plantedDate);
-        if(datePlanted.isBefore(dateTerminated)) {
+        if (datePlanted.isBefore(dateTerminated)) {
           basicTitles.push(
-            <div key='terminatedDaysAfterPlanting'>
+            <div key="terminatedDaysAfterPlanting">
               {`${datePlanted.from(dateTerminated, true)} after it was planted.`}
-            </div>
+            </div>,
           );
         }
       }
 
       const terminatedReason = plant.get('terminatedReason', 'unknown');
-      if(terminatedReason === 'unknown') {
+      if (terminatedReason === 'unknown') {
         console.error('terminatedReason not set', plant.toJS());
       } else {
         basicTitles.push(
-          <div key='terminatedReason'>
+          <div key="terminatedReason">
             {`Reason: ${terminatedReason}`}
-          </div>
+          </div>,
         );
       }
 
       const terminatedDescription = plant.get('terminatedDescription');
-      if(terminatedDescription) {
+      if (terminatedDescription) {
         basicTitles.push(
-          <div key='terminatedDescription'>
+          <div key="terminatedDescription">
             {`(${terminatedDescription})`}
-          </div>
+          </div>,
         );
       }
     }
@@ -166,25 +166,25 @@ class PlantRead extends React.Component {
       padding: 20,
       width: '100%',
       margin: 20,
-      display: 'inline-block'
+      display: 'inline-block',
     };
 
     const {
       isOwner,
       plant,
-      user
+      user,
     } = this.props || {};
 
     const {
-      showDeleteConfirmation = false
+      showDeleteConfirmation = false,
     } = this.state || {};
 
     return (
       <div>
         {plant ?
-          <div className='plant'>
+          <div className="plant">
             <Paper style={paperStyle} zDepth={1}>
-              <h2 className='vcenter' style={{textAlign: 'center'}}>
+              <h2 className="vcenter" style={{ textAlign: 'center' }}>
                 {plant.get('title')}
               </h2>
               {this.renderDetails(plant)}
@@ -221,17 +221,17 @@ PlantRead.propTypes = {
     get: PropTypes.func.isRequired,
   }).isRequired,
   isOwner: PropTypes.bool.isRequired,
-  notes:  PropTypes.shape({
+  notes: PropTypes.shape({
     get: PropTypes.func.isRequired,
   }).isRequired,
   locations: PropTypes.shape({
     get: PropTypes.func.isRequired,
   }).isRequired,
-  plant:  PropTypes.shape({
+  plant: PropTypes.shape({
     get: PropTypes.func.isRequired,
     toJS: PropTypes.func.isRequired,
   }).isRequired,
-  plants:  PropTypes.shape({
+  plants: PropTypes.shape({
     get: PropTypes.func.isRequired,
   }).isRequired,
   user: PropTypes.shape({

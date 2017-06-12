@@ -1,7 +1,7 @@
-const {Link} = require('react-router');
+const { Link } = require('react-router');
 const Base = require('./Base');
 const React = require('react');
-const {isLoggedIn} = require('../libs/auth-helper');
+const { isLoggedIn } = require('../libs/auth-helper');
 const PropTypes = require('prop-types');
 
 class Home extends React.Component {
@@ -15,14 +15,14 @@ class Home extends React.Component {
   }
 
   updateState() {
-    const {store} = this.context;
+    const { store } = this.context;
     const users = store.getState().get('users');
     const locations = store.getState().get('locations');
-    this.setState({users, locations});
+    this.setState({ users, locations });
   }
 
   componentWillMount() {
-    const {store} = this.context;
+    const { store } = this.context;
     this.unsubscribe = store.subscribe(this.onChange);
 
     this.updateState();
@@ -37,9 +37,9 @@ class Home extends React.Component {
   }
 
   anonHome(existingUsers, existingLocations) {
-    const {store} = this.context;
+    const { store } = this.context;
     return (
-      <div id='hero'>
+      <div id="hero">
         <section>
           <p>
             {'Improve the health of your trees and plants...'}
@@ -78,7 +78,7 @@ class Home extends React.Component {
   }
 
   renderUsers() {
-    const {store} = this.context;
+    const { store } = this.context;
     const users = store.getState().get('users');
     const locations = store.getState().get('locations');
     return this.anonHome(!!(users && users.size), !!(locations && locations.size));

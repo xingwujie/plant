@@ -29,7 +29,7 @@ const common = {
     },
     {
       test: /\.json$/,
-      loaders: ['json']
+      loaders: ['json'],
     },
     {
       test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
@@ -68,16 +68,16 @@ const common = {
       }, {
         loader: 'css-loader',
       }],
-    }]
+    }],
   },
   plugins: [
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
       'window.jQuery': 'jquery',
-      'root.jQuery': 'jquery'
-    })
-  ]
+      'root.jQuery': 'jquery',
+    }),
+  ],
 };
 
 function addVendor(vendorName, moduleLocation) {
@@ -90,20 +90,20 @@ addVendor('bootstrap', 'node_modules/bootstrap/dist/js/bootstrap.js');
 addVendor('konva', 'node_modules/konva/konva.js');
 addVendor('bootstrap.css', 'node_modules/bootstrap/dist/css/bootstrap.css');
 
-if(TARGET === 'build') {
+if (TARGET === 'build') {
   module.exports = merge(common, {
     plugins: [
       new webpack.DefinePlugin({
         'process.env': {
-          'NODE_ENV': JSON.stringify('production'),
-        }
+          NODE_ENV: JSON.stringify('production'),
+        },
       }),
       new webpack.optimize.UglifyJsPlugin({
         compress: {
-          warnings: false
-        }
+          warnings: false,
+        },
       }),
-    ]
+    ],
   });
 }
 
@@ -132,11 +132,11 @@ const passthrough = proxy.reduce((acc, url) => {
   return acc;
 }, {});
 
-if(TARGET === 'dev') {
+if (TARGET === 'dev') {
   module.exports = merge(common, {
     devServer: {
       proxy: passthrough,
-      contentBase: path.resolve(ROOT_PATH, 'build')
+      contentBase: path.resolve(ROOT_PATH, 'build'),
     },
   });
 }

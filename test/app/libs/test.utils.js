@@ -4,8 +4,7 @@ const constants = require('../../../app/libs/constants');
 const assert = require('assert');
 const moment = require('moment');
 
-describe('/app/libs/utils', function() {
-
+describe('/app/libs/utils', () => {
   describe('slugs', () => {
     it('should create a slug', () => {
       const given = '  I/am(a)slug  ';
@@ -84,8 +83,7 @@ describe('/app/libs/utils', function() {
     it('should throw and Error for an unknown type', (done) => {
       try {
         utils.dateToInt({});
-      }
-      catch(e) {
+      } catch (e) {
         assert(_.isError(e));
         assert.equal(e.message, 'dateToInt([object Object])');
         done();
@@ -117,13 +115,13 @@ describe('/app/libs/utils', function() {
     it('should rebase the locations', () => {
       const plants = [{
         _id: '1',
-        loc: {coordinates: [5.5, 10.1]}
+        loc: { coordinates: [5.5, 10.1] },
       }, {
         _id: '2',
-        loc: {coordinates: [15.15, 35.35]}
+        loc: { coordinates: [15.15, 35.35] },
       }, {
         _id: '3',
-        loc: {coordinates: [10.1, 4.4]}
+        loc: { coordinates: [10.1, 4.4] },
       }];
       const rebased = utils.rebaseLocations(plants);
       assert.equal(rebased[0].loc.coordinates[0], 0);
@@ -144,7 +142,7 @@ describe('/app/libs/utils', function() {
           harvestCount: '32',
           harvestStart: 'true',
           invalidProp: '66',
-        }
+        },
       };
       const actual = utils.noteFromBody(body);
       const expected = {
@@ -153,7 +151,7 @@ describe('/app/libs/utils', function() {
           height: 15.5,
           harvestCount: 32,
           harvestStart: true,
-        }
+        },
       };
       assert.deepEqual(actual, expected);
     });
@@ -165,7 +163,7 @@ describe('/app/libs/utils', function() {
           height: 'invalid float',
           harvestCount: 'invalid number',
           harvestStart: 'anything not "true" should be removed',
-        }
+        },
       };
       const actual = utils.noteFromBody(body);
       const expected = {
@@ -174,5 +172,4 @@ describe('/app/libs/utils', function() {
       assert.deepEqual(actual, expected);
     });
   });
-
 });

@@ -41,13 +41,13 @@ class NoteEdit extends React.Component {
   }
 
   initState() {
-    const {images = []} = this.props;
-    this.setState({images});
+    const { images = [] } = this.props;
+    this.setState({ images });
   }
 
   onChange(e) {
     this.props.dispatch(actions.editNoteChange({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     }));
   }
 
@@ -66,13 +66,12 @@ class NoteEdit extends React.Component {
     interimNote.date = utils.dateToInt(interimNote.date);
 
     validate(interimNote, (errors, note) => {
-
-      if(errors) {
+      if (errors) {
         console.warn('create: Note validation errors:', errors);
-        this.props.dispatch(actions.editNoteChange({errors}));
+        this.props.dispatch(actions.editNoteChange({ errors }));
       } else {
-        this.props.dispatch(actions.upsertNoteRequest({note, files}));
-        if(this.props.postSaveSuccess) {
+        this.props.dispatch(actions.upsertNoteRequest({ note, files }));
+        if (this.props.postSaveSuccess) {
           this.props.postSaveSuccess();
         }
       }
@@ -103,10 +102,10 @@ class NoteEdit extends React.Component {
     } = this.props;
     const uploadProgress = interimNote.get('uploadProgress');
 
-    if(uploadProgress) {
+    if (uploadProgress) {
       const linearProgressStyle = {
         width: '100%',
-        height: '20px'
+        height: '20px',
       };
       const value = uploadProgress.get('value');
       const max = uploadProgress.get('max');
@@ -118,12 +117,12 @@ class NoteEdit extends React.Component {
         >
           {value !== max &&
             <div>
-              <h1 style={{fontSize: 'xx-large'}}>{progress}</h1>
-              <LinearProgress style={linearProgressStyle} mode='determinate' value={value} max={max} />
+              <h1 style={{ fontSize: 'xx-large' }}>{progress}</h1>
+              <LinearProgress style={linearProgressStyle} mode="determinate" value={value} max={max} />
             </div>
           }
           {value === max &&
-            <div style={{display: 'flex', fontSize: 'xx-large', justifyContent: 'space-between'}}>
+            <div style={{ display: 'flex', fontSize: 'xx-large', justifyContent: 'space-between' }}>
               <h1>{'Upload complete... Finishing up... Hang on...'}</h1>
               <CircularProgress />
             </div>
@@ -133,7 +132,7 @@ class NoteEdit extends React.Component {
     }
 
     const {
-      images = []
+      images = [],
     } = this.state || {};
 
     const date = interimNote.get('date', '');
@@ -142,17 +141,17 @@ class NoteEdit extends React.Component {
     const plantIds = interimNote.get('plantIds').toJS();
 
     const textAreaStyle = {
-      textAlign: 'left'
+      textAlign: 'left',
     };
 
     const textFieldStyle = {
       marginLeft: 20,
-      textAlign: 'left'
+      textAlign: 'left',
     };
 
     const imageStyle = {
       maxWidth: '100%',
-      padding: '1%'
+      padding: '1%',
     };
 
     const dropZoneStyle = {
@@ -178,8 +177,8 @@ class NoteEdit extends React.Component {
         <InputCombo
           changeHandler={this.onChange}
           error={errors.get('date')}
-          floatingLabelText='Date'
-          name='date'
+          floatingLabelText="Date"
+          name="date"
           placeholder={'MM/DD/YYYY'}
           style={textFieldStyle}
           value={date}
@@ -188,17 +187,17 @@ class NoteEdit extends React.Component {
         <InputCombo
           changeHandler={this.onChange}
           error={errors.get('note')}
-          floatingLabelText='Note'
-          multiLine={true}
-          name='note'
-          placeholder='What has happened since your last note?'
+          floatingLabelText="Note"
+          multiLine
+          name="note"
+          placeholder="What has happened since your last note?"
           style={textAreaStyle}
           value={note}
         />
 
         {!!errors.size &&
           <div>
-            <p className='text-danger col-xs-12'>{'There were errors. Please check your input.'}</p>
+            <p className="text-danger col-xs-12">{'There were errors. Please check your input.'}</p>
           </div>
         }
 
@@ -206,25 +205,24 @@ class NoteEdit extends React.Component {
           clickAddPhoto={this.onOpenClick.bind(this)}
           clickSave={this.save}
           clickCancel={this.cancel}
-          showButtons={true}
+          showButtons
         />
 
         <Dropzone
           activeStyle={dropZoneActiveStyle}
           onDrop={this.onDrop}
-          ref='dropzone'
-          style={dropZoneStyle}>
+          ref="dropzone"
+          style={dropZoneStyle}
+        >
           <div>Drop images here or tap to select images to upload.</div>
         </Dropzone>
 
         {!!images.length &&
-          images.map(image => {
-            return (
-              <div key={image.preview}>
-                <img style={imageStyle} src={image.preview} />
-              </div>
-            );
-          })
+          images.map(image => (
+            <div key={image.preview}>
+              <img style={imageStyle} src={image.preview} />
+            </div>
+            ))
         }
 
         <NoteAssocPlant
@@ -262,7 +260,7 @@ NoteEdit.propTypes = {
   postSaveSuccess: PropTypes.func,
   user: PropTypes.shape({ // Immutable.js Map
     get: PropTypes.func.isRequired,
-  }).isRequired
+  }).isRequired,
 };
 
 module.exports = NoteEdit;

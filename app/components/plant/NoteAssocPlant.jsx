@@ -15,7 +15,7 @@ class NoteAssocPlant extends React.Component {
     super();
     this.state = {
       expanded: false,
-      filter: ''
+      filter: '',
     };
     this.expand = this.expand.bind(this);
   }
@@ -25,32 +25,32 @@ class NoteAssocPlant extends React.Component {
       ? this.props.plantIds.filter(pId => pId !== plantId)
       : this.props.plantIds.concat(plantId);
 
-    this.props.dispatch(actions.editNoteChange({plantIds}));
+    this.props.dispatch(actions.editNoteChange({ plantIds }));
   }
 
   expand() {
     const expanded = !this.state.expanded;
-    this.setState({expanded});
+    this.setState({ expanded });
   }
 
   renderPlantButton(plant, primary) {
     const _id = plant.get('_id');
     const title = plant.get('title');
     const secondary = !primary && !!plant.get('isTerminated');
-    return <RaisedButton
+    return (<RaisedButton
       key={_id}
       label={title}
-      style={{margin: 12}}
+      style={{ margin: 12 }}
       onClick={this.toggle.bind(this, _id)}
       primary={primary}
       secondary={secondary}
-    />;
+    />);
   }
 
   renderPlantButtons(plantIds, plants, selected) {
-    return plantIds.map(plantId => {
+    return plantIds.map((plantId) => {
       const plant = plants.get(plantId);
-      if(!plant) {
+      if (!plant) {
         console.warn(`Missing plant for plantId ${plantId}`);
         return null;
       }
@@ -59,8 +59,8 @@ class NoteAssocPlant extends React.Component {
   }
 
   render() {
-    const {expanded, filter} = this.state;
-    const {plantIds, plants} = this.props;
+    const { expanded, filter } = this.state;
+    const { plantIds, plants } = this.props;
 
     const checkedPlantIds = utils.filterSortPlants(plantIds, plants, filter);
     const checkedPlants = this.renderPlantButtons(checkedPlantIds, plants, true);
@@ -72,30 +72,30 @@ class NoteAssocPlant extends React.Component {
       ? this.renderPlantButtons(uncheckedPlantIds, plants, false)
       : null;
 
-    const arrow = <FloatingActionButton
-      mini={true}
+    const arrow = (<FloatingActionButton
+      mini
       onClick={this.expand}
-      secondary={true}
-      title='Expand/Collapse Unchecked Plants'
+      secondary
+      title="Expand/Collapse Unchecked Plants"
     >
       {expanded
         ? <ArrowLeft />
         : <ArrowRight />
       }
-    </FloatingActionButton>;
+    </FloatingActionButton>);
 
     const filterInput = (<InputCombo
-      changeHandler={(e) => this.setState({filter: e.target.value.toLowerCase()})}
-      label='Filter'
+      changeHandler={e => this.setState({ filter: e.target.value.toLowerCase() })}
+      label="Filter"
       placeholder={'Filter...'}
       value={filter}
-      name='filter'
+      name="filter"
     />);
 
     const errors = this.props.error ? [this.props.error] : [];
 
     return (
-      <div style={{textAlign: 'left'}}>
+      <div style={{ textAlign: 'left' }}>
         <Errors errors={errors} />
         <div>
           {'Associated plants:'}

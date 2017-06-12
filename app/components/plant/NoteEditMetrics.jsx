@@ -27,7 +27,7 @@ class NoteEditMetrics extends React.Component {
 
   onChange(e) {
     console.log('onChange:', e.target.name);
-    const {name: inputName} = e.target;
+    const { name: inputName } = e.target;
     const interimMetrics = this.props.interimNote.get('metrics', Immutable.Map());
     const metaMetric = utils.metaMetricsGetByKey(inputName);
     const type = metaMetric.get('type');
@@ -40,10 +40,10 @@ class NoteEditMetrics extends React.Component {
     const value = type === 'toggle' ? e.target.checked : e.target.value;
 
     const metrics = interimMetrics.mergeDeep({
-      [inputName]: value
+      [inputName]: value,
     });
 
-    this.props.dispatch(actions.editNoteChange({metrics}));
+    this.props.dispatch(actions.editNoteChange({ metrics }));
   }
 
   renderLength(metaMetric, value) {
@@ -53,7 +53,7 @@ class NoteEditMetrics extends React.Component {
       label={metaMetric.label}
       name={metaMetric.key}
       placeholder={metaMetric.placeholder}
-      type='number'
+      type="number"
       value={value || ''}
     />);
   }
@@ -73,10 +73,10 @@ class NoteEditMetrics extends React.Component {
         defaultToggled={isToggled}
         key={metaMetric.key}
         label={metaMetric.label}
-        labelPosition='left'
+        labelPosition="left"
         name={metaMetric.key}
         onToggle={this.onChange}
-        style={{paddingLeft: '5px', maxWidth: '200px'}}
+        style={{ paddingLeft: '5px', maxWidth: '200px' }}
       />
     );
   }
@@ -95,12 +95,10 @@ class NoteEditMetrics extends React.Component {
     const metrics = interimNote.get('metrics', Immutable.Map()).toJS();
     const metaMetrics = utils.metaMetrics.toJS();
 
-    const renderedMetrics = metaMetrics.map((metaMetric) => {
-      return this.renderMetric(metaMetric, metrics[metaMetric.key] || '');
-    });
+    const renderedMetrics = metaMetrics.map(metaMetric => this.renderMetric(metaMetric, metrics[metaMetric.key] || ''));
 
     return (
-      <div style={{textAlign: 'left'}}>
+      <div style={{ textAlign: 'left' }}>
         <Errors errors={this.props.error} />
         <div>{renderedMetrics}</div>
       </div>

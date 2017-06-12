@@ -11,8 +11,7 @@ function checkReducer(actionName, state, payload, expected) {
   assert(Immutable.is(actual, expected));
 }
 
-describe('/app/reducers/user', function() {
-
+describe('/app/reducers/user', () => {
   it('should reduce a logout action', () => {
     const state = Immutable.fromJS({});
     const payload = {};
@@ -22,33 +21,32 @@ describe('/app/reducers/user', function() {
 
   it('should reduce a login request', () => {
     const state = Immutable.fromJS({});
-    const payload = {one: 1, two: 2};
+    const payload = { one: 1, two: 2 };
     const expected = Immutable.fromJS({
-      status: 'fetching'
+      status: 'fetching',
     });
     checkReducer('loginRequest', state, payload, expected);
   });
 
   it('should reduce a login success', () => {
     const state = Immutable.fromJS({});
-    const payload = {one: 1, two: 2};
+    const payload = { one: 1, two: 2 };
     const expected = Immutable.fromJS(Object.assign({}, {
       status: 'success',
-      isLoggedIn: true},
-      payload)
+      isLoggedIn: true },
+      payload),
     );
     checkReducer('loginSuccess', state, payload, expected);
   });
 
   it('should reduce a login failure', () => {
     const state = Immutable.fromJS({});
-    const payload = {one: 1, two: 2};
+    const payload = { one: 1, two: 2 };
     const expected = Immutable.fromJS(Object.assign({}, {
       status: 'failed',
-      isLoggedIn: false},
-      payload)
+      isLoggedIn: false },
+      payload),
     );
     checkReducer('loginFailure', state, payload, expected);
   });
-
 });

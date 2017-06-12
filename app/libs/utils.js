@@ -4,7 +4,7 @@ const isDate = require('lodash/isDate');
 const moment = require('moment');
 const Immutable = require('immutable');
 
-const {gisMultiplier} = constants;
+const { gisMultiplier } = constants;
 
 // bson is currently not being explicitly installed in the project because
 // mongodb depends on mongodb-core which depends on bson. The Npm 3 installer
@@ -15,14 +15,14 @@ const {gisMultiplier} = constants;
 //    from mongodb down to bson and,
 // 2. Reduces the size of the bundle that gets generated for the browser.
 const bson = require('bson');
-const {ObjectID} = bson;
+const { ObjectID } = bson;
 
 function makeMongoId() {
   return new ObjectID().toString();
 }
 
 function makeSlug(text) {
-  if(!text) {
+  if (!text) {
     console.warn('text is falsey in makeSlug:', text);
     return '';
   }
@@ -58,9 +58,9 @@ function makeLayoutUrl(location) {
  * @returns {Integer} - a date in the form YYYYMMDD
  */
 function dateToInt(date) {
-  if(moment.isMoment(date)) {
+  if (moment.isMoment(date)) {
     return dateToInt(date.toDate());
-  } else if(isDate(date)) {
+  } else if (isDate(date)) {
     return date.getFullYear() * 10000 +
       (date.getMonth() + 1) * 100 +
       date.getDate();
@@ -68,16 +68,15 @@ function dateToInt(date) {
     return dateToInt(new Date(date));
   } else if (typeof date === 'number') {
     return date;
-  } else {
-    console.error('Unable to convert in dateToInt:', date);
-    throw new Error(`dateToInt(${date})`);
   }
+  console.error('Unable to convert in dateToInt:', date);
+  throw new Error(`dateToInt(${date})`);
 }
 
 function intToDate(date) {
   const year = Math.round(date / 10000);
-  const month = Math.round( (date - year * 10000) / 100);
-  const day = Math.round( (date - (year * 10000 + month * 100)));
+  const month = Math.round((date - year * 10000) / 100);
+  const day = Math.round((date - (year * 10000 + month * 100)));
   return new Date(year, month - 1, day);
 }
 
@@ -96,12 +95,12 @@ function intToString(date) {
  */
 function plantFromBody(body) {
   const dateFields = ['plantedDate', 'purchasedDate', 'terminatedDate'];
-  dateFields.forEach(dateField => {
-    if(body[dateField]) {
+  dateFields.forEach((dateField) => {
+    if (body[dateField]) {
       body[dateField] = parseInt(body[dateField], 10);
     }
   });
-  if(typeof body.isTerminated === 'string') {
+  if (typeof body.isTerminated === 'string') {
     body.isTerminated = body.isTerminated === 'true';
   }
   return body;
@@ -116,7 +115,7 @@ function plantFromBody(body) {
  */
 function filterPlants(plantIds, plants, filter) {
   return filter
-    ? plantIds.filter(plantId => {
+    ? plantIds.filter((plantId) => {
       const plant = plants.get(plantId);
       return !plant || (plant.get('title') || '').toLowerCase().indexOf(filter) >= 0;
     })
@@ -133,14 +132,13 @@ function sortPlants(plantIds, plants) {
   return plantIds.sort((a, b) => {
     const plantA = plants.get(a);
     const plantB = plants.get(b);
-    if(plantA && plantB) {
-      if(plantA.get('title') === plantB.get('title')) {
+    if (plantA && plantB) {
+      if (plantA.get('title') === plantB.get('title')) {
         return 0;
       }
       return plantA.get('title') > plantB.get('title') ? 1 : -1;
-    } else {
-      return 0;
     }
+    return 0;
   });
 }
 
@@ -160,10 +158,10 @@ function filterSortPlants(plantIds, plants, filter) {
 function plantStats(plantIds, plants) {
   return {
     total: plantIds.size,
-    alive: plantIds.filter(plantId => {
+    alive: plantIds.filter((plantId) => {
       const plant = plants.get(plantId, Immutable.Map());
       return !plant.get('isTerminated', false);
-    }).size
+    }).size,
   };
 }
 
@@ -173,7 +171,7 @@ function plantStats(plantIds, plants) {
  * @returns {object} - first element of value for each key
  */
 function transformErrors(errors) {
-  if(!errors) {
+  if (!errors) {
     return errors;
   }
   return Object.keys(errors).reduce((acc, key) => {
@@ -183,14 +181,14 @@ function transformErrors(errors) {
 }
 
 function hasGeo() {
-  if(typeof window === 'undefined') {
+  if (typeof window === 'undefined') {
     return false;
   }
   return !!(window && window.navigator && window.navigator.geolocation);
 }
 
 function getGeo(options, cb) {
-  if(!hasGeo()) {
+  if (!hasGeo()) {
     return cb('This device does not have geolcation available');
   }
 
@@ -199,7 +197,7 @@ function getGeo(options, cb) {
     timeout: 30000, // 10 seconds
   }, options);
 
-  window.navigator.geolocation.getCurrentPosition(position => {
+  window.navigator.geolocation.getCurrentPosition((position) => {
     // { type: "Point", coordinates: [ 40, 5 ] }
     // postion: {coords: {latitude: 11.1, longitude: 22.2}}
     const geoJson = {
@@ -207,10 +205,10 @@ function getGeo(options, cb) {
       coordinates: [
         position.coords.longitude,
         position.coords.latitude,
-      ]
+      ],
     };
     return cb(null, geoJson);
-  }, positionError => {
+  }, (positionError) => {
     console.error('geolcation error:', positionError);
     return cb('There was an error get the geo position', positionError);
   }, options);
@@ -236,7 +234,7 @@ function subtractGis(left, right) {
  * @returns {array} - same array of plants with the locations rebased to 0,0
  */
 function rebaseLocations(plants) {
-  if(!plants || !plants.length) {
+  if (!plants || !plants.length) {
     return plants;
   }
 
@@ -245,19 +243,17 @@ function rebaseLocations(plants) {
     acc.long = Math.min(acc.long, long);
     acc.lat = Math.min(acc.lat, lat);
     return acc;
-  }, {long: 180, lat: 90});
+  }, { long: 180, lat: 90 });
 
-  return plants.map(plant => {
-    return {
-      _id: plant._id.toString(),
-      loc: {
-        coordinates: [
-          subtractGis(plant.loc.coordinates[0], northWestPoints.long),
-          subtractGis(plant.loc.coordinates[1], northWestPoints.lat),
-        ]
-      }
-    };
-  });
+  return plants.map(plant => ({
+    _id: plant._id.toString(),
+    loc: {
+      coordinates: [
+        subtractGis(plant.loc.coordinates[0], northWestPoints.long),
+        subtractGis(plant.loc.coordinates[1], northWestPoints.lat),
+      ],
+    },
+  }));
 }
 
 const metaMetrics = Immutable.fromJS([{
@@ -321,14 +317,14 @@ const metaMetrics = Immutable.fromJS([{
 function noteFromBody(body) {
   body.date = parseInt(body.date, 10);
 
-  if(body.metrics) {
-    Object.keys(body.metrics).forEach(key => {
+  if (body.metrics) {
+    Object.keys(body.metrics).forEach((key) => {
       const metaMetric = metaMetrics.find(mm => mm.get('key') === key);
-      if(metaMetric) {
-        switch(metaMetric.get('type')) {
+      if (metaMetric) {
+        switch (metaMetric.get('type')) {
           case 'toggle':
             body.metrics[key] = body.metrics[key] === 'true';
-            if(!body.metrics[key]) {
+            if (!body.metrics[key]) {
               // A missing toggle metric is false by default. No need
               // to store it in the DB as false as that just wastes space.
               delete body.metrics[key];
@@ -338,7 +334,7 @@ function noteFromBody(body) {
             body.metrics[key] = parseInt(body.metrics[key], 10);
             break;
           case 'length':
-            if(body.metrics[key].includes(' ')) {
+            if (body.metrics[key].includes(' ')) {
               const parts = body.metrics[key].split(' ');
               body.metrics[key] = parseFloat(parts[0], 10) * 12 + parseFloat(parts[1], 10);
             } else {
@@ -349,7 +345,7 @@ function noteFromBody(body) {
             body.metrics[key] = parseFloat(body.metrics[key], 10);
             break;
         }
-        if(isNaN(body.metrics[key])) {
+        if (isNaN(body.metrics[key])) {
           delete body.metrics[key];
         }
       } else {
@@ -359,7 +355,7 @@ function noteFromBody(body) {
     });
     // If all the props in body.metrics have been removed then
     // remove the body.metrics prop.
-    if(!Object.keys(body.metrics).length) {
+    if (!Object.keys(body.metrics).length) {
       delete body.metrics;
     }
   }

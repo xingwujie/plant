@@ -4,10 +4,10 @@ const constants = require('../../../app/libs/constants');
 
 // const logger = require('../../../lib/logging/logger').create('test.plant-api');
 
-describe('plant-api', function() {
+describe('plant-api', function () {
   this.timeout(10000);
   let user;
-  before('it should start the server and setup auth token', done => {
+  before('it should start the server and setup auth token', (done) => {
     helper.startServerAuthenticated((err, data) => {
       assert(!err);
       user = data.user;
@@ -30,7 +30,7 @@ describe('plant-api', function() {
       authenticate: false,
       body: initialPlant,
       json: true,
-      url: '/api/plant'
+      url: '/api/plant',
     };
     helper.makeRequest(reqOptions, (error, httpMsg, response) => {
       assert(!error);
@@ -46,9 +46,9 @@ describe('plant-api', function() {
     const reqOptions = {
       method: 'POST',
       authenticate: true,
-      body: Object.assign({}, initialPlant, {title: ''}),
+      body: Object.assign({}, initialPlant, { title: '' }),
       json: true,
-      url: '/api/plant'
+      url: '/api/plant',
     };
     helper.makeRequest(reqOptions, (error, httpMsg, response) => {
       // response should look like:
@@ -69,7 +69,7 @@ describe('plant-api', function() {
       authenticate: true,
       body: initialPlant,
       json: true,
-      url: '/api/plant'
+      url: '/api/plant',
     };
     helper.makeRequest(reqOptions, (error, httpMsg, response) => {
       // response should look like:
@@ -94,7 +94,7 @@ describe('plant-api', function() {
       method: 'GET',
       authenticate: false,
       json: true,
-      url: `/api/plant/${plantId}`
+      url: `/api/plant/${plantId}`,
     };
     helper.makeRequest(reqOptions, (error, httpMsg, response) => {
       // response should look like:
@@ -120,10 +120,9 @@ describe('plant-api', function() {
       method: 'GET',
       authenticate: false,
       json: true,
-      url: '/api/plant/does-not-exist'
+      url: '/api/plant/does-not-exist',
     };
     helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-
       assert(!error);
       assert.equal(httpMsg.statusCode, 404);
       assert(response);
@@ -138,7 +137,7 @@ describe('plant-api', function() {
     updatedPlant = Object.assign({},
       initialPlant, {
         title: 'A New Title',
-        _id: plantId
+        _id: plantId,
       });
 
     const reqOptions = {
@@ -146,14 +145,14 @@ describe('plant-api', function() {
       authenticate: true,
       body: updatedPlant,
       json: true,
-      url: '/api/plant'
+      url: '/api/plant',
     };
 
     helper.makeRequest(reqOptions, (error, httpMsg, response) => {
       const { locationId } = response;
       assert(!error);
       assert.equal(httpMsg.statusCode, 200);
-      const expected = Object.assign({}, updatedPlant, {userId: user._id, locationId});
+      const expected = Object.assign({}, updatedPlant, { userId: user._id, locationId });
       assert.deepEqual(response, expected);
 
       done();
@@ -165,11 +164,10 @@ describe('plant-api', function() {
       method: 'GET',
       authenticate: false,
       json: true,
-      url: `/api/plant/${plantId}`
+      url: `/api/plant/${plantId}`,
     };
 
     helper.makeRequest(reqOptions, (error, httpMsg, response) => {
-
       assert(!error);
       assert.equal(httpMsg.statusCode, 200);
       assert(response);
@@ -181,5 +179,4 @@ describe('plant-api', function() {
       done();
     });
   });
-
 });

@@ -2,41 +2,38 @@ const cloneDeep = require('lodash/cloneDeep');
 const omit = require('lodash/omit');
 const isArray = require('lodash/isArray');
 const every = require('lodash/every');
-const {makeMongoId} = require('../libs/utils');
+const { makeMongoId } = require('../libs/utils');
 const constants = require('../libs/constants');
 const validatejs = require('validate.js');
 const utils = require('../libs/utils');
 
-validatejs.validators.plantIdsValidate = (value, options /*, key, attributes */) => {
+validatejs.validators.plantIdsValidate = (value, options /* , key, attributes */) => {
   // plantId array rules:
   // 1. is present
   // 2. is array
   // 3. min length 1
   // 4. each item is uuid
 
-  if(!value) {
+  if (!value) {
     return 'is required';
   }
 
-  if(!isArray(value)) {
+  if (!isArray(value)) {
     return 'must be an array';
   }
 
   const minarray = options && options.length && options.length.minimum;
-  if(minarray && value.length < minarray) {
+  if (minarray && value.length < minarray) {
     // Leading ^ means don't prepend the variable being validated
     return `^You must select at least ${minarray} plant for this note.`;
   }
 
   // Only mongoId values of x length
-  const validInner = every(value, item => {
-    return item && item.length === 24 && constants.mongoIdRE.test(item);
-  });
+  const validInner = every(value, item => item && item.length === 24 && constants.mongoIdRE.test(item));
 
-  if(!validInner) {
+  if (!validInner) {
     return 'must be MongoIds';
   }
-
 };
 
 function transform(attributes) {
@@ -45,95 +42,86 @@ function transform(attributes) {
 
 // Validate the parts of the images array
 validatejs.validators.imagesValidate = (value) => {
-  if(!value) {
+  if (!value) {
     // images is optional so return if not exist
     return;
   }
 
-  if(!isArray(value)) {
+  if (!isArray(value)) {
     return 'must be an array';
   }
 
   // Only uuid values of x length
-  const validImageObject = every(value, item => {
-    return item
+  const validImageObject = every(value, item => item
       && constants.mongoIdRE.test(item.id)
       && typeof item.ext === 'string'
       && typeof item.originalname === 'string'
       && typeof item.size === 'number'
       && item.ext.length <= 20
-      && item.originalname.length <= 500;
-  });
+      && item.originalname.length <= 500);
 
-  if(!validImageObject) {
+  if (!validImageObject) {
     return 'must be valid image objects';
   }
 
   const allowedProps = ['id', 'ext', 'originalname', 'size', 'sizes'];
 
   let extraProps;
-  const validProps = every(value, item => {
+  const validProps = every(value, (item) => {
     // Make sure no extra keys inserted
     extraProps = omit(item, allowedProps);
     return Object.keys(extraProps).length === 0;
   });
 
-  if(!validProps) {
+  if (!validProps) {
     return `must only have the following allowed props: ${allowedProps.join()} and found these props as well: ${Object.keys(extraProps).join()}`;
   }
 
   // Check the sizes array if there is one
   const names = constants.imageSizeNames;
-  const validSizes = every(value, item => {
-    if(item.sizes) {
-      return every(item.sizes, size => {
-        return names.indexOf(size.name) >= 0 &&
-          typeof size.width === 'number';
-      });
-    } else {
-      return true;
+  const validSizes = every(value, (item) => {
+    if (item.sizes) {
+      return every(item.sizes, size => names.indexOf(size.name) >= 0 &&
+          typeof size.width === 'number');
     }
+    return true;
   });
 
-  if(!validSizes) {
+  if (!validSizes) {
     return 'must be valid sizes in the image';
   }
-
 };
 
 // Don't need an _id if we're creating a document, db will do this.
 // Don't need a userId if we're in the client, this will get added on the server
 // to prevent tampering with the logged in user.
 module.exports = (attributes, cb) => {
-
   const constraints = {
-    _id: {format: constants.mongoIdRE, presence: true},
-    date: {intDateValidate: {presence: true, name: 'Date'}},
-    images: {imagesValidate: {}},
-    metrics: {presence: false},
-    plantIds: {plantIdsValidate: {length: {minimum: 1}}},
-    note: {length: {minimum: 0, maximum: 5000}, presence: false},
+    _id: { format: constants.mongoIdRE, presence: true },
+    date: { intDateValidate: { presence: true, name: 'Date' } },
+    images: { imagesValidate: {} },
+    metrics: { presence: false },
+    plantIds: { plantIdsValidate: { length: { minimum: 1 } } },
+    note: { length: { minimum: 0, maximum: 5000 }, presence: false },
   };
 
   attributes = cloneDeep(attributes);
   attributes._id = attributes._id || makeMongoId();
 
-  if(isArray(attributes.images)) {
+  if (isArray(attributes.images)) {
     attributes = Object.assign({},
       attributes,
-      {images: attributes.images.map(image => {
-        if(image.sizes && image.size.length) {
-          image.sizes = image.sizes.map(({name: widthName, width}) => {
-            return {
-              name: widthName,
-              width: parseInt(width, 10)
-            };
-          });
+      { images: attributes.images.map((image) => {
+        if (image.sizes && image.size.length) {
+          image.sizes = image.sizes.map(({ name: widthName, width }) => ({
+            name: widthName,
+            width: parseInt(width, 10),
+          }));
         }
         return Object.assign({},
           image,
-          {size: parseInt(image.size, 10)});
-      })}
+          { size: parseInt(image.size, 10) });
+      }) },
     );
   }
 

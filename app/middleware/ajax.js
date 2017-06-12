@@ -5,22 +5,22 @@ const $ = require('jquery');
 
 function setJwtHeader(store, request) {
   const jwt = store.getState().getIn(['user', 'jwt']);
-  if(jwt) {
-    request.setRequestHeader('Authorization', 'Bearer ' + jwt);
+  if (jwt) {
+    request.setRequestHeader('Authorization', `Bearer ${jwt}`);
   }
 }
 
 function jqueryAjax(options) {
   return $.ajax(options);
-};
+}
 
 const pending = {};
 
 function callPending(options) {
-  if(options.type === 'GET' && pending[options.url]) {
+  if (options.type === 'GET' && pending[options.url]) {
     return true;
   }
-  if(options.type === 'GET') {
+  if (options.type === 'GET') {
     pending[options.url] = true;
   }
   return false;
@@ -31,8 +31,7 @@ function clearPending(options) {
 }
 
 module.exports = (store, options) => {
-
-  if(!options.url || !isFunction(options.success) || !isFunction(options.failure)) {
+  if (!options.url || !isFunction(options.success) || !isFunction(options.failure)) {
     console.error('Invalid options for ajax:', options);
   }
 
@@ -43,7 +42,7 @@ module.exports = (store, options) => {
     // Success: Function( Anything data, String textStatus, jqXHR jqXHR )
     success: (result) => {
       clearPending(ajaxOptions);
-      if(options.success) {
+      if (options.success) {
         store.dispatch(options.success(result));
       }
     },
@@ -51,21 +50,21 @@ module.exports = (store, options) => {
     error: (jqXHR, textStatus, errorThrown) => {
       clearPending(ajaxOptions);
       console.error(`${ajaxOptions.type} error for ${options.url}`, errorThrown);
-      if(options.failure) {
+      if (options.failure) {
         store.dispatch(options.failure(errorThrown));
       }
-    }
+    },
   };
 
-  if(callPending(ajaxOptions)) {
+  if (callPending(ajaxOptions)) {
     return;
   }
 
   function progressHandlingFunction(e) {
-    if(e.lengthComputable){
-      const uploadProgress = {value: e.loaded, max: e.total, note: options.note};
-      if(options.progress) {
-        store.dispatch(options.progress({uploadProgress}));
+    if (e.lengthComputable) {
+      const uploadProgress = { value: e.loaded, max: e.total, note: options.note };
+      if (options.progress) {
+        store.dispatch(options.progress({ uploadProgress }));
       } else {
         console.warn('options does not have progress function in progressHandlingFunction');
       }
@@ -74,16 +73,16 @@ module.exports = (store, options) => {
     }
   }
 
-  if(options.fileUpload) {
+  if (options.fileUpload) {
     delete options.fileUpload;
     ajaxOptions.contentType = false;
     ajaxOptions.processData = false;
     ajaxOptions.cache = false;
 
     // Custom XMLHttpRequest
-    ajaxOptions.xhr = function() {
-      var xhr = $.ajaxSettings.xhr();
-      if(xhr.upload){ // Check if upload property exists
+    ajaxOptions.xhr = function () {
+      const xhr = $.ajaxSettings.xhr();
+      if (xhr.upload) { // Check if upload property exists
         xhr.upload.addEventListener('progress', progressHandlingFunction, false); // For handling the progress of the upload
       } else {
         console.error('No upload on xhr');
@@ -94,5 +93,4 @@ module.exports = (store, options) => {
   ajaxOptions.data = options.data;
 
   jqueryAjax(ajaxOptions);
-
 };

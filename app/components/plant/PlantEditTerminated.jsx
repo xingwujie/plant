@@ -17,21 +17,21 @@ class PlantEditTerminated extends React.Component {
 
   onChange(e) {
     // console.log('onChange', e.target.name, e.target.checked, e.target.value);
-    const {name: inputName} = e.target;
+    const { name: inputName } = e.target;
     const value = inputName === 'isTerminated' ? e.target.checked : e.target.value;
 
     this.props.dispatch(actions.editPlantChange({
-      [inputName]: value
+      [inputName]: value,
     }));
   }
 
   componentWillMount() {
     const { interimPlant } = this.props;
     let terminatedReason = interimPlant.get('terminatedReason');
-    if(!terminatedReason) {
+    if (!terminatedReason) {
       terminatedReason = 'died';
       this.props.dispatch(actions.editPlantChange({
-        terminatedReason
+        terminatedReason,
       }));
     }
   }
@@ -49,7 +49,7 @@ class PlantEditTerminated extends React.Component {
     const { interimPlant } = this.props;
     const isTerminated = interimPlant.get('isTerminated', false);
     const terminatedDate = interimPlant.get('terminatedDate', '');
-    let terminatedReason = interimPlant.get('terminatedReason');
+    const terminatedReason = interimPlant.get('terminatedReason');
     const terminatedDescription = interimPlant.get('terminatedDescription', '');
 
     const errors = interimPlant.get('errors', Immutable.Map()).toJS();
@@ -59,49 +59,49 @@ class PlantEditTerminated extends React.Component {
       <div>
         <Toggle
           defaultToggled={isTerminated}
-          label='Terminated'
-          labelPosition='left'
-          name='isTerminated'
+          label="Terminated"
+          labelPosition="left"
+          name="isTerminated"
           onToggle={this.onChange}
-          style={{paddingLeft: '5px', maxWidth: '150px'}}
+          style={{ paddingLeft: '5px', maxWidth: '150px' }}
         />
         {isTerminated &&
           <div>
             <InputCombo
               changeHandler={this.onChange}
               error={errors.terminatedDate}
-              label='Termination Date'
-              name='terminatedDate'
+              label="Termination Date"
+              name="terminatedDate"
               placeholder={dateFormat}
               value={terminatedDate}
             />
             <RadioButtonGroup
               defaultSelected={terminatedReason}
-              name='terminatedReason'
+              name="terminatedReason"
               onChange={this.onChange}
               style={styles.radioGroup}
             >
               <RadioButton
-                label='Culled'
+                label="Culled"
                 style={styles.radioButton}
-                value='culled'
+                value="culled"
               />
               <RadioButton
-                label='Died'
+                label="Died"
                 style={styles.radioButton}
-                value='died'
+                value="died"
               />
               <RadioButton
-                label='Transferred'
+                label="Transferred"
                 style={styles.radioButton}
-                value='transferred'
+                value="transferred"
               />
             </RadioButtonGroup>
             <InputCombo
               changeHandler={this.onChange}
               error={errors.terminatedDescription}
-              label='Termination Description'
-              name='terminatedDescription'
+              label="Termination Description"
+              name="terminatedDescription"
               placeholder={'(Optional) Describe why this plant was terminated.'}
               value={terminatedDescription}
             />
@@ -112,7 +112,7 @@ class PlantEditTerminated extends React.Component {
       </div>
     );
   }
-};
+}
 
 PlantEditTerminated.propTypes = {
   dispatch: PropTypes.func.isRequired,

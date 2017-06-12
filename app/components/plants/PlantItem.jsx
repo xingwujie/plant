@@ -1,7 +1,7 @@
 // Used to show each plant on a user's plant list page.
 // Url: /plants/<optional-user-id>
-const {Link} = require('react-router');
-const {makeSlug} = require('../../libs/utils');
+const { Link } = require('react-router');
+const { makeSlug } = require('../../libs/utils');
 const React = require('react');
 const FloatingActionButton = require('material-ui/FloatingActionButton').default;
 const AddIcon = require('material-ui/svg-icons/content/add').default;
@@ -18,7 +18,7 @@ class PlantItem extends React.Component {
   }
 
   createNote() {
-    const {plant} = this.props;
+    const { plant } = this.props;
     const note = {
       _id: utils.makeMongoId(),
       date: moment().format('MM/DD/YYYY'),
@@ -28,23 +28,23 @@ class PlantItem extends React.Component {
       errors: {},
     };
 
-    if(!plant.has('notesRequested')) {
-      if(plant.has('_id')) {
+    if (!plant.has('notesRequested')) {
+      if (plant.has('_id')) {
         this.props.dispatch(actions.loadNotesRequest({
-          plantId: plant.get('_id')
+          plantId: plant.get('_id'),
         }));
       } else {
         console.error('PlantItem: plant object does not have _id', plant.toJS());
       }
     }
 
-    this.props.dispatch(actions.editNoteOpen({note, plant: plant.toJS()}));
+    this.props.dispatch(actions.editNoteOpen({ note, plant: plant.toJS() }));
   }
 
   render() {
     const {
       isOwner = false,
-      plant
+      plant,
     } = this.props;
 
     const _id = plant.get('_id');
@@ -54,13 +54,13 @@ class PlantItem extends React.Component {
       marginLeft: '10px',
       width: '50px',
       // 0 = don't grow, 0 = don't shrink, 50px = start at this size
-      flex: '0 0 50px'
+      flex: '0 0 50px',
     };
 
     const linkStyle = {
-      margin: '20px'
+      margin: '20px',
     };
-    if(plant.get('isTerminated') === true) {
+    if (plant.get('isTerminated') === true) {
       linkStyle.color = 'red';
     }
 
@@ -75,13 +75,13 @@ class PlantItem extends React.Component {
     );
 
     return (
-      <div style={{display: 'flex', alignItems: 'center'}}>
+      <div style={{ display: 'flex', alignItems: 'center' }}>
         {isOwner &&
           <div style={floatingActionButtonStyle}>
             <FloatingActionButton
-              mini={true}
+              mini
               onClick={this.createNote}
-              title='Add Note'
+              title="Add Note"
             >
               <AddIcon />
             </FloatingActionButton>
@@ -96,9 +96,9 @@ class PlantItem extends React.Component {
 PlantItem.propTypes = {
   dispatch: PropTypes.func.isRequired,
   isOwner: PropTypes.bool.isRequired,
-  plant:  PropTypes.shape({ // Immutable.js
+  plant: PropTypes.shape({ // Immutable.js
     get: PropTypes.func.isRequired,
-  }).isRequired
+  }).isRequired,
 };
 
 module.exports = PlantItem;

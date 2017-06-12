@@ -6,12 +6,12 @@ const utils = require('../../../app/libs/utils');
 
 // const logger = require('../../../lib/logging/logger').create('test.plant-api-delete');
 
-describe('plant-api-delete', function() {
+describe('plant-api-delete', function () {
   this.timeout(10000);
   let userId;
   let locationId;
 
-  before('it should start the server and setup auth token', done => {
+  before('it should start the server and setup auth token', (done) => {
     helper.startServerAuthenticated((err, data) => {
       assert(data.userId);
       userId = data.user._id;
@@ -21,32 +21,31 @@ describe('plant-api-delete', function() {
   });
 
   describe('simple plant deletion', () => {
-    it('should delete a plant without notes', done => {
+    it('should delete a plant without notes', (done) => {
       helper.createPlants(1, userId, locationId, (err, plants) => {
         assert(!err);
         const reqOptions = {
           method: 'DELETE',
           authenticate: true,
           json: true,
-          url: `/api/plant/${plants[0]._id}`
+          url: `/api/plant/${plants[0]._id}`,
         };
 
         helper.makeRequest(reqOptions, (error, httpMsg, response) => {
           assert(!error);
           assert.equal(httpMsg.statusCode, 200);
-          assert.deepStrictEqual(response, {message: 'Deleted'});
+          assert.deepStrictEqual(response, { message: 'Deleted' });
           done();
         });
       });
-
     });
 
-    it('should return a 404 if plant id does not exist', done => {
+    it('should return a 404 if plant id does not exist', (done) => {
       const reqOptions = {
         method: 'DELETE',
         authenticate: true,
         json: true,
-        url: `/api/plant/${utils.makeMongoId()}`
+        url: `/api/plant/${utils.makeMongoId()}`,
       };
 
       helper.makeRequest(reqOptions, (error, httpMsg, response) => {
@@ -55,13 +54,11 @@ describe('plant-api-delete', function() {
         assert.equal(response.message, 'Not Found');
         done();
       });
-
     });
-
   });
 
   describe('plant/note deletion', () => {
-    it('should delete notes when a plant is deleted', done => {
+    it('should delete notes when a plant is deleted', (done) => {
       // 1. Create 2 plants
       // 2. Create 3 notes:
       //    Note #1: plantIds reference plant #1
@@ -80,8 +77,8 @@ describe('plant-api-delete', function() {
         //    Note #1: plantIds reference plant #1
         (plants, cb) => {
           assert(plants.length, 2);
-          helper.createNote([plants[0]._id], {note: 'Note #1'}, (err, response) => {
-            const {note} = response;
+          helper.createNote([plants[0]._id], { note: 'Note #1' }, (err, response) => {
+            const { note } = response;
             assert.equal(response.success, true);
             assert(note);
             cb(err, plants, [note]);
@@ -91,7 +88,7 @@ describe('plant-api-delete', function() {
         // 2. Create 3 notes, part 1.2:
         //    Update Note #1
         (plants, notes, cb) => {
-          const updatedNote = Object.assign({}, notes[0], {x: 'random'});
+          const updatedNote = Object.assign({}, notes[0], { x: 'random' });
           mongo.upsertNote(updatedNote, (err, note) => {
             assert(!err);
             assert(note);
@@ -102,9 +99,9 @@ describe('plant-api-delete', function() {
         // 2. Create 3 notes, part 2:
         //    Note #2: plantIds reference plant #1 & #2
         (plants, notes, cb) => {
-          helper.createNote([plants[0]._id, plants[1]._id], {note: 'Note #2'}, (err, response) => {
+          helper.createNote([plants[0]._id, plants[1]._id], { note: 'Note #2' }, (err, response) => {
             assert.equal(response.success, true);
-            const {note} = response;
+            const { note } = response;
             notes.push(note);
             cb(err, plants, notes);
           });
@@ -113,9 +110,9 @@ describe('plant-api-delete', function() {
         // 2. Create 3 notes, part 3:
         //    Note #3: plantIds reference plant #2
         (plants, notes, cb) => {
-          helper.createNote([plants[1]._id], {note: 'Note #3'}, (err, response) => {
+          helper.createNote([plants[1]._id], { note: 'Note #3' }, (err, response) => {
             assert.equal(response.success, true);
-            const {note} = response;
+            const { note } = response;
             notes.push(note);
             cb(err, plants, notes);
           });
@@ -123,27 +120,24 @@ describe('plant-api-delete', function() {
 
         // 3. Delete plant #1
         (plants, notes, cb) => {
-
           const reqOptions = {
             method: 'DELETE',
             authenticate: true,
             json: true,
-            url: `/api/plant/${plants[0]._id}`
+            url: `/api/plant/${plants[0]._id}`,
           };
           helper.makeRequest(reqOptions, (error, httpMsg, response) => {
             assert(!error);
             assert.equal(httpMsg.statusCode, 200);
 
-            assert.deepStrictEqual(response, {message: 'Deleted'});
+            assert.deepStrictEqual(response, { message: 'Deleted' });
             cb(error, plants, notes);
           });
-
         },
 
         // 4. Confirm that Note #1 is no longer in DB
         (plants, notes, cb) => {
           mongo.getNoteById(notes[0]._id, (err, result) => {
-
             assert(!err);
             assert(!result);
             cb(null, plants, notes);
@@ -156,7 +150,7 @@ describe('plant-api-delete', function() {
             method: 'GET',
             authenticate: true,
             json: true,
-            url: `/api/plant/${plants[1]._id}`
+            url: `/api/plant/${plants[1]._id}`,
           };
 
           helper.makeRequest(reqOptions, (error, httpMsg, plant) => {
@@ -183,9 +177,6 @@ describe('plant-api-delete', function() {
         assert.equal(notes.length, 3);
         done();
       });
-
     });
-
   });
-
 });

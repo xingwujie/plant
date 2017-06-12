@@ -21,22 +21,22 @@ class RemoveConfirm extends React.Component {
   }
 
   render() {
-    const {title = ''} = this.props || {};
+    const { title = '' } = this.props || {};
 
     return (
-      <div style={{textAlign: 'right'}}>
-        <strong className='lead'>{'Really delete? (This cannot be undone.)'}</strong>
+      <div style={{ textAlign: 'right' }}>
+        <strong className="lead">{'Really delete? (This cannot be undone.)'}</strong>
         <FloatingActionButton
           onClick={this.cancelDelete}
-          secondary={true}
-          style={{marginLeft: '10px'}}
-          title='Cancel'
+          secondary
+          style={{ marginLeft: '10px' }}
+          title="Cancel"
         >
           <ClearIcon />
         </FloatingActionButton>
         <FloatingActionButton
           onClick={this.reallyDelete}
-          style={{marginLeft: '10px'}}
+          style={{ marginLeft: '10px' }}
           title={`Delete ${title}`}
         >
           <DeleteForeverIcon />

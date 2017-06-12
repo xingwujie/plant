@@ -7,7 +7,7 @@ class DebugSettings extends React.Component {
   render() {
     const settings = [{
       name: 'redux',
-      description: 'Calls to Redux dispatch'
+      description: 'Calls to Redux dispatch',
     }];
     return (
       <Base>

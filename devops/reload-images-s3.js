@@ -19,10 +19,10 @@ const Prefix = 'up/orig';
 
 function getListOfKeys(cb) {
   logger.trace('getListOfKeys() start');
-  const params = {Bucket, Prefix};
+  const params = { Bucket, Prefix };
   s3.listObjectsV2(params, (listObjectsErr, objects) => {
-    if(listObjectsErr) {
-      logger.error('listObjectsV2', {listObjectsErr});
+    if (listObjectsErr) {
+      logger.error('listObjectsV2', { listObjectsErr });
     }
   /* data: { IsTruncated: false,
     Contents:
@@ -40,25 +40,23 @@ function getListOfKeys(cb) {
     KeyCount: 4 }
   */
     const keys = objects.Contents.map(content => content.Key);
-    logger.trace('Number of keys', {keyCount: keys.length});
+    logger.trace('Number of keys', { keyCount: keys.length });
     cb(listObjectsErr, keys);
   });
 }
 
 function getImageIds(keys, cb) {
   logger.trace('getImageIds() start');
-  const filenames = keys.map(key => {
+  const filenames = keys.map((key) => {
     const parts = key.split('/');
     return {
       key,
-      imageId: _.last(parts).split('.')[0]
+      imageId: _.last(parts).split('.')[0],
     };
   });
   logger.trace(`${filenames.length} keys before filtering`);
 
-  const imageIds = filenames.filter(fn => {
-    return constants.mongoIdRE.test(fn.imageId);
-  });
+  const imageIds = filenames.filter(fn => constants.mongoIdRE.test(fn.imageId));
   logger.trace(`${imageIds.length} image ids after filtering`);
 
   cb(null, imageIds);
@@ -70,17 +68,17 @@ function getMetadata(data, cb) {
   logger.trace('getMetadata() start');
   async.map(data, (item, done) => {
     mongo.getNoteByImageId(item.imageId, (getNoteByImageIdErr, note) => {
-      if(getNoteByImageIdErr) {
-        logger.error('Error getting note:', {getNoteByImageIdErr});
+      if (getNoteByImageIdErr) {
+        logger.error('Error getting note:', { getNoteByImageIdErr });
         return done(getNoteByImageIdErr);
       }
-      if(!note.images || !note.images.length) {
-        logger.error('No images in note:', {note});
+      if (!note.images || !note.images.length) {
+        logger.error('No images in note:', { note });
         return done('No images');
       }
       const image = note.images.find(img => img.id === item.imageId);
-      if(!image) {
-        logger.error('Image not found in note', {imageId: item.imageId, 'note.images': note.images});
+      if (!image) {
+        logger.error('Image not found in note', { imageId: item.imageId, 'note.images': note.images });
         return done('No image');
       }
       return done(null, {
@@ -89,13 +87,13 @@ function getMetadata(data, cb) {
           userid: note.userId,
           id: image.id,
           noteid: note._id,
-          originalname: image.originalname
-        }
+          originalname: image.originalname,
+        },
       });
     });
   }, (asyncMapError, results) => {
-    if(asyncMapError) {
-      logger.error('asyncMapError in getMetadata', {asyncMapError});
+    if (asyncMapError) {
+      logger.error('asyncMapError in getMetadata', { asyncMapError });
     }
     cb(asyncMapError, results);
   });
@@ -103,31 +101,31 @@ function getMetadata(data, cb) {
 
 // data is an array with {Key, Metadata}
 function resaveImage(data, cb) {
-  logger.trace('resaveImage() start', {data});
+  logger.trace('resaveImage() start', { data });
   // Slow this part down by running in series
   async.mapSeries(data, (item, done) => {
-    const {Key, Metadata} = item;
-    const getParams = {Key, Bucket};
+    const { Key, Metadata } = item;
+    const getParams = { Key, Bucket };
     s3.getObject(getParams, (getObjectErr, getObjectResult) => {
-      if(getObjectErr) {
+      if (getObjectErr) {
         return done(getObjectErr);
       }
       const putParams = {
         Key: Key.replace('up', 'test'),
         Body: getObjectResult.Body,
         Bucket,
-        Metadata
+        Metadata,
       };
-      logger.trace('About to put object', {putParams});
+      logger.trace('About to put object', { putParams });
       s3.putObject(putParams, (err, result) => {
-        logger.trace('PUT complete, wait for 1 second...', {Key});
+        logger.trace('PUT complete, wait for 1 second...', { Key });
         // Pause at this point to let server keep up with Lambda requests
         setTimeout(() => { done(err, result); }, 1000);
       });
     });
   }, (asyncMapError, results) => {
-    if(asyncMapError) {
-      logger.error('resaveImage async.map', {asyncMapError});
+    if (asyncMapError) {
+      logger.error('resaveImage async.map', { asyncMapError });
     }
     return cb(asyncMapError, results);
   });
@@ -139,28 +137,10 @@ async.waterfall([
   getListOfKeys,
   getImageIds,
   getMetadata,
-  resaveImage
+  resaveImage,
 ], (waterfallErr, data) => {
-  logger.trace('Waterfall completed', {waterfallErr, data});
+  logger.trace('Waterfall completed', { waterfallErr, data });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // function getMetadata(data, cb) {

@@ -9,7 +9,7 @@ function setupSubscribe(store) {
   let currentValue = user || Immutable.Map();
 
   function handleChange() {
-    let previousValue = currentValue;
+    const previousValue = currentValue;
     currentValue = store.getState().get('user');
 
     if (!previousValue.equals(currentValue)) {
@@ -23,10 +23,10 @@ function setupSubscribe(store) {
 }
 
 function initialState() {
-  if(!user) {
+  if (!user) {
     try {
       user = JSON.parse(localStorage.getItem('user'));
-    } catch(e) {
+    } catch (e) {
     }
     user = Immutable.fromJS(user || {});
   }

@@ -29,8 +29,8 @@ const Immutable = require('immutable');
  * @returns {object} state - the new object of notes
  */
 function upsertNoteRequestSuccess(state, action) {
-  const {_id} = action.payload.note || {};
-  if(!_id) {
+  const { _id } = action.payload.note || {};
+  if (!_id) {
     console.error('No _id in note in upsertNoteRequestSuccess', action.payload);
     return state;
   }
@@ -63,7 +63,7 @@ function deleteNoteRequest(state, action) {
  * @param {object} action - action.payload holds new note
  * @returns {object} state - the new object of notes
  */
-function deleteNoteSuccess(state /*, action*/) {
+function deleteNoteSuccess(state /* , action*/) {
   return state;
 }
 
@@ -73,25 +73,23 @@ function deleteNoteSuccess(state /*, action*/) {
  * @param {object} action - action.payload holds new note
  * @returns {object} state - the new object of notes
  */
-function deleteNoteFailure(state /*, action*/) {
+function deleteNoteFailure(state /* , action*/) {
   return state;
 }
 
 // action.payload is an array of notes from the server
 function loadNotesSuccess(state, action) {
   const notes = action.payload;
-  if(notes && notes.length) {
-
+  if (notes && notes.length) {
     const newNotes = notes.reduce((acc, note) => {
       acc[note._id] = note;
       return acc;
     }, {});
 
     return state.mergeDeep(newNotes);
-  } else {
-    console.warn('Nothing loaded from server in loadNotesSuccess:', action);
-    return state;
   }
+  console.warn('Nothing loaded from server in loadNotesSuccess:', action);
+  return state;
 }
 
 const reducers = Object.freeze({
@@ -108,7 +106,7 @@ const reducers = Object.freeze({
 });
 
 module.exports = (state = new Immutable.Map(), action) => {
-  if(reducers[action.type]) {
+  if (reducers[action.type]) {
     return reducers[action.type](state, action);
   }
 

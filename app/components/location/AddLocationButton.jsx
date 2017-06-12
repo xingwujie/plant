@@ -1,7 +1,7 @@
 const React = require('react');
 const FloatingActionButton = require('material-ui/FloatingActionButton').default;
 const AddIcon = require('material-ui/svg-icons/content/add').default;
-const {Link} = require('react-router');
+const { Link } = require('react-router');
 const PropTypes = require('prop-types');
 
 class AddLocationButton extends React.Component {
@@ -10,23 +10,22 @@ class AddLocationButton extends React.Component {
     const {
       mini = false,
       show,
-      style = {}
+      style = {},
     } = this.props;
 
-    if(!show) {
+    if (!show) {
       return null;
     }
 
     return (
       <Link to={'/location'}>
         <FloatingActionButton
-          title='Add Location' mini={mini} style={style}
+          title="Add Location" mini={mini} style={style}
         >
           <AddIcon />
         </FloatingActionButton>
       </Link>
     );
-
   }
 }
 

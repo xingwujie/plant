@@ -15,7 +15,7 @@ const Immutable = require('immutable');
  */
 function replaceInPlace(state, action) {
   return state.mergeDeep({
-    [action.payload._id]: action.payload
+    [action.payload._id]: action.payload,
   });
 }
 
@@ -45,17 +45,15 @@ function deletePlantRequest(state, action) {
 // payload is {id} of note being DELETEd from server
 // Need to remove this note from the notes array in all plants
 function deleteNoteRequest(state, action) {
-  return state.map(plant => {
+  return state.map((plant) => {
     const noteIds = Immutable.Set(plant.get('notes', Immutable.Set()));
-    if(noteIds.size) {
-      if(noteIds.has(action.payload)) {
+    if (noteIds.size) {
+      if (noteIds.has(action.payload)) {
         return plant.set('notes', noteIds.delete(action.payload));
-      } else {
-        return plant;
       }
-    } else {
       return plant;
     }
+    return plant;
   });
 }
 
@@ -70,16 +68,15 @@ function loadPlantFailure(state, action) {
 
 // action.payload is an array of plant objects
 function loadPlantsSuccess(state, action) {
-  if(action.payload && action.payload.length > 0) {
+  if (action.payload && action.payload.length > 0) {
     // const plants = plantArrayToObject(action.payload);
     // return Object.freeze(Object.assign({}, state, plants));
     return state.mergeDeep(action.payload.reduce((acc, plant) => {
       acc[plant._id] = plant;
       return acc;
     }, {}));
-  } else {
-    return state;
   }
+  return state;
 }
 
 // The action.payload.note is the returned note from the
@@ -87,10 +84,10 @@ function loadPlantsSuccess(state, action) {
 function upsertNoteSuccess(state, action) {
   const {
     _id,
-    plantIds = []
+    plantIds = [],
   } = action.payload.note;
 
-  if(!plantIds.length) {
+  if (!plantIds.length) {
     console.error('No plantIds in upsertNoteSuccess:', action);
     return state;
   }
@@ -101,21 +98,18 @@ function upsertNoteSuccess(state, action) {
     const noteIds = Immutable.Set(plant.get('notes', Immutable.Set()));
     const hasNoteId = noteIds.has(_id);
 
-    if(plantIds.indexOf(plantId) === -1) {
+    if (plantIds.indexOf(plantId) === -1) {
       // Make sure plant does not have the _id in its notes List
-      if(hasNoteId) {
+      if (hasNoteId) {
         return plant.set('notes', noteIds.delete(_id));
-      } else {
-        return plant;
       }
-    } else {
-      // Make sure the plant had the _id in its notes List
-      if(hasNoteId) {
-        return plant;
-      } else {
-        return plant.set('notes', noteIds.add(_id));
-      }
+      return plant;
     }
+      // Make sure the plant had the _id in its notes List
+    if (hasNoteId) {
+      return plant;
+    }
+    return plant.set('notes', noteIds.add(_id));
   });
 }
 
@@ -126,15 +120,15 @@ function upsertNoteSuccess(state, action) {
 // }
 function loadNotesRequest(state, action) {
   const { plantId, noteIds } = action.payload;
-  if(noteIds) {
+  if (noteIds) {
     return state;
   }
-  if(!plantId) {
+  if (!plantId) {
     console.error('No plantId in action.payload:', action.payload);
     return state;
   }
   const plant = state.get(plantId);
-  if(!plant) {
+  if (!plant) {
     console.error('No plant in state for plantId:', plantId);
     return state;
   }
@@ -143,10 +137,10 @@ function loadNotesRequest(state, action) {
 
 // action.payload is an array of notes from the server
 function loadNotesSuccess(state, action) {
-  if(action.payload && action.payload.length > 0) {
+  if (action.payload && action.payload.length > 0) {
     const plants = action.payload.reduce((acc, note) => {
-      (note.plantIds || []).forEach(plantId => {
-        if(acc[plantId]) {
+      (note.plantIds || []).forEach((plantId) => {
+        if (acc[plantId]) {
           acc[plantId].push(note._id);
         } else {
           acc[plantId] = [note._id];
@@ -156,8 +150,7 @@ function loadNotesSuccess(state, action) {
     }, {});
 
     return state.map((plant, plantId) => {
-
-      if(!plants[plantId]) {
+      if (!plants[plantId]) {
         return plant;
       }
 
@@ -185,7 +178,7 @@ const reducers = {
 };
 
 module.exports = (state = new Immutable.Map(), action) => {
-  if(reducers[action.type]) {
+  if (reducers[action.type]) {
     return reducers[action.type](state, action);
   }
 

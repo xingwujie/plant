@@ -3,11 +3,11 @@
 
 const Base = require('../Base');
 const React = require('react');
-const {Link} = require('react-router');
+const { Link } = require('react-router');
 const utils = require('../../libs/utils');
 const PropTypes = require('prop-types');
 
-const {makeSlug} = utils;
+const { makeSlug } = utils;
 
 class Users extends React.Component {
   static contextTypes = {
@@ -20,7 +20,7 @@ class Users extends React.Component {
   }
 
   componentWillMount() {
-    const {store} = this.context;
+    const { store } = this.context;
     this.unsubscribe = store.subscribe(this.onChange);
 
     this.onChange();
@@ -31,10 +31,10 @@ class Users extends React.Component {
   }
 
   onChange() {
-    const {store} = this.context;
+    const { store } = this.context;
     const users = store.getState().get('users');
     const locations = store.getState().get('locations');
-    this.setState({users, locations});
+    this.setState({ users, locations });
   }
 
   renderUser(user) {
@@ -43,22 +43,22 @@ class Users extends React.Component {
     const locationIds = user.get('locationIds');
     let link = `/locations/${makeSlug(userName)}/${_id}`;
 
-    if(locationIds.size === 1) {
-      const {store} = this.context;
+    if (locationIds.size === 1) {
+      const { store } = this.context;
       const locations = store.getState().get('locations');
-      if(locations) {
+      if (locations) {
         const singleLocationId = locationIds.first();
         const singleLocation = locations.get(singleLocationId);
-        if(singleLocation) {
+        if (singleLocation) {
           link = `/location/${makeSlug(singleLocation.get('title'))}/${singleLocationId}`;
         }
       }
     }
 
     return (
-      <div key={_id} style={{display: 'flex', alignItems: 'center'}}>
+      <div key={_id} style={{ display: 'flex', alignItems: 'center' }}>
         <Link
-          style={{margin: '20px'}}
+          style={{ margin: '20px' }}
           to={link}
         >
           <span>{userName}</span>
@@ -68,9 +68,9 @@ class Users extends React.Component {
   }
 
   renderUsers() {
-    const {store} = this.context;
+    const { store } = this.context;
     const users = store.getState().get('users');
-    if(users && users.size) {
+    if (users && users.size) {
       return users.valueSeq().toArray().map(user => this.renderUser(user));
     }
     return null;

@@ -16,8 +16,8 @@ function since(acc, note, noteId, lastNoteDate) {
   const sinceLast = lastNoteDate
     ? `...and then after ${lastNoteDate.from(currentNoteDate, true)}`
     : '';
-  if(sinceLast && !lastNoteDate.isSame(currentNoteDate)) {
-    acc.push({noteId, sinceLast, type:'since'});
+  if (sinceLast && !lastNoteDate.isSame(currentNoteDate)) {
+    acc.push({ noteId, sinceLast, type: 'since' });
   }
   return currentNoteDate;
 }
@@ -33,19 +33,19 @@ function since(acc, note, noteId, lastNoteDate) {
  */
 function getChange(metrics, prop) {
   let index = metrics.length - 1;
-  if(index < 1) {
+  if (index < 1) {
     return null;
   }
 
   const last = metrics[index];
-  if(!last[prop]) {
+  if (!last[prop]) {
     return null;
   }
 
-  while(--index > -1) {
+  while (--index > -1) {
     const prev = metrics[index];
-    if(prev[prop]) {
-      console.log('diff obj:', {prev, last});
+    if (prev[prop]) {
+      console.log('diff obj:', { prev, last });
       return { prev, last };
     }
   }
@@ -73,28 +73,28 @@ function crunchChangeNumbers(metric, prop) {
 function calculateMetrics(acc, note, noteId, metrics) {
   const height = note.getIn(['metrics', 'height']);
   const girth = note.getIn(['metrics', 'girth']);
-  if(height || girth) {
+  if (height || girth) {
     const date = utils.intToMoment(note.get('date'));
     const metric = { date };
-    if(height) {
+    if (height) {
       metric.height = height;
     }
-    if(girth) {
+    if (girth) {
       metric.girth = girth;
     }
     metrics.push(metric);
     const heightChange = getChange(metrics, 'height');
     const girthChange = getChange(metrics, 'girth');
     const changes = [];
-    if(heightChange) {
+    if (heightChange) {
       const change = crunchChangeNumbers(heightChange, 'height');
       changes.push(change);
     }
-    if(girthChange) {
+    if (girthChange) {
       const change = crunchChangeNumbers(girthChange, 'girth');
       changes.push(change);
     }
-    acc.push({noteId, change: changes.join(' '), type: 'metric'});
+    acc.push({ noteId, change: changes.join(' '), type: 'metric' });
   }
 }
 
@@ -110,12 +110,12 @@ function notesToMetricNotes(sortedNoteIds, notes) {
   const metrics = [];
   return sortedNoteIds.reduce((acc, noteId) => {
     const note = notes.get(noteId);
-    if(note) {
+    if (note) {
       lastNoteDate = since(acc, note, noteId, lastNoteDate);
       calculateMetrics(acc, note, noteId, metrics);
-      acc.push({noteId, note, type: 'note'});
+      acc.push({ noteId, note, type: 'note' });
     } else {
-      acc.push({noteId, type:'unfound'});
+      acc.push({ noteId, type: 'unfound' });
     }
     return acc;
   }, []);

@@ -23,14 +23,14 @@ class NoteRead extends React.Component {
   }
 
   checkDelete() {
-    this.setState({showDeleteConfirmation: true});
+    this.setState({ showDeleteConfirmation: true });
   }
 
   confirmDelete(yes) {
-    if(yes) {
+    if (yes) {
       this.props.dispatch(actions.deleteNoteRequest(this.props.note.get('_id')));
     } else {
-      this.setState({showDeleteConfirmation: false});
+      this.setState({ showDeleteConfirmation: false });
     }
   }
 
@@ -65,24 +65,23 @@ class NoteRead extends React.Component {
 
   buildImageSrcSet(image) {
     // If the cache is live then don't set a value for srcset
-    if(process.env.PLANT_IMAGE_CACHE) {
+    if (process.env.PLANT_IMAGE_CACHE) {
       return '';
     }
 
     const sizes = image.get('sizes', List()).toJS();
-    if(sizes && sizes.length) {
+    if (sizes && sizes.length) {
       // <img src="small.jpg" srcset="medium.jpg 1000w, large.jpg 2000w" alt="yah">
       const items = sizes.map(size => `${this.buildImageUrl(size.name, image)} ${size.width}w `);
       return items.join(',');
-    } else {
-      return '';
     }
+    return '';
   }
 
   renderImage(image) {
     const imageStyle = {
       maxWidth: '100%',
-      padding: '1%'
+      padding: '1%',
     };
     return (
       <div key={image.get('id')}>
@@ -93,23 +92,20 @@ class NoteRead extends React.Component {
 
   renderImages(note) {
     const images = note.get('images');
-    if(images && images.size) {
-      return images.map(image => {
-        return this.renderImage(image);
-      });
-    } else {
-      return null;
+    if (images && images.size) {
+      return images.map(image => this.renderImage(image));
     }
+    return null;
   }
 
   editNote() {
     const note = {
       ...this.props.note.toJS(),
       date: utils.intToString(this.props.note.get('date')),
-      isNew: false
+      isNew: false,
     };
-    const {plant} = this.props;
-    this.props.dispatch(actions.editNoteOpen({plant, note}));
+    const { plant } = this.props;
+    this.props.dispatch(actions.editNoteOpen({ plant, note }));
   }
 
   renderRead() {
@@ -117,16 +113,16 @@ class NoteRead extends React.Component {
       padding: 20,
       width: '100%',
       margin: 20,
-      display: 'inline-block'
+      display: 'inline-block',
     };
 
     const {
-      showDeleteConfirmation = false
+      showDeleteConfirmation = false,
     } = this.state || {};
 
     const {
       isOwner,
-      note
+      note,
     } = this.props;
 
     const images = this.renderImages(note);
@@ -192,7 +188,7 @@ NoteRead.propTypes = {
   }).isRequired,
   user: PropTypes.shape({ // Immutable.js Map
     get: PropTypes.func.isRequired,
-  }).isRequired
+  }).isRequired,
 };
 
 module.exports = NoteRead;

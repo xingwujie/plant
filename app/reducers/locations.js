@@ -25,27 +25,25 @@ function createPlantRequest(state, action) {
   // an _id has already been assigned to this object
   const plant = action.payload;
   const location = state.get(plant.locationId);
-  if(location) {
+  if (location) {
     // Add the new plantId to the existing list of plantIds at this location
     const plantIds = location.get('plantIds', Immutable.Set()).add(plant._id);
     // Update the location object with the new list of plantIds
     return state.set(plant.locationId, location.set('plantIds', plantIds));
-  } else {
-    console.warn(`No location found in locations createPlantRequest reducer ${plant.locationId}`);
-    return state;
   }
+  console.warn(`No location found in locations createPlantRequest reducer ${plant.locationId}`);
+  return state;
 }
 
 // If a bunch of plants are loaded then check that the plant
 // is on the locations's plantIds list
 // action.payload is an array of plant objects
 function loadPlantsSuccess(state, action) {
-  if(action.payload && action.payload.length > 0) {
-
+  if (action.payload && action.payload.length > 0) {
     // Create an object with locations:
     // {'l1': {plantIds: ['p1', p2]}, 'l2': {...}}
     const locations = action.payload.reduce((acc, plant) => {
-      if(state.get(plant.locationId)) {
+      if (state.get(plant.locationId)) {
         acc[plant.locationId] = acc[plant.locationId] || { plantIds: Immutable.Set() };
         acc[plant.locationId].plantIds = acc[plant.locationId].plantIds.add(plant._id);
       }
@@ -57,29 +55,26 @@ function loadPlantsSuccess(state, action) {
     function merger(a, b) {
       if (isSet(a) && isSet(b)) {
         return a.union(b);
-      } else if(a && a.mergeWith) {
+      } else if (a && a.mergeWith) {
         return a.mergeWith(merger, b);
-      } else {
-        return b;
       }
+      return b;
     }
 
     return state.mergeDeepWith(merger, locations);
-  } else {
-    return state;
   }
+  return state;
 }
 
 // action.payload: {plantId: <plant-id>, locationId: <location-id>}
 function deletePlantRequest(state, action) {
-  const {locationId, plantId} = action.payload;
+  const { locationId, plantId } = action.payload;
   const plantIds = state.getIn([locationId, 'plantIds'], Immutable.List());
-  if(plantIds.has(plantId)) {
+  if (plantIds.has(plantId)) {
     const pIds = plantIds.filter(pId => pId !== plantId);
     return state.setIn([locationId, 'plantIds'], pIds);
-  } else {
-    return state;
   }
+  return state;
 }
 
 const reducers = {
@@ -93,7 +88,7 @@ const reducers = {
 };
 
 module.exports = (state = new Immutable.Map(), action) => {
-  if(reducers[action.type]) {
+  if (reducers[action.type]) {
     return reducers[action.type](state, action);
   }
 

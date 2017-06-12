@@ -18,7 +18,7 @@ class NoteCreate extends React.Component {
   }
 
   createNote() {
-    const {plant} = this.props;
+    const { plant } = this.props;
     const note = {
       _id: utils.makeMongoId(),
       date: moment().format('MM/DD/YYYY'),
@@ -26,19 +26,19 @@ class NoteCreate extends React.Component {
       note: '',
       plantIds: [plant.get('_id')],
       errors: {},
-      plants: this.props.plants.filter(p => p.get('userId') === this.props.user.get('_id'))
+      plants: this.props.plants.filter(p => p.get('userId') === this.props.user.get('_id')),
     };
 
-    this.props.dispatch(actions.editNoteOpen({note, plant}));
+    this.props.dispatch(actions.editNoteOpen({ note, plant }));
   }
 
   render() {
     const {
       isOwner,
-      interimNote
+      interimNote,
     } = this.props;
 
-    if(!isOwner) {
+    if (!isOwner) {
       return null;
     }
 
@@ -56,11 +56,11 @@ class NoteCreate extends React.Component {
           />
         }
         {!createNote &&
-          <div style={{textAlign: 'right'}}>
+          <div style={{ textAlign: 'right' }}>
             <FloatingActionButton
               onClick={this.createNote}
-              secondary={true}
-              title='Create Note'
+              secondary
+              title="Create Note"
             >
               <AddIcon />
             </FloatingActionButton>
@@ -87,7 +87,7 @@ NoteCreate.propTypes = {
   postSaveSuccess: PropTypes.func,
   user: PropTypes.shape({ // Immutable.js Map
     get: PropTypes.func.isRequired,
-  }).isRequired
+  }).isRequired,
 };
 
 module.exports = NoteCreate;

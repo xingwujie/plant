@@ -3,7 +3,7 @@ const trim = require('lodash/trim');
 const isArray = require('lodash/isArray');
 const uniq = require('lodash/uniq');
 const every = require('lodash/every');
-const {makeMongoId} = require('../libs/utils');
+const { makeMongoId } = require('../libs/utils');
 const constants = require('../libs/constants');
 const validatejs = require('validate.js');
 const utils = require('../libs/utils');
@@ -17,7 +17,7 @@ const utils = require('../libs/utils');
 //
 // If the validator passes simply return null or undefined. Otherwise return a string or an array of strings containing the error message(s).
 // Make sure not to append the key name, this will be done automatically.
-validatejs.validators.tagValidate = (value /*, options, key, attributes */) => {
+validatejs.validators.tagValidate = (value /* , options, key, attributes */) => {
   // tags array rules:
   // 1. lowercase alpha and -
   const validRegex = /^[a-z-]*$/;
@@ -28,32 +28,29 @@ validatejs.validators.tagValidate = (value /*, options, key, attributes */) => {
   const maxTagLength = 20;
   // 5. optional
 
-  if(!value) {
+  if (!value) {
     return null;
   }
 
-  if(!isArray(value)) {
+  if (!isArray(value)) {
     return 'must be an array';
   }
 
-  if(maxTags && value.length > maxTags) {
+  if (maxTags && value.length > maxTags) {
     return `can have a maximum of ${maxTags} tags`;
   }
 
-  if(maxTagLength && value.length > 0) {
-    const maxlen = value.reduce( (prev, item) => {
-      return Math.max(prev, item.length);
-    }, 0);
-    if(maxlen > maxTagLength) {
+  if (maxTagLength && value.length > 0) {
+    const maxlen = value.reduce((prev, item) => Math.max(prev, item.length), 0);
+    if (maxlen > maxTagLength) {
       return `cannot be more than ${maxTagLength} characters`;
     }
   }
 
   // Only a to z and '-'
-  if(!every(value, item => {return validRegex.test(item); })) {
+  if (!every(value, item => validRegex.test(item))) {
     return 'can only have alphabetic characters and a dash';
   }
-
 };
 
 // Intentionally mutates object
@@ -61,16 +58,16 @@ validatejs.validators.tagValidate = (value /*, options, key, attributes */) => {
 // 1. Lowercase elements of array
 // 2. Apply unique to array which might reduce length of array
 function transform(attributes) {
-  if(attributes.tags && isArray(attributes.tags)) {
-    attributes.tags = uniq(attributes.tags.map(tag => { return tag.toLowerCase(); }));
+  if (attributes.tags && isArray(attributes.tags)) {
+    attributes.tags = uniq(attributes.tags.map(tag => tag.toLowerCase()));
   }
 
   // If any amounts are preceded by a $ sign then trim that.
-  if(attributes.price && typeof attributes.price === 'string') {
+  if (attributes.price && typeof attributes.price === 'string') {
     attributes.price = parseFloat(trim(attributes.price, '$'), 10);
   }
 
-  if(attributes.loc) {
+  if (attributes.loc) {
     attributes.loc.coordinates[0] = parseFloat(attributes.loc.coordinates[0], 10);
     attributes.loc.coordinates[1] = parseFloat(attributes.loc.coordinates[1], 10);
   }
@@ -81,34 +78,33 @@ function transform(attributes) {
 // Don't need an _id if we're creating a document, db will do this.
 // Don't need a userId if we're in the client, this will get added on the server
 // to prevent tampering with the logged in user.
-module.exports = (attributes, {isNew}, cb) => {
-
+module.exports = (attributes, { isNew }, cb) => {
   const constraints = {
-    _id: {format: constants.mongoIdRE, presence: true},
-    botanicalName: {length: {maximum: 100}},
-    commonName: {length: {maximum: 100}},
-    description: {length: {maximum: 500}},
+    _id: { format: constants.mongoIdRE, presence: true },
+    botanicalName: { length: { maximum: 100 } },
+    commonName: { length: { maximum: 100 } },
+    description: { length: { maximum: 500 } },
     // { type: "Point", coordinates: [ 40, 5 ] }
-    loc: {presence: false},
-    'loc.type': {presence: false}, // if loc is present then this must be present and be "Point"
+    loc: { presence: false },
+    'loc.type': { presence: false }, // if loc is present then this must be present and be "Point"
     // if loc is present then the next 2 must be present
-    'loc.coordinates.0': {numericality: {noStrings: true}},
-    'loc.coordinates.1': {numericality: {noStrings: true}},
-    plantedDate: {intDateValidate: {presence: false, name: 'Planted date'}},
-    price: {numericality: {noStrings: true}},
-    purchasedDate: {intDateValidate: {presence: false, name: 'Acquire date'}},
-    tags: {tagValidate: {}},
-    isTerminated: {presence: false},
-    terminatedDate: {intDateValidate: {presence: false, name: 'Terminated date'}},
-    terminatedReason: {presence: false},
-    terminatedDescription: {presence: false},
-    title: {length: {minimum: 1, maximum: 100}, presence: true},
-    userId: {format: constants.mongoIdRE, presence: true},
-    locationId: {format: constants.mongoIdRE, presence: true},
+    'loc.coordinates.0': { numericality: { noStrings: true } },
+    'loc.coordinates.1': { numericality: { noStrings: true } },
+    plantedDate: { intDateValidate: { presence: false, name: 'Planted date' } },
+    price: { numericality: { noStrings: true } },
+    purchasedDate: { intDateValidate: { presence: false, name: 'Acquire date' } },
+    tags: { tagValidate: {} },
+    isTerminated: { presence: false },
+    terminatedDate: { intDateValidate: { presence: false, name: 'Terminated date' } },
+    terminatedReason: { presence: false },
+    terminatedDescription: { presence: false },
+    title: { length: { minimum: 1, maximum: 100 }, presence: true },
+    userId: { format: constants.mongoIdRE, presence: true },
+    locationId: { format: constants.mongoIdRE, presence: true },
   };
 
-  if(isNew && !attributes._id) {
-    attributes = Object.assign({}, attributes, {_id: makeMongoId()});
+  if (isNew && !attributes._id) {
+    attributes = Object.assign({}, attributes, { _id: makeMongoId() });
   }
 
   // debug('attributes:', attributes);

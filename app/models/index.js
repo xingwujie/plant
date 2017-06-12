@@ -19,53 +19,52 @@ const plant = require('./plant');
 // something like 17000101 to 20201231. Not sure why we'd
 // have dates beyond the current day...
 validatejs.validators.intDateValidate = (value, options) => { // eslint-disable-line complexity
-  if(Number.isNaN(value)) {
+  if (Number.isNaN(value)) {
     console.warn(`Date validate expected ${value} to not be NaN`);
     return `^${options.name} must be a valid date in the format MM/DD/YYYY`;
   }
 
-  if(!value && !options.presence) {
+  if (!value && !options.presence) {
     return;
   }
 
-  if(typeof value !== 'number') {
+  if (typeof value !== 'number') {
     console.warn(`Date validate expected ${value} to be a number`);
     return `^${options.name} must be a number`;
   }
 
   // Don't allow dates before 1 Jan 1700
-  if(value < 17000101) {
+  if (value < 17000101) {
     console.warn(`Date validation expected ${value} to be above 17000101`);
     return `^${options.name} must be after 1st Jan 1700`;
   }
 
-  if(value.toString().length !== 8) {
+  if (value.toString().length !== 8) {
     console.error(`Date validation expected ${value} to have a string length of 8`);
     return `^${options.name} must be in format YYYYMMDD`;
   }
 
   const year = Math.round(value / 10000);
-  if(year < 1700) {
+  if (year < 1700) {
     console.warn(`Date validate expected ${value} to have a year greater than 1700`);
     return `^${options.name} must have a valid year, year found was ${year}`;
   }
 
   const month = Math.round(value / 100) - year * 100;
-  if(month < 1 || month > 12) {
+  if (month < 1 || month > 12) {
     console.warn(`Date validate expected ${value} to have a month from 01 to 12`);
     return `^${options.name} must have a valid month, value found was ${month}`;
   }
 
   const dayOfMonth = Math.round(value) - (year * 10000 + month * 100);
-  if(dayOfMonth < 1 || dayOfMonth > 31) {
+  if (dayOfMonth < 1 || dayOfMonth > 31) {
     console.warn(`Date validate expected ${value} to have a day from 01 to 31`);
     return `^${options.name} must have a valid day-of-month, value found was ${dayOfMonth}`;
   }
-
 };
 
 module.exports = {
-  note, plant
+  note, plant,
 };
 
 /*

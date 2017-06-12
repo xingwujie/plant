@@ -9,7 +9,7 @@ class InputCombo extends React.Component {
   }
 
   render() {
-    let {
+    const {
       changeHandler,
       disabled = false,
       error,
@@ -28,7 +28,7 @@ class InputCombo extends React.Component {
     };
 
     const styler = Object.assign({
-      marginLeft: 20
+      marginLeft: 20,
     }, style);
 
     return (

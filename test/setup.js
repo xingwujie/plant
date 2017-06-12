@@ -14,8 +14,8 @@ process.env.PLANT_TOKEN_SECRET = '<fake-token-secret>';
 process.env.PLANT_IMAGE_COMPLETE = 'fake-image-token';
 
 // from mocha-jsdom https://github.com/rstacruz/mocha-jsdom/blob/master/index.js#L80
-function propagateToGlobal (win) {
-  for (var key in win) {
+function propagateToGlobal(win) {
+  for (const key in win) {
     if (!win.hasOwnProperty(key)) {
       continue;
     }

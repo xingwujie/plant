@@ -16,7 +16,7 @@ function loadUsersSuccess(state, action) {
 // The action.payload is the returned user from the server.
 function loadUserSuccess(state, action) {
   return loadUsersSuccess(state, {
-    payload: [action.payload]
+    payload: [action.payload],
   });
 }
 
@@ -32,16 +32,15 @@ function createLocationRequest(state, action) {
   // an _id has already been assigned to this object
   const location = action.payload;
   const user = state.get(location.userId);
-  if(user) {
+  if (user) {
     const locationIds = user.get('locationIds', Immutable.Set()).add({
       id: location._id,
-      role: 'owner'
+      role: 'owner',
     });
     return state.set(location.userId, user.set('locationIds', locationIds));
-  } else {
-    console.warn(`No user found in users createLocationRequest reducer ${location.userId}`);
-    return state;
   }
+  console.warn(`No user found in users createLocationRequest reducer ${location.userId}`);
+  return state;
 }
 
 // If a bunch of locations are loaded then check that the location
@@ -99,7 +98,7 @@ const reducers = {
 };
 
 module.exports = (state = new Immutable.Map(), action) => {
-  if(reducers[action.type]) {
+  if (reducers[action.type]) {
     return reducers[action.type](state, action);
   }
 

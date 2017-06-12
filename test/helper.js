@@ -6,12 +6,12 @@ const FakePassport = require('./fake-passport');
 const mongo = require('../lib/db/mongo');
 const proxyquire = require('proxyquire');
 const request = require('request');
-const {makeMongoId} = require('../app/libs/utils');
+const { makeMongoId } = require('../app/libs/utils');
 
 const logger = require('../lib/logging/logger').create('test.helper');
 
 function getUrl(url) {
-  if(_.startsWith(url, 'http')) {
+  if (_.startsWith(url, 'http')) {
     return url;
   }
 
@@ -20,23 +20,22 @@ function getUrl(url) {
 
 let jwt;
 function makeRequest(opts, cb) {
-
   const auth = opts.authenticate
-    ? {Authorization: 'Bearer ' + jwt }
+    ? { Authorization: `Bearer ${jwt}` }
     : {};
 
   const headers = Object.assign({},
     opts.headers || {},
-    auth
+    auth,
   );
 
   const followRedirect = opts.followRedirect || false;
 
   const options = Object.assign({},
     opts,
-    {url: getUrl(opts.url)},
-    {headers},
-    {followRedirect}
+    { url: getUrl(opts.url) },
+    { headers },
+    { followRedirect },
   );
 
   // cb will get (error, httpMsg, response);
@@ -70,12 +69,12 @@ function startServerAuthenticated(cb) {
         first_name: 'John', // eslint-disable-line camelcase
         timezone: -7,
         updated_time: '2015-01-29T23:11:04+0000', // eslint-disable-line camelcase
-        verified: true
+        verified: true,
       },
       name: 'John Smith',
       email: 'test@test.com',
       createdAt: '2016-01-28T14:59:32.989Z',
-      updatedAt: '2016-01-28T14:59:32.989Z'
+      updatedAt: '2016-01-28T14:59:32.989Z',
     };
 
     mongo.findOrCreateUser(fbUser, (err, user) => {
@@ -94,7 +93,7 @@ function startServerAuthenticated(cb) {
   }
 
   function createPassport(waterfallData, done) {
-    if(waterfallData.passport) {
+    if (waterfallData.passport) {
       waterfallData.passport.setUser(waterfallData.user);
     } else {
       waterfallData.passport = new FakePassport(waterfallData.user);
@@ -103,14 +102,14 @@ function startServerAuthenticated(cb) {
   }
 
   function createServer(waterfallData, done) {
-    if(!waterfallData.server) {
+    if (!waterfallData.server) {
       waterfallData.server = proxyquire('../lib/server', { passport: waterfallData.passport });
     }
     done(null, waterfallData);
   }
 
   function startServer(waterfallData, done) {
-    if(waterfallData.app) {
+    if (waterfallData.app) {
       return done(null, waterfallData);
     }
     waterfallData.server((err, application) => {
@@ -123,7 +122,7 @@ function startServerAuthenticated(cb) {
 
   function authenticateUser(waterfallData, done) {
     makeRequest({
-      url: '/auth/facebook/callback'
+      url: '/auth/facebook/callback',
     }, (error, httpMsg) => {
       assert(!error);
       assert(httpMsg.headers);
@@ -143,13 +142,13 @@ function startServerAuthenticated(cb) {
     createPassport,
     createServer,
     startServer,
-    authenticateUser
+    authenticateUser,
   ], (err, waterfallData) => {
     assert(!err);
     // logger.trace('waterfallData:', {waterfallData});
     cb(err, waterfallData);
   });
-};
+}
 
 function createPlants(numPlants, userId, locationId, cb) {
   const plantTemplate = {
@@ -158,13 +157,13 @@ function createPlants(numPlants, userId, locationId, cb) {
     locationId,
   };
 
-  var createPlant = function(count, callback) {
+  const createPlant = function (count, callback) {
     const reqOptions = {
       method: 'POST',
       authenticate: true,
-      body: Object.assign({}, plantTemplate, {title: `${plantTemplate.title} ${count}`}),
+      body: Object.assign({}, plantTemplate, { title: `${plantTemplate.title} ${count}` }),
       json: true,
-      url: '/api/plant'
+      url: '/api/plant',
     };
 
     makeRequest(reqOptions, (error, httpMsg, plant) => {
@@ -180,23 +179,22 @@ function createPlants(numPlants, userId, locationId, cb) {
   // generate some plants
   async.times(numPlants, (n, next) => {
     createPlant(n, next);
-  }, function(err, plants) {
+  }, (err, plants) => {
     assert(!err);
     // we should now have 'numPlants' plants
     assert.equal(plants.length, numPlants);
 
     cb(err, plants);
   });
-
 }
 
 function createNote(plantIds, noteOverride = {}, cb) {
   assert(_.isArray(plantIds));
   const noteTemplate = Object.assign({
     note: 'This is a note',
-    date: 20160101},
-    {plantIds},
-    noteOverride
+    date: 20160101 },
+    { plantIds },
+    noteOverride,
   );
 
   const reqOptions = {
@@ -204,15 +202,15 @@ function createNote(plantIds, noteOverride = {}, cb) {
     authenticate: true,
     body: noteTemplate,
     json: true,
-    url: '/api/note'
+    url: '/api/note',
   };
 
   makeRequest(reqOptions, (error, httpMsg, response) => {
-    logger.trace('createNote', {response});
+    logger.trace('createNote', { response });
     assert(!error);
     assert.equal(httpMsg.statusCode, 200);
     assert.equal(response.success, true);
-    const {note} = response;
+    const { note } = response;
     assert(note._id);
 
     cb(null, response);

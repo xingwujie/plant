@@ -3,7 +3,7 @@ const assert = require('assert');
 
 const logger = require('../../../../lib/logging/logger').create('test.mongo-helper');
 
-describe('/lib/db/mongo/helper', function() {
+describe('/lib/db/mongo/helper', function () {
   this.timeout(10000);
 
   describe('removeEmtpy', () => {
@@ -12,16 +12,15 @@ describe('/lib/db/mongo/helper', function() {
         one: 'one',
         two: '',
         three: 0,
-        four: false
+        four: false,
       };
       const rDoc = Helper.removeEmpty(doc);
-      logger.trace('rDoc:', {rDoc});
+      logger.trace('rDoc:', { rDoc });
       assert.deepEqual(rDoc, {
         one: 'one',
         three: 0,
-        four: false
+        four: false,
       });
     });
-
   });
 });

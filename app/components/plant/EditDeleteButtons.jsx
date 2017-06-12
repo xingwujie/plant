@@ -8,31 +8,30 @@ const PropTypes = require('prop-types');
 class EditDeleteButtons extends React.Component {
 
   render() {
-
     const {
       showButtons,
       showDeleteConfirmation,
     } = this.props || {};
 
-    if(!showButtons) {
+    if (!showButtons) {
       return null;
     }
 
     return (
-      <h2 className='vcenter'>
+      <h2 className="vcenter">
         {!showDeleteConfirmation &&
-          <div style={{textAlign: 'right'}}>
+          <div style={{ textAlign: 'right' }}>
             <FloatingActionButton
               onClick={this.props.clickEdit}
-              title='Edit'
+              title="Edit"
             >
               <EditIcon />
             </FloatingActionButton>
             <FloatingActionButton
               onClick={this.props.clickDelete}
-              secondary={true}
-              style={{marginLeft: '10px'}}
-              title='Delete'
+              secondary
+              style={{ marginLeft: '10px' }}
+              title="Delete"
             >
               <DeleteIcon />
             </FloatingActionButton>

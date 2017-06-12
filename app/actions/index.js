@@ -7,21 +7,21 @@ const LOGOUT = 'LOGOUT';
 
 function logout() {
   return {
-    type: LOGOUT
+    type: LOGOUT,
   };
 }
 
 function loginRequest(code) {
   return {
     type: LOGIN_REQUEST,
-    payload: code
+    payload: code,
   };
 }
 
 function loginSuccess(user) {
   return {
     type: LOGIN_SUCCESS,
-    payload: user
+    payload: user,
   };
 }
 
@@ -29,7 +29,7 @@ function loginFailure(error) {
   return {
     type: LOGIN_FAILURE,
     payload: error,
-    error: true
+    error: true,
   };
 }
 
@@ -40,21 +40,21 @@ const CREATE_PLANT_FAILURE = 'CREATE_PLANT_FAILURE';
 function createPlantRequest(payload) {
   return {
     type: CREATE_PLANT_REQUEST,
-    payload
+    payload,
   };
 }
 
 function createPlantSuccess(payload) {
   return {
     type: CREATE_PLANT_SUCCESS,
-    payload
+    payload,
   };
 }
 
 function createPlantFailure(payload) {
   return {
     type: CREATE_PLANT_FAILURE,
-    payload
+    payload,
   };
 }
 
@@ -65,21 +65,21 @@ const UPSERT_NOTE_FAILURE = 'UPSERT_NOTE_FAILURE';
 function upsertNoteRequest(payload) {
   return {
     type: UPSERT_NOTE_REQUEST,
-    payload
+    payload,
   };
 }
 
 function upsertNoteSuccess(payload) {
   return {
     type: UPSERT_NOTE_SUCCESS,
-    payload
+    payload,
   };
 }
 
 function upsertNoteFailure(payload) {
   return {
     type: UPSERT_NOTE_FAILURE,
-    payload
+    payload,
   };
 }
 
@@ -90,21 +90,21 @@ const UPDATE_PLANT_FAILURE = 'UPDATE_PLANT_FAILURE';
 function updatePlantRequest(payload) {
   return {
     type: UPDATE_PLANT_REQUEST,
-    payload
+    payload,
   };
 }
 
 function updatePlantSuccess(payload) {
   return {
     type: UPDATE_PLANT_SUCCESS,
-    payload
+    payload,
   };
 }
 
 function updatePlantFailure(payload) {
   return {
     type: UPDATE_PLANT_FAILURE,
-    payload
+    payload,
   };
 }
 
@@ -115,21 +115,21 @@ const DELETE_NOTE_FAILURE = 'DELETE_NOTE_FAILURE';
 function deleteNoteRequest(payload) {
   return {
     type: DELETE_NOTE_REQUEST,
-    payload
+    payload,
   };
 }
 
 function deleteNoteSuccess(payload) {
   return {
     type: DELETE_NOTE_SUCCESS,
-    payload
+    payload,
   };
 }
 
 function deleteNoteFailure(payload) {
   return {
     type: DELETE_NOTE_FAILURE,
-    payload
+    payload,
   };
 }
 
@@ -140,21 +140,21 @@ const DELETE_PLANT_FAILURE = 'DELETE_PLANT_FAILURE';
 function deletePlantRequest(payload) {
   return {
     type: DELETE_PLANT_REQUEST,
-    payload
+    payload,
   };
 }
 
 function deletePlantSuccess(payload) {
   return {
     type: DELETE_PLANT_SUCCESS,
-    payload
+    payload,
   };
 }
 
 function deletePlantFailure(payload) {
   return {
     type: DELETE_PLANT_FAILURE,
-    payload
+    payload,
   };
 }
 
@@ -165,21 +165,21 @@ const LOAD_PLANT_FAILURE = 'LOAD_PLANT_FAILURE';
 function loadPlantRequest(payload) {
   return {
     type: LOAD_PLANT_REQUEST,
-    payload
+    payload,
   };
 }
 
 function loadPlantSuccess(payload) {
   return {
     type: LOAD_PLANT_SUCCESS,
-    payload
+    payload,
   };
 }
 
 function loadPlantFailure(payload) {
   return {
     type: LOAD_PLANT_FAILURE,
-    payload
+    payload,
   };
 }
 
@@ -190,21 +190,21 @@ const LOAD_PLANTS_FAILURE = 'LOAD_PLANTS_FAILURE';
 function loadPlantsRequest(payload) {
   return {
     type: LOAD_PLANTS_REQUEST,
-    payload
+    payload,
   };
 }
 
 function loadPlantsSuccess(payload) {
   return {
     type: LOAD_PLANTS_SUCCESS,
-    payload
+    payload,
   };
 }
 
 function loadPlantsFailure(payload) {
   return {
     type: LOAD_PLANTS_FAILURE,
-    payload
+    payload,
   };
 }
 
@@ -215,21 +215,21 @@ const LOAD_NOTES_FAILURE = 'LOAD_NOTES_FAILURE';
 function loadNotesRequest(payload) {
   return {
     type: LOAD_NOTES_REQUEST,
-    payload
+    payload,
   };
 }
 
 function loadNotesSuccess(payload) {
   return {
     type: LOAD_NOTES_SUCCESS,
-    payload
+    payload,
   };
 }
 
 function loadNotesFailure(payload) {
   return {
     type: LOAD_NOTES_FAILURE,
-    payload
+    payload,
   };
 }
 
@@ -240,21 +240,21 @@ const LOAD_UNLOADED_PLANTS_FAILURE = 'LOAD_UNLOADED_PLANTS_FAILURE';
 function loadUnloadedPlantsRequest(payload) {
   return {
     type: LOAD_UNLOADED_PLANTS_REQUEST,
-    payload
+    payload,
   };
 }
 
 function loadUnloadedPlantsSuccess(payload) {
   return {
     type: LOAD_UNLOADED_PLANTS_SUCCESS,
-    payload
+    payload,
   };
 }
 
 function loadUnloadedPlantsFailure(payload) {
   return {
     type: LOAD_UNLOADED_PLANTS_FAILURE,
-    payload
+    payload,
   };
 }
 
@@ -265,21 +265,21 @@ const LOAD_USER_FAILURE = 'LOAD_USER_FAILURE';
 function loadUserRequest(payload) {
   return {
     type: LOAD_USER_REQUEST,
-    payload
+    payload,
   };
 }
 
 function loadUserSuccess(payload) {
   return {
     type: LOAD_USER_SUCCESS,
-    payload
+    payload,
   };
 }
 
 function loadUserFailure(payload) {
   return {
     type: LOAD_USER_FAILURE,
-    payload
+    payload,
   };
 }
 
@@ -290,21 +290,21 @@ const LOAD_USERS_FAILURE = 'LOAD_USERS_FAILURE';
 function loadUsersRequest(payload) {
   return {
     type: LOAD_USERS_REQUEST,
-    payload
+    payload,
   };
 }
 
 function loadUsersSuccess(payload) {
   return {
     type: LOAD_USERS_SUCCESS,
-    payload
+    payload,
   };
 }
 
 function loadUsersFailure(payload) {
   return {
     type: LOAD_USERS_FAILURE,
-    payload
+    payload,
   };
 }
 
@@ -315,21 +315,21 @@ const LOAD_LOCATIONS_FAILURE = 'LOAD_LOCATIONS_FAILURE';
 function loadLocationsRequest(payload) {
   return {
     type: LOAD_LOCATIONS_REQUEST,
-    payload
+    payload,
   };
 }
 
 function loadLocationsSuccess(payload) {
   return {
     type: LOAD_LOCATIONS_SUCCESS,
-    payload
+    payload,
   };
 }
 
 function loadLocationsFailure(payload) {
   return {
     type: LOAD_LOCATIONS_FAILURE,
-    payload
+    payload,
   };
 }
 
@@ -340,21 +340,21 @@ const EDIT_NOTE_CHANGE = 'EDIT_NOTE_CHANGE';
 function editNoteOpen(payload) {
   return {
     type: EDIT_NOTE_OPEN,
-    payload
+    payload,
   };
 }
 
 function editNoteClose(payload) {
   return {
     type: EDIT_NOTE_CLOSE,
-    payload
+    payload,
   };
 }
 
 function editNoteChange(payload) {
   return {
     type: EDIT_NOTE_CHANGE,
-    payload
+    payload,
   };
 }
 
@@ -365,21 +365,21 @@ const EDIT_PLANT_CHANGE = 'EDIT_PLANT_CHANGE';
 function editPlantOpen(payload) {
   return {
     type: EDIT_PLANT_OPEN,
-    payload
+    payload,
   };
 }
 
 function editPlantClose(payload) {
   return {
     type: EDIT_PLANT_CLOSE,
-    payload
+    payload,
   };
 }
 
 function editPlantChange(payload) {
   return {
     type: EDIT_PLANT_CHANGE,
-    payload
+    payload,
   };
 }
 

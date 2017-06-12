@@ -11,19 +11,19 @@ class NoteReadMetrics extends React.Component {
 
   render() {
     const mets = this.props.note.get('metrics');
-    if(!mets) {
+    if (!mets) {
       return null;
     }
 
     const metrics = mets.toJS();
 
-    const renderedMetrics = utils.metaMetrics.toJS().map(metaMetric => {
-      if(!metrics[metaMetric.key]) {
+    const renderedMetrics = utils.metaMetrics.toJS().map((metaMetric) => {
+      if (!metrics[metaMetric.key]) {
         return null;
       }
 
       let value;
-      switch(metaMetric.type) {
+      switch (metaMetric.type) {
         case 'toggle':
           value = '✔';
           break;
@@ -43,7 +43,6 @@ class NoteReadMetrics extends React.Component {
           {`${metaMetric.label} ${value}`}
         </li>
       );
-
     });
 
     return (

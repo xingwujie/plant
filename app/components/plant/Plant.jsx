@@ -3,8 +3,8 @@
 // Url: /plant/slug/<plant-id>
 // Unless Create then Url: /plant
 
-const {isOwner} = require('../../libs/auth-helper');
-const {makeMongoId} = require('../../libs/utils');
+const { isOwner } = require('../../libs/auth-helper');
+const { makeMongoId } = require('../../libs/utils');
 const actions = require('../../actions');
 const Base = require('../Base');
 const CircularProgress = require('material-ui/CircularProgress').default;
@@ -26,28 +26,28 @@ class Plant extends React.Component {
   }
 
   initState(first, props = this.props || {}) {
-    const {store} = this.context;
+    const { store } = this.context;
     const plants = store.getState().get('plants');
 
-    const {id: _id} = props.params || {};
+    const { id: _id } = props.params || {};
     let plant;
-    if(_id) {
+    if (_id) {
       plant = plants.get(_id);
-      if(!plant && first) {
-        store.dispatch(actions.loadPlantRequest({_id}));
+      if (!plant && first) {
+        store.dispatch(actions.loadPlantRequest({ _id }));
       }
     } else {
       store.dispatch(actions.editPlantOpen({
         plant: {
           _id: makeMongoId(),
-          isNew: true
-        }
+          isNew: true,
+        },
       }));
     }
   }
 
   componentWillMount() {
-    const {store} = this.context;
+    const { store } = this.context;
     this.unsubscribe = store.subscribe(this.onChange);
     this.initState(true);
   }
@@ -74,21 +74,20 @@ class Plant extends React.Component {
   }
 
   fromStore(key) {
-    const {store} = this.context;
-    if(store.getState().has(key)) {
+    const { store } = this.context;
+    if (store.getState().has(key)) {
       return store.getState().get(key).toJS();
-    } else {
-      return null;
     }
+    return null;
   }
 
   render() {
-    const {store} = this.context;
+    const { store } = this.context;
     const user = store.getState().get('user');
     const locations = store.getState().get('locations');
     const plants = store.getState().get('plants');
 
-    const {params} = this.props;
+    const { params } = this.props;
 
     const plant = plants.get(params && params.id);
 
@@ -96,7 +95,7 @@ class Plant extends React.Component {
     const interimNote = interim.getIn(['note', 'note'], Immutable.Map());
     const interimPlant = interim.getIn(['plant', 'plant']);
 
-    if(!plant && !interimPlant) {
+    if (!plant && !interimPlant) {
       return (
         <Base>
           <CircularProgress />
@@ -148,8 +147,8 @@ class Plant extends React.Component {
 
 Plant.propTypes = {
   params: PropTypes.shape({
-    id: PropTypes.string
-  })
+    id: PropTypes.string,
+  }),
 };
 
 module.exports = Plant;

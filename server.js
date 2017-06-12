@@ -1,5 +1,5 @@
 require('babel-core/register');
 
-var app = require('./lib/server');
+const app = require('./lib/server');
 
 app();

@@ -14,18 +14,16 @@ const proxylog = {
   },
   error: () => {
     throw new Error('Unexpected error');
-  }
+  },
 };
 
 const mongo = proxyquire('../../../../lib/db/mongo', {
   '../../logging/logger': {
-    create: () => {
-      return proxylog;
-    }
-  }
+    create: () => proxylog,
+  },
 });
 
-describe('/lib/db/mongo/', function() {
+describe('/lib/db/mongo/', function () {
   this.timeout(10000);
   let userId;
   let fbUser;
@@ -44,7 +42,6 @@ describe('/lib/db/mongo/', function() {
 
   describe('user', () => {
     it('should fail to create a user account if there is no object', (done) => {
-
       mongo.findOrCreateUser(null, (err, body) => {
         assert(err);
         assert.equal(err.message, 'No facebook.id or google.id:');
@@ -55,11 +52,10 @@ describe('/lib/db/mongo/', function() {
     });
 
     it('should fetch the user created in the before setup', (done) => {
-
       const user = {
         facebook: {
-          id: fbUser.facebook.id
-        }
+          id: fbUser.facebook.id,
+        },
       };
       mongo.findOrCreateUser(user, (err, body) => {
         assert(!err);
@@ -74,7 +70,6 @@ describe('/lib/db/mongo/', function() {
     });
 
     it('should fetch all users', (done) => {
-
       mongo.getAllUsers((err, body) => {
         assert(!err);
         assert(body);
@@ -87,13 +82,12 @@ describe('/lib/db/mongo/', function() {
         done();
       });
     });
-
   });
 
   describe('plant', () => {
     const plant = {
       name: 'Plant Name',
-      plantedOn: 20150701
+      plantedOn: 20150701,
     };
     let plantId;
 
@@ -117,7 +111,6 @@ describe('/lib/db/mongo/', function() {
     });
 
     it('should get an existing plant', (done) => {
-
       mongo.getPlantById(plantId, userId, (err, result) => {
         assert.equal(typeof result.userId, 'string');
         assert(!err);
@@ -143,12 +136,11 @@ describe('/lib/db/mongo/', function() {
     });
 
     it('should update an existing plant with "Set"', (done) => {
-
       const plantUpdate = {
         name: 'New Name',
         other: 'Other Text',
         _id: plantId,
-        userId
+        userId,
       };
 
       mongo.updatePlant(plantUpdate, userId, (err, result) => {
@@ -157,6 +149,5 @@ describe('/lib/db/mongo/', function() {
         done();
       });
     });
-
   });
 });
