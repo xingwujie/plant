@@ -4,8 +4,7 @@ const constants = require('../../../app/libs/constants');
 
 // const logger = require('../../../lib/logging/logger').create('test.plant-api');
 
-describe('plant-api', function describer() {
-  this.timeout(10000);
+describe('plant-api', () => {
   let user;
   before('it should start the server and setup auth token', (done) => {
     helper.startServerAuthenticated((err, data) => {

@@ -4,9 +4,7 @@ const assert = require('assert');
 
 const logger = require('../../../lib/logging/logger').create('test..plants-api');
 
-describe('api', function describer() {
-  this.timeout(10000);
-
+describe('api', () => {
   before('it should start the server and setup auth token', (done) => {
     helper.startServerAuthenticated((err, data) => {
       assert(data.userId);

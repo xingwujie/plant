@@ -7,8 +7,7 @@ const mongo = require('../../../lib/db/mongo');
 
 const logger = require('../../../lib/logging/logger').create('test.note-api');
 
-describe('note-api', function describer() {
-  this.timeout(10000);
+describe('note-api', () => {
   let userId;
   let locationId;
 

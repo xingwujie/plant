@@ -5,9 +5,7 @@ const mongo = require('../../../../lib/db/mongo');
 
 // const logger = require('../../../../lib/logging/logger').create('test:mongo-update');
 
-describe('/lib/db/mongo/update', function describer() {
-  this.timeout(10000);
-
+describe('/lib/db/mongo/update', () => {
   describe('note', () => {
     it('should update the image sizes in a note', (done) => {
       const note = {

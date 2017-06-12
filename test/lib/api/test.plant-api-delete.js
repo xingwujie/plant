@@ -6,8 +6,7 @@ const utils = require('../../../app/libs/utils');
 
 // const logger = require('../../../lib/logging/logger').create('test.plant-api-delete');
 
-describe('plant-api-delete', function describer() {
-  this.timeout(10000);
+describe('plant-api-delete', () => {
   let userId;
   let locationId;
 
