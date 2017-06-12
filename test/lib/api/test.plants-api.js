@@ -3,7 +3,7 @@ const assert = require('assert');
 
 const logger = require('../../../lib/logging/logger').create('test.plants-api');
 
-describe('plants-api', function () {
+describe('plants-api', function describer() {
   this.timeout(10000);
   let userId;
   let locationId;

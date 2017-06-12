@@ -12,6 +12,7 @@ class FakePassport {
     return this.user._id;
   }
 
+  // eslint-disable-next-line class-methods-use-this
   initialize() {
     // debug('fake fb initialize setup');
     return (req, res, next) => {
@@ -35,6 +36,7 @@ class FakePassport {
          next();
   }
 
+  // eslint-disable-next-line class-methods-use-this
   use(/* strategy */) {
     // debug('fake fb use:', arguments.length);
   }

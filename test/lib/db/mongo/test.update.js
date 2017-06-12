@@ -5,7 +5,7 @@ const mongo = require('../../../../lib/db/mongo');
 
 // const logger = require('../../../../lib/logging/logger').create('test:mongo-update');
 
-describe('/lib/db/mongo/update', function () {
+describe('/lib/db/mongo/update', function describer() {
   this.timeout(10000);
 
   describe('note', () => {
@@ -33,12 +33,11 @@ describe('/lib/db/mongo/update', function () {
       ];
 
       function createNote(data, cb) {
-        mongo.upsertNote(note, (err, body) => {
+        mongo.upsertNote(note, (err, createdNote) => {
           assert(!err);
-          assert(body);
-          // logger.trace('body', {body});
-          data.createdNote = body;
-          cb(err, data);
+          assert(createdNote);
+
+          cb(err, Object.assign({}, data, { createdNote }));
         });
       }
 

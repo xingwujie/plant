@@ -23,7 +23,7 @@ const mongo = proxyquire('../../../../lib/db/mongo', {
   },
 });
 
-describe('/lib/db/mongo/', function () {
+describe('/lib/db/mongo/', function describer() {
   this.timeout(10000);
   let userId;
   let fbUser;

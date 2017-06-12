@@ -81,8 +81,7 @@ const common = {
 };
 
 function addVendor(vendorName, moduleLocation) {
-  moduleLocation = path.join(__dirname, moduleLocation);
-  common.resolve.alias[vendorName] = moduleLocation;
+  common.resolve.alias[vendorName] = path.join(__dirname, moduleLocation);
 }
 
 addVendor('jquery', 'node_modules/jquery/dist/jquery.js');

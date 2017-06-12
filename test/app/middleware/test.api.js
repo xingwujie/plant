@@ -25,7 +25,7 @@ describe('/app/middleware/api', () => {
       assert(_.isString(options.url), `Missing url: ${message}`);
       assert(_.isFunction(options.success), `Missing success fn: ${message}`);
       assert(_.isFunction(options.failure), `Missing failure fn: ${message}`);
-      callCounter++;
+      callCounter += 1;
     };
 
     Object.keys(api.apis).forEach((key) => {
@@ -54,7 +54,7 @@ describe('/app/middleware/api', () => {
       assert.equal(options.type, 'POST');
       assert.equal(options.url, '/api/upload');
       assert.equal(options.fileUpload, true);
-      callCounter++;
+      callCounter += 1;
     };
 
     const action = {

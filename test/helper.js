@@ -87,6 +87,7 @@ function startServerAuthenticated(cb) {
       assert(constants.mongoIdRE.test(user.locationIds[0]));
       assert.deepEqual(_.omit(user, ['_id', 'locationIds']), fbUser);
 
+      // eslint-disable-next-line no-param-reassign
       waterfallData.user = user;
       done(err, waterfallData);
     });
@@ -96,6 +97,7 @@ function startServerAuthenticated(cb) {
     if (waterfallData.passport) {
       waterfallData.passport.setUser(waterfallData.user);
     } else {
+      // eslint-disable-next-line no-param-reassign
       waterfallData.passport = new FakePassport(waterfallData.user);
     }
     done(null, waterfallData);
@@ -103,6 +105,7 @@ function startServerAuthenticated(cb) {
 
   function createServer(waterfallData, done) {
     if (!waterfallData.server) {
+      // eslint-disable-next-line no-param-reassign
       waterfallData.server = proxyquire('../lib/server', { passport: waterfallData.passport });
     }
     done(null, waterfallData);
@@ -115,9 +118,12 @@ function startServerAuthenticated(cb) {
     waterfallData.server((err, application) => {
       assert(!err);
 
+      // eslint-disable-next-line no-param-reassign
       waterfallData.app = application;
       return done(null, waterfallData);
     });
+
+    return undefined; // for lint
   }
 
   function authenticateUser(waterfallData, done) {
@@ -131,6 +137,7 @@ function startServerAuthenticated(cb) {
       jwt = parts[1];
       // logger.trace('Test jwt:', {jwt});
       assert(jwt);
+      // eslint-disable-next-line no-param-reassign
       waterfallData.userId = waterfallData.passport.getUserId();
       return done(null, waterfallData);
     });

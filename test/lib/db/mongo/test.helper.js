@@ -3,7 +3,7 @@ const assert = require('assert');
 
 const logger = require('../../../../lib/logging/logger').create('test.mongo-helper');
 
-describe('/lib/db/mongo/helper', function () {
+describe('/lib/db/mongo/helper', function describer() {
   this.timeout(10000);
 
   describe('removeEmtpy', () => {

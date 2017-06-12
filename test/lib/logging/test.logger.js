@@ -4,6 +4,7 @@ const proxyquire = require('proxyquire');
 
 describe('Logger', () => {
   describe('Basic logging', () => {
+    // eslint-disable-next-line global-require
     const Logger = require('../../../lib/logging/logger');
     it('should set/get the log levels', () => {
       let level = 'trace';
