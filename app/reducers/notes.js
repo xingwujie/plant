@@ -31,7 +31,7 @@ const Immutable = require('immutable');
 function upsertNoteRequestSuccess(state, action) {
   const { _id } = action.payload.note || {};
   if (!_id) {
-    console.error('No _id in note in upsertNoteRequestSuccess', action.payload);
+    // console.error('No _id in note in upsertNoteRequestSuccess', action.payload);
     return state;
   }
   return state.set(_id, Immutable.fromJS(action.payload.note));
@@ -88,7 +88,7 @@ function loadNotesSuccess(state, action) {
 
     return state.mergeDeep(newNotes);
   }
-  console.warn('Nothing loaded from server in loadNotesSuccess:', action);
+  // console.warn('Nothing loaded from server in loadNotesSuccess:', action);
   return state;
 }
 

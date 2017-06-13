@@ -26,6 +26,7 @@ function initialState() {
   if (!user) {
     try {
       user = JSON.parse(localStorage.getItem('user'));
+    // eslint-disable-next-line no-empty
     } catch (e) {
     }
     user = Immutable.fromJS(user || {});

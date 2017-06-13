@@ -4,16 +4,15 @@
 // require('babel-core/register');
 
 const Logger = require('../lib/logging/logger');
-Logger.setLevel('trace');
-const logger = Logger.create('plant:reload-images');
-
 const _ = require('lodash');
 const async = require('async');
 const AWS = require('aws-sdk');
-const s3 = new AWS.S3();
 const constants = require('../app/libs/constants');
 const mongo = require('../lib/db/mongo');
 
+Logger.setLevel('trace');
+const logger = Logger.create('plant:reload-images');
+const s3 = new AWS.S3();
 const Bucket = 'i.plaaant.com';
 const Prefix = 'up/orig';
 
@@ -117,7 +116,7 @@ function resaveImage(data, cb) {
         Metadata,
       };
       logger.trace('About to put object', { putParams });
-      s3.putObject(putParams, (err, result) => {
+      return s3.putObject(putParams, (err, result) => {
         logger.trace('PUT complete, wait for 1 second...', { Key });
         // Pause at this point to let server keep up with Lambda requests
         setTimeout(() => { done(err, result); }, 1000);

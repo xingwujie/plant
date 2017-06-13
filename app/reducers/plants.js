@@ -88,7 +88,7 @@ function upsertNoteSuccess(state, action) {
   } = action.payload.note;
 
   if (!plantIds.length) {
-    console.error('No plantIds in upsertNoteSuccess:', action);
+    // console.error('No plantIds in upsertNoteSuccess:', action);
     return state;
   }
 
@@ -124,12 +124,12 @@ function loadNotesRequest(state, action) {
     return state;
   }
   if (!plantId) {
-    console.error('No plantId in action.payload:', action.payload);
+    // console.error('No plantId in action.payload:', action.payload);
     return state;
   }
   const plant = state.get(plantId);
   if (!plant) {
-    console.error('No plant in state for plantId:', plantId);
+    // console.error('No plant in state for plantId:', plantId);
     return state;
   }
   return state.set(plantId, plant.set('notesRequested', true));

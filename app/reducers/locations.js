@@ -5,6 +5,7 @@ const Immutable = require('immutable');
 // The action.payload are the returned locations from the server.
 function loadLocationsSuccess(state, action) {
   const locations = (action.payload || []).reduce((acc, location) => {
+    // eslint-disable-next-line no-param-reassign
     location.plantIds = Immutable.Set(location.plantIds || []);
     acc[location._id] = location;
     return acc;
@@ -31,9 +32,20 @@ function createPlantRequest(state, action) {
     // Update the location object with the new list of plantIds
     return state.set(plant.locationId, location.set('plantIds', plantIds));
   }
-  console.warn(`No location found in locations createPlantRequest reducer ${plant.locationId}`);
+  // console.warn(`No location found in locations createPlantRequest reducer ${plant.locationId}`);
   return state;
 }
+
+const isSet = Immutable.Set.isSet;
+function merger(a, b) {
+  if (isSet(a) && isSet(b)) {
+    return a.union(b);
+  } else if (a && a.mergeWith) {
+    return a.mergeWith(merger, b);
+  }
+  return b;
+}
+
 
 // If a bunch of plants are loaded then check that the plant
 // is on the locations's plantIds list
@@ -49,17 +61,6 @@ function loadPlantsSuccess(state, action) {
       }
       return acc;
     }, {});
-
-    // const isList = List.isList
-    const isSet = Immutable.Set.isSet;
-    function merger(a, b) {
-      if (isSet(a) && isSet(b)) {
-        return a.union(b);
-      } else if (a && a.mergeWith) {
-        return a.mergeWith(merger, b);
-      }
-      return b;
-    }
 
     return state.mergeDeepWith(merger, locations);
   }

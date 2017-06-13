@@ -13,9 +13,11 @@ const utils = require('../libs/utils');
 //     options - The options for the validator. Guaranteed to not be null or undefined.
 //     key - The attribute name.
 //     attributes - The entire attributes object.
-//     globalOptions - The options passed when calling validate (will always be an object, non null).
+//     globalOptions - The options passed when calling validate
+//                     (will always be an object, non null).
 //
-// If the validator passes simply return null or undefined. Otherwise return a string or an array of strings containing the error message(s).
+// If the validator passes simply return null or undefined. Otherwise return a string or an array
+// of strings containing the error message(s).
 // Make sure not to append the key name, this will be done automatically.
 validatejs.validators.tagValidate = (value /* , options, key, attributes */) => {
   // tags array rules:
@@ -51,6 +53,8 @@ validatejs.validators.tagValidate = (value /* , options, key, attributes */) => 
   if (!every(value, item => validRegex.test(item))) {
     return 'can only have alphabetic characters and a dash';
   }
+
+  return null;
 };
 
 // Intentionally mutates object
@@ -59,16 +63,20 @@ validatejs.validators.tagValidate = (value /* , options, key, attributes */) => 
 // 2. Apply unique to array which might reduce length of array
 function transform(attributes) {
   if (attributes.tags && isArray(attributes.tags)) {
+    // eslint-disable-next-line no-param-reassign
     attributes.tags = uniq(attributes.tags.map(tag => tag.toLowerCase()));
   }
 
   // If any amounts are preceded by a $ sign then trim that.
   if (attributes.price && typeof attributes.price === 'string') {
+    // eslint-disable-next-line no-param-reassign
     attributes.price = parseFloat(trim(attributes.price, '$'), 10);
   }
 
   if (attributes.loc) {
+    // eslint-disable-next-line no-param-reassign
     attributes.loc.coordinates[0] = parseFloat(attributes.loc.coordinates[0], 10);
+    // eslint-disable-next-line no-param-reassign
     attributes.loc.coordinates[1] = parseFloat(attributes.loc.coordinates[1], 10);
   }
 
@@ -104,6 +112,7 @@ module.exports = (attributes, { isNew }, cb) => {
   };
 
   if (isNew && !attributes._id) {
+    // eslint-disable-next-line no-param-reassign
     attributes = Object.assign({}, attributes, { _id: makeMongoId() });
   }
 

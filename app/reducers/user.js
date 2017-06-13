@@ -33,12 +33,13 @@ function loadLocationsSuccess(state, action) {
   if (state.get('isLoggedIn', false) && !state.get('activeLocationId', '')) {
     const _id = state.get('_id');
 
-    const location = (action.payload || []).find(loc => loc.userIds.some(userId => userId.id === _id));
+    const location = (action.payload || []).find(loc =>
+      loc.userIds.some(userId => userId.id === _id));
     if (location) {
-      console.log('found location');
+      // console.log('found location');
       return state.set('activeLocationId', location._id);
     }
-    console.log('no location found');
+    // console.log('no location found');
   }
   return state;
 }

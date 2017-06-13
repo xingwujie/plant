@@ -4,11 +4,12 @@ const api = require('../middleware/api');
 const { setupSubscribe: userSubscribe } = require('./user');
 const Immutable = require('immutable');
 
-let middleware = [api];
+const middleware = [api];
 
 if (process.env.NODE_ENV !== 'production') {
+  // eslint-disable-next-line global-require
   const logger = require('../middleware/logger');
-  middleware = [logger, api];
+  middleware.unshift(logger);
 }
 
 // Add the api to the pipeline/chain

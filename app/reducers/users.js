@@ -5,6 +5,7 @@ const Immutable = require('immutable');
 // The action.payload are the returned users from the server.
 function loadUsersSuccess(state, action) {
   const users = (action.payload || []).reduce((acc, user) => {
+    // eslint-disable-next-line no-param-reassign
     user.locationIds = Immutable.Set(user.locationIds || []);
     acc[user._id] = user;
     return acc;
@@ -39,7 +40,7 @@ function createLocationRequest(state, action) {
     });
     return state.set(location.userId, user.set('locationIds', locationIds));
   }
-  console.warn(`No user found in users createLocationRequest reducer ${location.userId}`);
+  // console.warn(`No user found in users createLocationRequest reducer ${location.userId}`);
   return state;
 }
 
