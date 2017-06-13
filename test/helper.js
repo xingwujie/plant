@@ -115,15 +115,13 @@ function startServerAuthenticated(cb) {
     if (waterfallData.app) {
       return done(null, waterfallData);
     }
-    waterfallData.server((err, application) => {
+    return waterfallData.server((err, application) => {
       assert(!err);
 
       // eslint-disable-next-line no-param-reassign
       waterfallData.app = application;
       return done(null, waterfallData);
     });
-
-    return undefined; // for lint
   }
 
   function authenticateUser(waterfallData, done) {
