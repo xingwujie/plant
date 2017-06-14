@@ -57,29 +57,20 @@ const markdown = `**911 Operator:** 911 - what's your emergency?
 
 ...CLICK…`;
 
-class Article extends React.Component {
+function article() {
+  const style = {
+    marginBottom: '50px',
+    marginLeft: '25px',
+    marginTop: '70px',
+  };
 
-  render() {
-    const style = {
-      marginBottom: '50px',
-      marginLeft: '25px',
-      marginTop: '70px',
-    };
-
-    return (
-      <Base>
-        <div style={style}>
-          <Markdown markdown={markdown} />
-        </div>
-      </Base>
-    );
-  }
+  return (
+    <Base>
+      <div style={style}>
+        <Markdown markdown={markdown} />
+      </div>
+    </Base>
+  );
 }
 
-// Article.propTypes = {
-//   params: PropTypes.shape({
-//     id: PropTypes.string
-//   })
-// };
-
-module.exports = Article;
+module.exports = article;

@@ -27,15 +27,6 @@ class Auth extends React.Component {
     store.dispatch(actions.loginRequest(code));
   }
 
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-
-  onChange() {
-    const { store } = this.context;
-    this.setState(store.getState().get('user', Immutable.Map()));
-  }
-
   componentDidUpdate() {
     const { store } = this.context;
     const user = store.getState().get('user', Immutable.Map());
@@ -52,6 +43,16 @@ class Auth extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  onChange() {
+    const { store } = this.context;
+    this.setState(store.getState().get('user', Immutable.Map()));
+  }
+
+
   render() {
     return (
       <Base>
@@ -62,7 +63,12 @@ class Auth extends React.Component {
 }
 
 Auth.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
   location: PropTypes.object,
+};
+
+Auth.defaultProps = {
+  location: {},
 };
 
 module.exports = Auth;

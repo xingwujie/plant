@@ -39,7 +39,8 @@ class App extends React.Component {
 }
 
 App.propTypes = {
-  children: PropTypes.object,
+  // eslint-disable-next-line react/forbid-prop-types
+  children: PropTypes.object.isRequired,
 };
 
 module.exports = App;
