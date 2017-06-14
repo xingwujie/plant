@@ -29,11 +29,14 @@ validatejs.validators.plantIdsValidate = (value, options /* , key, attributes */
   }
 
   // Only mongoId values of x length
-  const validInner = every(value, item => item && item.length === 24 && constants.mongoIdRE.test(item));
+  const validInner = every(value, item =>
+    item && item.length === 24 && constants.mongoIdRE.test(item));
 
   if (!validInner) {
     return 'must be MongoIds';
   }
+
+  return null;
 };
 
 function transform(attributes) {
@@ -44,7 +47,7 @@ function transform(attributes) {
 validatejs.validators.imagesValidate = (value) => {
   if (!value) {
     // images is optional so return if not exist
-    return;
+    return null;
   }
 
   if (!isArray(value)) {
@@ -90,12 +93,14 @@ validatejs.validators.imagesValidate = (value) => {
   if (!validSizes) {
     return 'must be valid sizes in the image';
   }
+
+  return null;
 };
 
 // Don't need an _id if we're creating a document, db will do this.
 // Don't need a userId if we're in the client, this will get added on the server
 // to prevent tampering with the logged in user.
-module.exports = (attributes, cb) => {
+module.exports = (atts, cb) => {
   const constraints = {
     _id: { format: constants.mongoIdRE, presence: true },
     date: { intDateValidate: { presence: true, name: 'Date' } },
@@ -105,24 +110,22 @@ module.exports = (attributes, cb) => {
     note: { length: { minimum: 0, maximum: 5000 }, presence: false },
   };
 
-  attributes = cloneDeep(attributes);
+  let attributes = cloneDeep(atts);
   attributes._id = attributes._id || makeMongoId();
 
   if (isArray(attributes.images)) {
-    attributes = Object.assign({},
-      attributes,
-      { images: attributes.images.map((image) => {
-        if (image.sizes && image.size.length) {
-          image.sizes = image.sizes.map(({ name: widthName, width }) => ({
-            name: widthName,
-            width: parseInt(width, 10),
-          }));
-        }
-        return Object.assign({},
-          image,
-          { size: parseInt(image.size, 10) });
-      }) },
-    );
+    const images = attributes.images.map((image) => {
+      const sizes = (image.sizes || []).map(({ name, width }) => ({
+        name,
+        width: parseInt(width, 10),
+      }));
+      const img = Object.assign({}, image, { size: parseInt(image.size, 10) });
+      if (sizes.length) {
+        Object.assign(img, { sizes });
+      }
+      return img;
+    });
+    attributes = Object.assign({}, attributes, { images });
   }
 
   // debug('attributes:', attributes);

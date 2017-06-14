@@ -62,22 +62,22 @@ function dateToInt(date) {
   if (moment.isMoment(date)) {
     return dateToInt(date.toDate());
   } else if (isDate(date)) {
-    return date.getFullYear() * 10000 +
-      (date.getMonth() + 1) * 100 +
+    return (date.getFullYear() * 10000) +
+      ((date.getMonth() + 1) * 100) +
       date.getDate();
   } else if (typeof date === 'string') {
     return dateToInt(new Date(date));
   } else if (typeof date === 'number') {
     return date;
   }
-  console.error('Unable to convert in dateToInt:', date);
+  // console.error('Unable to convert in dateToInt:', date);
   throw new Error(`dateToInt(${date})`);
 }
 
 function intToDate(date) {
   const year = Math.round(date / 10000);
-  const month = Math.round((date - year * 10000) / 100);
-  const day = Math.round((date - (year * 10000 + month * 100)));
+  const month = Math.round((date - (year * 10000)) / 100);
+  const day = Math.round((date - ((year * 10000) + (month * 100))));
   return new Date(year, month - 1, day);
 }
 
@@ -98,10 +98,12 @@ function plantFromBody(body) {
   const dateFields = ['plantedDate', 'purchasedDate', 'terminatedDate'];
   dateFields.forEach((dateField) => {
     if (body[dateField]) {
+      // eslint-disable-next-line no-param-reassign
       body[dateField] = parseInt(body[dateField], 10);
     }
   });
   if (typeof body.isTerminated === 'string') {
+    // eslint-disable-next-line no-param-reassign
     body.isTerminated = body.isTerminated === 'true';
   }
   return body;
@@ -193,12 +195,13 @@ function getGeo(options, cb) {
     return cb('This device does not have geolcation available');
   }
 
+  // eslint-disable-next-line no-param-reassign
   options = Object.assign({}, {
     enableHighAccuracy: true,
     timeout: 30000, // 10 seconds
   }, options);
 
-  window.navigator.geolocation.getCurrentPosition((position) => {
+  return window.navigator.geolocation.getCurrentPosition((position) => {
     // { type: "Point", coordinates: [ 40, 5 ] }
     // postion: {coords: {latitude: 11.1, longitude: 22.2}}
     const geoJson = {
@@ -209,10 +212,10 @@ function getGeo(options, cb) {
       ],
     };
     return cb(null, geoJson);
-  }, (positionError) => {
-    console.error('geolcation error:', positionError);
-    return cb('There was an error get the geo position', positionError);
-  }, options);
+  }, positionError =>
+    // console.error('geolcation error:', positionError);
+    cb('There was an error get the geo position', positionError),
+  options);
 }
 
 
@@ -226,7 +229,7 @@ function getGeo(options, cb) {
 function subtractGis(left, right) {
   // 7 decimal places in long/lat will get us down to 11mm which
   // is good for surveying which is what we're basically doing here
-  return Math.round(left * gisMultiplier - right * gisMultiplier) / gisMultiplier;
+  return Math.round((left * gisMultiplier) - (right * gisMultiplier)) / gisMultiplier;
 }
 
 /**
@@ -316,6 +319,7 @@ const metaMetrics = Immutable.fromJS([{
 ]);
 
 function noteFromBody(body) {
+  // eslint-disable-next-line no-param-reassign
   body.date = parseInt(body.date, 10);
 
   if (body.metrics) {
@@ -324,39 +328,48 @@ function noteFromBody(body) {
       if (metaMetric) {
         switch (metaMetric.get('type')) {
           case 'toggle':
+            // eslint-disable-next-line no-param-reassign
             body.metrics[key] = body.metrics[key] === 'true';
             if (!body.metrics[key]) {
               // A missing toggle metric is false by default. No need
               // to store it in the DB as false as that just wastes space.
+              // eslint-disable-next-line no-param-reassign
               delete body.metrics[key];
             }
             break;
           case 'count':
+            // eslint-disable-next-line no-param-reassign
             body.metrics[key] = parseInt(body.metrics[key], 10);
             break;
           case 'length':
             if (body.metrics[key].includes(' ')) {
               const parts = body.metrics[key].split(' ');
-              body.metrics[key] = parseFloat(parts[0], 10) * 12 + parseFloat(parts[1], 10);
+              // eslint-disable-next-line no-param-reassign
+              body.metrics[key] = (parseFloat(parts[0], 10) * 12) + parseFloat(parts[1], 10);
             } else {
+              // eslint-disable-next-line no-param-reassign
               body.metrics[key] = parseFloat(body.metrics[key], 10);
             }
             break;
           default:
+            // eslint-disable-next-line no-param-reassign
             body.metrics[key] = parseFloat(body.metrics[key], 10);
             break;
         }
         if (isNaN(body.metrics[key])) {
+          // eslint-disable-next-line no-param-reassign
           delete body.metrics[key];
         }
       } else {
         // Remove any keys that we don't know about
+        // eslint-disable-next-line no-param-reassign
         delete body.metrics[key];
       }
     });
     // If all the props in body.metrics have been removed then
     // remove the body.metrics prop.
     if (!Object.keys(body.metrics).length) {
+      // eslint-disable-next-line no-param-reassign
       delete body.metrics;
     }
   }
