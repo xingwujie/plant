@@ -2,55 +2,48 @@ const React = require('react');
 const TextField = require('material-ui/TextField').default;
 const PropTypes = require('prop-types');
 
-class InputCombo extends React.Component {
+function inputCombo(props) {
+  const {
+    changeHandler,
+    disabled = false,
+    error,
+    fullWidth = true,
+    label,
+    multiLine = false,
+    name: namo,
+    placeholder,
+    style = {},
+    type = 'text',
+    value,
+  } = props || {};
 
-  constructor(props) {
-    super(props);
-  }
+  const underlineStyle = {
+    display: 'none',
+  };
 
-  render() {
-    const {
-      changeHandler,
-      disabled = false,
-      error,
-      fullWidth = true,
-      label,
-      multiLine = false,
-      name: namo,
-      placeholder,
-      style = {},
-      type = 'text',
-      value,
-    } = this.props || {};
+  const styler = Object.assign({
+    marginLeft: 20,
+  }, style);
 
-    const underlineStyle = {
-      display: 'none',
-    };
-
-    const styler = Object.assign({
-      marginLeft: 20,
-    }, style);
-
-    return (
-      <TextField
-        disabled={disabled}
-        errorText={error}
-        floatingLabelText={label}
-        fullWidth={fullWidth}
-        hintText={placeholder}
-        multiLine={multiLine}
-        name={namo}
-        onChange={changeHandler}
-        style={styler}
-        type={type}
-        underlineStyle={underlineStyle}
-        value={value}
-      />
-    );
-  }
+  return (
+    <TextField
+      disabled={disabled}
+      errorText={error}
+      floatingLabelText={label}
+      fullWidth={fullWidth}
+      hintText={placeholder}
+      multiLine={multiLine}
+      name={namo}
+      onChange={changeHandler}
+      style={styler}
+      type={type}
+      underlineStyle={underlineStyle}
+      value={value}
+    />
+  );
 }
 
-InputCombo.propTypes = {
+inputCombo.propTypes = {
   changeHandler: PropTypes.func.isRequired,
   error: PropTypes.string,
   fullWidth: PropTypes.bool,
@@ -58,8 +51,21 @@ InputCombo.propTypes = {
   multiLine: PropTypes.bool,
   name: PropTypes.string.isRequired, // eslint-disable-line no-dupe-keys
   placeholder: PropTypes.string,
+  // eslint-disable-next-line react/forbid-prop-types
   style: PropTypes.object,
-  value: PropTypes.any.isRequired,
+  value: PropTypes.oneOf([
+    PropTypes.string,
+    PropTypes.number,
+  ]).isRequired,
 };
 
-module.exports = InputCombo;
+inputCombo.defaultProps = {
+  error: '',
+  fullWidth: true,
+  label: '',
+  multiLine: false,
+  placeholder: '',
+  style: {},
+};
+
+module.exports = inputCombo;

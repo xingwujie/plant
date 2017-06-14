@@ -4,35 +4,40 @@ const AddIcon = require('material-ui/svg-icons/content/add').default;
 const { Link } = require('react-router');
 const PropTypes = require('prop-types');
 
-class AddPlantButton extends React.Component {
+function addPlantButton(props) {
+  const {
+    mini,
+    show,
+    style,
+  } = props;
 
-  render() {
-    const {
-      mini = false,
-      show,
-      style = {},
-    } = this.props;
-
-    if (!show) {
-      return null;
-    }
-
-    return (
-      <Link to={'/plant'}>
-        <FloatingActionButton
-          title="Add Plant" mini={mini} style={style}
-        >
-          <AddIcon />
-        </FloatingActionButton>
-      </Link>
-    );
+  if (!show) {
+    return null;
   }
+
+  return (
+    <Link to={'/plant'}>
+      <FloatingActionButton
+        title="Add Plant"
+        mini={mini}
+        style={style}
+      >
+        <AddIcon />
+      </FloatingActionButton>
+    </Link>
+  );
 }
 
-AddPlantButton.propTypes = {
+addPlantButton.propTypes = {
   mini: PropTypes.bool,
   show: PropTypes.bool.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
   style: PropTypes.object,
 };
 
-module.exports = AddPlantButton;
+addPlantButton.defaultProps = {
+  mini: false,
+  style: {},
+};
+
+module.exports = addPlantButton;

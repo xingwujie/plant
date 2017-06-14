@@ -18,34 +18,7 @@ class Locations extends React.Component {
     store: PropTypes.object.isRequired,
   };
 
-  constructor() {
-    super();
-    this.onChange = this.onChange.bind(this);
-  }
-
-  updateState() {
-    const { store } = this.context;
-    const locations = store.getState().get('locations');
-    const users = store.getState().get('users');
-    this.setState({ locations, users });
-  }
-
-  componentWillMount() {
-    const { store } = this.context;
-    this.unsubscribe = store.subscribe(this.onChange);
-
-    this.updateState();
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-
-  onChange() {
-    this.updateState();
-  }
-
-  renderLocation(location) {
+  static renderLocation(location) {
     if (!location) {
       return null;
     }
@@ -71,22 +44,50 @@ class Locations extends React.Component {
     );
   }
 
+  static renderTitle(title) {
+    return (
+      <h2 style={{ textAlign: 'center' }}>{`${title}`}</h2>
+    );
+  }
+
+  constructor() {
+    super();
+    this.onChange = this.onChange.bind(this);
+  }
+
+  componentWillMount() {
+    const { store } = this.context;
+    this.unsubscribe = store.subscribe(this.onChange);
+
+    this.updateState();
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  onChange() {
+    this.updateState();
+  }
+
+  updateState() {
+    const { store } = this.context;
+    const locations = store.getState().get('locations');
+    const users = store.getState().get('users');
+    this.setState({ locations, users });
+  }
+
   isOwner(user) {
     const { store } = this.context;
     const authUser = store.getState().get('user', Immutable.Map());
     return !!(user && authUser.get('_id') === user.get('_id'));
   }
 
-  renderTitle(title) {
-    return (
-      <h2 style={{ textAlign: 'center' }}>{`${title}`}</h2>
-    );
-  }
 
   renderNoLocations(user) {
     return (
       <div>
-        {this.renderTitle(user.get('name'))}
+        {Locations.renderTitle(user.get('name'))}
         <h3 style={{ textAlign: 'center' }}>
           <div style={{ marginTop: '100px' }}>{'No locations added yet...'}</div>
           <AddLocationButton
@@ -112,12 +113,12 @@ class Locations extends React.Component {
       if (locationIds.size) {
         return locationIds.valueSeq().toArray().map((locationId) => {
           const location = locations.get(locationId);
-          return this.renderLocation(location);
+          return Locations.renderLocation(location);
         });
       }
       return this.renderNoLocations(user);
     }
-    return locations.valueSeq().toArray().map(location => this.renderLocation(location));
+    return locations.valueSeq().toArray().map(location => Locations.renderLocation(location));
   }
 
   render() {
@@ -140,6 +141,10 @@ Locations.propTypes = {
     id: PropTypes.string,
     slug: PropTypes.string,
   }),
+};
+
+Locations.defaultProps = {
+  params: {},
 };
 
 module.exports = Locations;

@@ -5,54 +5,48 @@ const EditIcon = require('material-ui/svg-icons/editor/mode-edit').default;
 const DeleteIcon = require('material-ui/svg-icons/action/delete').default;
 const PropTypes = require('prop-types');
 
-class EditDeleteButtons extends React.Component {
+function editDeleteButtons(props) {
+  const {
+    showButtons,
+    showDeleteConfirmation,
+  } = props;
 
-  render() {
-    const {
-      showButtons,
-      showDeleteConfirmation,
-    } = this.props || {};
-
-    if (!showButtons) {
-      return null;
-    }
-
-    return (
-      <h2 className="vcenter">
-        {!showDeleteConfirmation &&
-          <div style={{ textAlign: 'right' }}>
-            <FloatingActionButton
-              onClick={this.props.clickEdit}
-              title="Edit"
-            >
-              <EditIcon />
-            </FloatingActionButton>
-            <FloatingActionButton
-              onClick={this.props.clickDelete}
-              secondary
-              style={{ marginLeft: '10px' }}
-              title="Delete"
-            >
-              <DeleteIcon />
-            </FloatingActionButton>
-          </div>
-        }
-        {showDeleteConfirmation &&
-          <RemoveConfirm title={this.props.deleteTitle} confirmFn={this.props.confirmDelete} />
-        }
-      </h2>
-    );
+  if (!showButtons) {
+    return null;
   }
+
+  return (
+    <h2 className="vcenter">
+      { showDeleteConfirmation
+        ? <RemoveConfirm title={props.deleteTitle} confirmFn={props.confirmDelete} />
+        : <div style={{ textAlign: 'right' }}>
+          <FloatingActionButton
+            onClick={props.clickEdit}
+            title="Edit"
+          >
+            <EditIcon />
+          </FloatingActionButton>
+          <FloatingActionButton
+            onClick={props.clickDelete}
+            secondary
+            style={{ marginLeft: '10px' }}
+            title="Delete"
+          >
+            <DeleteIcon />
+          </FloatingActionButton>
+        </div>
+      }
+    </h2>
+  );
 }
 
-EditDeleteButtons.propTypes = {
+editDeleteButtons.propTypes = {
   clickDelete: PropTypes.func.isRequired,
   clickEdit: PropTypes.func.isRequired,
   confirmDelete: PropTypes.func.isRequired,
   deleteTitle: PropTypes.string.isRequired,
-  // dispatch: PropTypes.func.isRequired,
   showButtons: PropTypes.bool.isRequired,
   showDeleteConfirmation: PropTypes.bool.isRequired,
 };
 
-module.exports = EditDeleteButtons;
+module.exports = editDeleteButtons;

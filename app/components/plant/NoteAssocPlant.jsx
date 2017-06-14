@@ -51,7 +51,7 @@ class NoteAssocPlant extends React.Component {
     return plantIds.map((plantId) => {
       const plant = plants.get(plantId);
       if (!plant) {
-        console.warn(`Missing plant for plantId ${plantId}`);
+        // console.warn(`Missing plant for plantId ${plantId}`);
         return null;
       }
       return this.renderPlantButton(plant, selected);
@@ -65,7 +65,8 @@ class NoteAssocPlant extends React.Component {
     const checkedPlantIds = utils.filterSortPlants(plantIds, plants, filter);
     const checkedPlants = this.renderPlantButtons(checkedPlantIds, plants, true);
 
-    const uncheckedIds = plants.filter((plant, _id) => plantIds.indexOf(_id) === -1).keySeq().toArray();
+    const uncheckedIds = plants.filter((plant, _id) =>
+      plantIds.indexOf(_id) === -1).keySeq().toArray();
     const uncheckedPlantIds = utils.filterSortPlants(uncheckedIds, plants, filter);
 
     const uncheckedPlants = expanded
@@ -112,8 +113,15 @@ class NoteAssocPlant extends React.Component {
 NoteAssocPlant.propTypes = {
   dispatch: PropTypes.func.isRequired,
   error: PropTypes.string,
-  plantIds: PropTypes.array.isRequired,
-  plants: PropTypes.object.isRequired, // Immutable.js Map
+  plantIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+  plants: PropTypes.shape({
+    get: PropTypes.func.isRequired,
+    filter: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+NoteAssocPlant.defaultProps = {
+  error: '',
 };
 
 module.exports = NoteAssocPlant;

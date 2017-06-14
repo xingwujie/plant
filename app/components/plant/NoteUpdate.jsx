@@ -4,26 +4,23 @@ const React = require('react');
 const NoteEdit = require('./NoteEdit');
 const PropTypes = require('prop-types');
 
-class NoteUpdate extends React.Component {
-
-  render() {
-    if (!this.props.isOwner) {
-      return null;
-    }
-
-    return (
-      <NoteEdit
-        dispatch={this.props.dispatch}
-        interimNote={this.props.interimNote}
-        plant={this.props.plant}
-        plants={this.props.plants}
-        user={this.props.user}
-      />
-    );
+function noteUpdate(props) {
+  if (!props.isOwner) {
+    return null;
   }
+
+  return (
+    <NoteEdit
+      dispatch={props.dispatch}
+      interimNote={props.interimNote}
+      plant={props.plant}
+      plants={props.plants}
+      user={props.user}
+    />
+  );
 }
 
-NoteUpdate.propTypes = {
+noteUpdate.propTypes = {
   dispatch: PropTypes.func.isRequired,
   interimNote: PropTypes.shape({
     get: PropTypes.func.isRequired,
@@ -40,4 +37,4 @@ NoteUpdate.propTypes = {
   }).isRequired,
 };
 
-module.exports = NoteUpdate;
+module.exports = noteUpdate;

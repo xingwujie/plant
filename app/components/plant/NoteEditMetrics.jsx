@@ -26,7 +26,7 @@ class NoteEditMetrics extends React.Component {
   }
 
   onChange(e) {
-    console.log('onChange:', e.target.name);
+    // console.log('onChange:', e.target.name);
     const { name: inputName } = e.target;
     const interimMetrics = this.props.interimNote.get('metrics', Immutable.Map());
     const metaMetric = utils.metaMetricsGetByKey(inputName);
@@ -112,6 +112,10 @@ NoteEditMetrics.propTypes = {
   interimNote: PropTypes.shape({
     get: PropTypes.func.isRequired,
   }).isRequired,
+};
+
+NoteEditMetrics.defaultProps = {
+  error: '',
 };
 
 module.exports = NoteEditMetrics;

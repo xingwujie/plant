@@ -125,23 +125,21 @@ These terms and conditions constitute the entire agreement between you and Plaaa
 These terms and conditions will be governed by and construed in accordance with United States Law, and any disputes relating to these terms and conditions will be subject to the exclusive jurisdiction of the courts of Arizona.
 `;
 
-class Terms extends React.Component {
-  render() {
-    const paperStyle = {
-      padding: 20,
-      width: '100%',
-      margin: 20,
-      display: 'inline-block',
-    };
+function terms() {
+  const paperStyle = {
+    padding: 20,
+    width: '100%',
+    margin: 20,
+    display: 'inline-block',
+  };
 
-    return (
-      <Base>
-        <Paper style={paperStyle} zDepth={5}>
-          <Markdown markdown={markdown} />
-        </Paper>
-      </Base>
-    );
-  }
+  return (
+    <Base>
+      <Paper style={paperStyle} zDepth={5}>
+        <Markdown markdown={markdown} />
+      </Paper>
+    </Base>
+  );
 }
 
-module.exports = Terms;
+module.exports = terms;

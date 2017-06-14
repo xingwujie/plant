@@ -65,14 +65,14 @@ class Navbar extends React.Component {
     const locationId = user.get('activeLocationId', '');
 
     if (!locationId) {
-      console.warn('No default locationId found for user', user);
+      // console.warn('No default locationId found for user', user);
       return null;
     }
 
     const { store } = this.context;
     const location = store.getState().getIn(['locations', locationId]);
     if (!location) {
-      console.warn('No location found for locationId', locationId);
+      // console.warn('No location found for locationId', locationId);
       return null;
     }
 
@@ -135,11 +135,15 @@ class Navbar extends React.Component {
               {loggedIn &&
                 <li className="dropdown">
                   <a
-                    href="#" className="dropdown-toggle"
-                    data-toggle="dropdown" role="button"
-                    aria-haspopup="true" aria-expanded="false"
+                    href="#"
+                    className="dropdown-toggle"
+                    data-toggle="dropdown"
+                    role="button"
+                    aria-haspopup="true"
+                    aria-expanded="false"
                     title={displayName}
-                  >{displayName} <span className="caret" />
+                  >
+                    {displayName} <span className="caret" />
                   </a>
                   <ul className="dropdown-menu">
                     {/* this.makeLayoutMenu(loggedIn) */}

@@ -84,7 +84,6 @@ NoteCreate.propTypes = {
     get: PropTypes.func.isRequired,
     filter: PropTypes.func.isRequired,
   }).isRequired,
-  postSaveSuccess: PropTypes.func,
   user: PropTypes.shape({ // Immutable.js Map
     get: PropTypes.func.isRequired,
   }).isRequired,
