@@ -20,17 +20,6 @@ class Plants extends React.Component {
     this.redirectIfReady = this.redirectIfReady.bind(this);
   }
 
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-
-  onChange() {
-    const { store } = this.context;
-    const users = store.getState().get('users');
-    const locations = store.getState().get('locations');
-    this.setState({ users, locations });
-  }
-
   componentWillMount() {
     const { store } = this.context;
     this.unsubscribe = store.subscribe(this.onChange);
@@ -40,6 +29,17 @@ class Plants extends React.Component {
 
   componentWillUpdate() {
     this.redirectIfReady();
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  onChange() {
+    const { store } = this.context;
+    const users = store.getState().get('users');
+    const locations = store.getState().get('locations');
+    this.setState({ users, locations });
   }
 
   redirectIfReady() {
@@ -59,7 +59,7 @@ class Plants extends React.Component {
         }
       }
     } else {
-      console.warn('No params.id', this.props);
+      // console.warn('No params.id', this.props);
     }
   }
 

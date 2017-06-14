@@ -33,30 +33,6 @@ class PlantEdit extends React.Component {
     this.addGeo = this.addGeo.bind(this);
   }
 
-  addGeo() {
-    if (utils.hasGeo()) {
-      utils.getGeo({}, (err, geoJson) => {
-        if (err) {
-          console.error(err);
-        } else {
-          this.props.dispatch(actions.editPlantChange({
-            loc: Immutable.fromJS(geoJson),
-          }));
-        }
-      });
-    } else {
-      console.error('No geo service found on device');
-    }
-  }
-
-  cancel() {
-    this.props.dispatch(actions.editPlantClose());
-  }
-
-  componentWillUnmount() {
-    this.props.dispatch(actions.editPlantClose());
-  }
-
   componentWillMount() {
     const { interimPlant } = this.props;
     const pageTitle = interimPlant.get('isNew')
@@ -65,10 +41,34 @@ class PlantEdit extends React.Component {
     this.setState({ pageTitle });
   }
 
+  componentWillUnmount() {
+    this.props.dispatch(actions.editPlantClose());
+  }
+
   onChange(e) {
     this.props.dispatch(actions.editPlantChange({
       [e.target.name]: e.target.value,
     }));
+  }
+
+  cancel() {
+    this.props.dispatch(actions.editPlantClose());
+  }
+
+  addGeo() {
+    if (utils.hasGeo()) {
+      utils.getGeo({}, (err, geoJson) => {
+        if (err) {
+          // console.error(err);
+        } else {
+          this.props.dispatch(actions.editPlantChange({
+            loc: Immutable.fromJS(geoJson),
+          }));
+        }
+      });
+    } else {
+      // console.error('No geo service found on device');
+    }
   }
 
   save(e) {
@@ -87,7 +87,7 @@ class PlantEdit extends React.Component {
 
     validate(plant, { isNew }, (errors, transformed) => {
       if (errors) {
-        console.warn('Validation errors:', errors);
+        // console.warn('Validation errors:', errors);
         this.props.dispatch(actions.editPlantChange({ errors }));
       } else {
         if (isNew) {
@@ -262,8 +262,8 @@ class PlantEdit extends React.Component {
         }
 
         <CancelSaveButtons
-          clickSave={this.save.bind(this)}
-          clickCancel={this.cancel.bind(this)}
+          clickSave={this.save}
+          clickCancel={this.cancel}
           showButtons
         />
 

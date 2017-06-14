@@ -1,4 +1,5 @@
 const constants = require('./constants');
+
 const { gisMultiplier } = constants;
 
 function scaleToCanvas(immutablePlants, width) {
@@ -13,7 +14,7 @@ function scaleToCanvas(immutablePlants, width) {
     const long = plant.getIn(['loc', 'coordinates', '0']);
     const lat = plant.getIn(['loc', 'coordinates', '1']);
     if (isNaN(long) || isNaN(lat)) {
-      console.warn(`NaN found in getting min/max of long/lat ${long} / ${lat}`);
+      // console.warn(`NaN found in getting min/max of long/lat ${long} / ${lat}`);
     } else {
       acc.long.min = Math.min(acc.long.min, long);
       acc.long.max = Math.max(acc.long.max, long);
@@ -57,7 +58,7 @@ function scaleToCanvas(immutablePlants, width) {
 
     const lat = Math.round(plant.getIn(['loc', 'coordinates', '1']) * gisMultiplier);
     const ratioFromMinLat = (lat - minMax.lat.min) / actualHeight;
-    const y = (heightWidthRatio * (canvasWidth * ratioFromMinLat) + canvasMin);
+    const y = ((heightWidthRatio * (canvasWidth * ratioFromMinLat)) + canvasMin);
 
     const title = plant.get('title');
     const _id = plant.get('_id');

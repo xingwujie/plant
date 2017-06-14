@@ -34,7 +34,7 @@ class PlantItem extends React.Component {
           plantId: plant.get('_id'),
         }));
       } else {
-        console.error('PlantItem: plant object does not have _id', plant.toJS());
+        // console.error('PlantItem: plant object does not have _id', plant.toJS());
       }
     }
 

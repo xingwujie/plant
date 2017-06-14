@@ -5,5 +5,6 @@ module.exports = {
   maxImageFilesPerUpload: 100,
   awsBucketName: 'i.plaaant.com',
   imageSizeNames: ['orig', 'xl', 'lg', 'md', 'sm', 'thumb'],
+  // eslint-disable-next-line no-restricted-properties
   gisMultiplier: Math.pow(10, 7),
 };

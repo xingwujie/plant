@@ -29,7 +29,7 @@ class PlantRead extends React.Component {
           plantId: plant.get('_id'),
         }));
       } else {
-        console.error('PlantRead: plant object does not have _id', plant.toJS());
+        // console.error('PlantRead: plant object does not have _id', plant.toJS());
       }
     }
   }
@@ -63,13 +63,14 @@ class PlantRead extends React.Component {
         const locationUrl = utils.makeLocationUrl(location);
         this.context.router.push(locationUrl);
       } else {
-        console.warn('Could not find location for locationId', plant.locationId);
+        // console.warn('Could not find location for locationId', plant.locationId);
       }
     } else {
       this.setState({ showDeleteConfirmation: false });
     }
   }
 
+  // eslint-disable-next-line class-methods-use-this
   plantedDateTitle(plant) {
     const plantedDate = plant.get('plantedDate');
     if (plantedDate) {
@@ -139,7 +140,7 @@ class PlantRead extends React.Component {
 
       const terminatedReason = plant.get('terminatedReason', 'unknown');
       if (terminatedReason === 'unknown') {
-        console.error('terminatedReason not set', plant.toJS());
+        // console.error('terminatedReason not set', plant.toJS());
       } else {
         basicTitles.push(
           <div key="terminatedReason">
@@ -173,7 +174,7 @@ class PlantRead extends React.Component {
       isOwner,
       plant,
       user,
-    } = this.props || {};
+    } = this.props;
 
     const {
       showDeleteConfirmation = false,

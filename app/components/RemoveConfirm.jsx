@@ -21,7 +21,7 @@ class RemoveConfirm extends React.Component {
   }
 
   render() {
-    const { title = '' } = this.props || {};
+    const title = this.props.title;
 
     return (
       <div style={{ textAlign: 'right' }}>
@@ -49,6 +49,10 @@ class RemoveConfirm extends React.Component {
 RemoveConfirm.propTypes = {
   confirmFn: PropTypes.func.isRequired,
   title: PropTypes.string,
+};
+
+RemoveConfirm.defaultProps = {
+  title: '',
 };
 
 module.exports = RemoveConfirm;

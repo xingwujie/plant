@@ -15,16 +15,6 @@ class PlantEditTerminated extends React.Component {
     this.onChange = this.onChange.bind(this);
   }
 
-  onChange(e) {
-    // console.log('onChange', e.target.name, e.target.checked, e.target.value);
-    const { name: inputName } = e.target;
-    const value = inputName === 'isTerminated' ? e.target.checked : e.target.value;
-
-    this.props.dispatch(actions.editPlantChange({
-      [inputName]: value,
-    }));
-  }
-
   componentWillMount() {
     const { interimPlant } = this.props;
     let terminatedReason = interimPlant.get('terminatedReason');
@@ -34,6 +24,16 @@ class PlantEditTerminated extends React.Component {
         terminatedReason,
       }));
     }
+  }
+
+  onChange(e) {
+    // console.log('onChange', e.target.name, e.target.checked, e.target.value);
+    const { name: inputName } = e.target;
+    const value = inputName === 'isTerminated' ? e.target.checked : e.target.value;
+
+    this.props.dispatch(actions.editPlantChange({
+      [inputName]: value,
+    }));
   }
 
   render() {
