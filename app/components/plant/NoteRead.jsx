@@ -15,6 +15,62 @@ const List = Immutable.List;
 
 class NoteRead extends React.Component {
 
+  static renderImages(note) {
+    const images = note.get('images');
+    if (images && images.size) {
+      return images.map(image => NoteRead.renderImage(image));
+    }
+    return null;
+  }
+
+  static renderImage(image) {
+    const imageStyle = {
+      maxWidth: '100%',
+      padding: '1%',
+    };
+    return (
+      <div key={image.get('id')}>
+        <img
+          style={imageStyle}
+          src={NoteRead.buildImageSrc(image)}
+          srcSet={NoteRead.buildImageSrcSet(image)}
+          alt="TODO: complete this with description"
+        />
+      </div>
+    );
+  }
+
+  static buildImageUrl(size, image) {
+    const id = image.get('id');
+    const ext = image.get('ext');
+    const folder = process.env.NODE_ENV === 'production' ? 'up' : 'test';
+    const imageCache = process.env.PLANT_IMAGE_CACHE || '';
+    return `//${imageCache}i.plaaant.com/${folder}/${size}/${id}${ext && ext.length ? '.' : ''}${ext}`;
+  }
+
+  static buildImageSrc(image) {
+    const sizes = image.get('sizes', List()).toJS();
+    const size = sizes && sizes.length
+      ? sizes[sizes.length - 1].name
+      : 'orig';
+    return NoteRead.buildImageUrl(size, image);
+  }
+
+  static buildImageSrcSet(image) {
+    // If the cache is live then don't set a value for srcset
+    if (process.env.PLANT_IMAGE_CACHE) {
+      return '';
+    }
+
+    const sizes = image.get('sizes', List()).toJS();
+    if (sizes && sizes.length) {
+      // <img src="small.jpg" srcset="medium.jpg 1000w, large.jpg 2000w" alt="yah">
+      const items = sizes.map(size => `${NoteRead.buildImageUrl(size.name, image)} ${size.width}w `);
+      return items.join(',');
+    }
+    return '';
+  }
+
   constructor(props) {
     super(props);
     this.checkDelete = this.checkDelete.bind(this);
@@ -34,6 +90,16 @@ class NoteRead extends React.Component {
     }
   }
 
+  editNote() {
+    const note = {
+      ...this.props.note.toJS(),
+      date: utils.intToString(this.props.note.get('date')),
+      isNew: false,
+    };
+    const { plant } = this.props;
+    this.props.dispatch(actions.editNoteOpen({ plant, note }));
+  }
+
   renderEdit() {
     return (
       <NoteUpdate
@@ -45,67 +111,6 @@ class NoteRead extends React.Component {
         user={this.props.user}
       />
     );
-  }
-
-  buildImageUrl(size, image) {
-    const id = image.get('id');
-    const ext = image.get('ext');
-    const folder = process.env.NODE_ENV === 'production' ? 'up' : 'test';
-    const imageCache = process.env.PLANT_IMAGE_CACHE || '';
-    return `//${imageCache}i.plaaant.com/${folder}/${size}/${id}${ext && ext.length ? '.' : ''}${ext}`;
-  }
-
-  buildImageSrc(image) {
-    const sizes = image.get('sizes', List()).toJS();
-    const size = sizes && sizes.length
-      ? sizes[sizes.length - 1].name
-      : 'orig';
-    return this.buildImageUrl(size, image);
-  }
-
-  buildImageSrcSet(image) {
-    // If the cache is live then don't set a value for srcset
-    if (process.env.PLANT_IMAGE_CACHE) {
-      return '';
-    }
-
-    const sizes = image.get('sizes', List()).toJS();
-    if (sizes && sizes.length) {
-      // <img src="small.jpg" srcset="medium.jpg 1000w, large.jpg 2000w" alt="yah">
-      const items = sizes.map(size => `${this.buildImageUrl(size.name, image)} ${size.width}w `);
-      return items.join(',');
-    }
-    return '';
-  }
-
-  renderImage(image) {
-    const imageStyle = {
-      maxWidth: '100%',
-      padding: '1%',
-    };
-    return (
-      <div key={image.get('id')}>
-        <img style={imageStyle} src={this.buildImageSrc(image)} srcSet={this.buildImageSrcSet(image)} />
-      </div>
-    );
-  }
-
-  renderImages(note) {
-    const images = note.get('images');
-    if (images && images.size) {
-      return images.map(image => this.renderImage(image));
-    }
-    return null;
-  }
-
-  editNote() {
-    const note = {
-      ...this.props.note.toJS(),
-      date: utils.intToString(this.props.note.get('date')),
-      isNew: false,
-    };
-    const { plant } = this.props;
-    this.props.dispatch(actions.editNoteOpen({ plant, note }));
   }
 
   renderRead() {
@@ -125,7 +130,7 @@ class NoteRead extends React.Component {
       note,
     } = this.props;
 
-    const images = this.renderImages(note);
+    const images = NoteRead.renderImages(note);
 
     const date = utils.intToMoment(note.get('date'));
 
@@ -148,7 +153,7 @@ class NoteRead extends React.Component {
         <EditDeleteButtons
           clickDelete={this.checkDelete}
           clickEdit={this.editNote}
-          confirmDelete={this.confirmDelete.bind(noteId)}
+          confirmDelete={this.confirmDelete}
           deleteTitle={''}
           showButtons={isOwner}
           showDeleteConfirmation={showDeleteConfirmation}

@@ -25,27 +25,6 @@ class Plant extends React.Component {
     this.onChange = this.onChange.bind(this);
   }
 
-  initState(first, props = this.props || {}) {
-    const { store } = this.context;
-    const plants = store.getState().get('plants');
-
-    const { id: _id } = props.params || {};
-    let plant;
-    if (_id) {
-      plant = plants.get(_id);
-      if (!plant && first) {
-        store.dispatch(actions.loadPlantRequest({ _id }));
-      }
-    } else {
-      store.dispatch(actions.editPlantOpen({
-        plant: {
-          _id: makeMongoId(),
-          isNew: true,
-        },
-      }));
-    }
-  }
-
   componentWillMount() {
     const { store } = this.context;
     this.unsubscribe = store.subscribe(this.onChange);
@@ -64,13 +43,34 @@ class Plant extends React.Component {
     this.initState(true, nextProps);
   }
 
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
   onChange() {
     this.forceUpdate();
     // this.initState(false);
   }
 
-  componentWillUnmount() {
-    this.unsubscribe();
+  initState(first, props = this.props || {}) {
+    const { store } = this.context;
+    const plants = store.getState().get('plants');
+
+    const { id: _id } = props.params;
+    let plant;
+    if (_id) {
+      plant = plants.get(_id);
+      if (!plant && first) {
+        store.dispatch(actions.loadPlantRequest({ _id }));
+      }
+    } else {
+      store.dispatch(actions.editPlantOpen({
+        plant: {
+          _id: makeMongoId(),
+          isNew: true,
+        },
+      }));
+    }
   }
 
   fromStore(key) {
@@ -149,6 +149,10 @@ Plant.propTypes = {
   params: PropTypes.shape({
     id: PropTypes.string,
   }),
+};
+
+Plant.defaultProps = {
+  params: {},
 };
 
 module.exports = Plant;

@@ -14,8 +14,8 @@ const NoteAssocPlant = require('./NoteAssocPlant');
 const NoteEditMetrics = require('./NoteEditMetrics');
 const Immutable = require('immutable');
 const PropTypes = require('prop-types');
-
 const validators = require('../../models');
+
 const validate = validators.note;
 
 class NoteEdit extends React.Component {
@@ -24,12 +24,9 @@ class NoteEdit extends React.Component {
     this.cancel = this.cancel.bind(this);
     this.onChange = this.onChange.bind(this);
     this.onDrop = this.onDrop.bind(this);
+    this.onOpenClick = this.onOpenClick.bind(this);
     this.save = this.save.bind(this);
     this.saveFiles = this.saveFiles.bind(this);
-  }
-
-  cancel() {
-    this.props.dispatch(actions.editNoteClose());
   }
 
   componentWillMount() {
@@ -38,11 +35,6 @@ class NoteEdit extends React.Component {
 
   componentWillUnmount() {
     this.props.dispatch(actions.editNoteClose());
-  }
-
-  initState() {
-    const { images = [] } = this.props;
-    this.setState({ images });
   }
 
   onChange(e) {
@@ -59,6 +51,15 @@ class NoteEdit extends React.Component {
     this.refs.dropzone.open();
   }
 
+  initState() {
+    const { images } = this.props;
+    this.setState({ images });
+  }
+
+  cancel() {
+    this.props.dispatch(actions.editNoteClose());
+  }
+
   saveNote(files) {
     const interimNote = this.props.interimNote.toJS();
 
@@ -67,13 +68,11 @@ class NoteEdit extends React.Component {
 
     validate(interimNote, (errors, note) => {
       if (errors) {
-        console.warn('create: Note validation errors:', errors);
+        // console.warn('create: Note validation errors:', errors);
         this.props.dispatch(actions.editNoteChange({ errors }));
       } else {
         this.props.dispatch(actions.upsertNoteRequest({ note, files }));
-        if (this.props.postSaveSuccess) {
-          this.props.postSaveSuccess();
-        }
+        this.props.postSaveSuccess();
       }
     });
   }
@@ -109,7 +108,7 @@ class NoteEdit extends React.Component {
       };
       const value = uploadProgress.get('value');
       const max = uploadProgress.get('max');
-      const progress = `Upload progress ${Math.round(value * 100 / max)} %`;
+      const progress = `Upload progress ${Math.round((value * 100) / max)} %`;
       return (
         <Paper
           style={paperStyle}
@@ -132,7 +131,7 @@ class NoteEdit extends React.Component {
     }
 
     const {
-      images = [],
+      images,
     } = this.state || {};
 
     const date = interimNote.get('date', '');
@@ -202,7 +201,7 @@ class NoteEdit extends React.Component {
         }
 
         <CancelSaveButtons
-          clickAddPhoto={this.onOpenClick.bind(this)}
+          clickAddPhoto={this.onOpenClick}
           clickSave={this.save}
           clickCancel={this.cancel}
           showButtons
@@ -214,13 +213,17 @@ class NoteEdit extends React.Component {
           ref="dropzone"
           style={dropZoneStyle}
         >
-          <div>Drop images here or tap to select images to upload.</div>
+          <div>{'Drop images here or tap to select images to upload.'}</div>
         </Dropzone>
 
         {!!images.length &&
           images.map(image => (
             <div key={image.preview}>
-              <img style={imageStyle} src={image.preview} />
+              <img
+                style={imageStyle}
+                src={image.preview}
+                alt="TODO: Add an alt here"
+              />
             </div>
             ))
         }
@@ -245,13 +248,12 @@ class NoteEdit extends React.Component {
 
 NoteEdit.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  images: PropTypes.array,
+  images: PropTypes.arrayOf({
+    preview: PropTypes.string.isRequired,
+  }),
   interimNote: PropTypes.shape({
     get: PropTypes.func.isRequired,
     toJS: PropTypes.func.isRequired,
-  }).isRequired,
-  plant: PropTypes.shape({
-    get: PropTypes.func.isRequired,
   }).isRequired,
   plants: PropTypes.shape({
     get: PropTypes.func.isRequired,
@@ -261,6 +263,11 @@ NoteEdit.propTypes = {
   user: PropTypes.shape({ // Immutable.js Map
     get: PropTypes.func.isRequired,
   }).isRequired,
+};
+
+NoteEdit.defaultProps = {
+  postSaveSuccess: () => {},
+  images: [],
 };
 
 module.exports = NoteEdit;
