@@ -1,5 +1,6 @@
 require('jquery');
 require('bootstrap');
+// eslint-disable-next-line import/no-extraneous-dependencies, import/no-unresolved
 require('bootstrap.css');
 require('konva');
 require('./stylesheets/main.css');
@@ -29,6 +30,7 @@ const Terms = require('./components/info/Terms');
 const Location = require('./components/location/Location');
 const Locations = require('./components/location/Locations');
 const Users = require('./components/user/Users');
+
 const muiTheme = getMuiTheme({
   palette: {
     accent1Color: deepOrange500,
@@ -37,11 +39,13 @@ const muiTheme = getMuiTheme({
 
 injectTapEventPlugin();
 
-// /location/**location-name**/_location_id - a list of plants at that location (analogous to the old /plants/**user-name**/_user_id)
+// /location/**location-name**/_location_id - a list of plants at that location
+//                       (analogous to the old /plants/**user-name**/_user_id)
 // /locations - a list of all locations
 // /locations/**user-name**/_user_id - a list of locations managed or owned by user
 
 // TODO: Put a Not Found / No Match component in here.
+/* eslint-disable react/jsx-filename-extension */
 const routes = (
   <Route path="/" component={App}>
     <IndexRoute component={Home} />
@@ -64,6 +68,7 @@ const routes = (
     <Route path="*" component={Help} />
   </Route>
 );
+/* eslint-enable react/jsx-filename-extension */
 
 function render() {
   const content = document.getElementById('wrapper');

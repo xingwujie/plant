@@ -14,7 +14,9 @@ const { gisMultiplier } = constants;
 // 1. Fixes a problem that Webpack has when bundling this module and chaining
 //    from mongodb down to bson and,
 // 2. Reduces the size of the bundle that gets generated for the browser.
+// eslint-disable-next-line import/no-extraneous-dependencies
 const bson = require('bson');
+
 const { ObjectID } = bson;
 
 function makeMongoId() {
@@ -23,13 +25,12 @@ function makeMongoId() {
 
 function makeSlug(text) {
   if (!text) {
-    console.warn('text is falsey in makeSlug:', text);
+    // console.warn('text is falsey in makeSlug:', text);
     return '';
   }
 
-  text = text.toString();
-  text = text.replace(/[\/\(\)]/g, ' ');
-  return slug(text.toString().toLowerCase());
+  const lower = text.toString().toLowerCase();
+  return slug(lower.replace(/[/()]/g, ' '));
 }
 
 function makeUrl(first, location) {

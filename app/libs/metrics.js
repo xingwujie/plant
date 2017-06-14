@@ -42,10 +42,12 @@ function getChange(metrics, prop) {
     return null;
   }
 
-  while (--index > -1) {
+  index -= 1;
+  while (index > -1) {
     const prev = metrics[index];
+    index -= 1;
     if (prev[prop]) {
-      console.log('diff obj:', { prev, last });
+      // console.log('diff obj:', { prev, last });
       return { prev, last };
     }
   }
@@ -60,6 +62,7 @@ function getChange(metrics, prop) {
  * @returns {number} - a rounded number
  */
 function round(number, places) {
+  // eslint-disable-next-line no-restricted-properties
   const pow = Math.pow(10, places);
   return Math.round(number * pow) / pow;
 }

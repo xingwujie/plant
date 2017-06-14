@@ -161,7 +161,7 @@ function deleteNoteRequest(store, action, next) {
 
 function loadPlantRequest(store, action) {
   if (!action.payload._id) {
-    console.error('No _id in loadPlantRequest', (new Error()).stack);
+    // console.error('No _id in loadPlantRequest', (new Error()).stack);
   } else {
     const options = {
       url: `/api/plant/${action.payload._id}`,
@@ -227,7 +227,7 @@ function loadLocationsRequest(store) {
 function loadNotesRequest(store, action, next) {
   const { noteIds, plantId } = action.payload;
   if (!noteIds && !plantId) {
-    console.error('No noteIds or plantId on payload, action:', action);
+    // console.error('No noteIds or plantId on payload, action:', action);
     return next(action);
   }
 
@@ -240,14 +240,14 @@ function loadNotesRequest(store, action, next) {
   };
 
   ajax(store, options);
-  next(action);
+  return next(action);
 }
 
 // Get all the plants listed
 // action.payload is an array of plantIds
 function loadUnloadedPlantsRequest(store, action) {
   if (!action.payload || !action.payload.length) {
-    console.error('No plantIds on payload, action:', action);
+    // console.error('No plantIds on payload, action:', action);
   }
 
   const options = {

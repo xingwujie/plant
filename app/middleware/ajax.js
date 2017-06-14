@@ -32,7 +32,7 @@ function clearPending(options) {
 
 module.exports = (store, options) => {
   if (!options.url || !isFunction(options.success) || !isFunction(options.failure)) {
-    console.error('Invalid options for ajax:', options);
+    // console.error('Invalid options for ajax:', options);
   }
 
   const ajaxOptions = {
@@ -49,7 +49,7 @@ module.exports = (store, options) => {
     // Error: Function( jqXHR jqXHR, String textStatus, String errorThrown )
     error: (jqXHR, textStatus, errorThrown) => {
       clearPending(ajaxOptions);
-      console.error(`${ajaxOptions.type} error for ${options.url}`, errorThrown);
+      // console.error(`${ajaxOptions.type} error for ${options.url}`, errorThrown);
       if (options.failure) {
         store.dispatch(options.failure(errorThrown));
       }
@@ -66,26 +66,27 @@ module.exports = (store, options) => {
       if (options.progress) {
         store.dispatch(options.progress({ uploadProgress }));
       } else {
-        console.warn('options does not have progress function in progressHandlingFunction');
+        // console.warn('options does not have progress function in progressHandlingFunction');
       }
     } else {
-      console.error('e.lengthComputable is falsey in progressHandlingFunction:', e.lengthComputable);
+// console.error('e.lengthComputable is falsey in progressHandlingFunction:', e.lengthComputable);
     }
   }
 
   if (options.fileUpload) {
+    // eslint-disable-next-line no-param-reassign
     delete options.fileUpload;
     ajaxOptions.contentType = false;
     ajaxOptions.processData = false;
     ajaxOptions.cache = false;
 
     // Custom XMLHttpRequest
-    ajaxOptions.xhr = function () {
+    ajaxOptions.xhr = function xhrUpload() {
       const xhr = $.ajaxSettings.xhr();
       if (xhr.upload) { // Check if upload property exists
         xhr.upload.addEventListener('progress', progressHandlingFunction, false); // For handling the progress of the upload
       } else {
-        console.error('No upload on xhr');
+        // console.error('No upload on xhr');
       }
       return xhr;
     };
