@@ -248,9 +248,9 @@ class NoteEdit extends React.Component {
 
 NoteEdit.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  images: PropTypes.arrayOf({
+  images: PropTypes.arrayOf(PropTypes.shape({
     preview: PropTypes.string.isRequired,
-  }),
+  })),
   interimNote: PropTypes.shape({
     get: PropTypes.func.isRequired,
     toJS: PropTypes.func.isRequired,

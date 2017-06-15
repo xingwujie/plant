@@ -22,7 +22,10 @@ function errorHelper(props = {}) {
 }
 
 errorHelper.propTypes = {
-  errors: PropTypes.arrayOf(PropTypes.string),
+  errors: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.string),
+    PropTypes.string,
+  ]),
 };
 
 errorHelper.defaultProps = {

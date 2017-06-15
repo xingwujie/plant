@@ -34,7 +34,7 @@ class NoteRead extends React.Component {
           style={imageStyle}
           src={NoteRead.buildImageSrc(image)}
           srcSet={NoteRead.buildImageSrcSet(image)}
-          alt="TODO: complete this with description"
+          alt="A plant, tree, bush, shrub or vine"
         />
       </div>
     );

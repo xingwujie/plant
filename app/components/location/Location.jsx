@@ -19,6 +19,21 @@ class Location extends React.Component {
     store: PropTypes.object.isRequired,
   };
 
+  // TODO: renderWaiting and renderNoPlants are mostly the same.
+  // Make this code DRY
+  static renderWaiting(location) {
+    return (
+      <Base>
+        <div>
+          {Location.renderTitle(location)}
+          <h3 style={{ textAlign: 'center' }}>
+            <CircularProgress />
+          </h3>
+        </div>
+      </Base>
+    );
+  }
+
   static renderTitle(location) {
     return (
       <h2 style={{ textAlign: 'center' }}>{`${location.get('title')} - Plant List`}</h2>
@@ -86,26 +101,11 @@ class Location extends React.Component {
     );
   }
 
-  // TODO: renderWaiting and renderNoPlants are mostly the same.
-  // Make this code DRY
-  renderWaiting(location) {
-    return (
-      <Base>
-        <div>
-          {this.renderTitle(location)}
-          <h3 style={{ textAlign: 'center' }}>
-            <CircularProgress />
-          </h3>
-        </div>
-      </Base>
-    );
-  }
-
   renderNoPlants(location) {
     return (
       <Base>
         <div>
-          {this.renderTitle(location)}
+          {Location.renderTitle(location)}
           <h3 style={{ textAlign: 'center' }}>
             <div style={{ marginTop: '100px' }}>{'No plants added yet...'}</div>
             <AddPlantButton
@@ -171,7 +171,7 @@ class Location extends React.Component {
     const plantIds = location.get('plantIds', Immutable.List());
     if (!plantIds.size) {
       if (interim.has('loadPlantRequest')) {
-        return this.renderWaiting(location);
+        return Location.renderWaiting(location);
       }
       return this.renderNoPlants(location);
     }
@@ -224,7 +224,7 @@ class Location extends React.Component {
     return (
       <Base>
         <div>
-          {this.renderTitle(location)}
+          {Location.renderTitle(location)}
           {stats}
           {filterInput}
           {tileElements.found}

@@ -53,7 +53,7 @@ function cancelSaveButtons(props = {}) {
 }
 
 cancelSaveButtons.propTypes = {
-  clickAddPhoto: PropTypes.oneOf([
+  clickAddPhoto: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.object,
   ]),
