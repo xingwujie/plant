@@ -3,15 +3,18 @@ const marked = require('marked');
 const React = require('react');
 const PropTypes = require('prop-types');
 
-class Markdown extends React.Component {
-  render() {
-    const markdown = { __html: marked(this.props.markdown || '') };
-    return <div dangerouslySetInnerHTML={markdown} />;
-  }
+function markdown(props) {
+  const mkn = { __html: marked(props.markdown || '') };
+  // eslint-disable-next-line react/no-danger
+  return <div dangerouslySetInnerHTML={mkn} />;
 }
 
-Markdown.propTypes = {
+markdown.propTypes = {
   markdown: PropTypes.string,
 };
 
-module.exports = Markdown;
+markdown.defaultProps = {
+  markdown: '',
+};
+
+module.exports = markdown;

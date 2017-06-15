@@ -3,23 +3,21 @@ const React = require('react');
 const Footer = require('./Footer');
 const PropTypes = require('prop-types');
 
-class Base extends React.Component {
-
-  render() {
-    return (
-      <div className="page">
-        <Navbar />
-        <div id="main">
-          {this.props.children}
-        </div>
-        <Footer />
+function base(props) {
+  return (
+    <div className="page">
+      <Navbar />
+      <div id="main">
+        {props.children}
       </div>
-    );
-  }
+      <Footer />
+    </div>
+  );
 }
 
-Base.propTypes = {
-  children: PropTypes.object,
+base.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  children: PropTypes.object.isRequired,
 };
 
-module.exports = Base;
+module.exports = base;

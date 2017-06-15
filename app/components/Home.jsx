@@ -14,13 +14,6 @@ class Home extends React.Component {
     this.onChange = this.onChange.bind(this);
   }
 
-  updateState() {
-    const { store } = this.context;
-    const users = store.getState().get('users');
-    const locations = store.getState().get('locations');
-    this.setState({ users, locations });
-  }
-
   componentWillMount() {
     const { store } = this.context;
     this.unsubscribe = store.subscribe(this.onChange);
@@ -34,6 +27,13 @@ class Home extends React.Component {
 
   onChange() {
     this.updateState();
+  }
+
+  updateState() {
+    const { store } = this.context;
+    const users = store.getState().get('users');
+    const locations = store.getState().get('locations');
+    this.setState({ users, locations });
   }
 
   anonHome(existingUsers, existingLocations) {

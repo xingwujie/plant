@@ -19,6 +19,12 @@ class Location extends React.Component {
     store: PropTypes.object.isRequired,
   };
 
+  static renderTitle(location) {
+    return (
+      <h2 style={{ textAlign: 'center' }}>{`${location.get('title')} - Plant List`}</h2>
+    );
+  }
+
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);
@@ -58,12 +64,6 @@ class Location extends React.Component {
   postSaveSuccessCreateNote() {
     const { store } = this.context;
     store.dispatch(actions.editNoteClose());
-  }
-
-  renderTitle(location) {
-    return (
-      <h2 style={{ textAlign: 'center' }}>{`${location.get('title')} - Plant List`}</h2>
-    );
   }
 
   isOwner() {

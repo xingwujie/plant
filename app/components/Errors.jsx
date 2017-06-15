@@ -2,34 +2,31 @@
 const React = require('react');
 const PropTypes = require('prop-types');
 
-class Errors extends React.Component {
-
-  constructor(props) {
-    super(props);
+function errorHelper(props = {}) {
+  let { errors } = props;
+  if (!errors || !errors.length) {
+    return null;
   }
 
-  render() {
-    let { errors } = this.props || {};
-    if (!errors || !errors.length) {
-      return null;
-    }
-
-    if (typeof errors === 'string') {
-      errors = [errors];
-    }
-
-    return (
-      <div className="btn btn-danger" style={{ margin: 10 }}>
-        {
-          errors.map((error, index) => (<div key={index}>{error}</div>))
-        }
-      </div>
-    );
+  if (typeof errors === 'string') {
+    errors = [errors];
   }
+
+  return (
+    <div className="btn btn-danger" style={{ margin: 10 }}>
+      {
+        errors.map(error => (<div key={error}>{error}</div>))
+      }
+    </div>
+  );
 }
 
-Errors.propTypes = {
-  errors: PropTypes.array,
+errorHelper.propTypes = {
+  errors: PropTypes.arrayOf(PropTypes.string),
 };
 
-module.exports = Errors;
+errorHelper.defaultProps = {
+  errors: [],
+};
+
+module.exports = errorHelper;

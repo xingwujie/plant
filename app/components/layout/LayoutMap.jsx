@@ -59,6 +59,12 @@ class LayoutMap extends React.Component {
     this.setState(state);
   }
 
+  handleClick() {
+    this.setState({
+      color: 'orange',
+    });
+  }
+
   renderTitle() {
     const { store } = this.context;
     const { id: userId } = (this.props || {}).params || {};
@@ -66,12 +72,6 @@ class LayoutMap extends React.Component {
     return (
       <h2 style={{ textAlign: 'center' }}>{`${userName} Layout Map`}</h2>
     );
-  }
-
-  handleClick() {
-    this.setState({
-      color: 'orange',
-    });
   }
 
   renderPlantLocation(plant) {
@@ -129,7 +129,7 @@ class LayoutMap extends React.Component {
 
   renderPlantLocations(width) {
     if (width < 30) {
-      console.error('Width is less than 30');
+      // console.error('Width is less than 30');
       return null;
     }
 
