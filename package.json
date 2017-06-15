@@ -119,9 +119,8 @@
     "prepublish": "npm run build",
     "server": ". ./devops/run-server.sh",
     "start": "TARGET=dev webpack-dev-server --progress --colors --hot --inline --history-api-fallback --bail",
-    "test-future": "npm run lint && npm run build && sh ./devops/run-test.sh",
-    "test-only": "sh ./devops/run-test.sh",
-    "test": "npm run build && sh ./devops/run-test.sh"
+    "test": "npm run lint && npm run build && sh ./devops/run-test.sh",
+    "test-only": "sh ./devops/run-test.sh"
   },
   "version": "0.0.1"
 }

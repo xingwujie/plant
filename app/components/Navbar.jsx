@@ -135,7 +135,7 @@ class Navbar extends React.Component {
               {loggedIn &&
                 <li className="dropdown">
                   <a
-                    href="#"
+                    href="/"
                     className="dropdown-toggle"
                     data-toggle="dropdown"
                     role="button"
@@ -156,7 +156,7 @@ class Navbar extends React.Component {
                       <Link to={'/profile'}>Profile</Link>
                     </li>
                     <li>
-                      <a href="#" onClick={this.logout} title="Logout">Logout</a>
+                      <a href="/" onClick={this.logout} title="Logout">Logout</a>
                     </li>
                   </ul>
                 </li>

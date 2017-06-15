@@ -48,7 +48,7 @@ class NoteEdit extends React.Component {
   }
 
   onOpenClick() {
-    this.refs.dropzone.open();
+    this.dropzone.open();
   }
 
   initState() {
@@ -210,7 +210,7 @@ class NoteEdit extends React.Component {
         <Dropzone
           activeStyle={dropZoneActiveStyle}
           onDrop={this.onDrop}
-          ref="dropzone"
+          ref={(node) => { this.dropzone = node; }}
           style={dropZoneStyle}
         >
           <div>{'Drop images here or tap to select images to upload.'}</div>
