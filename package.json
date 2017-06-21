@@ -83,7 +83,7 @@
     "webpack-dev-server": "2.5.0"
   },
   "engines": {
-    "node": "7.x"
+    "node": "8.x"
   },
   "homepage": "https://github.com/guyellis/plant",
   "keywords": [
