@@ -26,13 +26,6 @@
       "console": "internalConsole",
       "sourceMaps": true
     }, {
-      "name": "Client",
-      "type": "chrome",
-      "request": "attach",
-      "port": 9222,
-      "url": "http://localhost:8080/",
-      "webRoot": "${workspaceRoot}/app"
-    }, {
       "name": "TestPad",
       "type": "node",
       "request": "launch",
