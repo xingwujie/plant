@@ -137,5 +137,6 @@ if (TARGET === 'dev') {
       proxy: passthrough,
       contentBase: path.resolve(ROOT_PATH, 'build'),
     },
+    devtool: 'cheap-module-source-map',
   });
 }
