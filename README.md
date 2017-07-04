@@ -1,11 +1,18 @@
 # plant
 
+Running live at [Plaaant](https://plaaant.com)
+
+To get a feel a well chronicled orchard of fruit trees visit
+[Guy Ellis' Orchard](https://plaaant.com/location/guy-ellis-yard/5851d7d52967c2153ab6c856)
+and use the "Filter" input near the top of the page to find fruit trees you might be interested
+in learning about.
+
+Plant is a website app to help you manage growing trees and plant.
+
 [![Greenkeeper badge](https://badges.greenkeeper.io/guyellis/plant.svg)](https://greenkeeper.io/)
-
-A website app to manage backyard orchards and anything else you can grow
-in your yard.
-
-[![Build Status](https://travis-ci.org/guyellis/plant.svg)](https://travis-ci.org/guyellis/plant) [![Dependency Status](https://david-dm.org/guyellis/plant.svg)](https://david-dm.org/guyellis/plant) [![Code Climate](https://codeclimate.com/github/guyellis/plant/badges/gpa.svg)](https://codeclimate.com/github/guyellis/plant)
+[![Build Status](https://travis-ci.org/guyellis/plant.svg)](https://travis-ci.org/guyellis/plant)
+[![Dependency Status](https://david-dm.org/guyellis/plant.svg)](https://david-dm.org/guyellis/plant)
+[![Code Climate](https://codeclimate.com/github/guyellis/plant/badges/gpa.svg)](https://codeclimate.com/github/guyellis/plant)
 
 * [Project Objectives](#objectives)
   * [Versions](#versions)
