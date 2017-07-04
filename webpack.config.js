@@ -6,7 +6,6 @@ const TARGET = process.env.TARGET;
 const ROOT_PATH = path.resolve(__dirname);
 
 const common = {
-  entry: './app/main',
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'bundle.js',
@@ -91,6 +90,7 @@ addVendor('bootstrap.css', 'node_modules/bootstrap/dist/css/bootstrap.css');
 
 if (TARGET === 'build') {
   module.exports = merge(common, {
+    entry: ['./app/main'],
     plugins: [
       new webpack.DefinePlugin({
         'process.env': {
@@ -137,6 +137,12 @@ if (TARGET === 'dev') {
       proxy: passthrough,
       contentBase: path.resolve(ROOT_PATH, 'build'),
     },
+    entry: [
+      'react-hot-loader/patch',
+      'webpack-dev-server/client?http://localhost:8080',
+      'webpack/hot/only-dev-server',
+      './app/main',
+    ],
     devtool: 'cheap-module-source-map',
   });
 }

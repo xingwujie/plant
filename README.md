@@ -180,3 +180,10 @@ Otherwise, you need to install Docker (recommended) or MongoDB.
 ```
 npm t
 ```
+
+### Debugging with VSCode
+
+- Start MongoDB
+- Terminal #1: Start the App/API Server with `npm run server`
+- Terminal #2: Start the Dev Server with `npm start`
+- VSCode: Select Chrome from Debug launch options and hit F5
