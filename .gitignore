@@ -36,3 +36,5 @@ local-only/
 typings/
 
 .nyc_output/
+
+.chrome/
