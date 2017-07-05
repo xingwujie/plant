@@ -96,7 +96,7 @@
   "compounds": [
     {
       "name": "Server/Client",
-      "configurations": ["Server", "Client"]
+      "configurations": ["Server", "Chrome"]
     }
   ]
 }
