@@ -101,3 +101,26 @@ module.exports = (state = new Immutable.Map(), action) => {
 // title
 // loc (optional)
 // plantIds: [plantId1, ...]
+
+// Location collection in DB:
+
+/*
+{
+  "_id" : ObjectId("5851d7..."),
+  "userId" : ObjectId("57b4e9..."),
+  "userIds" : [
+  {
+    "id" : ObjectId("57b4e90d9..."),
+    "role" : "owner"
+  }
+  ],
+  "title" : "The Orchard",
+  "loc" : {
+    "type" : "Point",
+    "coordinates" : {
+      "0" : -99.9999,
+      "1" : 66.66666
+    }
+  }
+}
+*/

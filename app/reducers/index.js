@@ -21,7 +21,18 @@ State Shapes:
 user: {
   _id: '',
   name: '',
-  token: ''
+  token: '',
+  locations: [{
+    _id: '',
+    title: '',
+    role: '',
+    loc: {type: 'Point', coordinates: {'0': 111, '1': 66}},
+    users: [{
+      _id: '',
+      name: '',
+      role: 'owner/manager/viewer?'
+    }]
+  }]
 },
 
 users: { // Each user the same as user above but without token
