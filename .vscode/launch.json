@@ -68,10 +68,7 @@
       "program": "${workspaceRoot}/node_modules/.bin/_mocha",
       "stopOnEntry": false,
       "args": [
-        "./test/**/*.js",
-        "--recursive",
-        "--require",
-        "./test/setup.js"
+        "./test/**/*.js"
       ],
       "cwd": "${workspaceRoot}",
       "preLaunchTask": null,
