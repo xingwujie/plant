@@ -4,6 +4,7 @@ const React = require('react');
 // const RadioButton = require('material-ui/RadioButton').RadioButton;
 // const RadioButtonGroup = require('material-ui/RadioButton').RadioButtonGroup;
 const PropTypes = require('prop-types');
+const Paper = require('material-ui/Paper').default;
 
 function userLocations(props) {
   // const styles = {
@@ -15,13 +16,25 @@ function userLocations(props) {
   //     width: 'inherit',
   //   },
   // };
+  const paperStyle = {
+    padding: 20,
+    width: '100%',
+    margin: 20,
+    display: 'inline-block',
+  };
+
+  const locations = props.locations.toJS();
 
   return (
     <div>
       {
-        props.locations.map(location => (
-          <div key={location._id}>
-            {`Location: ${location.title}`}
+        locations.map(location => (
+          <Paper
+            key={location._id}
+            style={paperStyle}
+            zDepth={5}
+          >
+            <h3>{`${location.title}`}</h3>
             <h5>{'Users'}</h5>
             {
               location.users.map(user => (
@@ -30,23 +43,17 @@ function userLocations(props) {
                 </div>
               ))
             }
-          </div>
-          ))
+          </Paper>
+        ))
       }
     </div>
   );
 }
 
 userLocations.propTypes = {
-  locations: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    users: PropTypes.arrayOf(PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      role: PropTypes.string.isRequired,
-    })).isRequired,
-  })).isRequired,
+  locations: PropTypes.shape({
+    toJS: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 module.exports = userLocations;

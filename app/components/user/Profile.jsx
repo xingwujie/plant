@@ -10,7 +10,7 @@ const PropTypes = require('prop-types');
 // 2. Other user: /profile/slug/<id>
 // Only implmenting #1 for now.
 
-function profile(props) {
+function profile(props, context) {
   const styles = {
     radioGroup: {
       display: 'flex',
@@ -23,6 +23,9 @@ function profile(props) {
 
   const { userSettings } = props;
   const { imperial } = userSettings;
+  const { store } = context;
+  const state = store.getState();
+  const locations = state.getIn(['user', 'locationIds']);
 
   const unitOfMeasurement = imperial ? 'imperial' : 'metric';
 
@@ -49,15 +52,14 @@ function profile(props) {
             value="metric"
           />
         </RadioButtonGroup>
-        <h3>{'Locations'}</h3>
-        <UserLocations locations={props.locations} />
+        <h3>{'Locations you Own or Manage'}</h3>
+        <UserLocations locations={locations} />
       </div>
     </Base>
   );
 }
 
 profile.propTypes = {
-  locations: UserLocations.propTypes.locations,
   userSettings: PropTypes.shape({
     imperial: PropTypes.bool,
   }),
@@ -67,15 +69,10 @@ profile.defaultProps = {
   userSettings: {
     imperial: true,
   },
-  locations: [{
-    _id: 'location-1',
-    title: 'Location #1',
-    users: [{
-      _id: 'user-1',
-      name: 'John Smith',
-      role: 'owner',
-    }],
-  }],
+};
+
+profile.contextTypes = {
+  store: PropTypes.object.isRequired,
 };
 
 module.exports = profile;
