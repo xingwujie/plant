@@ -84,7 +84,9 @@ function startServerAuthenticated(cb) {
       assert(user);
       assert(user._id);
       assert(constants.mongoIdRE.test(user._id));
-      assert(constants.mongoIdRE.test(user.locationIds[0]));
+      assert(constants.mongoIdRE.test(user.locationIds[0]._id));
+      assert.equal(user.locationIds[0].title, 'John Smith Yard');
+      assert.equal(user.locationIds[0].role, 'owner');
       assert.deepEqual(_.omit(user, ['_id', 'locationIds']), fbUser);
 
       // eslint-disable-next-line no-param-reassign
