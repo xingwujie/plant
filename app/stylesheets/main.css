@@ -34,8 +34,7 @@ body {
 
 .plant-item-list {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-flow: row wrap; /* flex-flow: <‘flex-direction’> || <‘flex-wrap’> */
 }
 
 .plant-item {
