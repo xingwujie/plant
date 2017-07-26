@@ -39,7 +39,7 @@ describe('/app/models/note', () => {
 
     const noteCopy = _.clone(note);
 
-    noteValidator(note, (err /* , transformed*/) => {
+    noteValidator(note, (err /* , transformed */) => {
       assert(err);
 
       assert.equal(err._id, ' id is invalid');
