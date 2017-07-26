@@ -76,7 +76,7 @@ describe('/app/models/plant', () => {
 
     const isNew = false;
 
-    plantValidator(plant, { isNew }, (err /* , transformed*/) => {
+    plantValidator(plant, { isNew }, (err /* , transformed */) => {
       assert(err);
 
       assert.equal(err._id, ' id is invalid');

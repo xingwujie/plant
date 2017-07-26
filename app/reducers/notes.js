@@ -63,7 +63,7 @@ function deleteNoteRequest(state, action) {
  * @param {object} action - action.payload holds new note
  * @returns {object} state - the new object of notes
  */
-function deleteNoteSuccess(state /* , action*/) {
+function deleteNoteSuccess(state /* , action */) {
   return state;
 }
 
@@ -73,7 +73,7 @@ function deleteNoteSuccess(state /* , action*/) {
  * @param {object} action - action.payload holds new note
  * @returns {object} state - the new object of notes
  */
-function deleteNoteFailure(state /* , action*/) {
+function deleteNoteFailure(state /* , action */) {
   return state;
 }
 
