@@ -20,7 +20,7 @@
     "debug": "2.6.8",
     "express": "4.15.3",
     "file-loader": "0.11.2",
-    "html-webpack-plugin": "2.29.0",
+    "html-webpack-plugin": "2.30.0",
     "immutable": "3.8.1",
     "jquery": "2.x",
     "jwt-simple": "0.5.1",
