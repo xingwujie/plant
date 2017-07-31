@@ -14,7 +14,7 @@ describe('plants-api', () => {
       assert(data.user.locationIds);
       assert(data.user.locationIds.length);
       userId = data.user._id;
-      locationId = data.user.locationIds[0];
+      locationId = data.user.locationIds[0]._id;
       done();
     });
   });

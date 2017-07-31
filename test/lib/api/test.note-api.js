@@ -15,7 +15,7 @@ describe('note-api', () => {
     helper.startServerAuthenticated((err, data) => {
       assert(data.userId);
       userId = data.user._id;
-      locationId = data.user.locationIds[0];
+      locationId = data.user.locationIds[0]._id;
       logger.trace('startServerAuthenticated userId:', { userId });
       done();
     });

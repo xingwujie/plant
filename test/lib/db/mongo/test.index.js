@@ -61,7 +61,7 @@ describe('/lib/db/mongo/', () => {
         assert(body);
         assert(body._id);
         assert(constants.mongoIdRE.test(body._id));
-        assert(constants.mongoIdRE.test(body.locationIds[0]));
+        assert(constants.mongoIdRE.test(body.locationIds[0]._id));
         assert.deepStrictEqual(body, fbUser);
 
         done();
