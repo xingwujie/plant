@@ -67,7 +67,7 @@
     "eslint-plugin-react": "7.1.0",
     "eslint-plugin-security": "1.4.0",
     "jsdom": "11.1.0",
-    "mocha": "3.4.2",
+    "mocha": "3.5.0",
     "nodemon": "1.11.0",
     "npm-update-outdated": "0.1.6",
     "nyc": "11.1.0",
