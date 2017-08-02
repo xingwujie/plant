@@ -9,7 +9,6 @@
 - email
 - createdAt
 - updatedAt
-- loc - to be moved to Location collection
 
 ### Indexes
 
@@ -22,26 +21,31 @@ db.user.createIndex({'email': 1}, {unique: true, sparse: true, name: 'email'})
 ## Location
 
 - _id (MongoId)
+- userId - MongoId of the user that created this document
 - userIds (array of user objects) each object:
   - id (MongoId) of user in user collection
   - role (string) - one of 'owner', 'manager'
 - title (name of the location)
-- loc (received from User collection - this is the Geo location of the Location)
-- public - a boolean flag which is `false` (missing) by default. Indicates if the geo location of these plants can be made public.
+- loc (an Object - Geo location of the Location)
+  - type: 'Point'
+  - coordinates: {
+    "0": Floating Point Number - longitute,
+    "1": Floating Point Number - latitude,
+  }
+- public - a boolean flag which is missing (implied `false`) by default. Indicates if the geo location of these plants can be made public.
 - password - an array of objects - allows user with the password access to the geo positions at this location.
   - (expire-)date - date integer (locale based)
   - (expire-)time - time integer (locale based)
   - password - (password hash)
-- userId - MongoId of the user that created this document
 
 ## Plant
 
 - _id (MongoId)
-- title
-- purchasedDate - actually acquired date
+- title - string
+- purchasedDate - actually acquired date - integer YYYYMMDD
 - plantedDate - an integer YYYYMMDD
 - userId - MongoId of the user that created this document
-- locationId - to be added soon when Location gets added
+- locationId - MongoId of the corresponding _id in the Location collection
 
 ## Note
 
