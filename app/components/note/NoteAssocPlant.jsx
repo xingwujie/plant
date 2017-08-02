@@ -2,11 +2,11 @@
 const actions = require('../../actions');
 const React = require('react');
 const FloatingActionButton = require('material-ui/FloatingActionButton').default;
-const InputCombo = require('../InputCombo');
+const InputCombo = require('../common/InputCombo');
 const RaisedButton = require('material-ui/RaisedButton').default;
 const ArrowLeft = require('material-ui/svg-icons/hardware/keyboard-arrow-left').default;
 const ArrowRight = require('material-ui/svg-icons/hardware/keyboard-arrow-right').default;
-const Errors = require('../Errors');
+const Errors = require('../common/Errors');
 const utils = require('../../libs/utils');
 const PropTypes = require('prop-types');
 

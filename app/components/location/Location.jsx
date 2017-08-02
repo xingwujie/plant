@@ -1,17 +1,17 @@
 // Used to show a list of plants for a location.
 // Url: /location/<location-name>/_location_id
 
-const Base = require('../Base');
+const Base = require('../base/Base');
 const CircularProgress = require('material-ui/CircularProgress').default;
-const InputCombo = require('../InputCombo');
-const PlantItem = require('../plants/PlantItem');
+const InputCombo = require('../common/InputCombo');
+const PlantItem = require('../plant/PlantItem');
 const React = require('react');
 const { isLoggedIn } = require('../../libs/auth-helper');
 const actions = require('../../actions');
-const NoteCreate = require('../plant/NoteCreate');
+const NoteCreate = require('../note/NoteCreate');
 const utils = require('../../libs/utils');
 const Immutable = require('immutable');
-const AddPlantButton = require('../plant/AddPlantButton');
+const AddPlantButton = require('../common/AddPlantButton');
 const PropTypes = require('prop-types');
 
 class Location extends React.Component {

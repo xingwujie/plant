@@ -1,9 +1,9 @@
 const React = require('react');
-const actions = require('../actions');
-const utils = require('../libs/utils');
-const { isLoggedIn } = require('../libs/auth-helper');
+const actions = require('../../actions');
+const utils = require('../../libs/utils');
+const { isLoggedIn } = require('../../libs/auth-helper');
 const Immutable = require('immutable');
-const AddPlantButton = require('./plant/AddPlantButton');
+const AddPlantButton = require('../common/AddPlantButton');
 const PropTypes = require('prop-types');
 
 const { Link } = require('react-router');

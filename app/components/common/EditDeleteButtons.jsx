@@ -1,5 +1,5 @@
 const React = require('react');
-const RemoveConfirm = require('../RemoveConfirm');
+const RemoveConfirm = require('./RemoveConfirm');
 const FloatingActionButton = require('material-ui/FloatingActionButton').default;
 const EditIcon = require('material-ui/svg-icons/editor/mode-edit').default;
 const DeleteIcon = require('material-ui/svg-icons/action/delete').default;

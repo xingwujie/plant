@@ -1,6 +1,6 @@
 // This is a temporary component so that I can quickly get a single article on the site.
 
-const Base = require('../Base');
+const Base = require('../base/Base');
 const React = require('react');
 const Markdown = require('../common/Markdown');
 

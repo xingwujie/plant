@@ -1,4 +1,4 @@
-const Base = require('./Base');
+const Base = require('./base/Base');
 const React = require('react');
 const ReactDebugSettings = require('./ReactDebugSettings');
 

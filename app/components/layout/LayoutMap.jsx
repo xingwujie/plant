@@ -1,7 +1,7 @@
 // Used to show a list of plants for a user.
 // Url: /plants/<optional-user-id>
 
-const Base = require('../Base');
+const Base = require('../base/Base');
 const React = require('react');
 const actions = require('../../actions');
 const gis = require('../../libs/gis');

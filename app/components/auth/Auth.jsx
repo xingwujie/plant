@@ -1,6 +1,6 @@
-const Base = require('./Base');
+const Base = require('../base/Base');
 const React = require('react');
-const actions = require('../actions');
+const actions = require('../../actions');
 const Immutable = require('immutable');
 // const utils = require('../libs/utils');
 const PropTypes = require('prop-types');

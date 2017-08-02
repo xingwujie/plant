@@ -6,11 +6,11 @@
 const { isOwner } = require('../../libs/auth-helper');
 const { makeMongoId } = require('../../libs/utils');
 const actions = require('../../actions');
-const Base = require('../Base');
+const Base = require('../base/Base');
 const CircularProgress = require('material-ui/CircularProgress').default;
 const PlantEdit = require('./PlantEdit');
 const PlantRead = require('./PlantRead');
-const NoteCreate = require('./NoteCreate');
+const NoteCreate = require('../note/NoteCreate');
 const React = require('react');
 const Immutable = require('immutable');
 const PropTypes = require('prop-types');

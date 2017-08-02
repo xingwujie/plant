@@ -1,7 +1,7 @@
 // Used to show a list of users.
 // Url: /users
 
-const Base = require('../Base');
+const Base = require('../base/Base');
 const React = require('react');
 const { Link } = require('react-router');
 const utils = require('../../libs/utils');

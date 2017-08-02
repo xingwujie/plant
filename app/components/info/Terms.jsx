@@ -1,4 +1,4 @@
-const Base = require('../Base');
+const Base = require('../base/Base');
 const React = require('react');
 const Paper = require('material-ui/Paper').default;
 const Markdown = require('../common/Markdown');

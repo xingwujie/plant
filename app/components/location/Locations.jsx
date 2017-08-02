@@ -3,7 +3,7 @@
 // or the locations for a specific user
 // Url: /locations/<user-name>/<_user_id>
 
-const Base = require('../Base');
+const Base = require('../base/Base');
 const React = require('react');
 const { Link } = require('react-router');
 const utils = require('../../libs/utils');

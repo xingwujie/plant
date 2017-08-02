@@ -3,9 +3,9 @@
 // const isEmpty = require('lodash/isEmpty');
 const Paper = require('material-ui/Paper').default;
 const React = require('react');
-const CancelSaveButtons = require('./CancelSaveButtons');
+const CancelSaveButtons = require('../common/CancelSaveButtons');
 const Dropzone = require('react-dropzone');
-const InputCombo = require('../InputCombo');
+const InputCombo = require('../common/InputCombo');
 const LinearProgress = require('material-ui/LinearProgress').default;
 const CircularProgress = require('material-ui/CircularProgress').default;
 const actions = require('../../actions');
