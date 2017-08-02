@@ -25,6 +25,36 @@ function userLocations(props) {
 
   const locations = props.locations.toJS();
 
+  function usersGrid(users) {
+    return (
+      <div>
+        <h5>{'Users'}</h5>
+        {
+          (users || []).map(user => (
+            <div key={user._id}>
+              {`${user.name} - ${user.role}`}
+            </div>
+          ))
+        }
+      </div>
+    );
+  }
+
+  function stationsGrid(stations) {
+    return (
+      <div>
+        <h5>{'Weather Stations'}</h5>
+        {
+          (stations || []).map(station => (
+            <div key={station._id}>
+              {`${station.stationId} - ${station.name} - ${station.enabled}`}
+            </div>
+          ))
+        }
+      </div>
+    );
+  }
+
   return (
     <div>
       {
@@ -35,14 +65,8 @@ function userLocations(props) {
             zDepth={5}
           >
             <h3>{`${location.title}`}</h3>
-            <h5>{'Users'}</h5>
-            {
-              location.users.map(user => (
-                <div key={user._id}>
-                  {`${user.name} - ${user.role}`}
-                </div>
-              ))
-            }
+            {usersGrid(location.users)}
+            {stationsGrid(location.weatherStations)}
           </Paper>
         ))
       }
