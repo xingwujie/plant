@@ -34,7 +34,7 @@ describe('/app/reducers/user', () => {
     const expected = Immutable.fromJS(Object.assign({}, {
       status: 'success',
       isLoggedIn: true },
-      payload),
+    payload),
     );
     checkReducer('loginSuccess', state, payload, expected);
   });
@@ -45,7 +45,7 @@ describe('/app/reducers/user', () => {
     const expected = Immutable.fromJS(Object.assign({}, {
       status: 'failed',
       isLoggedIn: false },
-      payload),
+    payload),
     );
     checkReducer('loginFailure', state, payload, expected);
   });

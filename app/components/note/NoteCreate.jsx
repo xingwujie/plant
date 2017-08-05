@@ -10,7 +10,6 @@ const moment = require('moment');
 const PropTypes = require('prop-types');
 
 class NoteCreate extends React.Component {
-
   constructor(props) {
     super(props);
 

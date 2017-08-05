@@ -9,8 +9,6 @@ const React = require('react');
 const List = Immutable.List;
 
 class NotesRead extends React.Component {
-
-
   componentWillMount() {
     this.sortNotes();
   }

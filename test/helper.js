@@ -200,8 +200,8 @@ function createNote(plantIds, noteOverride = {}, cb) {
   const noteTemplate = Object.assign({
     note: 'This is a note',
     date: 20160101 },
-    { plantIds },
-    noteOverride,
+  { plantIds },
+  noteOverride,
   );
 
   const reqOptions = {

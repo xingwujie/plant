@@ -31,7 +31,7 @@ class Plant extends React.Component {
     this.initState(true);
   }
 
-/*
+  /*
 - Start of cycle #2
 - invoked when component is receiving new props
 - not called in cycle #1

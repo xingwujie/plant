@@ -14,7 +14,6 @@ const PropTypes = require('prop-types');
 const List = Immutable.List;
 
 class NoteRead extends React.Component {
-
   static renderImages(note) {
     const images = note.get('images');
     if (images && images.size) {
@@ -136,8 +135,8 @@ class NoteRead extends React.Component {
 
     const noteDate = date.format('DD-MMM-YYYY') +
       (date.isSame(moment(), 'day')
-      ? ' (today)'
-      : ` (${date.from(moment().startOf('day'))})`);
+        ? ' (today)'
+        : ` (${date.from(moment().startOf('day'))})`);
     const noteId = note.get('_id');
 
     return (
@@ -170,7 +169,6 @@ class NoteRead extends React.Component {
       ? this.renderEdit()
       : this.renderRead();
   }
-
 }
 
 NoteRead.propTypes = {

@@ -9,7 +9,6 @@ const RadioButtonGroup = require('material-ui/RadioButton').RadioButtonGroup;
 const PropTypes = require('prop-types');
 
 class PlantEditTerminated extends React.Component {
-
   constructor(props) {
     super(props);
     this.onChange = this.onChange.bind(this);

@@ -12,7 +12,7 @@ function loginSuccess(state, action) {
   return Immutable.fromJS(Object.assign({}, {
     status: 'success',
     isLoggedIn: true },
-    action.payload),
+  action.payload),
   );
 }
 
@@ -20,7 +20,7 @@ function loginFailure(state, action) {
   return Immutable.fromJS(Object.assign({}, {
     status: 'failed',
     isLoggedIn: false },
-    action.payload),
+  action.payload),
   );
 }
 

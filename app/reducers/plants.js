@@ -105,7 +105,7 @@ function upsertNoteSuccess(state, action) {
       }
       return plant;
     }
-      // Make sure the plant had the _id in its notes List
+    // Make sure the plant had the _id in its notes List
     if (hasNoteId) {
       return plant;
     }

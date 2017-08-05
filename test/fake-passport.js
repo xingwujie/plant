@@ -28,12 +28,12 @@ class FakePassport {
       const info = {};
       return () =>
         // debug('fake fb authenticate called with cb, arg.length:', arguments.length);
-         cb(err, this.user, info);
+        cb(err, this.user, info);
     }
-      // debug('fake fb authenticate setup');
+    // debug('fake fb authenticate setup');
     return (req, res, next) =>
-        // debug('fake fb authenticate called, arg.length:', arguments.length);
-         next();
+    // debug('fake fb authenticate called, arg.length:', arguments.length);
+      next();
   }
 
   // eslint-disable-next-line class-methods-use-this

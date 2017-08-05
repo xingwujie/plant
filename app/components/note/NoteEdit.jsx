@@ -225,7 +225,7 @@ class NoteEdit extends React.Component {
                 alt="TODO: Add an alt here"
               />
             </div>
-            ))
+          ))
         }
 
         <NoteAssocPlant

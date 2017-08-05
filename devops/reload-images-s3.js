@@ -23,7 +23,7 @@ function getListOfKeys(cb) {
     if (listObjectsErr) {
       logger.error('listObjectsV2', { listObjectsErr });
     }
-  /* data: { IsTruncated: false,
+    /* data: { IsTruncated: false,
     Contents:
     [ { Key: 'test/orig/2016-09-15 19.10.00.jpg',
         LastModified: 2016-09-16T19:58:40.000Z,

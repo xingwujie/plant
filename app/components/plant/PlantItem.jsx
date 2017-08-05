@@ -11,7 +11,6 @@ const moment = require('moment');
 const PropTypes = require('prop-types');
 
 class PlantItem extends React.Component {
-
   constructor() {
     super();
     this.createNote = this.createNote.bind(this);

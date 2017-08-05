@@ -208,7 +208,7 @@ class PlantRead extends React.Component {
               user={user}
             />
           </div>
-        :
+          :
           <div>{'Plant not found or still loading...'}</div>
         }
       </div>

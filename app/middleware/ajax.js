@@ -69,7 +69,8 @@ module.exports = (store, options) => {
         // console.warn('options does not have progress function in progressHandlingFunction');
       }
     } else {
-// console.error('e.lengthComputable is falsey in progressHandlingFunction:', e.lengthComputable);
+      // console.error('e.lengthComputable is falsey in progressHandlingFunction:',
+      // e.lengthComputable);
     }
   }
 
