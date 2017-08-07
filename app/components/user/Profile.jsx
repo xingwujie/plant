@@ -1,8 +1,11 @@
+// Used for managing the user's settings.
+// Only the logged in user can get to their profile page.
+
 const Base = require('../base/Base');
 const React = require('react');
 const RadioButton = require('material-ui/RadioButton').RadioButton;
 const RadioButtonGroup = require('material-ui/RadioButton').RadioButtonGroup;
-const UserLocations = require('./UserLocations');
+const LocationsManager = require('../location/LocationsManager');
 const PropTypes = require('prop-types');
 
 // Responsible for:
@@ -52,8 +55,7 @@ function profile(props, context) {
             value="metric"
           />
         </RadioButtonGroup>
-        <h3>{'Locations you Own or Manage'}</h3>
-        <UserLocations locations={locations} />
+        <LocationsManager locations={locations} />
       </div>
     </Base>
   );
