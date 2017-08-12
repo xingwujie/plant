@@ -172,4 +172,25 @@ describe('/app/libs/utils', () => {
       assert.deepEqual(actual, expected);
     });
   });
+
+  describe('constantEquals', () => {
+    it('should fail if user supplied is longer than internal', () => {
+      assert.equal(utils.constantEquals('123', '12'), false);
+    });
+    it('should fail if user supplied is shorter than internal', () => {
+      assert.equal(utils.constantEquals('12', '123'), false);
+    });
+    it('should fail if 1st param is not a string', () => {
+      assert.equal(utils.constantEquals(123, '123'), false);
+    });
+    it('should fail if 2nd param is not a string', () => {
+      assert.equal(utils.constantEquals('123', 123), false);
+    });
+    it('should fail if 1st and 2nd params are equal length and not the same', () => {
+      assert.equal(utils.constantEquals('123', '124'), false);
+    });
+    it('should pass if 1st and 2nd are equal', () => {
+      assert.equal(utils.constantEquals('123', '123'), true);
+    });
+  });
 });

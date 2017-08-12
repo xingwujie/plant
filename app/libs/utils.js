@@ -399,7 +399,29 @@ function showFeature(user) {
   return !!(user && user.get && validUserIds.indexOf(user.get('_id')) > -1);
 }
 
+/**
+ * Compares two strings in constant time to prevent a timing attack.
+ * @param {string} userSuppliedValue - the value supplied by the user
+ * @param {string} internalValue - internal value we compare against
+ */
+function constantEquals(userSuppliedValue, internalValue) {
+  if (typeof userSuppliedValue !== 'string' || typeof internalValue !== 'string') {
+    return false;
+  }
+  if (userSuppliedValue.length !== internalValue.length) {
+    return false;
+  }
+
+  let mismatch = 0;
+  for (let i = 0; i < userSuppliedValue.length; i += 1) {
+    // eslint-disable-next-line no-bitwise
+    mismatch |= (userSuppliedValue.charCodeAt(i) ^ internalValue.charCodeAt(i));
+  }
+  return !mismatch;
+}
+
 module.exports = {
+  constantEquals,
   dateToInt,
   filterPlants,
   filterSortPlants,

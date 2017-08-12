@@ -5,6 +5,8 @@ const webpack = require('webpack');
 const TARGET = process.env.TARGET;
 const ROOT_PATH = path.resolve(__dirname);
 
+/* eslint-disable security/detect-unsafe-regex */
+
 const common = {
   output: {
     path: path.resolve(__dirname, 'build'),
@@ -146,3 +148,5 @@ if (TARGET === 'dev') {
     devtool: 'cheap-module-source-map',
   });
 }
+
+/* eslint-enable security/detect-unsafe-regex */

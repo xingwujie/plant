@@ -6,7 +6,8 @@
     "node": true
   },
   "extends": [
-     "airbnb"
+    "airbnb",
+    "plugin:security/recommended"
   ],
   "parser": "babel-eslint",
   "plugins": [
@@ -16,6 +17,7 @@
     "no-underscore-dangle": 0,
     "no-shadow": [2, {"allow": [
       "Location"
-    ]}]
+    ]}],
+    "security/detect-object-injection": 0
   }
 }
