@@ -2,7 +2,7 @@ const React = require('react');
 const TextField = require('material-ui/TextField').default;
 const PropTypes = require('prop-types');
 
-function inputCombo(props) {
+function inputCombo(props = {}) {
   const {
     changeHandler,
     disabled = false,
@@ -15,7 +15,7 @@ function inputCombo(props) {
     style = {},
     type = 'text',
     value,
-  } = props || {};
+  } = props;
 
   const underlineStyle = {
     display: 'none',
@@ -45,6 +45,7 @@ function inputCombo(props) {
 
 inputCombo.propTypes = {
   changeHandler: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
   error: PropTypes.string,
   fullWidth: PropTypes.bool,
   label: PropTypes.string,
@@ -57,15 +58,18 @@ inputCombo.propTypes = {
     PropTypes.string,
     PropTypes.number,
   ]).isRequired,
+  type: PropTypes.string,
 };
 
 inputCombo.defaultProps = {
+  disabled: false,
   error: '',
   fullWidth: true,
   label: '',
   multiLine: false,
   placeholder: '',
   style: {},
+  type: 'text',
 };
 
 module.exports = inputCombo;
