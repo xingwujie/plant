@@ -37,3 +37,4 @@ typings/
 
 .nyc_output/
 .vscode/chrome/
+package-lock.json
