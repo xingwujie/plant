@@ -1,4 +1,4 @@
-const { Link } = require('react-router');
+const { Link } = require('react-router-dom');
 const Base = require('./Base');
 const React = require('react');
 const { isLoggedIn } = require('../../libs/auth-helper');

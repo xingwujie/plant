@@ -14,6 +14,7 @@ const NoteCreate = require('../note/NoteCreate');
 const React = require('react');
 const Immutable = require('immutable');
 const PropTypes = require('prop-types');
+const { withRouter } = require('react-router-dom');
 
 class Plant extends React.Component {
   static contextTypes = {
@@ -56,7 +57,7 @@ class Plant extends React.Component {
     const { store } = this.context;
     const plants = store.getState().get('plants');
 
-    const { id: _id } = props.params;
+    const { id: _id } = props.match.params;
     let plant;
     if (_id) {
       plant = plants.get(_id);
@@ -87,7 +88,7 @@ class Plant extends React.Component {
     const locations = store.getState().get('locations');
     const plants = store.getState().get('plants');
 
-    const { params } = this.props;
+    const { params } = this.props.match;
 
     const plant = plants.get(params && params.id);
 
@@ -146,13 +147,17 @@ class Plant extends React.Component {
 }
 
 Plant.propTypes = {
-  params: PropTypes.shape({
-    id: PropTypes.string,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
   }),
 };
 
 Plant.defaultProps = {
-  params: {},
+  match: {
+    params: {},
+  },
 };
 
-module.exports = Plant;
+module.exports = withRouter(Plant);

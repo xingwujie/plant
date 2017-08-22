@@ -5,7 +5,7 @@
 
 const Base = require('../base/Base');
 const React = require('react');
-const { Link } = require('react-router');
+const { Link, withRouter } = require('react-router-dom');
 const utils = require('../../libs/utils');
 const Immutable = require('immutable');
 const AddLocationButton = require('./AddLocationButton');
@@ -106,7 +106,7 @@ class Locations extends React.Component {
       return null;
     }
 
-    const { params } = this.props;
+    const { params } = this.props.match;
     if (params && params.id) {
       const user = store.getState().getIn(['users', params.id], Immutable.Map());
       const locationIds = user.get('locationIds', Immutable.List());
@@ -137,14 +137,18 @@ class Locations extends React.Component {
 }
 
 Locations.propTypes = {
-  params: PropTypes.shape({
-    id: PropTypes.string,
-    slug: PropTypes.string,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+      slug: PropTypes.string,
+    }),
   }),
 };
 
 Locations.defaultProps = {
-  params: {},
+  match: {
+    params: {},
+  },
 };
 
-module.exports = Locations;
+module.exports = withRouter(Locations);

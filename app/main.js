@@ -5,7 +5,7 @@ require('bootstrap.css');
 require('konva');
 require('./stylesheets/main.css');
 
-const { browserHistory, Router, Route, IndexRoute } = require('react-router');
+const { BrowserRouter, Route, Redirect, Switch } = require('react-router-dom');
 const { deepOrange500 } = require('material-ui/styles/colors');
 const { Provider } = require('react-redux');
 const App = require('./components/App');
@@ -30,6 +30,7 @@ const Terms = require('./components/info/Terms');
 const Location = require('./components/location/Location');
 const Locations = require('./components/location/Locations');
 const Users = require('./components/user/Users');
+const poly = require('./poly');
 
 const muiTheme = getMuiTheme({
   palette: {
@@ -47,26 +48,28 @@ injectTapEventPlugin();
 // TODO: Put a Not Found / No Match component in here.
 /* eslint-disable react/jsx-filename-extension */
 const routes = (
-  <Route path="/" component={App}>
-    <IndexRoute component={Home} />
-    <Route path="/auth/token" component={Auth} />
-    <Route path="/debug-settings" component={DebugSettings} />
-    <Route path="/help" component={Help} />
-    <Route path="/layout/:slug/:id" component={LayoutMap} />
-    <Route path="/location/:slug/:id" component={Location} />
-    <Route path="/locations" component={Locations} />
-    <Route path="/locations/:slug/:id" component={Locations} />
-    <Route path="/users" component={Users} />
-    <Route path="/login" component={Login} />
-    <Route path="/plant" component={Plant} />
-    <Route path="/plant/:slug/:id" component={Plant} />
-    <Route path="/article/:slug/:id" component={Article} />
-    <Route path="/plants/:slug/:id" component={Plants} />
-    <Route path="/privacy" component={Privacy} />
-    <Route path="/profile" component={Profile} />
-    <Route path="/terms" component={Terms} />
-    <Route path="*" component={Help} />
-  </Route>
+  <BrowserRouter>
+    <Switch>
+      <Route path="/" exact component={Home} />
+      <Route path="/auth/token" component={Auth} />
+      <Route path="/debug-settings" component={DebugSettings} />
+      <Route path="/help" component={Help} />
+      <Route path="/layout/:slug/:id" component={LayoutMap} />
+      <Route path="/location" exact component={Location} />
+      <Route path="/location/:slug/:id" component={Location} />
+      <Route path="/locations/:slug/:id" component={Locations} />
+      <Route path="/users" component={Users} />
+      <Route path="/login" component={Login} />
+      <Route path="/plant" exact component={Plant} />
+      <Route path="/plant/:slug/:id" component={Plant} />
+      <Route path="/article/:slug/:id" component={Article} />
+      <Route path="/plants/:slug/:id" component={Plants} />
+      <Route path="/privacy" component={Privacy} />
+      <Route path="/profile" component={Profile} />
+      <Route path="/terms" component={Terms} />
+      <Redirect to="/help" />
+    </Switch>
+  </BrowserRouter>
 );
 /* eslint-enable react/jsx-filename-extension */
 
@@ -76,7 +79,9 @@ function render() {
   ReactDOM.render((
     <MuiThemeProvider muiTheme={muiTheme}>
       <Provider store={store}>
-        <Router history={browserHistory}>{routes}</Router>
+        <App>
+          {routes}
+        </App>
       </Provider>
     </MuiThemeProvider>
   ), content);
@@ -86,4 +91,11 @@ function main() {
   render();
 }
 
-main();
+// Polyfill any new browser features we need
+poly((err) => {
+  if (err) {
+    // eslint-disable-next-line no-console
+    console.error(err);
+  }
+  main();
+});

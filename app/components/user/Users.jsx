@@ -3,7 +3,7 @@
 
 const Base = require('../base/Base');
 const React = require('react');
-const { Link } = require('react-router');
+const { Link } = require('react-router-dom');
 const utils = require('../../libs/utils');
 const PropTypes = require('prop-types');
 

@@ -17,6 +17,7 @@ const FloatingActionButton = require('material-ui/FloatingActionButton').default
 const MapsAddLocation = require('material-ui/svg-icons/maps/add-location').default;
 const PlantEditTerminated = require('./PlantEditTerminated');
 const PropTypes = require('prop-types');
+const { withRouter } = require('react-router-dom');
 
 const validate = validators.plant;
 
@@ -86,17 +87,19 @@ class PlantEdit extends React.Component {
     plant.locationId = this.props.user.get('activeLocationId');
 
     validate(plant, { isNew }, (errors, transformed) => {
+      const { dispatch, history } = this.props;
       if (errors) {
         // console.warn('Validation errors:', errors);
-        this.props.dispatch(actions.editPlantChange({ errors }));
+        dispatch(actions.editPlantChange({ errors }));
       } else {
         if (isNew) {
-          this.props.dispatch(actions.createPlantRequest(transformed));
+          dispatch(actions.createPlantRequest(transformed));
         } else {
-          this.props.dispatch(actions.updatePlantRequest(transformed));
+          dispatch(actions.updatePlantRequest(transformed));
         }
-        this.props.dispatch(actions.editPlantClose());
-        this.context.router.push(`/plant/${makeSlug(transformed.title)}/${transformed._id}`);
+        dispatch(actions.editPlantClose());
+        const newLocation = `/plant/${makeSlug(transformed.title)}/${transformed._id}`;
+        history.push(newLocation);
       }
     });
     e.preventDefault();
@@ -274,6 +277,9 @@ class PlantEdit extends React.Component {
 
 PlantEdit.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  history: React.PropTypes.shape({
+    push: React.PropTypes.func.isRequired,
+  }).isRequired,
   interimPlant: PropTypes.shape({
     get: PropTypes.func.isRequired,
     toJS: PropTypes.func.isRequired,
@@ -283,4 +289,4 @@ PlantEdit.propTypes = {
   }).isRequired,
 };
 
-module.exports = PlantEdit;
+module.exports = withRouter(PlantEdit);

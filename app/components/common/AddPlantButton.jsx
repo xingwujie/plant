@@ -1,7 +1,7 @@
 const React = require('react');
 const FloatingActionButton = require('material-ui/FloatingActionButton').default;
 const AddIcon = require('material-ui/svg-icons/content/add').default;
-const { Link } = require('react-router');
+const { Link } = require('react-router-dom');
 const PropTypes = require('prop-types');
 
 function addPlantButton(props) {

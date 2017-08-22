@@ -7,6 +7,7 @@ const React = require('react');
 const utils = require('../../libs/utils');
 const Immutable = require('immutable');
 const PropTypes = require('prop-types');
+const { withRouter } = require('react-router-dom');
 
 class Plants extends React.Component {
   static contextTypes = {
@@ -44,7 +45,9 @@ class Plants extends React.Component {
 
   redirectIfReady() {
     const { store } = this.context;
-    const userId = this.props.params && this.props.params.id;
+    const { match, history } = this.props;
+    const { params } = match;
+    const userId = params && params.id;
     let fwdUrl = '/';
     if (userId) {
       const user = store.getState().getIn(['users', userId], Immutable.Map());
@@ -55,7 +58,7 @@ class Plants extends React.Component {
         if (location) {
           const title = location.get('title', '');
           fwdUrl = `/location/${utils.makeSlug(title)}/${locationId}`;
-          this.context.router.push(fwdUrl);
+          history.push(fwdUrl);
         }
       }
     } else {
@@ -73,10 +76,15 @@ class Plants extends React.Component {
 }
 
 Plants.propTypes = {
-  params: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    slug: PropTypes.string.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      slug: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+  history: React.PropTypes.shape({
+    push: React.PropTypes.func.isRequired,
   }).isRequired,
 };
 
-module.exports = Plants;
+module.exports = withRouter(Plants);

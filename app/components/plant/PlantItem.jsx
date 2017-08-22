@@ -1,6 +1,6 @@
 // Used to show each plant on a user's plant list page.
 // Url: /plants/<optional-user-id>
-const { Link } = require('react-router');
+const { Link } = require('react-router-dom');
 const { makeSlug } = require('../../libs/utils');
 const React = require('react');
 const FloatingActionButton = require('material-ui/FloatingActionButton').default;

@@ -29,9 +29,9 @@ class LayoutMap extends React.Component {
       users: store.getState('users'),
     });
 
-    const { props } = this;
-    if (props.params && props.params.id) {
-      const { id: userId } = props.params;
+    const { match } = this.props;
+    if (match.params && match.params.id) {
+      const { id: userId } = match.params;
       const user = store.getState().getIn(['users', userId], Immutable.Map());
       // This is the user id for this page.
       if (!user.has('plantIds')) {
@@ -67,7 +67,8 @@ class LayoutMap extends React.Component {
 
   renderTitle() {
     const { store } = this.context;
-    const { id: userId } = (this.props || {}).params || {};
+    const { params = {} } = (this.props || {}).match || {};
+    const { id: userId } = params;
     const userName = store.getState().getIn(['users', userId, 'name']);
     return (
       <h2 style={{ textAlign: 'center' }}>{`${userName} Layout Map`}</h2>
@@ -134,8 +135,9 @@ class LayoutMap extends React.Component {
     }
 
     const { store } = this.context;
-    if (this.props.params && this.props.params.id) {
-      const { id: userId } = this.props.params;
+    const params = this.props.match && this.props.match.params;
+    if (params && params.id) {
+      const { id: userId } = params;
       const user = store.getState().getIn(['users', userId], Immutable.Map());
       if (!user.size) {
         return null;
@@ -181,9 +183,11 @@ class LayoutMap extends React.Component {
 }
 
 LayoutMap.propTypes = {
-  params: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    slug: PropTypes.string.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      slug: PropTypes.string.isRequired,
+    }).isRequired,
   }).isRequired,
 };
 

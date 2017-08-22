@@ -13,6 +13,7 @@ const utils = require('../../libs/utils');
 const Immutable = require('immutable');
 const AddPlantButton = require('../common/AddPlantButton');
 const PropTypes = require('prop-types');
+const { withRouter } = require('react-router-dom');
 
 class Location extends React.Component {
   static contextTypes = {
@@ -51,7 +52,7 @@ class Location extends React.Component {
     const { store } = this.context;
     const locations = store.getState().get('locations', Immutable.Map());
 
-    const { id: locationId } = this.props.params;
+    const { id: locationId } = this.props.match.params;
 
     const plantIds = locations.getIn([locationId, 'plantIds']);
     if (!plantIds) {
@@ -87,7 +88,7 @@ class Location extends React.Component {
       authUser = Immutable.Map(),
       users = Immutable.Map(),
     } = this.state || {};
-    const user = users.get(this.props.params.id);
+    const user = users.get(this.props.match.params.id);
     return !!(user && authUser.get('_id') === user.get('_id'));
   }
 
@@ -130,7 +131,7 @@ class Location extends React.Component {
 
     const loggedIn = !!isLoggedIn(store);
 
-    const location = locations && locations.get(this.props.params.id);
+    const location = locations && locations.get(this.props.match.params.id);
     if (!location) {
       return (
         <Base>
@@ -237,10 +238,12 @@ class Location extends React.Component {
 }
 
 Location.propTypes = {
-  params: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    slug: PropTypes.string.isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      slug: PropTypes.string.isRequired,
+    }).isRequired,
   }).isRequired,
 };
 
-module.exports = Location;
+module.exports = withRouter(Location);

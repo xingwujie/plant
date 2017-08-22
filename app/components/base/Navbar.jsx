@@ -6,7 +6,7 @@ const Immutable = require('immutable');
 const AddPlantButton = require('../common/AddPlantButton');
 const PropTypes = require('prop-types');
 
-const { Link } = require('react-router');
+const { Link } = require('react-router-dom');
 
 class Navbar extends React.Component {
   static contextTypes = {
@@ -72,7 +72,7 @@ class Navbar extends React.Component {
     const { store } = this.context;
     const location = store.getState().getIn(['locations', locationId]);
     if (!location) {
-      // console.warn('No location found for locationId', locationId);
+      // console.warn('Navbar.makeMyPlantsMenu no location', locationId);
       return null;
     }
 

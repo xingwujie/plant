@@ -6,6 +6,7 @@ const Paper = require('material-ui/Paper').default;
 const React = require('react');
 const utils = require('../../libs/utils');
 const PropTypes = require('prop-types');
+const { withRouter } = require('react-router-dom');
 
 const dateFormat = 'DD-MMM-YYYY';
 
@@ -51,7 +52,7 @@ class PlantRead extends React.Component {
 
   confirmDelete(yes) {
     if (yes) {
-      const { plant, locations } = this.props;
+      const { plant, locations, history } = this.props;
       const payload = {
         locationId: plant.get('locationId'),
         plantId: plant.get('_id'),
@@ -61,7 +62,7 @@ class PlantRead extends React.Component {
       if (location) {
         // Transition to /location/:slug/:id
         const locationUrl = utils.makeLocationUrl(location);
-        this.context.router.push(locationUrl);
+        history.push(locationUrl);
       } else {
         // console.warn('Could not find location for locationId', plant.locationId);
       }
@@ -218,6 +219,9 @@ class PlantRead extends React.Component {
 
 PlantRead.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  history: React.PropTypes.shape({
+    push: React.PropTypes.func.isRequired,
+  }).isRequired,
   interim: PropTypes.shape({
     get: PropTypes.func.isRequired,
   }).isRequired,
@@ -240,4 +244,4 @@ PlantRead.propTypes = {
   }).isRequired,
 };
 
-module.exports = PlantRead;
+module.exports = withRouter(PlantRead);

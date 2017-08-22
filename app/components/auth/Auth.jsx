@@ -4,6 +4,7 @@ const actions = require('../../actions');
 const Immutable = require('immutable');
 // const utils = require('../libs/utils');
 const PropTypes = require('prop-types');
+const { withRouter } = require('react-router-dom');
 
 class Auth extends React.Component {
   static contextTypes = {
@@ -20,9 +21,10 @@ class Auth extends React.Component {
     const { store } = this.context;
     this.unsubscribe = store.subscribe(this.onChange);
 
-    const { query } = this.props.location;
+    const { search } = this.props.location;
+    const params = new URLSearchParams(search);
 
-    const code = query && query.jwt;
+    const code = params.get('jwt');
 
     store.dispatch(actions.loginRequest(code));
   }
@@ -39,7 +41,8 @@ class Auth extends React.Component {
       // TODO: Make this next line work instead of the following
       // const destination = returnurl || utils.makeLocationUrl(location);
       const destination = returnurl || '/';
-      this.context.router.push(destination);
+      const { history } = this.props;
+      history.push(destination);
     }
   }
 
@@ -63,12 +66,16 @@ class Auth extends React.Component {
 }
 
 Auth.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  location: PropTypes.object,
+  location: PropTypes.shape({
+    search: PropTypes.string.isRequired,
+  }).isRequired,
+  history: React.PropTypes.shape({
+    push: React.PropTypes.func.isRequired,
+  }).isRequired,
 };
 
 Auth.defaultProps = {
   location: {},
 };
 
-module.exports = Auth;
+module.exports = withRouter(Auth);

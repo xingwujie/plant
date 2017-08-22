@@ -1,6 +1,6 @@
 const React = require('react');
 // const Divider = require('material-ui/Divider').default;
-const { Link } = require('react-router');
+const { Link } = require('react-router-dom');
 
 function footer() {
   return (
