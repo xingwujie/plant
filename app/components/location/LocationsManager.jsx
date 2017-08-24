@@ -5,17 +5,28 @@ const React = require('react');
 // const RadioButtonGroup = require('material-ui/RadioButton').RadioButtonGroup;
 const PropTypes = require('prop-types');
 const Paper = require('material-ui/Paper').default;
+const LocationsManagerGrid = require('./LocationsManagerGrid');
+
+const userHeaders = [{
+  title: 'Name',
+  width: 50,
+}, {
+  title: 'Role',
+  width: 50,
+}];
+
+const weatherHeaders = [{
+  title: 'Station ID',
+  width: 33,
+}, {
+  title: 'Name',
+  width: 33,
+}, {
+  title: 'Enabled',
+  width: 33,
+}];
 
 function userLocations(props) {
-  // const styles = {
-  //   radioGroup: {
-  //     display: 'flex',
-  //   },
-  //   radioButton: {
-  //     marginBottom: 16,
-  //     width: 'inherit',
-  //   },
-  // };
   const paperStyle = {
     padding: 20,
     width: '100%',
@@ -25,35 +36,21 @@ function userLocations(props) {
 
   const locations = props.locations.toJS();
 
-  function usersGrid(users) {
-    return (
-      <div>
-        <h5>{'Users'}</h5>
-        {
-          (users || []).map(user => (
-            <div key={user._id}>
-              {`${user.name} - ${user.role}`}
-            </div>
-          ))
-        }
-      </div>
-    );
-  }
+  const getUsers = users => (users || []).map((user) => {
+    const { _id, name, role } = user;
+    return {
+      _id,
+      data: [name, role],
+    };
+  });
 
-  function stationsGrid(stations) {
-    return (
-      <div>
-        <h5>{'Weather Stations'}</h5>
-        {
-          (stations || []).map(station => (
-            <div key={station._id}>
-              {`${station.stationId} - ${station.name} - ${station.enabled}`}
-            </div>
-          ))
-        }
-      </div>
-    );
-  }
+  const getWeather = stations => (stations || []).map((station) => {
+    const { _id, stationId, name, disabled } = station;
+    return {
+      _id,
+      data: [stationId, name, disabled],
+    };
+  });
 
   return (
     <div>
@@ -65,8 +62,16 @@ function userLocations(props) {
             zDepth={5}
           >
             <h3>{`${location.title}`}</h3>
-            {usersGrid(location.users)}
-            {stationsGrid(location.weatherStations)}
+            <LocationsManagerGrid
+              rows={getUsers(location.users)}
+              headers={userHeaders}
+              title={'Users'}
+            />
+            <LocationsManagerGrid
+              rows={getWeather(location.weatherStations)}
+              headers={weatherHeaders}
+              title={'Weather Stations'}
+            />
           </Paper>
         ))
       }
