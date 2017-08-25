@@ -15,19 +15,35 @@ function editDeleteButtons(props) {
     return null;
   }
 
+  function onClickDelete() {
+    props.clickDelete(props.deleteData);
+  }
+
+  function onClickEdit() {
+    props.clickEdit(props.deleteData);
+  }
+
   return (
     <h2 className="vcenter">
       { showDeleteConfirmation
-        ? <RemoveConfirm title={props.deleteTitle} confirmFn={props.confirmDelete} />
+        ? <RemoveConfirm
+          confirmFn={props.confirmDelete}
+          confirmMsg={props.confirmMsg}
+          deleteData={props.deleteData}
+          mini={props.mini}
+          title={props.deleteTitle}
+        />
         : <div style={{ textAlign: 'right' }}>
           <FloatingActionButton
-            onClick={props.clickEdit}
+            mini={props.mini}
+            onClick={onClickEdit}
             title="Edit"
           >
             <EditIcon />
           </FloatingActionButton>
           <FloatingActionButton
-            onClick={props.clickDelete}
+            mini={props.mini}
+            onClick={onClickDelete}
             secondary
             style={{ marginLeft: '10px' }}
             title="Delete"
@@ -41,12 +57,21 @@ function editDeleteButtons(props) {
 }
 
 editDeleteButtons.propTypes = {
+  confirmMsg: PropTypes.string,
   clickDelete: PropTypes.func.isRequired,
   clickEdit: PropTypes.func.isRequired,
   confirmDelete: PropTypes.func.isRequired,
+  deleteData: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   deleteTitle: PropTypes.string.isRequired,
+  mini: PropTypes.bool,
   showButtons: PropTypes.bool.isRequired,
   showDeleteConfirmation: PropTypes.bool.isRequired,
+};
+
+editDeleteButtons.defaultProps = {
+  confirmMsg: 'Really delete? (This cannot be undone.)',
+  deleteData: {},
+  mini: false,
 };
 
 module.exports = editDeleteButtons;

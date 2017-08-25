@@ -52,6 +52,16 @@ function userLocations(props) {
     };
   });
 
+  function deleteUserRow(data) {
+    // eslint-disable-next-line no-console
+    console.log('LoationsManager.deleteUserRow', data);
+  }
+
+  function deleteWeatherRow(data) {
+    // eslint-disable-next-line no-console
+    console.log('LoationsManager.deleteWeatherRow', data);
+  }
+
   return (
     <div>
       {
@@ -63,13 +73,15 @@ function userLocations(props) {
           >
             <h3>{`${location.title}`}</h3>
             <LocationsManagerGrid
-              rows={getUsers(location.users)}
+              deleteRow={deleteUserRow}
               headers={userHeaders}
+              rows={getUsers(location.users)}
               title={'Users'}
             />
             <LocationsManagerGrid
-              rows={getWeather(location.weatherStations)}
+              deleteRow={deleteWeatherRow}
               headers={weatherHeaders}
+              rows={getWeather(location.weatherStations)}
               title={'Weather Stations'}
             />
           </Paper>
