@@ -1,8 +1,10 @@
 // User grid editor
 
-const React = require('react');
-const PropTypes = require('prop-types');
 const InputCombo = require('../common/InputCombo');
+const PropTypes = require('prop-types');
+const React = require('react');
+const CheckBox = require('material-ui/svg-icons/toggle/check-box').default;
+const CheckBoxOutlineBlank = require('material-ui/svg-icons/toggle/check-box-outline-blank').default;
 
 class GridCell extends React.Component {
   constructor() {
@@ -10,8 +12,21 @@ class GridCell extends React.Component {
     this.onChange = this.onChange.bind(this);
   }
 
-  onChange(e) {
-    const { value } = e.target;
+  onChange(e, index, val) {
+    const { type } = this.props;
+    // console.log('GridCell.onChange', type, e.target.value, index, val);
+    let value;
+    switch (type) {
+      case 'select':
+        value = val;
+        break;
+      case 'boolean':
+        value = index;
+        break;
+      default:
+        value = e.target.value;
+        break;
+    }
     this.props.editCell(this.props.rowId, this.props.index, value);
   }
 
@@ -33,7 +48,15 @@ class GridCell extends React.Component {
         />
       );
     }
-    return (<span>{this.props.value}</span>);
+
+    // eslint-disable-next-line no-nested-ternary
+    if (type === 'boolean') {
+      return value
+        ? <CheckBox />
+        : <CheckBoxOutlineBlank />;
+    }
+
+    return (<span>{value}</span>);
   }
 }
 
@@ -45,7 +68,10 @@ GridCell.propTypes = {
   rowId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool,
+  ]).isRequired,
 };
 
 GridCell.defaultProps = {

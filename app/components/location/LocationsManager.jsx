@@ -28,7 +28,7 @@ const weatherColumns = [{
   width: 33,
 }, {
   title: 'Enabled',
-  type: 'text',
+  type: 'boolean',
   width: 33,
 }];
 

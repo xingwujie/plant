@@ -133,7 +133,7 @@ class LocationsManagerGrid extends React.Component {
           case 'text':
             return '';
           case 'boolean':
-            return false;
+            return true;
           default:
             // eslint-disable-next-line no-console
             console.warn('Unknown type in addNewRow', col.typ);
