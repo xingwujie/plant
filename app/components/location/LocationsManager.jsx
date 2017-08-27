@@ -40,7 +40,14 @@ function userLocations(props) {
     const { _id, name, role } = user;
     return {
       _id,
-      data: [name, role],
+      data: [{
+        value: name,
+        type: 'text',
+      }, {
+        value: role,
+        type: 'select',
+        options: ['owner', 'manager', 'member'],
+      }],
     };
   });
 
