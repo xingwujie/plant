@@ -11,13 +11,12 @@ class GridCell extends React.Component {
   }
 
   onChange(e) {
-    // eslint-disable-next-line no-console
-    console.log('GridCell.onChange', e);
-    this.props.editCell(this.props.rowId, this.props.index, e);
+    const { value } = e.target;
+    this.props.editCell(this.props.rowId, this.props.index, value);
   }
 
   render() {
-    const { editId, rowId, data } = this.props;
+    const { editId, rowId, data, title } = this.props;
     const { value, type } = data;
     const error = ''; // TODO: Determine error handling and communicating
     if (editId === rowId) {
@@ -25,10 +24,9 @@ class GridCell extends React.Component {
         <InputCombo
           changeHandler={this.onChange}
           error={error}
-          label="InputCombo Label"
-          multiLine
-          name="InputCombo Name"
-          placeholder={'Enter value...'}
+          label={title}
+          name={title}
+          placeholder={title}
           style={{}}
           value={value}
           type={type}
@@ -48,6 +46,7 @@ GridCell.propTypes = {
   editId: PropTypes.string,
   index: PropTypes.number.isRequired,
   rowId: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
 };
 
 GridCell.defaultProps = {

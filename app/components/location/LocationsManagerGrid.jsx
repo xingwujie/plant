@@ -89,7 +89,7 @@ class LocationsManagerGrid extends React.Component {
           }
           return datum;
         });
-        return Object.assign({ ...row }, data);
+        return Object.assign({ ...row }, { data });
       }
       return row;
     });
@@ -100,7 +100,10 @@ class LocationsManagerGrid extends React.Component {
     // TODO: Need to restore the row's data from the props
     // eslint-disable-next-line no-console
     console.log('LocationsManagerGrid.cancelEdit');
-    this.setState({ editId: '' });
+    const { editId } = this.state;
+    const propRow = this.props.rows.find(row => row._id === editId) || {};
+    const rows = this.state.rows.map(row => (row._id === propRow._id ? propRow : row));
+    this.setState({ editId: '', rows });
   }
 
   saveEdit() {
@@ -158,23 +161,23 @@ class LocationsManagerGrid extends React.Component {
                       <TableRowColumn key={headers[index].title}>
                         <GridCell
                           data={datum}
+                          editCell={this.editCell}
                           editId={editId}
+                          index={index}
                           rowId={row._id}
                           title={headers[index].title}
-                          index={index}
-                          editCell={this.editCell}
                         />
                       </TableRowColumn>))
                   }
                   <TableRowColumn key={'action'}>
-                    {editId
+                    {editId === row._id
                       ? <CancelSaveButtons
                         clickSave={this.saveEdit}
                         clickCancel={this.cancelEdit}
                         mini
                         showButtons
                       />
-                      : <EditDeleteButtons
+                      : !editId && <EditDeleteButtons
                         clickDelete={this.checkDelete}
                         clickEdit={this.editRow}
                         confirmDelete={this.confirmDelete}
