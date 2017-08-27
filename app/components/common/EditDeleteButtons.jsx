@@ -9,6 +9,7 @@ function editDeleteButtons(props) {
   const {
     showButtons,
     showDeleteConfirmation,
+    disabled,
   } = props;
 
   if (!showButtons) {
@@ -35,6 +36,7 @@ function editDeleteButtons(props) {
         />
         : <div style={{ textAlign: 'right' }}>
           <FloatingActionButton
+            disabled={disabled}
             mini={props.mini}
             onClick={onClickEdit}
             title="Edit"
@@ -42,6 +44,7 @@ function editDeleteButtons(props) {
             <EditIcon />
           </FloatingActionButton>
           <FloatingActionButton
+            disabled={disabled}
             mini={props.mini}
             onClick={onClickDelete}
             secondary
@@ -57,12 +60,13 @@ function editDeleteButtons(props) {
 }
 
 editDeleteButtons.propTypes = {
-  confirmMsg: PropTypes.string,
   clickDelete: PropTypes.func.isRequired,
   clickEdit: PropTypes.func.isRequired,
   confirmDelete: PropTypes.func.isRequired,
+  confirmMsg: PropTypes.string,
   deleteData: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   deleteTitle: PropTypes.string.isRequired,
+  disabled: PropTypes.bool,
   mini: PropTypes.bool,
   showButtons: PropTypes.bool.isRequired,
   showDeleteConfirmation: PropTypes.bool.isRequired,
@@ -71,6 +75,7 @@ editDeleteButtons.propTypes = {
 editDeleteButtons.defaultProps = {
   confirmMsg: 'Really delete? (This cannot be undone.)',
   deleteData: {},
+  disabled: false,
   mini: false,
 };
 

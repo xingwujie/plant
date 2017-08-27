@@ -8,6 +8,7 @@ const GridCell = require('./GridCell');
 const Paper = require('material-ui/Paper').default;
 const PropTypes = require('prop-types');
 const React = require('react');
+const utils = require('../../libs/utils');
 
 const {
   Table,
@@ -21,6 +22,7 @@ const {
 class LocationsManagerGrid extends React.Component {
   constructor(props) {
     super(props);
+    this.addNewRow = this.addNewRow.bind(this);
     this.cancelEdit = this.cancelEdit.bind(this);
     this.checkDelete = this.checkDelete.bind(this);
     this.confirmDelete = this.confirmDelete.bind(this);
@@ -96,21 +98,51 @@ class LocationsManagerGrid extends React.Component {
     this.setState({ rows });
   }
 
+  /**
+   * If we're canceling the editing of a new row then we want to completely
+   * remove that row. If we're editing an existing row then we want to restore
+   * the values from the props to that row in the state.
+   */
   cancelEdit() {
-    // TODO: Need to restore the row's data from the props
-    // eslint-disable-next-line no-console
-    console.log('LocationsManagerGrid.cancelEdit');
-    const { editId } = this.state;
-    const propRow = this.props.rows.find(row => row._id === editId) || {};
-    const rows = this.state.rows.map(row => (row._id === propRow._id ? propRow : row));
-    this.setState({ editId: '', rows });
+    const { editId, newRow = false } = this.state;
+    let rows;
+    if (newRow) {
+      rows = this.state.rows.filter(row => (row._id !== editId));
+    } else {
+      const propRow = this.props.rows.find(row => row._id === editId) || {};
+      rows = this.state.rows.map(row => (row._id === propRow._id ? propRow : row));
+    }
+    this.setState({ editId: '', rows, newRow: false });
   }
 
   saveEdit() {
     // TODO: Need to call the callers's save method with this row's data
+    //       Need to distinguish between update/save - perhaps...
     // eslint-disable-next-line no-console
     console.log('LocationsManagerGrid.saveEdit');
-    this.setState({ editId: '' });
+    this.setState({ editId: '', newRow: false });
+  }
+
+  addNewRow() {
+    const { columns: cols } = this.props;
+    const editId = utils.makeMongoId();
+    const row = {
+      _id: editId,
+      values: cols.map((col) => {
+        switch (col.type) {
+          case 'text':
+            return '';
+          case 'boolean':
+            return false;
+          default:
+            // eslint-disable-next-line no-console
+            console.warn('Unknown type in addNewRow', col.typ);
+            return '';
+        }
+      }),
+    };
+    const rows = this.state.rows.concat(row);
+    this.setState({ rows, editId, newRow: true });
   }
 
   render() {
@@ -174,21 +206,22 @@ class LocationsManagerGrid extends React.Component {
                   <TableRowColumn key={'action'}>
                     {editId === row._id
                       ? <CancelSaveButtons
-                        clickSave={this.saveEdit}
                         clickCancel={this.cancelEdit}
+                        clickSave={this.saveEdit}
                         mini
                         showButtons
                       />
-                      : !editId && <EditDeleteButtons
+                      : <EditDeleteButtons
                         clickDelete={this.checkDelete}
                         clickEdit={this.editRow}
                         confirmDelete={this.confirmDelete}
                         confirmMsg={'Really?'}
+                        deleteData={{ id: row._id }}
                         deleteTitle={''}
+                        disabled={!!editId}
                         mini
                         showButtons={isOwner}
                         showDeleteConfirmation={deleteId === row._id}
-                        deleteData={{ id: row._id }}
                       />
                     }
                   </TableRowColumn>
@@ -199,8 +232,10 @@ class LocationsManagerGrid extends React.Component {
         </Table>
         <div style={{ textAlign: 'right' }}>
           <FloatingActionButton
-            title={`Add ${title}`}
+            disabled={!!editId}
             mini
+            onClick={this.addNewRow}
+            title={`Add ${title}`}
           >
             <AddIcon />
           </FloatingActionButton>
@@ -211,19 +246,18 @@ class LocationsManagerGrid extends React.Component {
 }
 
 LocationsManagerGrid.propTypes = {
-  rows: PropTypes.arrayOf(PropTypes.shape({
-    _id: PropTypes.string.isRequired,
-    values: PropTypes.array.isRequired,
-  })),
+  deleteRow: PropTypes.func.isRequired,
   columns: PropTypes.arrayOf(PropTypes.shape({
     options: PropTypes.arrayOf(PropTypes.string.isRequired),
     title: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     width: PropTypes.number.isRequired,
   })).isRequired,
+  rows: PropTypes.arrayOf(PropTypes.shape({
+    _id: PropTypes.string.isRequired,
+    values: PropTypes.array.isRequired,
+  })),
   title: PropTypes.string.isRequired,
-  // dispatch: PropTypes.func.isRequired,
-  deleteRow: PropTypes.func.isRequired,
 };
 
 LocationsManagerGrid.defaultProps = {
