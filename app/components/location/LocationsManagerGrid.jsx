@@ -83,13 +83,13 @@ class LocationsManagerGrid extends React.Component {
   editCell(rowId, colIndex, value) {
     const rows = this.state.rows.map((row) => {
       if (row._id === rowId) {
-        const data = row.data.map((datum, index) => {
+        const values = row.values.map((currentValue, index) => {
           if (colIndex === index) {
-            return Object.assign({ ...datum }, { value });
+            return value;
           }
-          return datum;
+          return currentValue;
         });
-        return Object.assign({ ...row }, { data });
+        return Object.assign({ ...row }, { values });
       }
       return row;
     });
@@ -123,7 +123,7 @@ class LocationsManagerGrid extends React.Component {
 
     const isOwner = true;
 
-    const { headers, title } = this.props;
+    const { columns, title } = this.props;
     const {
       rows,
       deleteId, // If has a value then in process of confirming delete of this row
@@ -145,8 +145,8 @@ class LocationsManagerGrid extends React.Component {
           >
             <TableRow>
               {
-                headers.map(header => (
-                  <TableHeaderColumn key={header.title}>{header.title}</TableHeaderColumn>
+                columns.map(column => (
+                  <TableHeaderColumn key={column.title}>{column.title}</TableHeaderColumn>
                 ))
               }
               <TableHeaderColumn key={'action'}>{'Action'}</TableHeaderColumn>
@@ -157,15 +157,17 @@ class LocationsManagerGrid extends React.Component {
               rows.map(row => (
                 <TableRow key={row._id}>
                   {
-                    row.data.map((datum, index) => (
-                      <TableRowColumn key={headers[index].title}>
+                    row.values.map((value, index) => (
+                      <TableRowColumn key={columns[index].title}>
                         <GridCell
-                          data={datum}
                           editCell={this.editCell}
                           editId={editId}
                           index={index}
+                          options={columns[index].options}
                           rowId={row._id}
-                          title={headers[index].title}
+                          title={columns[index].title}
+                          type={columns[index].type}
+                          value={value}
                         />
                       </TableRowColumn>))
                   }
@@ -211,10 +213,12 @@ class LocationsManagerGrid extends React.Component {
 LocationsManagerGrid.propTypes = {
   rows: PropTypes.arrayOf(PropTypes.shape({
     _id: PropTypes.string.isRequired,
-    data: PropTypes.array.isRequired,
+    values: PropTypes.array.isRequired,
   })),
-  headers: PropTypes.arrayOf(PropTypes.shape({
+  columns: PropTypes.arrayOf(PropTypes.shape({
+    options: PropTypes.arrayOf(PropTypes.string.isRequired),
     title: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired,
     width: PropTypes.number.isRequired,
   })).isRequired,
   title: PropTypes.string.isRequired,

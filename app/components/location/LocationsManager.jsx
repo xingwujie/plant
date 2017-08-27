@@ -7,22 +7,28 @@ const PropTypes = require('prop-types');
 const Paper = require('material-ui/Paper').default;
 const LocationsManagerGrid = require('./LocationsManagerGrid');
 
-const userHeaders = [{
+const userColumns = [{
   title: 'Name',
+  type: 'text',
   width: 50,
 }, {
+  options: ['owner', 'manager', 'member'],
   title: 'Role',
+  type: 'select',
   width: 50,
 }];
 
-const weatherHeaders = [{
+const weatherColumns = [{
   title: 'Station ID',
+  type: 'text',
   width: 33,
 }, {
   title: 'Name',
+  type: 'text',
   width: 33,
 }, {
   title: 'Enabled',
+  type: 'text',
   width: 33,
 }];
 
@@ -40,14 +46,7 @@ function userLocations(props) {
     const { _id, name, role } = user;
     return {
       _id,
-      data: [{
-        value: name,
-        type: 'text',
-      }, {
-        value: role,
-        type: 'select',
-        options: ['owner', 'manager', 'member'],
-      }],
+      values: [name, role],
     };
   });
 
@@ -55,7 +54,7 @@ function userLocations(props) {
     const { _id, stationId, name, disabled } = station;
     return {
       _id,
-      data: [stationId, name, disabled],
+      values: [stationId, name, disabled],
     };
   });
 
@@ -81,13 +80,13 @@ function userLocations(props) {
             <h3>{`${location.title}`}</h3>
             <LocationsManagerGrid
               deleteRow={deleteUserRow}
-              headers={userHeaders}
+              columns={userColumns}
               rows={getUsers(location.users)}
               title={'Users'}
             />
             <LocationsManagerGrid
               deleteRow={deleteWeatherRow}
-              headers={weatherHeaders}
+              columns={weatherColumns}
               rows={getWeather(location.weatherStations)}
               title={'Weather Stations'}
             />
