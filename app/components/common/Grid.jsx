@@ -19,7 +19,7 @@ const {
   TableRowColumn,
 } = require('material-ui/Table');
 
-class LocationsManagerGrid extends React.Component {
+class Grid extends React.Component {
   constructor(props) {
     super(props);
     this.addNewRow = this.addNewRow.bind(this);
@@ -250,7 +250,7 @@ class LocationsManagerGrid extends React.Component {
   }
 }
 
-LocationsManagerGrid.propTypes = {
+Grid.propTypes = {
   columns: PropTypes.arrayOf(PropTypes.shape({
     options: PropTypes.arrayOf(PropTypes.shape({
       value: PropTypes.any.isRequired,
@@ -270,8 +270,8 @@ LocationsManagerGrid.propTypes = {
   update: PropTypes.func.isRequired,
 };
 
-LocationsManagerGrid.defaultProps = {
+Grid.defaultProps = {
   rows: [],
 };
 
-module.exports = LocationsManagerGrid;
+module.exports = Grid;
