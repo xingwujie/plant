@@ -55,9 +55,13 @@ class LocationsManagerGrid extends React.Component {
    * @param {Object} deleteData  - data needed to identify row to be deleted
    */
   confirmDelete(yes, deleteData) {
-    const { id: deleteId } = deleteData;
     if (yes) {
-      this.props.deleteRow(deleteId);
+      this.props.delete(deleteData);
+      const { id } = deleteData;
+      const { rows } = this.state;
+      this.setState({
+        rows: rows.filter(row => row._id !== id),
+      });
     } else {
       this.setState({ deleteId: '' });
     }
@@ -68,8 +72,6 @@ class LocationsManagerGrid extends React.Component {
    * @param {Object} editData - holds rowId of the row being switch to edit mode
    */
   editRow(editData) {
-    // eslint-disable-next-line no-console
-    console.log('LocationsManagerGrid.editRow', this.props, editData);
     this.setState({
       editId: editData.id,
     });
@@ -116,10 +118,13 @@ class LocationsManagerGrid extends React.Component {
   }
 
   saveEdit() {
-    // TODO: Need to call the callers's save method with this row's data
-    //       Need to distinguish between update/save - perhaps...
-    // eslint-disable-next-line no-console
-    console.log('LocationsManagerGrid.saveEdit');
+    const { rows, editId, newRow } = this.state;
+    const editRow = rows.find(row => row._id === editId);
+    if (newRow) {
+      this.props.insert(editRow);
+    } else {
+      this.props.update(editRow);
+    }
     this.setState({ editId: '', newRow: false });
   }
 
@@ -246,7 +251,6 @@ class LocationsManagerGrid extends React.Component {
 }
 
 LocationsManagerGrid.propTypes = {
-  deleteRow: PropTypes.func.isRequired,
   columns: PropTypes.arrayOf(PropTypes.shape({
     options: PropTypes.arrayOf(PropTypes.shape({
       value: PropTypes.any.isRequired,
@@ -256,11 +260,14 @@ LocationsManagerGrid.propTypes = {
     type: PropTypes.string.isRequired,
     width: PropTypes.number.isRequired,
   })).isRequired,
+  delete: PropTypes.func.isRequired,
+  insert: PropTypes.func.isRequired,
   rows: PropTypes.arrayOf(PropTypes.shape({
     _id: PropTypes.string.isRequired,
     values: PropTypes.array.isRequired,
   })),
   title: PropTypes.string.isRequired,
+  update: PropTypes.func.isRequired,
 };
 
 LocationsManagerGrid.defaultProps = {

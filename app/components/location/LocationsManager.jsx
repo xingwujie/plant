@@ -34,75 +34,111 @@ const weatherColumns = [{
   width: 33,
 }];
 
-function userLocations(props) {
-  const paperStyle = {
-    padding: 20,
-    width: '100%',
-    margin: 20,
-    display: 'inline-block',
+const getUsers = users => (users || []).map((user) => {
+  const { _id, name, role } = user;
+  return {
+    _id,
+    values: [name, role],
   };
+});
 
-  const locations = props.locations.toJS();
+const getWeather = stations => (stations || []).map((station) => {
+  const { _id, stationId, name, disabled } = station;
+  return {
+    _id,
+    values: [stationId, name, disabled],
+  };
+});
 
-  const getUsers = users => (users || []).map((user) => {
-    const { _id, name, role } = user;
-    return {
-      _id,
-      values: [name, role],
-    };
-  });
-
-  const getWeather = stations => (stations || []).map((station) => {
-    const { _id, stationId, name, disabled } = station;
-    return {
-      _id,
-      values: [stationId, name, disabled],
-    };
-  });
-
-  function deleteUserRow(data) {
-    // eslint-disable-next-line no-console
-    console.log('LoationsManager.deleteUserRow', data);
+class UserLocations extends React.Component {
+  constructor() {
+    super();
+    this.insertLocationUser = this.insertLocationUser.bind(this);
+    this.insertLocationWeather = this.insertLocationWeather.bind(this);
+    this.deleteLocationUser = this.deleteLocationUser.bind(this);
+    this.deleteLocationWeather = this.deleteLocationWeather.bind(this);
+    this.updateLocationUser = this.updateLocationUser.bind(this);
+    this.updateLocationWeather = this.updateLocationWeather.bind(this);
   }
 
-  function deleteWeatherRow(data) {
+  insertLocationUser(data) {
     // eslint-disable-next-line no-console
-    console.log('LoationsManager.deleteWeatherRow', data);
+    console.log('LocationsManager.insertLocationUser()', data, this.props);
   }
 
-  return (
-    <div>
-      {
-        locations.map(location => (
-          <Paper
-            key={location._id}
-            style={paperStyle}
-            zDepth={5}
-          >
-            <h3>{`${location.title}`}</h3>
-            <Grid
-              deleteRow={deleteUserRow}
-              columns={userColumns}
-              rows={getUsers(location.users)}
-              title={'Users'}
-            />
-            <Grid
-              deleteRow={deleteWeatherRow}
-              columns={weatherColumns}
-              rows={getWeather(location.weatherStations)}
-              title={'Weather Stations'}
-            />
-          </Paper>
-        ))
-      }
-    </div>
-  );
+  insertLocationWeather(data) {
+    // eslint-disable-next-line no-console
+    console.log('LocationsManager.insertLocationWeather()', data, this.props);
+  }
+
+  deleteLocationUser(data) {
+    // eslint-disable-next-line no-console
+    console.log('LoationsManager.deleteLocationUser', data, this.props);
+  }
+
+  deleteLocationWeather(data) {
+    // eslint-disable-next-line no-console
+    console.log('LoationsManager.deleteLocationWeather', data, this.props);
+  }
+
+  updateLocationUser(data) {
+    // eslint-disable-next-line no-console
+    console.log('LoationsManager.updateLocationUser', data, this.props);
+  }
+
+  updateLocationWeather(data) {
+    // eslint-disable-next-line no-console
+    console.log('LoationsManager.updateLocationWeather', data, this.props);
+  }
+
+  render() {
+    const paperStyle = {
+      padding: 20,
+      width: '100%',
+      margin: 20,
+      display: 'inline-block',
+    };
+
+    const locations = this.props.locations.toJS();
+
+    return (
+      <div>
+        {
+          locations.map(location => (
+            <Paper
+              key={location._id}
+              style={paperStyle}
+              zDepth={5}
+            >
+              <h3>{`${location.title}`}</h3>
+              <Grid
+                columns={userColumns}
+                delete={this.deleteLocationUser}
+                insert={this.insertLocationUser}
+                rows={getUsers(location.users)}
+                title={'Users'}
+                update={this.updateLocationUser}
+              />
+              <Grid
+                columns={weatherColumns}
+                delete={this.deleteLocationWeather}
+                insert={this.insertLocationWeather}
+                rows={getWeather(location.weatherStations)}
+                title={'Weather Stations'}
+                update={this.updateLocationWeather}
+              />
+            </Paper>
+          ))
+        }
+      </div>
+    );
+  }
 }
 
-userLocations.propTypes = {
+UserLocations.propTypes = {
   locations: PropTypes.shape({
     toJS: PropTypes.func.isRequired,
   }).isRequired,
 };
 
-module.exports = userLocations;
+module.exports = UserLocations;
