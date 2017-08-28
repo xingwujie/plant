@@ -1,8 +1,8 @@
 // User grid editor
 
 const AddIcon = require('material-ui/svg-icons/content/add').default;
-const CancelSaveButtons = require('../common/CancelSaveButtons');
-const EditDeleteButtons = require('../common/EditDeleteButtons');
+const CancelSaveButtons = require('./CancelSaveButtons');
+const EditDeleteButtons = require('./EditDeleteButtons');
 const FloatingActionButton = require('material-ui/FloatingActionButton').default;
 const GridCell = require('./GridCell');
 const Paper = require('material-ui/Paper').default;

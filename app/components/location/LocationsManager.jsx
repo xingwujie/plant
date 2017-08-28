@@ -1,11 +1,9 @@
 // For the user to manage their Locations (Orchards/Yards)
 
 const React = require('react');
-// const RadioButton = require('material-ui/RadioButton').RadioButton;
-// const RadioButtonGroup = require('material-ui/RadioButton').RadioButtonGroup;
 const PropTypes = require('prop-types');
 const Paper = require('material-ui/Paper').default;
-const Grid = require('./Grid');
+const Grid = require('../common/Grid');
 
 const userColumns = [{
   title: 'Name',

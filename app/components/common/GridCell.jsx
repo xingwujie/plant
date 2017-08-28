@@ -1,6 +1,6 @@
 // User grid editor
 
-const InputCombo = require('../common/InputCombo');
+const InputCombo = require('./InputCombo');
 const PropTypes = require('prop-types');
 const React = require('react');
 const CheckBox = require('material-ui/svg-icons/toggle/check-box').default;
