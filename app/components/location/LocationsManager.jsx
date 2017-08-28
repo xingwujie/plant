@@ -10,11 +10,11 @@ const userColumns = [{
   type: 'text',
   width: 50,
 }, {
-  options: [
-    { value: 'owner', text: 'Owner' },
-    { value: 'manager', text: 'Manager' },
-    { value: 'member', text: 'Member' },
-  ],
+  options: {
+    owner: 'Owner',
+    manager: 'Manager',
+    member: 'Member',
+  },
   title: 'Role',
   type: 'select',
   width: 50,
@@ -73,22 +73,22 @@ class UserLocations extends React.Component {
 
   deleteLocationUser(data) {
     // eslint-disable-next-line no-console
-    console.log('LoationsManager.deleteLocationUser', data, this.props);
+    console.log('LocationsManager.deleteLocationUser', data, this.props);
   }
 
   deleteLocationWeather(data) {
     // eslint-disable-next-line no-console
-    console.log('LoationsManager.deleteLocationWeather', data, this.props);
+    console.log('LocationsManager.deleteLocationWeather', data, this.props);
   }
 
   updateLocationUser(data) {
     // eslint-disable-next-line no-console
-    console.log('LoationsManager.updateLocationUser', data, this.props);
+    console.log('LocationsManager.updateLocationUser', data, this.props);
   }
 
   updateLocationWeather(data) {
     // eslint-disable-next-line no-console
-    console.log('LoationsManager.updateLocationWeather', data, this.props);
+    console.log('LocationsManager.updateLocationWeather', data, this.props);
   }
 
   render() {

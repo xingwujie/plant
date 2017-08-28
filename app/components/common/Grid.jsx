@@ -139,9 +139,13 @@ class Grid extends React.Component {
             return '';
           case 'boolean':
             return true;
+          case 'select':
+            // Randomly select the first key when creating a new row.
+            // Not sure if that's a good idea...
+            return Object.keys(col.options)[0];
           default:
             // eslint-disable-next-line no-console
-            console.warn('Unknown type in addNewRow', col.typ);
+            console.warn('Unknown type in addNewRow', col.type);
             return '';
         }
       }),
@@ -252,10 +256,7 @@ class Grid extends React.Component {
 
 Grid.propTypes = {
   columns: PropTypes.arrayOf(PropTypes.shape({
-    options: PropTypes.arrayOf(PropTypes.shape({
-      value: PropTypes.any.isRequired,
-      text: PropTypes.string.isRequired,
-    }).isRequired),
+    options: PropTypes.object,
     title: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     width: PropTypes.number.isRequired,

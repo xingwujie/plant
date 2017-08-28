@@ -56,7 +56,7 @@ class GridCell extends React.Component {
 
     let text = value;
     if (type === 'select') {
-      text = options.find(option => option.value === value).text;
+      text = options[value];
     }
 
     return (<span>{text}</span>);
@@ -67,10 +67,7 @@ GridCell.propTypes = {
   editCell: PropTypes.func.isRequired,
   editId: PropTypes.string,
   index: PropTypes.number.isRequired,
-  options: PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.any.isRequired,
-    text: PropTypes.string.isRequired,
-  }).isRequired),
+  options: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   rowId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
@@ -82,10 +79,7 @@ GridCell.propTypes = {
 
 GridCell.defaultProps = {
   editId: '',
-  options: [],
-};
-
-GridCell.defaultProps = {
+  options: {},
   rows: [],
 };
 

@@ -57,8 +57,8 @@ function inputCombo(props = {}) {
     onChange={changeHandler}
   >
     {
-      options.map(option =>
-        <MenuItem key={option.value} value={option.value} primaryText={option.text} />)
+      Object.keys(options).map(key =>
+        <MenuItem key={key} value={key} primaryText={options[key]} />)
     }
   </SelectField>);
 
@@ -85,10 +85,7 @@ inputCombo.propTypes = {
   label: PropTypes.string,
   multiLine: PropTypes.bool,
   name: PropTypes.string.isRequired, // eslint-disable-line no-dupe-keys
-  options: PropTypes.arrayOf(PropTypes.shape({
-    value: PropTypes.any.isRequired,
-    text: PropTypes.string.isRequired,
-  }).isRequired),
+  options: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   placeholder: PropTypes.string,
   // eslint-disable-next-line react/forbid-prop-types
   style: PropTypes.object,
@@ -106,7 +103,7 @@ inputCombo.defaultProps = {
   fullWidth: true,
   label: '',
   multiLine: false,
-  options: [],
+  options: {},
   placeholder: '',
   style: {},
   type: 'text',
