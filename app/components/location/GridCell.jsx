@@ -38,7 +38,6 @@ class GridCell extends React.Component {
         <InputCombo
           changeHandler={this.onChange}
           error={error}
-          label={title}
           name={title}
           options={options}
           placeholder={title}
@@ -56,7 +55,12 @@ class GridCell extends React.Component {
         : <CheckBoxOutlineBlank />;
     }
 
-    return (<span>{value}</span>);
+    let text = value;
+    if (type === 'select') {
+      text = options.find(option => option.value === value).text;
+    }
+
+    return (<span>{text}</span>);
   }
 }
 
@@ -64,7 +68,10 @@ GridCell.propTypes = {
   editCell: PropTypes.func.isRequired,
   editId: PropTypes.string,
   index: PropTypes.number.isRequired,
-  options: PropTypes.arrayOf(PropTypes.string.isRequired),
+  options: PropTypes.arrayOf(PropTypes.shape({
+    value: PropTypes.any.isRequired,
+    text: PropTypes.string.isRequired,
+  }).isRequired),
   rowId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,

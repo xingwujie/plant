@@ -12,7 +12,11 @@ const userColumns = [{
   type: 'text',
   width: 50,
 }, {
-  options: ['owner', 'manager', 'member'],
+  options: [
+    { value: 'owner', text: 'Owner' },
+    { value: 'manager', text: 'Manager' },
+    { value: 'member', text: 'Member' },
+  ],
   title: 'Role',
   type: 'select',
   width: 50,

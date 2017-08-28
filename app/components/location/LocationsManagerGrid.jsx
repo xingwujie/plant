@@ -248,7 +248,10 @@ class LocationsManagerGrid extends React.Component {
 LocationsManagerGrid.propTypes = {
   deleteRow: PropTypes.func.isRequired,
   columns: PropTypes.arrayOf(PropTypes.shape({
-    options: PropTypes.arrayOf(PropTypes.string.isRequired),
+    options: PropTypes.arrayOf(PropTypes.shape({
+      value: PropTypes.any.isRequired,
+      text: PropTypes.string.isRequired,
+    }).isRequired),
     title: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
     width: PropTypes.number.isRequired,
