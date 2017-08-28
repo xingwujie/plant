@@ -48,7 +48,6 @@ class GridCell extends React.Component {
       );
     }
 
-    // eslint-disable-next-line no-nested-ternary
     if (type === 'boolean') {
       return value
         ? <CheckBox />

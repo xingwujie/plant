@@ -5,7 +5,7 @@ const React = require('react');
 // const RadioButtonGroup = require('material-ui/RadioButton').RadioButtonGroup;
 const PropTypes = require('prop-types');
 const Paper = require('material-ui/Paper').default;
-const LocationsManagerGrid = require('./LocationsManagerGrid');
+const Grid = require('./Grid');
 
 const userColumns = [{
   title: 'Name',
@@ -82,13 +82,13 @@ function userLocations(props) {
             zDepth={5}
           >
             <h3>{`${location.title}`}</h3>
-            <LocationsManagerGrid
+            <Grid
               deleteRow={deleteUserRow}
               columns={userColumns}
               rows={getUsers(location.users)}
               title={'Users'}
             />
-            <LocationsManagerGrid
+            <Grid
               deleteRow={deleteWeatherRow}
               columns={weatherColumns}
               rows={getWeather(location.weatherStations)}
