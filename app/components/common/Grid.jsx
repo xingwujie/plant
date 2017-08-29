@@ -140,9 +140,7 @@ class Grid extends React.Component {
           case 'boolean':
             return true;
           case 'select':
-            // Randomly select the first key when creating a new row.
-            // Not sure if that's a good idea...
-            return Object.keys(col.options)[0];
+            return col.options['<select>'];
           default:
             // eslint-disable-next-line no-console
             console.warn('Unknown type in addNewRow', col.type);

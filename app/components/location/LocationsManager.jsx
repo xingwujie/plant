@@ -12,6 +12,7 @@ const userColumns = [{
   width: 50,
 }, {
   options: {
+    '<select>': '<select>',
     owner: 'Owner',
     manager: 'Manager',
     member: 'Member',
@@ -63,6 +64,7 @@ class UserLocations extends React.Component {
 
     userColumns[0].options = props.users.reduce((acc, item) =>
       acc.set(item.get('_id'), item.get('name')), Immutable.Map()).toJS();
+    userColumns[0].options['<select>'] = '<select>';
   }
 
   insertLocationUser(data) {
