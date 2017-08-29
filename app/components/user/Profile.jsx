@@ -28,8 +28,9 @@ function profile(props, context) {
   const { userSettings } = props;
   const { imperial } = userSettings;
   const { store } = context;
-  const users = store.getState().get('users', Immutable.Map());
-  const locations = store.getState().getIn(['user', 'locationIds']);
+  const { getState, dispatch } = store;
+  const users = getState().get('users', Immutable.Map());
+  const locations = getState().getIn(['user', 'locationIds']);
 
   const unitOfMeasurement = imperial ? 'imperial' : 'metric';
 
@@ -59,6 +60,7 @@ function profile(props, context) {
         <LocationsManager
           locations={locations}
           users={users}
+          dispatch={dispatch}
         />
       </div>
     </Base>

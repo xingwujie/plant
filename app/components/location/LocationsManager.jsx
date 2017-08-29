@@ -1,5 +1,6 @@
 // For the user to manage their Locations (Orchards/Yards)
 
+// const actions = require('../../actions');
 const Grid = require('../common/Grid');
 const Immutable = require('immutable');
 const Paper = require('material-ui/Paper').default;
@@ -54,14 +55,37 @@ const getWeather = stations => (stations || []).map((station) => {
 
 class LocationsManager extends React.Component {
   /**
-   * 
-   * @param {Object} data - for user it will be _id and owner/manager/member
+   * Called with a save on an edit/new is done. Validation is failed by returning an
+   * array that has at least 1 truthy value in it.
+   * @param {Object} data.row - The row that is being validated
+   * @param {string} data.row._id - The _id of the row which is the user's _id
+   * @param {any[]} data.row.values - The values being changed/inserted
+   * @param {Object} data.meta - Meta data sent to Grid for passing back container methods
+   * @param {Object} data.meta.location - The location object that this applies to
+   * @param {Object[]} data.meta.location.users - The users at this location
+   * @param {string} data.meta.location.users[]._id - The _id of the user
+   * @param {string} data.meta.location.users[].role - The _id of the user
+   * @param {boolean} data.isNew - True if this is a new row
    */
-  static validateLocationUser({ values }) {
-    return values.map(value => (value === '<select>' ? 'You must select a value' : ''));
+  static validateLocationUser({ row, meta, isNew }) {
+    const { values, _id } = row;
+
+    // Check that each of the Select components has a value selected
+    const errors = values.map(value => (value === '<select>' ? 'You must select a value' : ''));
+
+    // For an insert, check that the user is not already listed at the location
+    if (isNew) {
+      const { location } = meta;
+      if (location.users.some(user => user._id === _id)) {
+        errors[0] = 'This user already belongs to this location';
+      }
+    }
+
+    return errors;
   }
 
-  static validateLocationWeather({ values }) {
+  static validateLocationWeather({ row, meta, isNew }) {
+    const { values } = row;
     const errors = [];
     errors[0] = (values[0] || '').length < 1
       ? 'Station ID must be at least 1 character'
@@ -70,6 +94,19 @@ class LocationsManager extends React.Component {
       ? 'Station Name must be at least 1 character'
       : '';
     errors[2] = '';
+
+    // For an insert, check that the stationId is not already listed at the location
+    if (isNew) {
+      const { location } = meta;
+      const { weatherStations = [] } = location;
+      if ((weatherStations || []).some(station => station.stationId === values[0])) {
+        errors[0] = 'This Station ID already belongs to this location';
+      }
+      if ((weatherStations || []).some(station => station.name === values[1])) {
+        errors[1] = 'This Name already used';
+      }
+    }
+
     return errors;
   }
 
@@ -87,9 +124,11 @@ class LocationsManager extends React.Component {
     userColumns[0].options['<select>'] = '<select>';
   }
 
-  insertLocationUser(data) {
+  insertLocationUser({ row, meta }) {
     // eslint-disable-next-line no-console
-    console.log('LocationsManager.insertLocationUser()', data, this.props);
+    console.log('LocationsManager.insertLocationUser()', row, meta, this.props);
+    // const users = location.users;
+    // this.props.dispatch(actions.insertLocationUser());
   }
 
   insertLocationWeather(data) {
@@ -141,6 +180,7 @@ class LocationsManager extends React.Component {
                 columns={userColumns}
                 delete={this.deleteLocationUser}
                 insert={this.insertLocationUser}
+                meta={{ location }}
                 rows={getUsers(location.users)}
                 title={'Users'}
                 update={this.updateLocationUser}
@@ -150,6 +190,7 @@ class LocationsManager extends React.Component {
                 columns={weatherColumns}
                 delete={this.deleteLocationWeather}
                 insert={this.insertLocationWeather}
+                meta={{ location }}
                 rows={getWeather(location.weatherStations)}
                 title={'Weather Stations'}
                 update={this.updateLocationWeather}
@@ -164,6 +205,7 @@ class LocationsManager extends React.Component {
 }
 
 LocationsManager.propTypes = {
+  // dispatch: PropTypes.func.isRequired,
   locations: PropTypes.shape({
     toJS: PropTypes.func.isRequired,
   }).isRequired,

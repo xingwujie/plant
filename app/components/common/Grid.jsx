@@ -124,16 +124,17 @@ class Grid extends React.Component {
   }
 
   saveEdit() {
-    const { rows, editId, newRow } = this.state;
-    const editRow = rows.find(row => row._id === editId);
-    const errors = this.props.validate(editRow);
+    const { rows, editId, newRow: isNew } = this.state;
+    const { meta } = this.props;
+    const row = rows.find(r => r._id === editId);
+    const errors = this.props.validate({ row, meta, isNew });
     if (errors.some(error => !!error)) {
       this.setState({ errors });
     } else {
-      if (newRow) {
-        this.props.insert(editRow);
+      if (isNew) {
+        this.props.insert({ row, meta });
       } else {
-        this.props.update(editRow);
+        this.props.update({ row, meta });
       }
       this.setState({ editId: '', newRow: false });
     }
@@ -274,6 +275,7 @@ Grid.propTypes = {
   })).isRequired,
   delete: PropTypes.func.isRequired,
   insert: PropTypes.func.isRequired,
+  meta: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   rows: PropTypes.arrayOf(PropTypes.shape({
     _id: PropTypes.string.isRequired,
     values: PropTypes.array.isRequired,
@@ -285,6 +287,7 @@ Grid.propTypes = {
 
 Grid.defaultProps = {
   rows: [],
+  meta: {},
 };
 
 module.exports = Grid;
