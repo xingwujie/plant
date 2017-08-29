@@ -1,13 +1,14 @@
 // For the user to manage their Locations (Orchards/Yards)
 
-const React = require('react');
-const PropTypes = require('prop-types');
-const Paper = require('material-ui/Paper').default;
 const Grid = require('../common/Grid');
+const Immutable = require('immutable');
+const Paper = require('material-ui/Paper').default;
+const PropTypes = require('prop-types');
+const React = require('react');
 
 const userColumns = [{
   title: 'Name',
-  type: 'text',
+  type: 'select',
   width: 50,
 }, {
   options: {
@@ -35,10 +36,10 @@ const weatherColumns = [{
 }];
 
 const getUsers = users => (users || []).map((user) => {
-  const { _id, name, role } = user;
+  const { _id, role } = user;
   return {
     _id,
-    values: [name, role],
+    values: [_id, role],
   };
 });
 
@@ -51,14 +52,17 @@ const getWeather = stations => (stations || []).map((station) => {
 });
 
 class UserLocations extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.insertLocationUser = this.insertLocationUser.bind(this);
     this.insertLocationWeather = this.insertLocationWeather.bind(this);
     this.deleteLocationUser = this.deleteLocationUser.bind(this);
     this.deleteLocationWeather = this.deleteLocationWeather.bind(this);
     this.updateLocationUser = this.updateLocationUser.bind(this);
     this.updateLocationWeather = this.updateLocationWeather.bind(this);
+
+    userColumns[0].options = props.users.reduce((acc, item) =>
+      acc.set(item.get('_id'), item.get('name')), Immutable.Map()).toJS();
   }
 
   insertLocationUser(data) {
@@ -138,6 +142,9 @@ class UserLocations extends React.Component {
 UserLocations.propTypes = {
   locations: PropTypes.shape({
     toJS: PropTypes.func.isRequired,
+  }).isRequired,
+  users: PropTypes.shape({
+    reduce: PropTypes.func.isRequired,
   }).isRequired,
 };
 
