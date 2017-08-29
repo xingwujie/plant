@@ -383,10 +383,61 @@ function editPlantChange(payload) {
   };
 }
 
+const INSERT_LOCATION_USER = 'INSERT_LOCATION_USER';
+const INSERT_LOCATION_WEATHER = 'INSERT_LOCATION_WEATHER';
+const UPDATE_LOCATION_USER = 'UPDATE_LOCATION_USER';
+const UPDATE_LOCATION_WEATHER = 'UPDATE_LOCATION_WEATHER';
+const DELETE_LOCATION_USER = 'DELETE_LOCATION_USER';
+const DELETE_LOCATION_WEATHER = 'DELETE_LOCATION_WEATHER';
+
+function insertLocationUser(payload) {
+  return {
+    type: INSERT_LOCATION_USER,
+    payload,
+  };
+}
+
+function insertLocationWeather(payload) {
+  return {
+    type: INSERT_LOCATION_WEATHER,
+    payload,
+  };
+}
+
+function updateLocationUser(payload) {
+  return {
+    type: UPDATE_LOCATION_USER,
+    payload,
+  };
+}
+
+function updateLocationWeather(payload) {
+  return {
+    type: UPDATE_LOCATION_WEATHER,
+    payload,
+  };
+}
+
+function deleteLocationUser(payload) {
+  return {
+    type: DELETE_LOCATION_USER,
+    payload,
+  };
+}
+
+function deleteLocationWeather(payload) {
+  return {
+    type: DELETE_LOCATION_WEATHER,
+    payload,
+  };
+}
+
 module.exports = {
   CREATE_PLANT_FAILURE,
   CREATE_PLANT_REQUEST,
   CREATE_PLANT_SUCCESS,
+  DELETE_LOCATION_USER,
+  DELETE_LOCATION_WEATHER,
   DELETE_NOTE_FAILURE,
   DELETE_NOTE_REQUEST,
   DELETE_NOTE_SUCCESS,
@@ -399,6 +450,8 @@ module.exports = {
   EDIT_PLANT_CHANGE,
   EDIT_PLANT_CLOSE,
   EDIT_PLANT_OPEN,
+  INSERT_LOCATION_USER,
+  INSERT_LOCATION_WEATHER,
   LOAD_LOCATIONS_FAILURE,
   LOAD_LOCATIONS_REQUEST,
   LOAD_LOCATIONS_SUCCESS,
@@ -424,6 +477,8 @@ module.exports = {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGOUT,
+  UPDATE_LOCATION_USER,
+  UPDATE_LOCATION_WEATHER,
   UPDATE_PLANT_FAILURE,
   UPDATE_PLANT_REQUEST,
   UPDATE_PLANT_SUCCESS,
@@ -433,6 +488,8 @@ module.exports = {
   createPlantFailure,
   createPlantRequest,
   createPlantSuccess,
+  deleteLocationUser,
+  deleteLocationWeather,
   deleteNoteFailure,
   deleteNoteRequest,
   deleteNoteSuccess,
@@ -445,6 +502,8 @@ module.exports = {
   editPlantChange,
   editPlantClose,
   editPlantOpen,
+  insertLocationUser,
+  insertLocationWeather,
   loadLocationsFailure,
   loadLocationsRequest,
   loadLocationsSuccess,
@@ -470,6 +529,8 @@ module.exports = {
   loginRequest,
   loginSuccess,
   logout,
+  updateLocationUser,
+  updateLocationWeather,
   updatePlantFailure,
   updatePlantRequest,
   updatePlantSuccess,

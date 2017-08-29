@@ -1,6 +1,6 @@
 // For the user to manage their Locations (Orchards/Yards)
 
-// const actions = require('../../actions');
+const actions = require('../../actions');
 const Grid = require('../common/Grid');
 const Immutable = require('immutable');
 const Paper = require('material-ui/Paper').default;
@@ -128,7 +128,11 @@ class LocationsManager extends React.Component {
     // eslint-disable-next-line no-console
     console.log('LocationsManager.insertLocationUser()', row, meta, this.props);
     // const users = location.users;
-    // this.props.dispatch(actions.insertLocationUser());
+    // To insert a new user for a location we need 3 things on the client side:
+    // locationId, userId, role
+    // On the server we also need the logged-in user to verify that they are an
+    // owner of that location and therefore authorized.
+    this.props.dispatch(actions.insertLocationUser(row));
   }
 
   insertLocationWeather(data) {
@@ -205,7 +209,7 @@ class LocationsManager extends React.Component {
 }
 
 LocationsManager.propTypes = {
-  // dispatch: PropTypes.func.isRequired,
+  dispatch: PropTypes.func.isRequired,
   locations: PropTypes.shape({
     toJS: PropTypes.func.isRequired,
   }).isRequired,
