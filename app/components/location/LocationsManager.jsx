@@ -52,7 +52,7 @@ const getWeather = stations => (stations || []).map((station) => {
   };
 });
 
-class UserLocations extends React.Component {
+class LocationsManager extends React.Component {
   /**
    * 
    * @param {Object} data - for user it will be _id and owner/manager/member
@@ -144,7 +144,7 @@ class UserLocations extends React.Component {
                 rows={getUsers(location.users)}
                 title={'Users'}
                 update={this.updateLocationUser}
-                validate={UserLocations.validateLocationUser}
+                validate={LocationsManager.validateLocationUser}
               />
               <Grid
                 columns={weatherColumns}
@@ -153,7 +153,7 @@ class UserLocations extends React.Component {
                 rows={getWeather(location.weatherStations)}
                 title={'Weather Stations'}
                 update={this.updateLocationWeather}
-                validate={UserLocations.validateLocationWeather}
+                validate={LocationsManager.validateLocationWeather}
               />
             </Paper>
           ))
@@ -163,7 +163,7 @@ class UserLocations extends React.Component {
   }
 }
 
-UserLocations.propTypes = {
+LocationsManager.propTypes = {
   locations: PropTypes.shape({
     toJS: PropTypes.func.isRequired,
   }).isRequired,
@@ -172,4 +172,4 @@ UserLocations.propTypes = {
   }).isRequired,
 };
 
-module.exports = UserLocations;
+module.exports = LocationsManager;
