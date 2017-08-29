@@ -85,6 +85,12 @@ class Grid extends React.Component {
    * @param {String} value - New value for the cell
    */
   editCell(rowId, colIndex, value) {
+    const { errors = [] } = this.state;
+    if (errors[colIndex]) {
+      // If we've edited this cell and it previously had an error associated
+      // then clear that error
+      errors[colIndex] = '';
+    }
     const rows = this.state.rows.map((row) => {
       if (row._id === rowId) {
         const values = row.values.map((currentValue, index) => {
@@ -97,7 +103,7 @@ class Grid extends React.Component {
       }
       return row;
     });
-    this.setState({ rows });
+    this.setState({ rows, errors });
   }
 
   /**
@@ -120,12 +126,17 @@ class Grid extends React.Component {
   saveEdit() {
     const { rows, editId, newRow } = this.state;
     const editRow = rows.find(row => row._id === editId);
-    if (newRow) {
-      this.props.insert(editRow);
+    const errors = this.props.validate(editRow);
+    if (errors.some(error => !!error)) {
+      this.setState({ errors });
     } else {
-      this.props.update(editRow);
+      if (newRow) {
+        this.props.insert(editRow);
+      } else {
+        this.props.update(editRow);
+      }
+      this.setState({ editId: '', newRow: false });
     }
-    this.setState({ editId: '', newRow: false });
   }
 
   addNewRow() {
@@ -167,6 +178,7 @@ class Grid extends React.Component {
       rows,
       deleteId, // If has a value then in process of confirming delete of this row
       editId, // If has value then currently editing this row
+      errors = [],
     } = this.state || {};
 
     return (
@@ -201,6 +213,7 @@ class Grid extends React.Component {
                         <GridCell
                           editCell={this.editCell}
                           editId={editId}
+                          error={errors[index] || ''}
                           index={index}
                           options={columns[index].options}
                           rowId={row._id}
@@ -267,6 +280,7 @@ Grid.propTypes = {
   })),
   title: PropTypes.string.isRequired,
   update: PropTypes.func.isRequired,
+  validate: PropTypes.func.isRequired,
 };
 
 Grid.defaultProps = {

@@ -53,6 +53,26 @@ const getWeather = stations => (stations || []).map((station) => {
 });
 
 class UserLocations extends React.Component {
+  /**
+   * 
+   * @param {Object} data - for user it will be _id and owner/manager/member
+   */
+  static validateLocationUser({ values }) {
+    return values.map(value => (value === '<select>' ? 'You must select a value' : ''));
+  }
+
+  static validateLocationWeather({ values }) {
+    const errors = [];
+    errors[0] = (values[0] || '').length < 1
+      ? 'Station ID must be at least 1 character'
+      : '';
+    errors[1] = (values[1] || '').length < 1
+      ? 'Station Name must be at least 1 character'
+      : '';
+    errors[2] = '';
+    return errors;
+  }
+
   constructor(props) {
     super(props);
     this.insertLocationUser = this.insertLocationUser.bind(this);
@@ -124,6 +144,7 @@ class UserLocations extends React.Component {
                 rows={getUsers(location.users)}
                 title={'Users'}
                 update={this.updateLocationUser}
+                validate={UserLocations.validateLocationUser}
               />
               <Grid
                 columns={weatherColumns}
@@ -132,6 +153,7 @@ class UserLocations extends React.Component {
                 rows={getWeather(location.weatherStations)}
                 title={'Weather Stations'}
                 update={this.updateLocationWeather}
+                validate={UserLocations.validateLocationWeather}
               />
             </Paper>
           ))

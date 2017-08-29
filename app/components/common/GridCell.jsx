@@ -31,8 +31,7 @@ class GridCell extends React.Component {
   }
 
   render() {
-    const { editId, rowId, value, type, title, options } = this.props;
-    const error = ''; // TODO: Determine error handling and communicating
+    const { editId, rowId, value, type, title, options, error } = this.props;
     if (editId === rowId) {
       return (
         <InputCombo
@@ -66,6 +65,7 @@ class GridCell extends React.Component {
 GridCell.propTypes = {
   editCell: PropTypes.func.isRequired,
   editId: PropTypes.string,
+  error: PropTypes.string.isRequired,
   index: PropTypes.number.isRequired,
   options: PropTypes.object, // eslint-disable-line react/forbid-prop-types
   rowId: PropTypes.string.isRequired,

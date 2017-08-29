@@ -52,6 +52,7 @@ function inputCombo(props = {}) {
   />);
 
   const select = () => (<SelectField
+    errorText={error}
     floatingLabelText={label}
     value={value}
     onChange={changeHandler}
